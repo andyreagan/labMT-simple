@@ -6,6 +6,7 @@ a simple labMT usage script
 
 
 a python module for using the labMT1.0 dataset
+
 no dependencies, unless using the plot function
   (then we use matplotlib)
 
