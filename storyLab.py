@@ -24,14 +24,14 @@
 # >>> test2 = emotionFileReader(min=7.0)
 # >>> emotion('hate hate hate the',test2)
 # 0
-# >>> emotion('hate hate hate the laugh',test2)
+# >>> emotion('hate hate hate the happy',test2)
 # 8.22
 # >>> test3 = emotionFileReader()
-# >>> emotion('hate hate hate the laugh',test3)
+# >>> emotion('hate hate hate the happy',test3)
 # 4.044
-# >>> allEmotions('hate hate hate the laugh',test3)
+# >>> allEmotions('hate hate hate the happy',test3)
 # [4.044]
-# >>> allEmotions('hate hate hate the laugh',test,test2,test3)
+# >>> allEmotions('hate hate hate the happy',test,test2,test3)
 # [2.34, 8.22, 4.044]
 #
 # In a shell:
@@ -40,7 +40,7 @@
 #   storyLab.py happiness
 #
 # written by Andy Reagan
-# 2014-01-12
+# 2014-03-01
 
 def emotionFileReader(stopval=0.0,fileName='labMT1.txt',min=1.0,max=9.0):
   ## stopval is our lens, \Delta h
@@ -48,9 +48,11 @@ def emotionFileReader(stopval=0.0,fileName='labMT1.txt',min=1.0,max=9.0):
   ## must be tab-deliminated
   ## if labMT1 file, emotion value as third tab
   ## else, it's the second tab
-  
+  labMT1flag = False
+
   if fileName == 'labMT1.txt':
     scoreIndex = 1 # second value
+    labMT1flag = True
   if 'labMT2' in fileName:
     scoreIndex = 1
     
@@ -61,6 +63,9 @@ def emotionFileReader(stopval=0.0,fileName='labMT1.txt',min=1.0,max=9.0):
   ## remove words
   stopWords = []
   for word in tmpDict:
+    ## start the index at 0
+    if labMT1flag:
+      tmpDict[word][0] -= 1
     if abs(float(tmpDict[word][scoreIndex])-5.0) < stopval:
       stopWords.append(word)
     else:
