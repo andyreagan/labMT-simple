@@ -10,10 +10,29 @@
 #
 # In python:
 #   tmpstr = 'a happy sentence'
-#   from storyLab import microscope
-#   lens = microscope(0)
-#   from storyLab import happiness
-#   happs = happiness(tmpstr,lens)
+#   from storyLab import emotionFileReader
+#   lens = emotionFileReader(0.0)
+#   from storyLab import emotion
+#   happs = emotion(tmpstr,lens)
+# 
+# My test:
+# >>> test = emotionFileReader(max=3.0)
+# >>> len(test)
+# 410
+# >>> emotion('hate hate hate the',test)
+# 2.34
+# >>> test2 = emotionFileReader(min=7.0)
+# >>> emotion('hate hate hate the',test2)
+# 0
+# >>> emotion('hate hate hate the laugh',test2)
+# 8.22
+# >>> test3 = emotionFileReader()
+# >>> emotion('hate hate hate the laugh',test3)
+# 4.044
+# >>> allEmotions('hate hate hate the laugh',test3)
+# [4.044]
+# >>> allEmotions('hate hate hate the laugh',test,test2,test3)
+# [2.34, 8.22, 4.044]
 #
 # In a shell:
 #   alias happiness="$(pwd)/storyLab.py"
@@ -21,31 +40,48 @@
 #   storyLab.py happiness
 #
 # written by Andy Reagan
-# 2013-12-09
+# 2014-01-12
 
-def microscope(stopval):
+def emotionFileReader(stopval=0.0,fileName='labMT1.txt',min=1.0,max=9.0):
   ## stopval is our lens, \Delta h
   ## read the labMT dataset into a dict with this lens
-  f = open('labMT1.txt','r')
-  tmp = dict([(line.split('\t')[0],[x.rstrip() for x in line.split('\t')[1:]]) for line in f])
+  ## must be tab-deliminated
+  ## if labMT1 file, emotion value as third tab
+  ## else, it's the second tab
+  
+  if fileName == 'labMT1.txt':
+    scoreIndex = 1 # second value
+  if 'labMT2' in fileName:
+    scoreIndex = 1
+    
+  f = open(fileName,'r')
+  tmpDict = dict([(str(line.split('\t')[0].rstrip('"').lstrip('"')),[x.rstrip() for x in line.split('\t')[1:]]) for line in f])
   f.close()
+  
   ## remove words
   stopWords = []
-  if stopval > 0:
-    for word in tmp:
-      if abs(float(tmp[word][1])-5.0) < stopval:
+  for word in tmpDict:
+    if abs(float(tmpDict[word][scoreIndex])-5.0) < stopval:
+      stopWords.append(word)
+    else:
+      if float(tmpDict[word][scoreIndex]) < min:
         stopWords.append(word)
+      else:
+        if float(tmpDict[word][scoreIndex]) > max:
+          stopWords.append(word)
+  
   for word in stopWords:
-    del tmp[word]
-  return tmp
+    del tmpDict[word]
 
-def happiness(tmpstr,LabMT):
+  return tmpDict
+
+def emotion(tmpStr,someDict,scoreIndex=1):
   score_list = []
   # doing this without the NLTK
-  words = [x.lower().lstrip("?';:.$%&()\\!*[]{}|\"<>,^-_=+").rstrip("@#?';:.$%&()\\!*[]{}|\"<>,^-_=+") for x in tmpstr.split()]
+  words = [x.lower().lstrip("?';:.$%&()\\!*[]{}|\"<>,^-_=+").rstrip("@#?';:.$%&()\\!*[]{}|\"<>,^-_=+") for x in tmpStr.split()]
   for word in words:
-    if word in LabMT:
-      score_list.append(float(LabMT[word][1]))
+    if word in someDict:
+      score_list.append(float(someDict[word][scoreIndex]))
 
   ## with numpy (and mean in the namespace)
   ## happs = mean(score_list)
@@ -55,8 +91,14 @@ def happiness(tmpstr,LabMT):
     happs = sum(score_list)/float(len(score_list))
   else:
     happs = 0
-    
+
   return happs
+
+def allEmotions(tmpStr,*allDicts):
+  emotionList = []
+  for tmpDict in allDicts:
+    emotionList.append(emotion(tmpStr,tmpDict))
+  return emotionList
 
 def plothapps(happsTimeSeries,picname):
   ## uses matplotlib
@@ -78,12 +120,14 @@ def plothapps(happsTimeSeries,picname):
 if __name__ == '__main__':
   ## run from standard in
   import fileinput
-  labMT = readLabMT(0)
-  happsList = [happiness(line,labMT) for line in fileinput.input()]
+  labMT = emotionFileReader(0.0)
+  happsList = [emotion(line,labMT) for line in fileinput.input()]
   
   for value in happsList:
     print value
     
   
+
+
 
 
