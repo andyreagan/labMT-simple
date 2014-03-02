@@ -109,7 +109,7 @@ d3.text("test/sampleSortedWords.csv", function(text) {
 function plotShift(figure,sortedMag,sortedType,sortedWords) {
     margin = {top: 0, right: 0, bottom: 0, left: 0},
     figwidth = 600 - margin.left - margin.right,
-    figheight = 400 - margin.top - margin.bottom,
+    figheight = 800 - margin.top - margin.bottom,
     width = .775*figwidth,
     height = .775*figheight;
 
@@ -117,7 +117,7 @@ function plotShift(figure,sortedMag,sortedType,sortedWords) {
 figcenter = width/2;
 
 // number of words to show
-numWords = 20;
+numWords = 40;
 
 // remove an old figure if it exists
 figure.select(".canvas").remove();
