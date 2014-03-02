@@ -161,6 +161,7 @@ axes.append("svg:rect")
     .attr("width", width)
     .attr("height", height)
     .attr("class", "bg")
+    .style({'stroke-width':'2','stroke':'rgb(0,0,0)'})
     .attr("fill", "#FCFCFC");
 
 // axes creation functions
@@ -168,7 +169,6 @@ var create_xAxis = function() {
     return d3.svg.axis()
     .scale(x)
     .ticks(5)
-    //.style({'stroke-width':'1px'})
     .orient("top"); }
 
 var create_yAxis = function() {
@@ -177,15 +177,21 @@ var create_yAxis = function() {
     .orient("left"); }
 
 // draw the axes
-var yAxis = create_yAxis();
+var yAxis = create_yAxis()
+    .innerTickSize(6)
+    .outerTickSize(0);
 
 axes.append("g")
   .attr("class", "y axis ")
   .attr("transform", "(0,0)")
-  //.style({'stroke-width':'1px','fill':'none'})
   .call(yAxis);
 
-var xAxis = create_xAxis();
+var xAxis = create_xAxis()
+    .innerTickSize(6)
+    .outerTickSize(0);
+
+// make the tick lines work
+d3.selectAll(".tick line").style({'stroke':'black'});
 
 axes.append("g")
   .attr("class", "x axis ")
@@ -260,6 +266,8 @@ axes.selectAll(".text")
         axes.selectAll(".text")
    .attr("y",function(d,i) { return y(i+1)+11; } )
    .attr("x",function(d,i) { if (d>0) {return x(d)+2;} else {console.log(sortedWords[i].length); return x(d)-2; } } );
+
+   d3.selectAll(".tick line").style({'stroke':'black'});
      };
 };
 
