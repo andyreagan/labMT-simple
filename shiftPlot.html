@@ -190,13 +190,12 @@ var xAxis = create_xAxis()
     .innerTickSize(6)
     .outerTickSize(0);
 
-// make the tick lines work
-d3.selectAll(".tick line").style({'stroke':'black'});
-
 axes.append("g")
   .attr("class", "x axis ")
   .attr("transform", "translate(0," + 0 + ")")
   .call(xAxis);
+
+d3.selectAll(".tick line").style({'stroke':'black'});
 
 // create the clip boundary
 var clip = axes.append("svg:clipPath")
