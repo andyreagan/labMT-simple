@@ -157,14 +157,13 @@ def shift(emoList,refFreq,compFreq):
     refFreq[i] = float(refFreq[i])/Nref
     compFreq[i] = float(compFreq[i])/Ncomp
   ## compute the reference happiness
-  refHapps = sum([compFreq[i]*emoList[i] for i in xrange(len(emoList))])
-  print refHapps
+  refHapps = sum([refFreq[i]*emoList[i] for i in xrange(len(emoList))])
   ## determine shift magnitude, type
   shiftMag = [0 for i in xrange(len(emoList))]
   shiftType = [0 for i in xrange(len(emoList))]
   for i in xrange(len(emoList)):
     freqDiff = compFreq[i]-refFreq[i]
-    shiftMag[i] = emoList[i]*freqDiff
+    shiftMag[i] = (emoList[i]-refHapps)*freqDiff
     if freqDiff > 0:
       shiftType[i] += 2
     if emoList[i] > refHapps:

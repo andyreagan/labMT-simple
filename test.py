@@ -1,25 +1,28 @@
 ## set up
 from storyLab import *
 labMT,labMTvector,labMTwordList = emotionFileReader(returnVector=True)
+print labMT['laughter']
+print labMTvector[0:5]
+print labMTwordList[0:5]
 
 ## for testing
 happyWords = "happy happy happy happy"
 sadWords = "sad sad sad sad sad"
 
 ## for more testing
-f = open("lance.txt","r")
+f = open("test/lance.txt","r")
 happyWords = f.read()
 f.close()
-f = open("gop.txt","r")
+f = open("test/gop.txt","r")
 sadWords = f.read()
 f.close()
 
 ## test vectors
 happyHapps,happyHappsL = emotion(happyWords,labMT,shift=True,happsList=labMTvector)
 sadHapps,sadHappsL = emotion(sadWords,labMT,shift=True,happsList=labMTvector)
-print happyHapps
-print sadHapps
-## print max(sadHappsL)
+print "lance is {0}".format(happyHapps)
+print "gop is {0}".format(sadHapps)
+print sadHappsL[5986]
 
 ## make a shift: shift(values,ref,comp)
 shiftMag,shiftType = shift(labMTvector,happyHappsL,sadHappsL)
@@ -36,19 +39,19 @@ print sortedMag[0:20]
 print sortedType[0:20]
 print sortedWords[0:20]
 
-f = open("sampleSortedMag.csv","w")
+f = open("test/sampleSortedMag.csv","w")
 for val in sortedMag:
   f.write(str(val))
   f.write("\n")
 f.close()
 
-f = open("sampleSortedType.csv","w")
+f = open("test/sampleSortedType.csv","w")
 for val in sortedType:
   f.write(str(val))
   f.write("\n")
 f.close()
 
-f = open("sampleSortedWords.csv","w")
+f = open("test/sampleSortedWords.csv","w")
 for val in sortedWords:
   f.write(val)
   f.write("\n")
