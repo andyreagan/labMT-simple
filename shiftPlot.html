@@ -130,13 +130,10 @@ var canvas = figure.append("svg")
     .attr("class","canvas")
 
 // create the x and y axis
-// range in shifts
-var shiftMax = Math.max.apply(null,sortedMag);
-// give room for text (10% each side)
-var shiftMaxS = shiftMax+40*shiftMax/100;
+// scale in x by width of the top word
 x = d3.scale.linear()
-  .domain([-shiftMaxS,shiftMaxS])
-  .range([0, width]);
+  .domain([-sortedMag[0],sortedMag[0]])
+  .range([(sortedWords[0].length+3)*9, width-(sortedWords[0].length+3)*9]);
 
 y = d3.scale.linear()
     .domain([numWords,1])
