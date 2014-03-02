@@ -1,0 +1,275 @@
+<html>
+<head>
+<title>Simple Shift Plot</title>
+<script src="d3/d3.v3.min.js" charset="utf-8"></script>
+  <style>
+    body {
+      font-family: Verdana,Arial,sans-serif;
+    }
+
+    h4 {
+    font-size: .8em;
+    margin: 60px 0 5px 0;
+    }
+
+    h5 {
+    font-size: .8em;
+    margin: 10px 0 5px 0;
+    }
+
+    body {
+    min-width: 550px;
+    }
+
+    #figure01 {
+      padding-left: 200px;
+      float: left;
+      width: 600px;
+    }
+
+    .domain {
+      stroke-width: 0.1;
+     }
+
+  </style>
+</head>
+<body>
+
+<div id="header"></div>
+
+<!-- <h4>Select the reference: <select id="refSelect"><option value="none">none</option></select> Select the comparison: <select id="compSelect"><option value="none">none</option></select></h4> -->
+
+Why "With Vacancies High, G.O.P. Primaries in Texas Set Up a Scramble to the Right" is sadder than "End of the Ride for Lance Armstrong."
+<div id="figure01" class="figure"></div>
+
+<div id="footer"></div>
+
+<script>
+sampleTexts = ["none","lance","gop"];
+
+function initializeDrop() {
+    //makeRefDrop();
+    //makeCompDrop();
+    loadCsv();
+}
+
+/* function makeRefDrop() {
+    console.log(sampleTexts);
+    var mainMenu = d3.select("#refSelect").selectAll("option").data(sampleTexts)
+        .enter().append("option")
+        .property("value",function(d,i) { console.log(d); return d; })
+        .text(function(d,i) { return d; });
+    d3.select("#refSelect")
+        .on("change", function() {
+            key = this.selectedIndex;
+            refText = sampleTexts[key];
+            console.log(sampleTexts[key]);
+            loadCsv(); });
+}
+
+function makeCompDrop() {
+    console.log(sampleTexts);
+    var mainMenu = d3.select("#compSelect").selectAll("option").data(sampleTexts)
+        .enter().append("option")
+        .property("value",function(d,i) { console.log(d); return d; })
+        .text(function(d,i) { return d; });
+    d3.select("#compSelect")
+        .on("change", function() {
+            key = this.selectedIndex;
+            compText = sampleTexts[key];
+            console.log(sampleTexts[key]);
+            loadCsv(); });
+} */
+
+refText = "lance";
+compText = "gop";
+
+function loadCsv() {
+// all the data is three files, preprocessed
+var csvLoadsRemaining = 3;
+d3.text("test/sampleSortedMag.csv", function(text) {
+    tmp = text.split("\n");
+    sortedMag = tmp.slice(0,200);
+    if (!--csvLoadsRemaining) plotShift(d3.select("#figure01"),sortedMag,sortedType,sortedWords);
+}); 
+d3.text("test/sampleSortedType.csv", function(text) {
+    tmp = text.split("\n");
+    sortedType = tmp.slice(0,200);
+    if (!--csvLoadsRemaining) plotShift(d3.select("#figure01"),sortedMag,sortedType,sortedWords);
+}); 
+d3.text("test/sampleSortedWords.csv", function(text) {
+    tmp = text.split("\n");
+    sortedWords = tmp.slice(0,200);
+    if (!--csvLoadsRemaining) plotShift(d3.select("#figure01"),sortedMag,sortedType,sortedWords);
+}); 
+
+};
+
+// make the plot
+function plotShift(figure,sortedMag,sortedType,sortedWords) {
+    margin = {top: 0, right: 0, bottom: 0, left: 0},
+    figwidth = 600 - margin.left - margin.right,
+    figheight = 400 - margin.top - margin.bottom,
+    width = .775*figwidth,
+    height = .775*figheight;
+
+// define the center too, for wordshifting
+figcenter = width/2;
+
+// number of words to show
+numWords = 20;
+
+// remove an old figure if it exists
+figure.select(".canvas").remove();
+
+var canvas = figure.append("svg")
+    .attr("width",figwidth)
+    .attr("height",figheight)
+    .attr("class","canvas")
+
+// create the x and y axis
+// range in shifts
+var shiftMax = Math.max.apply(null,sortedMag);
+// give room for text (10% each side)
+var shiftMaxS = shiftMax+40*shiftMax/100;
+x = d3.scale.linear()
+  .domain([-shiftMaxS,shiftMaxS])
+  .range([0, width]);
+
+y = d3.scale.linear()
+    .domain([numWords,1])
+    .range([height, 0]);
+
+// zoom object for the axes
+var zoom = d3.behavior.zoom()
+    .y(y)
+    .on("zoom",zoomed);
+
+// create the axes themselves
+var axes = canvas.append("g")
+    .attr("transform", "translate(" + (0.125 * figwidth) + "," +
+       ((1 - 0.125 - 0.775) * figheight) + ")")
+    .attr("width", width)
+    .attr("height", height)
+    .attr("class", "main")
+    .call(zoom);
+
+// create the axes background
+axes.append("svg:rect")
+    .attr("width", width)
+    .attr("height", height)
+    .attr("class", "bg")
+    .attr("fill", "#FCFCFC");
+
+// axes creation functions
+var create_xAxis = function() {
+    return d3.svg.axis()
+    .scale(x)
+    .ticks(5)
+    .orient("top"); }
+
+var create_yAxis = function() {
+    return d3.svg.axis()
+    .scale(y)
+    .orient("left"); }
+
+// draw the axes
+var yAxis = create_yAxis();
+
+axes.append("g")
+  .attr("class", "y axis ")
+  .attr("transform", "(0,0)")
+  .call(yAxis);
+
+var xAxis = create_xAxis();
+
+axes.append("g")
+  .attr("class", "x axis ")
+  .attr("transform", "translate(0," + 0 + ")")
+  .call(xAxis);
+
+// create the clip boundary
+var clip = axes.append("svg:clipPath")
+  .attr("id","clip")
+  .append("svg:rect")
+  .attr("x",0)
+  .attr("y",0)
+  .attr("width",width)
+  .attr("height",height);
+
+// now something else
+var unclipped_axes = axes;
+ 
+axes = axes.append("g")
+  .attr("clip-path","url(#clip)");
+
+axes.selectAll(".rect")
+   .data(sortedMag)
+   .enter()
+   .append("rect")
+   .attr("fill", function(d,i) { if (sortedType[i] == 0 || sortedType[i] == 2) {return "blue";} else { return "yellow"; }})
+   .attr("class", "rect")
+   .attr("x",function(d,i) { 
+                             if (d>0) { 
+                               return figcenter;
+                             } 
+                             else { return x(d)} }
+                             )
+   .attr("y",function(d,i) { return y(i+1); } )
+   .style({opacity:'0.7'})
+   .attr("height",function(d,i) { return 15; } )
+   .attr("width",function(d,i) { if (d>0) {return x(d)-figcenter;} else {return figcenter-x(d); } } )
+   .on('mouseover', function(d){
+        var rectSelection = d3.select(this).style({opacity:'1.0'});
+})
+   .on('mouseout', function(d){
+        var rectSelection = d3.select(this).style({opacity:'0.7'});
+});
+
+axes.selectAll(".text")
+   .data(sortedMag)
+   .enter()
+   .append("text")
+   //.attr("fill", function(d,i) { if (sortedType[i] == 0 || sortedType[i] == 2) {return "blue";} else { return "yellow"; }})
+   .attr("class", "text")
+   .style("text-anchor", function(d,i) { if (sortedMag[i] < 0) { return "end";} else { return "start";}})
+   .attr("y",function(d,i) { return y(i+1)+11; } )
+   .text(function(d,i) { if (sortedType[i] == 0) {tmpStr = "-\u2193";} else if (sortedType[i] == 1) {tmpStr = "\u2193+";}
+   else if (sortedType[i] == 2) {tmpStr = "\u2191-";} else {tmpStr = "+\u2191";}
+   if (sortedMag[i] < 0) {return tmpStr.concat(sortedWords[i]);} else { return sortedWords[i].concat(tmpStr); } })
+   .attr("x",function(d,i) { if (d>0) {return x(d)+2;} else {console.log(sortedWords[i].length); return x(d)-2; } } );
+
+    function zoomed() {
+        d3.select(".x.axis").call(xAxis);
+        d3.select(".y.axis").call(yAxis);
+
+        axes.selectAll(".rect")
+       .attr("x",function(d,i) { 
+                             if (d>0) { 
+                               return figcenter;
+                             } 
+                             else { return x(d)} }
+                             )
+   .attr("y",function(d,i) { return y(i+1); } )
+           .attr("width",function(d,i) { if (d>0) {return Math.abs(x(d)-figcenter);} else {return Math.abs(figcenter-x(d)); } } );
+
+        axes.selectAll(".text")
+   .attr("y",function(d,i) { return y(i+1)+11; } )
+   .attr("x",function(d,i) { if (d>0) {return x(d)+2;} else {console.log(sortedWords[i].length); return x(d)-2; } } );
+     };
+};
+
+initializeDrop();
+
+</script>
+  <!-- <style> -->
+  <!--   .domain { -->
+  <!--     stroke-width: 0.5; -->
+  <!--    } -->
+
+  <!-- </style> -->
+
+</body>
+</html>
+
+
