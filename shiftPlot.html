@@ -117,7 +117,7 @@ function plotShift(figure,sortedMag,sortedType,sortedWords) {
 figcenter = width/2;
 
 // number of words to show
-numWords = 40;
+numWords = 35;
 
 // remove an old figure if it exists
 figure.select(".canvas").remove();
@@ -216,7 +216,7 @@ axes.selectAll(".rect")
                              else { return x(d)} }
                              )
    .attr("y",function(d,i) { return y(i+1); } )
-   .style({opacity:'0.7'})
+   .style({'opacity':'0.7','stroke-width':'1','stroke':'rgb(0,0,0)'})
    .attr("height",function(d,i) { return 15; } )
    .attr("width",function(d,i) { if (d>0) {return x(d)-figcenter;} else {return figcenter-x(d); } } )
    .on('mouseover', function(d){
