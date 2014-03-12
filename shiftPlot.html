@@ -41,7 +41,7 @@
 
 <!-- <h4>Select the reference: <select id="refSelect"><option value="none">none</option></select> Select the comparison: <select id="compSelect"><option value="none">none</option></select></h4> -->
 
-Why "With Vacancies High, G.O.P. Primaries in Texas Set Up a Scramble to the Right" is sadder than "End of the Ride for Lance Armstrong."
+Why Tuesday, February 1, 2014 is sadder than Saturday, February 4, 2014.
 <div id="figure01" class="figure"></div>
 
 <div id="footer"></div>
@@ -131,8 +131,10 @@ var canvas = figure.append("svg")
 
 // create the x and y axis
 // scale in x by width of the top word
+// could still run into a problem if top magnitudes are similar
+// and second word is longer
 x = d3.scale.linear()
-  .domain([-sortedMag[0],sortedMag[0]])
+  .domain([-Math.abs(sortedMag[0]),Math.abs(sortedMag[0])])
   .range([(sortedWords[0].length+3)*9, width-(sortedWords[0].length+3)*9]);
 
 y = d3.scale.linear()
