@@ -42,7 +42,7 @@
 # written by Andy Reagan
 # 2014-03-01
 
-def emotionFileReader(stopval=0.0,fileName='labMT1.txt',min=1.0,max=9.0,returnVector=False):
+def emotionFileReader(stopval=1.0,fileName='labMT1.txt',min=1.0,max=9.0,returnVector=False):
   ## stopval is our lens, \Delta h
   ## read the labMT dataset into a dict with this lens
   ## must be tab-deliminated
