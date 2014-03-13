@@ -1,7 +1,9 @@
 <html>
 <head>
 <title>Simple Shift Plot</title>
-<script src="d3/d3.v3.min.js" charset="utf-8"></script>
+<!-- <script src="d3/d3.v3.min.js" charset="utf-8"></script>
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script> -->
+<script src="d3/d3.js" charset="utf-8"></script>
   <style>
     body {
       font-family: Verdana,Arial,sans-serif;
@@ -22,8 +24,6 @@
     }
 
     #figure01 {
-      padding-left: 200px;
-      float: left;
       width: 600px;
     }
 
@@ -38,53 +38,18 @@
 <body>
 
 <div id="header"></div>
-
 <!-- <h4>Select the reference: <select id="refSelect"><option value="none">none</option></select> Select the comparison: <select id="compSelect"><option value="none">none</option></select></h4> -->
-
-Why Saturday, Jan 25, 2014 is happier than Tuesday, Jan 28, 2014 on Twitter.
+<center>
+Why Saturday, Jan 18, 2014 is happier than Tuesday, Jan 21, 2014 on Twitter.
 <div id="figure01" class="figure"></div>
+</center>
 
 <div id="footer"></div>
 
 <script>
-sampleTexts = ["none","lance","gop"];
-
 function initializeDrop() {
-    //makeRefDrop();
-    //makeCompDrop();
     loadCsv();
 }
-
-/* function makeRefDrop() {
-    console.log(sampleTexts);
-    var mainMenu = d3.select("#refSelect").selectAll("option").data(sampleTexts)
-        .enter().append("option")
-        .property("value",function(d,i) { console.log(d); return d; })
-        .text(function(d,i) { return d; });
-    d3.select("#refSelect")
-        .on("change", function() {
-            key = this.selectedIndex;
-            refText = sampleTexts[key];
-            console.log(sampleTexts[key]);
-            loadCsv(); });
-}
-
-function makeCompDrop() {
-    console.log(sampleTexts);
-    var mainMenu = d3.select("#compSelect").selectAll("option").data(sampleTexts)
-        .enter().append("option")
-        .property("value",function(d,i) { console.log(d); return d; })
-        .text(function(d,i) { return d; });
-    d3.select("#compSelect")
-        .on("change", function() {
-            key = this.selectedIndex;
-            compText = sampleTexts[key];
-            console.log(sampleTexts[key]);
-            loadCsv(); });
-} */
-
-refText = "lance";
-compText = "gop";
 
 function loadCsv() {
 // all the data is three files, preprocessed
@@ -104,7 +69,6 @@ d3.text("test/sampleSortedWords.csv", function(text) {
     sortedWords = tmp.slice(0,200);
     if (!--csvLoadsRemaining) plotShift(d3.select("#figure01"),sortedMag,sortedType,sortedWords);
 }); 
-
 };
 
 // make the plot
@@ -137,13 +101,16 @@ x = d3.scale.linear()
   .domain([-Math.abs(sortedMag[0]),Math.abs(sortedMag[0])])
   .range([(sortedWords[0].length+3)*9, width-(sortedWords[0].length+3)*9]);
 
-y = d3.scale.linear()
+// linear scale function
+y =  d3.scale.linear()
     .domain([numWords,1])
-    .range([height, 5]);
+    .range([height, 5]); 
 
 // zoom object for the axes
 var zoom = d3.behavior.zoom()
-    .y(y)
+    .y(y) //pass linear scale function
+    //.translate([10,10])
+    .scaleExtent([1,1])
     .on("zoom",zoomed);
 
 // create the axes themselves
@@ -170,9 +137,10 @@ var create_xAxis = function() {
     .ticks(5)
     .orient("top"); }
 
+// axis creation function
 var create_yAxis = function() {
-    return d3.svg.axis()
-    .scale(y)
+   return d3.svg.axis()
+    .scale(y) //linear scale function
     .orient("left"); }
 
 // draw the axes
@@ -248,25 +216,17 @@ axes.selectAll(".text")
    .attr("x",function(d,i) { if (d>0) {return x(d)+2;} else {console.log(sortedWords[i].length); return x(d)-2; } } );
 
     function zoomed() {
-        d3.select(".x.axis").call(xAxis);
-        d3.select(".y.axis").call(yAxis);
-
-        axes.selectAll(".rect")
-       .attr("x",function(d,i) { 
-                             if (d>0) { 
-                               return figcenter;
-                             } 
-                             else { return x(d)} }
-                             )
-   .attr("y",function(d,i) { return y(i+1); } )
-           .attr("width",function(d,i) { if (d>0) {return Math.abs(x(d)-figcenter);} else {return Math.abs(figcenter-x(d)); } } );
-
-        axes.selectAll(".text")
-   .attr("y",function(d,i) { return y(i+1)+11; } )
-   .attr("x",function(d,i) { if (d>0) {return x(d)+2;} else {console.log(sortedWords[i].length); return x(d)-2; } } );
-
-   d3.selectAll(".tick line").style({'stroke':'black'});
+    console.log(d3.event);
+    console.log(d3.event.translate[1]);
+    // d3.event.translate[1] = Math.min(0,d3.event.translate[1])
+    axes.selectAll(".rect").attr("transform", "translate(0," + Math.min(0,d3.event.translate[1]) + ")");
+    axes.selectAll(".text").attr("transform", "translate(0," + Math.min(0,d3.event.translate[1]) + ")");
+    //d3.select(".y.axis").attr("transform", "translate(0," + Math.min(0,d3.event.translate[1]) + ")");
+    d3.select(".y.axis").call(yAxis);
+    // make the tick lines show up on redraw							    
+    d3.selectAll(".tick line").style({'stroke':'black'});
      };
+
 };
 
 initializeDrop();
