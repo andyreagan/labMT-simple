@@ -27,7 +27,7 @@ saturdayValence,saturdayFvec = emotion(saturday,labMT,shift=True,happsList=labMT
 tuesdayValence,tuesdayFvec = emotion(tuesday,labMT,shift=True,happsList=labMTvector)
 
 ## make a shift: shift(values,ref,comp)
-shiftMag,shiftType = shift(labMTvector,saturdayFvec,tuesdayFvec)
+shiftMag,shiftType = shift(labMTvector,tuesdayFvec,saturdayFvec)
 ## take the absolute value of the shift magnitude
 shiftMagAbs = map(abs,shiftMag)
 
