@@ -1,5 +1,21 @@
-from storyLab import *
-labMT,labMTvector,labMTwordList = emotionFileReader(returnVector=True)
+import sys, os
+
+try:
+  from labMTsimple import *
+except ImportError:
+  import sys, os
+  sys.path.append(os.path.join(os.path.dirname(__file__), "labMTsimple"))
+except:
+  print 'you need have to storyLab.py in your search path'
+  print 'either 1) install with "pip install labMTsimple"'
+  print '2) add the path to storyLab.py to $PYTHONPATH'
+  print '   and have labMT1.txt local'
+  print '3) run from a directory containing storyLab.py and labMT1.txt'
+
+try:
+  labMT,labMTvector,labMTwordList = emotionFileReader(returnVector=True)
+except IOError:
+  print 'you need to have the labMT1.txt data on python search path'
 
 ## take a look at these guys
 print labMT['laughter']
@@ -8,18 +24,18 @@ print labMTwordList[0:5]
 
 ## test shift a subsample of two twitter days
 import codecs ## handle utf8
-f = codecs.open("25.01.14.txt","r","utf8")
+f = codecs.open("18.01.14.txt","r","utf8")
 saturday = f.read()
 f.close()
-f = codecs.open("28.01.14.txt","r","utf8")
+f = codecs.open("21.01.14.txt","r","utf8")
 tuesday = f.read()
 f.close()
 
 ## compute valence score
 saturdayValence = emotion(saturday,labMT)
 tuesdayValence = emotion(tuesday,labMT)
-print 'the valence of {0} is {1}'.format('saturday',saturdayValence)
-print 'the valence of {0} is {1}'.format('tuesday',tuesdayValence)
+print 'the valence of {0} is {1:.4}'.format('saturday',saturdayValence)
+print 'the valence of {0} is {1:.4}'.format('tuesday',tuesdayValence)
 
 ## compute valence score and return frequency vector for generating wordshift
 saturdayValence,saturdayFvec = emotion(saturday,labMT,shift=True,happsList=labMTvector)

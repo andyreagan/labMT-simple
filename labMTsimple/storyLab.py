@@ -55,8 +55,12 @@ def emotionFileReader(stopval=1.0,fileName='labMT1.txt',min=1.0,max=9.0,returnVe
     labMT1flag = True
   if 'labMT2' in fileName:
     scoreIndex = 1
+  try:
+    f = open(fileName,'r')
+  except IOError:
+    from pkg_resources import resource_filename
+    f = open(resource_filename('labMT1.txt', fileName), 'r')
     
-  f = open(fileName,'r')
   tmpDict = dict([(str(line.split('\t')[0].rstrip('"').lstrip('"')),[x.rstrip() for x in line.split('\t')[1:]]) for line in f])
   f.close()
   
