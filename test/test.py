@@ -1,6 +1,3 @@
-## set up
-import sys
-
 from storyLab import *
 labMT,labMTvector,labMTwordList = emotionFileReader(returnVector=True)
 

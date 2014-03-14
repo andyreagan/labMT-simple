@@ -15,7 +15,6 @@ Usage
 
 The Python script test.py uses this module to test a subsample of Twitter data:
 ```python
-## set up
 from storyLab import *
 labMT,labMTvector,labMTwordList = emotionFileReader(returnVector=True)
 
@@ -26,10 +25,10 @@ print labMTwordList[0:5]
 
 ## test shift a subsample of two twitter days
 import codecs ## handle utf8
-f = codecs.open("test/01.02.14.txt","r","utf8")
+f = codecs.open("25.01.14.txt","r","utf8")
 saturday = f.read()
 f.close()
-f = codecs.open("test/04.02.14.txt","r","utf8")
+f = codecs.open("28.01.14.txt","r","utf8")
 tuesday = f.read()
 f.close()
 
@@ -44,7 +43,7 @@ saturdayValence,saturdayFvec = emotion(saturday,labMT,shift=True,happsList=labMT
 tuesdayValence,tuesdayFvec = emotion(tuesday,labMT,shift=True,happsList=labMTvector)
 
 ## make a shift: shift(values,ref,comp)
-shiftMag,shiftType = shift(labMTvector,saturdayFvec,tuesdayFvec)
+shiftMag,shiftType = shift(labMTvector,tuesdayFvec,saturdayFvec)
 ## take the absolute value of the shift magnitude
 shiftMagAbs = map(abs,shiftMag)
 
@@ -61,26 +60,22 @@ print sortedType[0:20]
 print sortedWords[0:20]
 
 ## print each of these to a file
-f = open("test/sampleSortedMag.csv","w")
+f = open("sampleSortedMag.csv","w")
 for val in sortedMag:
   f.write(str(val))
   f.write("\n")
 f.close()
 
-f = open("test/sampleSortedType.csv","w")
+f = open("sampleSortedType.csv","w")
 for val in sortedType:
   f.write(str(val))
   f.write("\n")
 f.close()
 
-f = open("test/sampleSortedWords.csv","w")
+f = open("sampleSortedWords.csv","w")
 for val in sortedWords:
   f.write(val)
   f.write("\n")
 f.close()
 ```
-
-
-
-
 
