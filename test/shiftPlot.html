@@ -1,9 +1,8 @@
 <html>
 <head>
 <title>Simple Shift Plot</title>
-<!-- <script src="d3/d3.v3.min.js" charset="utf-8"></script>
-<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script> -->
-<script src="d3/d3.js" charset="utf-8"></script>
+<!-- <script src="d3/d3.js" charset="utf-8"></script> -->
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
   <style>
     body {
       font-family: Verdana,Arial,sans-serif;
@@ -54,17 +53,17 @@ function initializeDrop() {
 function loadCsv() {
 // all the data is three files, preprocessed
 var csvLoadsRemaining = 3;
-d3.text("test/sampleSortedMag.csv", function(text) {
+d3.text("sampleSortedMag.csv", function(text) {
     tmp = text.split("\n");
     sortedMag = tmp.slice(0,200);
     if (!--csvLoadsRemaining) plotShift(d3.select("#figure01"),sortedMag,sortedType,sortedWords);
 }); 
-d3.text("test/sampleSortedType.csv", function(text) {
+d3.text("sampleSortedType.csv", function(text) {
     tmp = text.split("\n");
     sortedType = tmp.slice(0,200);
     if (!--csvLoadsRemaining) plotShift(d3.select("#figure01"),sortedMag,sortedType,sortedWords);
 }); 
-d3.text("test/sampleSortedWords.csv", function(text) {
+d3.text("sampleSortedWords.csv", function(text) {
     tmp = text.split("\n");
     sortedWords = tmp.slice(0,200);
     if (!--csvLoadsRemaining) plotShift(d3.select("#figure01"),sortedMag,sortedType,sortedWords);
