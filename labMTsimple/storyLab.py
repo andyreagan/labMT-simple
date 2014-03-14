@@ -58,8 +58,14 @@ def emotionFileReader(stopval=1.0,fileName='labMT1.txt',min=1.0,max=9.0,returnVe
   try:
     f = open(fileName,'r')
   except IOError:
-    from pkg_resources import resource_filename
-    f = open(resource_filename('labMT1.txt', fileName), 'r')
+    import os
+    relpath = os.path.abspath(__file__).split('/')[1:-1]
+    relpath.append('data')
+    relpath.append('labMT1.txt')
+    fileName = ''
+    for pathp in relpath:
+      fileName += '/' + pathp
+      f = open(fileName,'r')
     
   tmpDict = dict([(str(line.split('\t')[0].rstrip('"').lstrip('"')),[x.rstrip() for x in line.split('\t')[1:]]) for line in f])
   f.close()

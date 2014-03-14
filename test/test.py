@@ -1,10 +1,11 @@
 import sys, os
 
 try:
-  from labMTsimple import *
+  from labMTsimple.storyLab import *
 except ImportError:
   import sys, os
   sys.path.append(os.path.join(os.path.dirname(__file__), "labMTsimple"))
+  from labMTsimple.storyLab import *
 except:
   print 'you need have to storyLab.py in your search path'
   print 'either 1) install with "pip install labMTsimple"'
