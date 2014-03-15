@@ -269,7 +269,7 @@ axes.selectAll(".text")
    .text(function(d,i) { if (sortedType[i] == 0) {tmpStr = "-\u2193";} else if (sortedType[i] == 1) {tmpStr = "\u2193+";}
    else if (sortedType[i] == 2) {tmpStr = "\u2191-";} else {tmpStr = "+\u2191";}
    if (sortedMag[i] < 0) {return tmpStr.concat(sortedWords[i]);} else { return sortedWords[i].concat(tmpStr); } })
-   .attr("x",function(d,i) { if (d>0) {return x(d)+2;} else {console.log(sortedWords[i].length); return x(d)-2; } } );
+   .attr("x",function(d,i) { if (d>0) {return x(d)+2;} else {return x(d)-2; } } );
 
     function zoomed() {
     //console.log(d3.event);
@@ -282,5 +282,7 @@ axes.selectAll(".text")
     // make the tick lines show up on redraw							    
     d3.selectAll(".tick line").style({'stroke':'black'});
      };
+
+console.log("happiness");
 
 };
