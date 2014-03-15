@@ -67,7 +67,9 @@ def emotionFileReader(stopval=1.0,fileName='labMT1.txt',min=1.0,max=9.0,returnVe
       fileName += '/' + pathp
       f = open(fileName,'r')
     
-  tmpDict = dict([(str(line.split('\t')[0].rstrip('"').lstrip('"')),[x.rstrip() for x in line.split('\t')[1:]]) for line in f])
+  tmpDict = dict([(str(line.split('\t')[0].rstrip('"').lstrip('"')),
+                  [x.rstrip() for x in line.split('\t')[1:]]) for line in f])
+
   f.close()
   
   ## remove words
@@ -191,6 +193,8 @@ if __name__ == '__main__':
     print value
     
   
+
+
 
 
 
