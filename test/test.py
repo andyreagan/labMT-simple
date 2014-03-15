@@ -4,6 +4,7 @@ try:
   from labMTsimple.storyLab import *
 except ImportError:
   import sys, os
+  sys.path.append('/Users/andyreagan/work/2014/labMTsimple')
   sys.path.append(os.path.join(os.path.dirname(__file__), "labMTsimple"))
   from labMTsimple.storyLab import *
 except:
@@ -45,6 +46,20 @@ print 'the valence of {0} is {1:.5}'.format('tuesday',tuesdayValence)
 saturdayValence,saturdayFvec = emotion(saturday,labMT,shift=True,happsList=labMTvector)
 tuesdayValence,tuesdayFvec = emotion(tuesday,labMT,shift=True,happsList=labMTvector)
 
+f = open("saturdayFvec.csv","w")
+f.write('{0:.0f}'.format(saturdayFvec[0]))
+for i in xrange(1,len(saturdayFvec)):
+  f.write("\n")
+  f.write('{0:.0f}'.format(saturdayFvec[i]))
+f.close()
+
+f = open("tuesdayFvec.csv","w")
+f.write('{0:.0f}'.format(tuesdayFvec[0]))
+for i in xrange(1,len(tuesdayFvec)):
+  f.write("\n")
+  f.write('{0:.0f}'.format(tuesdayFvec[i]))
+f.close()
+
 ## make a shift: shift(values,ref,comp)
 shiftMag,shiftType = shift(labMTvector,tuesdayFvec,saturdayFvec)
 ## take the absolute value of the shift magnitude
@@ -65,18 +80,27 @@ print 'writing files...'
 ## print each of these to a file
 f = open("sampleSortedMag.csv","w")
 for val in sortedMag:
-  f.write(str(val))
+  f.write('{0:.8f}'.format(val))
   f.write("\n")
 f.close()
-
 f = open("sampleSortedType.csv","w")
 for val in sortedType:
   f.write(str(val))
   f.write("\n")
 f.close()
-
 f = open("sampleSortedWords.csv","w")
 for val in sortedWords:
   f.write(val)
+  f.write("\n")
+f.close()
+
+f = open("labMTvec.csv","w")
+for val in labMTvector:
+  f.write(str(val))
+  f.write("\n")
+f.close()
+f = open("labMTwords.csv","w")
+for val in labMTwordList:
+  f.write(str(val))
   f.write("\n")
 f.close()

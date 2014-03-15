@@ -65,7 +65,7 @@ def emotionFileReader(stopval=1.0,fileName='labMT1.txt',min=1.0,max=9.0,returnVe
     fileName = ''
     for pathp in relpath:
       fileName += '/' + pathp
-      f = open(fileName,'r')
+    f = open(fileName,'r')
     
   tmpDict = dict([(str(line.split('\t')[0].rstrip('"').lstrip('"')),
                   [x.rstrip() for x in line.split('\t')[1:]]) for line in f])
