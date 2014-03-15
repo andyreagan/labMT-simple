@@ -19,7 +19,9 @@ except IOError:
   print 'you need to have the labMT1.txt data on python search path'
 
 ## take a look at these guys
+print 'the word laughter in the hash has the data:'
 print labMT['laughter']
+print 'the top 5 scores, and those words, are:'
 print labMTvector[0:5]
 print labMTwordList[0:5]
 
@@ -33,10 +35,11 @@ tuesday = f.read()
 f.close()
 
 ## compute valence score
+print 'computing happiness...'
 saturdayValence = emotion(saturday,labMT)
 tuesdayValence = emotion(tuesday,labMT)
-print 'the valence of {0} is {1:.4}'.format('saturday',saturdayValence)
-print 'the valence of {0} is {1:.4}'.format('tuesday',tuesdayValence)
+print 'the valence of {0} is {1:.5}'.format('saturday',saturdayValence)
+print 'the valence of {0} is {1:.5}'.format('tuesday',tuesdayValence)
 
 ## compute valence score and return frequency vector for generating wordshift
 saturdayValence,saturdayFvec = emotion(saturday,labMT,shift=True,happsList=labMTvector)
@@ -54,10 +57,10 @@ sortedType = [shiftType[i] for i in indices]
 sortedWords = [labMTwordList[i] for i in indices]
 
 ## take a peek at the top words  
-print indices[0:10]
-print sortedMag[0:20]
-print sortedType[0:20]
-print sortedWords[0:20]
+print 'the top 5 of the shift are'
+for i in xrange(5):
+  print '{0:7.4}  {1}'.format(sortedMag[i],sortedWords[i])
+print 'writing files...'
 
 ## print each of these to a file
 f = open("sampleSortedMag.csv","w")
@@ -77,5 +80,3 @@ for val in sortedWords:
   f.write(val)
   f.write("\n")
 f.close()
-
-
