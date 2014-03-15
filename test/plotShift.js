@@ -9,8 +9,8 @@ function plotShift(figure,sortedMag,sortedType,sortedWords) {
 // define the center too, for wordshifting
 figcenter = width/2;
 
-// number of words to show
-numWords = 35;
+// number of words to show initially
+numWords = 30;
 
 // remove an old figure if it exists
 figure.select(".canvas").remove();
@@ -31,7 +31,7 @@ x = d3.scale.linear()
 // linear scale function
 y =  d3.scale.linear()
     .domain([numWords,1])
-    .range([height, 5]); 
+    .range([height, 80]); 
 
 // zoom object for the axes
 var zoom = d3.behavior.zoom()
@@ -96,12 +96,105 @@ var clip = axes.append("svg:clipPath")
   .attr("id","clip")
   .append("svg:rect")
   .attr("x",0)
-  .attr("y",0)
+  .attr("y",80)
   .attr("width",width)
-  .attr("height",height);
+  .attr("height",height-80);
 
 // now something else
 var unclipped_axes = axes;
+
+// draw the summary things
+unclipped_axes.append("line")
+    .attr("x1",0)
+    .attr("x2",width)
+    .attr("y1",75)
+    .attr("y2",75)
+    .style({"stroke-width" : "2", "stroke": "black"});
+
+var maxShiftSum = Math.max(Math.abs(sumTypes[1]),Math.abs(sumTypes[2]),sumTypes[0],sumTypes[3]);
+topScale = d3.scale.linear()
+  .domain([-maxShiftSum,maxShiftSum])
+  .range([width*.1,width*.9]);
+
+unclipped_axes.selectAll(".sumrectR")
+   .data([sumTypes[3],sumTypes[0],sumTypes[3]-Math.abs(sumTypes[1])])
+   .enter()
+   .append("rect")
+   .attr("fill", function(d,i) { if (i==0) {return "#FFFF4C";} else if (i==1) {return "#B3B3FF";} else {return "#FFFF4C";}})
+   .attr("class", "sumrectR")
+   .attr("x",function(d,i) { 
+                             if (d>0) { 
+                               return figcenter;
+                             } 
+                             else { return topScale(d)} }
+                             )
+   .attr("y",function(d,i) { return i*22+7; } )
+   .style({'opacity':'0.7','stroke-width':'1','stroke':'rgb(0,0,0)'})
+   .attr("height",function(d,i) { return 17; } )
+   .attr("width",function(d,i) { if (d>0) {return topScale(d)-figcenter;} else {return figcenter-topScale(d); } } )
+   .on('mouseover', function(d){
+        var rectSelection = d3.select(this).style({opacity:'1.0'});
+})
+   .on('mouseout', function(d){
+        var rectSelection = d3.select(this).style({opacity:'0.7'});
+});
+
+
+unclipped_axes.selectAll(".sumtextR")
+   .data([sumTypes[3],sumTypes[0]])
+   .enter()
+   .append("text")
+   .attr("class", "sumtextR")
+   .style("text-anchor", "start")
+   .attr("y",function(d,i) { return i*22+22; } )
+   .text(function(d,i) { if (i == 0) {return "\u2211+\u2191";} else { return"\u2211-\u2193";} })
+   .attr("x",function(d,i) { return topScale(d)+5; });
+
+unclipped_axes.selectAll(".sumtextL")
+   .data([sumTypes[1],sumTypes[2]])
+   .enter()
+   .append("text")
+   .attr("class", "sumtextL")
+   .style("text-anchor", "end")
+   .attr("y",function(d,i) { return i*22+22; } )
+   .text(function(d,i) { if (i == 0) {return "\u2211+\u2193";} else { return"\u2211-\u2191";} })
+   .attr("x",function(d,i) { return topScale(d)-5; });
+
+unclipped_axes.selectAll(".sumrectL")
+   .data([sumTypes[1],sumTypes[2],sumTypes[0]-Math.abs(sumTypes[2])])
+   .enter()
+   .append("rect")
+   .attr("fill", function(d,i) { if (i==0) {return "#FFFFB3";} else if (i==1) {return "#4C4CFF";} else {return "#4C4CFF";}})
+   .attr("class", "sumrectL")
+   .attr("x",function(d,i) { 
+                             if (i<2) { 
+                               return topScale(d);
+                             } 
+                             else { 
+                                 if (d*(sumTypes[3]-Math.abs(sumTypes[1])) > 0) {
+                                     if (d>0) {
+                                         return topScale((sumTypes[3]-Math.abs(sumTypes[1])));
+                                      }
+                                     else {
+					 return topScale(d)-(figcenter-topScale((sumTypes[3]-Math.abs(sumTypes[1]))));
+                                     }
+                                 } 
+                                 else { 
+                                     if (d>0) {return figcenter} 
+                                     else { return topScale(d)} }
+                                 }
+                             }
+                             )
+   .attr("y",function(d,i) { return i*22+7; } )
+   .style({'opacity':'0.7','stroke-width':'1','stroke':'rgb(0,0,0)'})
+   .attr("height",function(d,i) { return 17; } )
+   .attr("width",function(d,i) { if (d>0) {return topScale(d)-figcenter;} else {return figcenter-topScale(d); } } )
+   .on('mouseover', function(d){
+        var rectSelection = d3.select(this).style({opacity:'1.0'});
+})
+   .on('mouseout', function(d){
+        var rectSelection = d3.select(this).style({opacity:'0.7'});
+});
  
 axes = axes.append("g")
   .attr("clip-path","url(#clip)");
@@ -114,7 +207,6 @@ canvas.append("text")
    .attr("font-size", "20.0px")
    .attr("fill", "#000000")
    .attr("transform", "rotate(-90.0," + (figwidth-width)/4 + "," + (figheight/2+30) + ")");
-   //.attr("style", "text-anchor: middle;");
 
 canvas.append("text")
    .text("Per word average happiness shift")
@@ -123,7 +215,24 @@ canvas.append("text")
    .attr("y",3*(figheight-height)/4+height)
    .attr("font-size", "20.0px")
    .attr("fill", "#000000")
-   .attr("transform", "rotate(-0.0," + (width/2+(figwidth-width)/2) + "," + (3*(figheight-height)/4+height+10) + ")")
+   .attr("style", "text-anchor: middle;");
+
+canvas.selectAll(".sumtext")
+   .data([refH,compH])
+   .enter()
+   .append("text")
+   .text(function(d,i) { if (i==0) {
+                             return "Reference happiness " + (d.toFixed(3));
+                         }
+                         else {
+			     return "Comparison happiness " + (d.toFixed(3));
+			 }}
+         )
+   .attr("class","axes-text")
+   .attr("x",width/2+(figwidth-width)/2)
+   .attr("y",function(d,i) { return i*20+45 })
+   .attr("font-size", "16.0px")
+   .attr("fill", "#000000")
    .attr("style", "text-anchor: middle;");
 
 axes.selectAll(".rect")

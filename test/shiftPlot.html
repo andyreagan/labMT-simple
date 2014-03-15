@@ -89,7 +89,7 @@ d3.text("sampleSortedMag.csv", function(text) {
     tmp = text.split("\n");
     // convert to percentage of shift
     totalMag = 0.0;
-    for (var i=0; i<1000; i++){
+    for (var i=0; i<1000; i++){ // only need the first 1000, sum decays quickly
       totalMag += parseFloat(tmp[i]);
     }
     //console.log(totalMag);
@@ -108,7 +108,8 @@ d3.text("sampleSortedType.csv", function(text) {
 d3.text("sampleSortedWords.csv", function(text) {
     tmp = text.split("\n");
     sortedWords = tmp.slice(0,200);
-    if (!--csvLoadsRemaining) plotShift(d3.select("#figure01"),sortedMag,sortedType,sortedWords); 
+    if (!--csvLoadsRemaining) plotShift(d3.select("#figure01"),
+                                        sortedMag,sortedType,sortedWords); 
 }); */
 
 };
@@ -116,8 +117,9 @@ d3.text("sampleSortedWords.csv", function(text) {
 function shiftAndPlot(figure,refF,compF,lens,words) {
 
     shiftObj = shift(refF,compF,lens,words);
-    plotShift(figure,shiftObj.sortedMag,
-              shiftObj.sortedType,shiftObj.sortedWords);
+    plotShift(figure,shiftObj.sortedMag.slice(0,200),
+              shiftObj.sortedType.slice(0,200),
+              shiftObj.sortedWords.slice(0,200));
 
 };
 

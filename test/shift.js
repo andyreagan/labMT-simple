@@ -20,9 +20,15 @@ function shift(refF,compF,lens,words) {
     //console.log(refF[10])
 
     // compute reference happiness
-    var refH = 0.0;
+    refH = 0.0;
     for (var i=0; i<refF.length; i++) {
         refH += refF[i]*parseFloat(lens[i]);
+    }
+
+    // compute comparison happiness
+    compH = 0.0;
+    for (var i=0; i<compF.length; i++) {
+        compH += compF[i]*parseFloat(lens[i]);
     }
 
     //console.log(refH);
@@ -54,10 +60,18 @@ function shift(refF,compF,lens,words) {
 	sortedWords[i] = words[indices[i]]; 
     }
 
+    // compute the sum of contributions of different types
+    sumTypes = [0.0,0.0,0.0,0.0];
+    for (var i = 0; i < refF.length; i++)
+    { 
+        sumTypes[shiftType[i]] += shiftMag[i];
+    }
+
     // return as an object
     return {
       sortedMag: sortedMag,
       sortedType: sortedType,
-      sortedWords: sortedWords
+      sortedWords: sortedWords,
+      sumTypes: sumTypes
     };
 };
