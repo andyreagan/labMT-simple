@@ -45,8 +45,6 @@
 <center>
 
 <div id="caption01" class="figure">
-Why Saturday, Jan 18, 2014 (h = 6.0031) is happier than Tuesday, Jan 21, 2014 (h = 5.9672) on Twitter.<br>
-
 Click on the graph and drag up to reveal additional words.</div>
 
 <div id="figure01" class="figure"></div>
@@ -221,7 +219,7 @@ axes.selectAll(".rect")
    .data(sortedMag)
    .enter()
    .append("rect")
-   .attr("fill", function(d,i) { if (sortedType[i] == 0 || sortedType[i] == 2) {return "blue";} else { return "yellow"; }})
+   .attr("fill", function(d,i) { if (sortedType[i] == 2) {return "#4C4CFF";} else if (sortedType[i] == 3) {return "#FFFF4C";} else if (sortedType[i] == 0) {return "#B3B3FF";} else { return "#FFFFB3"; }})
    .attr("class", "rect")
    .attr("x",function(d,i) { 
                              if (d>0) { 
