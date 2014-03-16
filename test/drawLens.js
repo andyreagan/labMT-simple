@@ -64,7 +64,7 @@ function drawLens(figure,lens) {
 	.outerTickSize(0);
 
     axes.append("g")
-	.attr("class", "y axis ")
+	.attr("class", "top")
 	.attr("transform", "(0,0)")
 	.attr("font-size", "12.0px")
 	.call(yAxis);
