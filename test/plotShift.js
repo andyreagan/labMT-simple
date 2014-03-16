@@ -230,7 +230,6 @@ unclipped_axes.selectAll(".sumrectL")
         d3.selectAll(".rect.two").transition().duration(1000).attr("y",function(d,i) { return y(i+1); }).style({'opacity':'0.7','stroke-width':'1','stroke':'rgb(0,0,0)'}).attr("x",function(d,i) {return x(d); }); 
         d3.selectAll(".text").transition().duration(1000).style({'opacity':'0.0'}).attr("x",function(d,i) { if (d<0) { return -500; } else {return 500; }}); ; 
         d3.selectAll(".text.two").transition().duration(1000).attr("y",function(d,i) { return y(i+1)+11; } ).attr("x",function(d,i) { return x(d)-2; } ).style({'opacity':'1.0'}); 
-
         }
     } );
  

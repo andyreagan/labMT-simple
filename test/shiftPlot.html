@@ -5,6 +5,7 @@
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <script src="plotShift.js" charset="utf-8"></script>
 <script src="shift.js" charset="utf-8"></script>
+<script src="drawLens.js" charset="utf-8"></script>
   <style>
     body {
       font-family: Verdana,Arial,sans-serif;
@@ -28,6 +29,10 @@
       width: 500px;
     }
 
+    #lens01 {
+      width: 600px;
+    }
+
     #figure01 {
       width: 600px;
     }
@@ -49,6 +54,8 @@
 <div id="caption01" class="figure">
 Click on the graph and drag up to reveal additional words.</div>
 
+<div id="lens01" class="figure"></div>
+
 <div id="figure01" class="figure"></div>
 
 </center>
@@ -69,7 +76,7 @@ d3.text("tuesdayFvec.csv", function(text) {
 });
 d3.text("labMTvec.csv", function(text) {
     var tmp = text.split("\n");
-    lens = tmp;
+    lens = tmp.map(parseFloat);
     if (!--csvLoadsRemaining) shiftAndPlot(d3.select("#figure01"),refF,compF,lens,words);
 });
 d3.text("labMTwords.csv", function(text) {
@@ -82,40 +89,11 @@ d3.text("saturdayFvec.csv", function(text) {
     compF = tmp;
     if (!--csvLoadsRemaining) shiftAndPlot(d3.select("#figure01"),refF,compF,lens,words);
 });
-
-/* // all the data is three files, preprocessed
-var csvLoadsRemaining = 3;
-d3.text("sampleSortedMag.csv", function(text) {
-    tmp = text.split("\n");
-    // convert to percentage of shift
-    totalMag = 0.0;
-    for (var i=0; i<1000; i++){ // only need the first 1000, sum decays quickly
-      totalMag += parseFloat(tmp[i]);
-    }
-    //console.log(totalMag);
-    sortedMag = tmp.slice(0,200).map(parseFloat);
-    for (var i=0; i<200; i++){
-      sortedMag[i] = sortedMag[i]/totalMag*100;
-    }
-    //sortedMag.forEach(function(d) { return d/totalMag; } );
-    if (!--csvLoadsRemaining) plotShift(d3.select("#figure01"),sortedMag,sortedType,sortedWords);
-}); 
-d3.text("sampleSortedType.csv", function(text) {
-    tmp = text.split("\n");
-    sortedType = tmp.slice(0,200);
-    if (!--csvLoadsRemaining) plotShift(d3.select("#figure01"),sortedMag,sortedType,sortedWords);
-}); 
-d3.text("sampleSortedWords.csv", function(text) {
-    tmp = text.split("\n");
-    sortedWords = tmp.slice(0,200);
-    if (!--csvLoadsRemaining) plotShift(d3.select("#figure01"),
-                                        sortedMag,sortedType,sortedWords); 
-}); */
-
 };
 
 function shiftAndPlot(figure,refF,compF,lens,words) {
-
+    lensFig = d3.select("#lens01");
+    drawLens(lensFig,lens);
     shiftObj = shift(refF,compF,lens,words);
     plotShift(figure,shiftObj.sortedMag.slice(0,200),
               shiftObj.sortedType.slice(0,200),
