@@ -15,7 +15,7 @@ except:
   print '3) run from a directory containing storyLab.py and labMT1.txt'
 
 try:
-  labMT,labMTvector,labMTwordList = emotionFileReader(returnVector=True)
+  labMT,labMTvector,labMTwordList = emotionFileReader(stopval = 0.0, returnVector=True)
 except IOError:
   print 'you need to have the labMT1.txt data on python search path'
 

@@ -113,12 +113,14 @@ function drawLens(figure,lens) {
 	.attr("fill", "#000000")
 	.attr("style", "text-anchor: middle;");
 
+    var lensMean = d3.mean(lens);
+
     var bar = axes.selectAll(".rect")
         .data(data)
         .enter()
         .append("g")
         .attr("class","distrect")
-        .attr("fill","yellow")
+        .attr("fill",function(d,i) { if (d.x > lensMean) {return "yellow";} else { return "blue";}})
         .attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; });
 
     bar.append("rect")
@@ -128,6 +130,63 @@ function drawLens(figure,lens) {
 
     console.log(x(d3.min(lens)));
 
+    brushX = d3.scale.linear()
+        .domain([d3.min(lens),d3.max(lens)])
+        .range([figwidth*.125,width+figwidth*.125]);
+    
+    var brush = d3.svg.brush()
+        .x(brushX)
+        .extent([4,6])
+        .on("brushend",brushended);
+
+    var gBrush = canvas.append("g")
+        .attr("class","brush")
+        .call(brush)
+        .call(brush.event);
+
+    gBrush.selectAll("rect")
+        .attr("height",height)
+        .attr("y",15)
+	.style({'stroke-width':'2','stroke':'rgb(100,100,100)','opacity': 0.7})
+	.attr("fill", "#FCFCFC");
+
+    function brushended() {
+	if (!d3.event.sourceEvent) return;
+	var extent0 = brush.extent(),
+	    extent1 = extent0; // should round it to bins
+	
+	//window.stopVals = extent1;
+	console.log(extent1);
+
+	// reload the frequency vectors
+	var csvLoadsRemaining = 2;
+	d3.text("tuesdayFvec.csv", function(text) {
+	    var tmp = text.split("\n");
+	    refF = tmp;
+	    // parse this for stopVals
+	    for (var i=0; i<refF.length; i++) {
+		if (lens[i] >= extent1[0] && lens[i] <= extent1[1]) {
+		    refF[i]= 0;
+		}
+	    }
+	    if (!--csvLoadsRemaining) shiftAndPlot(d3.select("#figure01"),refF,compF,lens,words);
+	});
+	d3.text("saturdayFvec.csv", function(text) {
+	    var tmp = text.split("\n");
+	    compF = tmp;
+	    // parse this for stopVals
+	    for (var i=0; i<compF.length; i++) {
+		if (lens[i] >= extent1[0] && lens[i] <= extent1[1]) {
+		    compF[i]= 0;
+		}
+	    }
+	    if (!--csvLoadsRemaining) shiftAndPlot(d3.select("#figure01"),refF,compF,lens,words);
+	});
+
+	d3.select(this).transition()
+	    .call(brush.extent(extent1))
+	    .call(brush.event);
+    }
 
 }
 
