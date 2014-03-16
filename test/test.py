@@ -37,14 +37,12 @@ f.close()
 
 ## compute valence score
 print 'computing happiness...'
-saturdayValence = emotion(saturday,labMT)
-tuesdayValence = emotion(tuesday,labMT)
-print 'the valence of {0} is {1:.5}'.format('saturday',saturdayValence)
-print 'the valence of {0} is {1:.5}'.format('tuesday',tuesdayValence)
 
 ## compute valence score and return frequency vector for generating wordshift
 saturdayValence,saturdayFvec = emotion(saturday,labMT,shift=True,happsList=labMTvector)
 tuesdayValence,tuesdayFvec = emotion(tuesday,labMT,shift=True,happsList=labMTvector)
+print 'the valence of {0} is {1:.5}'.format('saturday',saturdayValence)
+print 'the valence of {0} is {1:.5}'.format('tuesday',tuesdayValence)
 
 f = open("saturdayFvec.csv","w")
 f.write('{0:.0f}'.format(saturdayFvec[0]))
@@ -60,47 +58,16 @@ for i in xrange(1,len(tuesdayFvec)):
   f.write('{0:.0f}'.format(tuesdayFvec[i]))
 f.close()
 
-## make a shift: shift(values,ref,comp)
-shiftMag,shiftType = shift(labMTvector,tuesdayFvec,saturdayFvec)
-## take the absolute value of the shift magnitude
-shiftMagAbs = map(abs,shiftMag)
-
-## sort them both
-indices = sorted(range(len(shiftMag)), key=shiftMagAbs.__getitem__, reverse=True)
-sortedMag = [shiftMag[i] for i in indices]
-sortedType = [shiftType[i] for i in indices]
-sortedWords = [labMTwordList[i] for i in indices]
-
-## take a peek at the top words  
-print 'the top 5 of the shift are'
-for i in xrange(5):
-  print '{0:7.4}  {1}'.format(sortedMag[i],sortedWords[i])
-print 'writing files...'
-
-## print each of these to a file
-f = open("sampleSortedMag.csv","w")
-for val in sortedMag:
-  f.write('{0:.8f}'.format(val))
-  f.write("\n")
-f.close()
-f = open("sampleSortedType.csv","w")
-for val in sortedType:
-  f.write(str(val))
-  f.write("\n")
-f.close()
-f = open("sampleSortedWords.csv","w")
-for val in sortedWords:
-  f.write(val)
-  f.write("\n")
-f.close()
-
 f = open("labMTvec.csv","w")
-for val in labMTvector:
-  f.write(str(val))
+f.write('{0:.8f}'.format(labMTvector[0]))
+for i in xrange(1,len(labMTvector)):
   f.write("\n")
+  f.write('{0:.8f}'.format(labMTvector[i]))
 f.close()
+
 f = open("labMTwords.csv","w")
-for val in labMTwordList:
-  f.write(str(val))
+f.write(labMTwordList[0])
+for i in xrange(1,len(labMTwordList)):
   f.write("\n")
+  f.write(labMTwordList[i])
 f.close()
