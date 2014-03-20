@@ -28,10 +28,10 @@ print labMTwordList[0:5]
 
 ## test shift a subsample of two twitter days
 import codecs ## handle utf8
-f = codecs.open("18.01.14.txt","r","utf8")
+f = codecs.open("data/18.01.14.txt","r","utf8")
 saturday = f.read()
 f.close()
-f = codecs.open("21.01.14.txt","r","utf8")
+f = codecs.open("data/21.01.14.txt","r","utf8")
 tuesday = f.read()
 f.close()
 

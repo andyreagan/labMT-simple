@@ -1,7 +1,11 @@
 function shift(refF,compF,lens,words) {
+/* shift two frequency vectors
+   -assume they've been zero-ed for stop words
+   -lens is of full length
+   -words is a list of utf8 strings
 
-    // non-normalized frequency
-    //console.log(refF[10])
+   return an object with the sorted quantities for plotting the shift
+*/
 
     // normalize frequencies
     var Nref = 0.0;
@@ -16,26 +20,21 @@ function shift(refF,compF,lens,words) {
         compF[i] = parseFloat(compF[i])/Ncomp;
     }
     
-    // normalized frequency
-    //console.log(refF[10])
-
     // compute reference happiness
-    refH = 0.0;
+    var refH = 0.0;
     for (var i=0; i<refF.length; i++) {
         refH += refF[i]*parseFloat(lens[i]);
     }
 
     // compute comparison happiness
-    compH = 0.0;
+    var compH = 0.0;
     for (var i=0; i<compF.length; i++) {
         compH += compF[i]*parseFloat(lens[i]);
     }
 
-    //console.log(refH);
-
     // do the shifting
-    shiftMag = Array(refF.length);
-    shiftType = Array(refF.length);
+    var shiftMag = Array(refF.length);
+    var shiftType = Array(refF.length);
     var freqDiff = 0.0;
     for (var i=0; i<refF.length; i++) {
 	freqDiff = compF[i]-refF[i];
@@ -46,13 +45,13 @@ function shift(refF,compF,lens,words) {
     }
 
     // do the sorting
-    indices = Array(refF.length);
+    var indices = Array(refF.length);
     for (var i = 0; i < refF.length; i++) { indices[i] = i; }
     indices.sort(function(a,b) { return Math.abs(shiftMag[a]) < Math.abs(shiftMag[b]) ? 1 : Math.abs(shiftMag[a]) > Math.abs(shiftMag[b]) ? -1 : 0; });
 
-    sortedMag = Array(refF.length);
-    sortedType = Array(refF.length);
-    sortedWords = Array(refF.length);
+    var sortedMag = Array(refF.length);
+    var sortedType = Array(refF.length);
+    var sortedWords = Array(refF.length);
 
     for (var i = 0; i < refF.length; i++) { 
 	sortedMag[i] = shiftMag[indices[i]]; 
@@ -61,7 +60,7 @@ function shift(refF,compF,lens,words) {
     }
 
     // compute the sum of contributions of different types
-    sumTypes = [0.0,0.0,0.0,0.0];
+    var sumTypes = [0.0,0.0,0.0,0.0];
     for (var i = 0; i < refF.length; i++)
     { 
         sumTypes[shiftType[i]] += shiftMag[i];
@@ -72,6 +71,17 @@ function shift(refF,compF,lens,words) {
       sortedMag: sortedMag,
       sortedType: sortedType,
       sortedWords: sortedWords,
-      sumTypes: sumTypes
+      sumTypes: sumTypes,
+      refH: refH,
+      compH: compH,
     };
 };
+
+
+
+
+
+
+
+
+

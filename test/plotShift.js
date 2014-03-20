@@ -1,16 +1,20 @@
 // make the plot
-function plotShift(figure,sortedMag,sortedType,sortedWords) {
-    margin = {top: 0, right: 0, bottom: 0, left: 0},
+function plotShift(figure,sortedMag,sortedType,sortedWords,sumTypes,refH,compH) {
+/* plot the shift
+
+   -take a d3 selection, and draw the shift SVG on it
+   -requires sorted vectors of the shift magnitude, type and word
+       for each word
+
+*/
+
+    var margin = {top: 0, right: 0, bottom: 0, left: 0},
     figwidth = 600 - margin.left - margin.right,
     figheight = 800 - margin.top - margin.bottom,
     width = .775*figwidth,
-    height = .775*figheight;
-
-// define the center too, for wordshifting
-figcenter = width/2;
-
-// number of words to show initially
-numWords = 30;
+    height = .775*figheight,
+    figcenter = width/2,
+    numWords = 30;
 
 // remove an old figure if it exists
 figure.select(".canvas").remove();

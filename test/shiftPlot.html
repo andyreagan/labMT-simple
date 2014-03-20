@@ -98,7 +98,7 @@ d3.text("saturdayFvec.csv", function(text) {
 });
 };
 
-initDraw = true;
+var initDraw = true;
 
 function shiftAndPlot(figure,refF,compF,lens,words) {
     if (initDraw) {
@@ -116,7 +116,10 @@ function shiftAndPlot(figure,refF,compF,lens,words) {
     shiftObj = shift(refF,compF,lens,words);
     plotShift(figure,shiftObj.sortedMag.slice(0,200),
               shiftObj.sortedType.slice(0,200),
-              shiftObj.sortedWords.slice(0,200));
+              shiftObj.sortedWords.slice(0,200),
+              shiftObj.sumTypes,
+              shiftObj.refH,
+              shiftObj.compH);
 
 };
 
