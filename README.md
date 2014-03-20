@@ -86,3 +86,6 @@ for val in sortedWords:
 f.close()
 ```
 
+test/data now contains a the 51x10000 state frequency vector and state list from lewis, and a file pulled from the ivan's map (2011-...).
+
+

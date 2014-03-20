@@ -105,6 +105,50 @@ def emotionFileReader(stopval=1.0,fileName='labMT1.txt',min=1.0,max=9.0,returnVe
   else:
     return tmpDict
 
+def emotionFileReaderRaw(stopval=1.0,fileName='labMT1raw.txt',min=1.0,max=9.0,returnVector=False):
+
+  try:
+    f = open(fileName,'r')
+  except IOError:
+    import os
+    relpath = os.path.abspath(__file__).split('/')[1:-1]
+    relpath.append('data')
+    relpath.append('labMT1raw.txt')
+    fileName = ''
+    for pathp in relpath:
+      fileName += '/' + pathp
+    f = open(fileName,'r')
+
+  tmpDict = dict()
+
+  while f:
+    word = f.readline()
+    tmpDict[word] = []
+    for i in xrange(10):
+      tmpDict[word].append(map(int,f.readline().split('\t'))[1])
+  f.close()
+  
+  ## remove words
+  stopWords = []
+
+  for word in tmpDict:
+    ## start the index at 0
+    if labMT1flag:
+      tmpDict[word][0] = int(tmpDict[word][0])-1
+    if abs(float(tmpDict[word][scoreIndex])-5.0) < stopval:
+      stopWords.append(word)
+    else:
+      if float(tmpDict[word][scoreIndex]) < min:
+        stopWords.append(word)
+      else:
+        if float(tmpDict[word][scoreIndex]) > max:
+          stopWords.append(word)
+  
+  for word in stopWords:
+    del tmpDict[word]
+
+  return tmpDict
+
 def emotion(tmpStr,someDict,scoreIndex=1,shift=False,happsList=[]):
   scoreList = []
   # make a frequency vector
