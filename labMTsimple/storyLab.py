@@ -227,6 +227,18 @@ def shift(emoList,refFreq,compFreq):
 
   return shiftMag,shiftType
 
+def shift(scoreList,wordList,refFreq,compFreq,outFile):
+  ## read in the basic HTML
+  f = open('static/shiftPlotStaticHead.html','r')
+  head = f.read()
+  f.close()
+  f = open('static/shiftPlotStaticTail.html','r')
+  tail = f.read()
+  f.close()
+  
+  ## dump out a static shift view page
+  
+
 if __name__ == '__main__':
   ## run from standard in
   import fileinput

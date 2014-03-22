@@ -165,30 +165,27 @@ function drawLens(figure,lens) {
 	//window.stopVals = extent1;
 	console.log(extent1);
 
-	// reload the frequency vectors
-	var csvLoadsRemaining = 2;
-	d3.text("tuesdayFvec.csv", function(text) {
-	    var tmp = text.split("\n");
-	    refF = tmp;
-	    // parse this for stopVals
-	    for (var i=0; i<refF.length; i++) {
-		if (lens[i] >= extent1[0] && lens[i] <= extent1[1]) {
-		    refF[i]= 0;
-		}
+	// reset
+	var refF = Array(refFraw.length);
+	var compF = Array(compFraw.length);
+	for (var i=0; i<refFraw.length; i++) {
+	    if (lens[i] >= extent1[0] && lens[i] <= extent1[1]) {
+		refF[i]= 0;
+		compF[i]= 0;
 	    }
-	    if (!--csvLoadsRemaining) shiftAndPlot(d3.select("#figure01"),refF,compF,lens,words);
-	});
-	d3.text("saturdayFvec.csv", function(text) {
-	    var tmp = text.split("\n");
-	    compF = tmp;
-	    // parse this for stopVals
-	    for (var i=0; i<compF.length; i++) {
-		if (lens[i] >= extent1[0] && lens[i] <= extent1[1]) {
-		    compF[i]= 0;
-		}
-	    }
-	    if (!--csvLoadsRemaining) shiftAndPlot(d3.select("#figure01"),refF,compF,lens,words);
-	});
+            else { 
+                refF[i] = refFraw[i];
+                compF[i] = compFraw[i]; 
+            }
+	}
+
+	shiftObj = shift(refF,compF,lens,words);
+	plotShift(d3.select('#figure01'),shiftObj.sortedMag.slice(0,200),
+              shiftObj.sortedType.slice(0,200),
+              shiftObj.sortedWords.slice(0,200),
+              shiftObj.sumTypes,
+              shiftObj.refH,
+              shiftObj.compH);
 
 	d3.select(this).transition()
 	    .call(brush.extent(extent1))
@@ -196,6 +193,7 @@ function drawLens(figure,lens) {
     }
 
 }
+
 
 
 

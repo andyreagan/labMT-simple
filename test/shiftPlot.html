@@ -69,7 +69,7 @@ Click on the graph and drag up to reveal additional words.
 <div id="footer"></div>
 
 <script>
-function initializeDrop() {
+function initializePlot() {
     loadCsv();
 }
 
@@ -77,44 +77,45 @@ function loadCsv() {
 var csvLoadsRemaining = 4;
 d3.text("tuesdayFvec.csv", function(text) {
     var tmp = text.split("\n");
-    refF = tmp;
-
-    if (!--csvLoadsRemaining) shiftAndPlot(d3.select("#figure01"),refF,compF,lens,words);
+    refFraw = tmp;
+    if (!--csvLoadsRemaining) initializePlotPlot(refFraw,compFraw,lens,words);
 });
 d3.text("labMTvec.csv", function(text) {
     var tmp = text.split("\n");
     lens = tmp.map(parseFloat);
-    if (!--csvLoadsRemaining) shiftAndPlot(d3.select("#figure01"),refF,compF,lens,words);
+    if (!--csvLoadsRemaining) initializePlotPlot(refFraw,compFraw,lens,words);
 });
 d3.text("labMTwords.csv", function(text) {
     var tmp = text.split("\n");
     words = tmp;
-    if (!--csvLoadsRemaining) shiftAndPlot(d3.select("#figure01"),refF,compF,lens,words);
+    if (!--csvLoadsRemaining) initializePlotPlot(refFraw,compFraw,lens,words);
 });
 d3.text("saturdayFvec.csv", function(text) {
     var tmp = text.split("\n");
-    compF = tmp;
-    if (!--csvLoadsRemaining) shiftAndPlot(d3.select("#figure01"),refF,compF,lens,words);
+    compFraw = tmp;
+    if (!--csvLoadsRemaining) initializePlotPlot(refFraw,compFraw,lens,words);
 });
 };
 
-var initDraw = true;
+function initializePlotPlot(refFraw,compFraw,lens,words) {
+    // draw the lens
+    drawLens(d3.select("#lens01"),lens,refFraw,compFraw);
 
-function shiftAndPlot(figure,refF,compF,lens,words) {
-    if (initDraw) {
-        lensFig = d3.select("#lens01");
-        drawLens(lensFig,lens);
-        initDraw = false;
-    }
-    // take out 4-6 for the initial load
-    for (var i=0; i<refF.length; i++) {
+    // initially apply the lens, and draw the shift
+    var refF = Array(refFraw.length);
+    var compF = Array(compFraw.length);
+    for (var i=0; i<refFraw.length; i++) {
 	if (lens[i] > 4 && lens[i] < 6) {
             refF[i]= 0;
             compF[i]= 0;
         }
+	else {
+            refF[i]= refFraw[i];
+            compF[i]= compFraw[i];
+	}
     }
     shiftObj = shift(refF,compF,lens,words);
-    plotShift(figure,shiftObj.sortedMag.slice(0,200),
+    plotShift(d3.select("#figure01"),shiftObj.sortedMag.slice(0,200),
               shiftObj.sortedType.slice(0,200),
               shiftObj.sortedWords.slice(0,200),
               shiftObj.sumTypes,
@@ -123,7 +124,7 @@ function shiftAndPlot(figure,refF,compF,lens,words) {
 
 };
 
-initializeDrop();
+initializePlot();
 
 </script>
   <!-- <style> -->
