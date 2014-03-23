@@ -7,7 +7,7 @@ function shift(refF,compF,lens,words) {
    return an object with the sorted quantities for plotting the shift
 */
 
-    // normalize frequencies
+    //normalize frequencies
     var Nref = 0.0;
     var Ncomp = 0.0;
     for (var i=0; i<refF.length; i++) {
@@ -15,29 +15,31 @@ function shift(refF,compF,lens,words) {
         Ncomp += parseFloat(compF[i]);
     }
 
-    for (var i=0; i<refF.length; i++) {
-        refF[i] = parseFloat(refF[i])/Nref;
-        compF[i] = parseFloat(compF[i])/Ncomp;
-    }
+    // for (var i=0; i<refF.length; i++) {
+    //     refF[i] = parseFloat(refF[i])/Nref;
+    //     compF[i] = parseFloat(compF[i])/Ncomp;
+    // }
     
     // compute reference happiness
     var refH = 0.0;
     for (var i=0; i<refF.length; i++) {
         refH += refF[i]*parseFloat(lens[i]);
     }
+    refH = refH/Nref;
 
     // compute comparison happiness
     var compH = 0.0;
     for (var i=0; i<compF.length; i++) {
         compH += compF[i]*parseFloat(lens[i]);
     }
+    compH = compH/Ncomp;
 
     // do the shifting
     var shiftMag = Array(refF.length);
     var shiftType = Array(refF.length);
     var freqDiff = 0.0;
     for (var i=0; i<refF.length; i++) {
-	freqDiff = compF[i]-refF[i];
+	freqDiff = compF[i]/Ncomp-refF[i]/Nref;
         shiftMag[i] = (parseFloat(lens[i])-refH)*freqDiff;
 	if (freqDiff > 0) { shiftType[i] = 2; }
 	else { shiftType[i] = 0}

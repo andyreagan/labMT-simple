@@ -35,7 +35,7 @@ d3.text("data/wordCounts2013.csv", function(text) {
 		      freq: tmp[i].split(",")};
     }
     stateFeatures = topojson.feature(geoJson,geoJson.objects.states).features;
-
+    
     //Merge the ag. data and GeoJSON
     //Loop through once for each ag. data value
     for (var i = 0; i < allData.length; i++) {
@@ -44,7 +44,7 @@ d3.text("data/wordCounts2013.csv", function(text) {
 	var stateName = allData[i].name;
 	
 	//Grab data value, and convert from string to float
-	var stateVal = allData[i].avhapps;
+	var stateVal = allData[i].avhapps; 
 	
 	//Find the corresponding state inside the GeoJSON
 	for (var j = 0; j < stateFeatures.length; j++) {

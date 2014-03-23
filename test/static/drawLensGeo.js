@@ -177,6 +177,8 @@ function drawLensGeo(figure,lens) {
 	    }
 	}
     }
+    computeHapps();
+	drawMap(d3.select('#map01'))
 
 	shiftObj = shift(allData[0].freq,allData[1].freq,lens,words);
 	plotShift(d3.select('#shift01'),shiftObj.sortedMag.slice(0,200),

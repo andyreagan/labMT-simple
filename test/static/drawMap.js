@@ -26,9 +26,13 @@ function drawMap(figure) {
 	.range(["rgb(237,248,233)","rgb(186,228,179)","rgb(116,196,118)","rgb(49,163,84)","rgb(0,109,44)"]);
     //Colors taken from colorbrewer.js, included in the D3 download
 
+    // remove an old figure if it exists
+    figure.select(".canvas").remove();
+
     //Create SVG element
-    var svg = figure
+    var canvas = figure
 	.append("svg")
+	.attr("class", "canvas")
 	.attr("width", w)
 	.attr("height", h);
     
@@ -40,34 +44,8 @@ function drawMap(figure) {
 
     stateFeatures = topojson.feature(geoJson,geoJson.objects.states).features;
 
-    //Merge the ag. data and GeoJSON
-    //Loop through once for each ag. data value
-    for (var i = 0; i < allData.length; i++) {
-	
-	//Grab state name
-	var stateName = allData[i].name;
-	
-	//Grab data value, and convert from string to float
-	var stateVal = allData[i].avhapps;
-	
-	//Find the corresponding state inside the GeoJSON
-	for (var j = 0; j < stateFeatures.length; j++) {
-
-	    var jsonState = stateFeatures[j].properties.name;
-	    
-	    if (stateName == jsonState) {
-		
-		//Copy the data value into the JSON
-		stateFeatures[j].properties.avhapps = stateVal;
-		
-		//Stop looking through the JSON
-		break;
-	    }
-	}		
-    }
-    
     //Bind data and create one path per GeoJSON feature
-    var states = svg.selectAll("path")
+    var states = canvas.selectAll("path")
 	.data(stateFeatures);
     
     console.log('bound topojson to paths');
@@ -85,7 +63,7 @@ function drawMap(figure) {
          .style("fill", function(d,i) {
 	    // need to get the variable map right
     	    var value = allData[i].avhapps;
-	    var numWords = 1000000; // d3.sum(d.properties.freq);
+	    var numWords = d3.sum(allData[i].freq); // d3.sum(d.properties.freq);
     	    if (numWords > 10000) {
     		return color(value);
     	    } else {
