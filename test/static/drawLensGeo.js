@@ -10,7 +10,7 @@ function drawLensGeo(figure,lens) {
     figwidth = 600 - margin.left - margin.right,
     figheight = 150 - margin.top - margin.bottom,
     width = .775*figwidth,
-    height = .775*figheight;
+    height = .775*figheight-10;
 
     // remove an old figure if it exists
     figure.select(".canvas").remove();
@@ -23,12 +23,13 @@ function drawLensGeo(figure,lens) {
 
     // create the x and y axis
     x = d3.scale.linear()
-	.domain([d3.min(lens),d3.max(lens)])
+	//.domain([d3.min(lens),d3.max(lens)])
+	.domain([1.00,9.00])
 	.range([0,width]);
     
     // use d3.layout http://bl.ocks.org/mbostock/3048450
     data = d3.layout.histogram()
-        .bins(x.ticks(75))
+        .bins(x.ticks(65))
         (lens);
 
     // linear scale function
@@ -56,7 +57,7 @@ function drawLensGeo(figure,lens) {
     var create_xAxis = function() {
 	return d3.svg.axis()
 	    .scale(x)
-	    .ticks(5)
+	    .ticks(9)
 	    .orient("bottom"); }
 
     // axis creation function
@@ -133,7 +134,7 @@ function drawLensGeo(figure,lens) {
 
     bar.append("rect")
 	.attr("x", 1)
-	.attr("width", x(data[0].dx+d3.min(lens))-2 )
+	.attr("width", x(data[0].dx+1)-2 )
 	.attr("height", function(d) { return height - y(d.y); });
 
     //console.log(x(d3.min(lens)));
