@@ -6,8 +6,8 @@ with open('README.txt') as file:
 setup(
     name = 'labMTsimple',
     packages = ['labMTsimple'],
-    package_data={'labMTsimple': ['data/labMT1.txt']},
-    data_files=[('test', ['test/shiftPlot.html','test/18.01.14.txt','test/21.01.14.txt','test/shift.js','test/drawLens.js','test/plotShift.js'])],
+    package_data={'labMTsimple': ['data/labMT1.txt','static/d3.v3.min.js','static/drawLens.js','static/plotShift.js','static/shift.js']},
+    data_files=[('test', ['test/shiftPlot.html','test/data/18.01.14.txt','test/data/21.01.14.txt','test/shift.js','test/drawLens.js','test/plotShift.js'])],
     version = '1.1',
     description = 'Basic usage script for LabMT1.0 dataset',
     long_description = long_description,

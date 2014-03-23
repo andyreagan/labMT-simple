@@ -71,3 +71,5 @@ for i in xrange(1,len(labMTwordList)):
   f.write("\n")
   f.write(labMTwordList[i])
 f.close()
+
+shiftHtml(labMTvector,labMTwordList,tuesdayFvec,saturdayFvec,'test.html')
