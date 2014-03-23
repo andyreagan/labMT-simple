@@ -11,13 +11,13 @@ allStateNames = ["Alabama","Alaska","Arizona","Arkansas","California","Colorado"
 
 function loadCsv() {
 var csvLoadsRemaining = 4;
-d3.text("labMTvecGeo.csv", function(text) {
-    var tmp = text.split("\n");
+d3.text("data/wordScores.csv", function(text) {
+    var tmp = text.split(",");
     lens = tmp.map(parseFloat);
     if (!--csvLoadsRemaining) initializePlotPlot(lens,words);
 });
-d3.text("labMTwordsGeo.csv", function(text) {
-    var tmp = text.split("\n");
+d3.text("data/words.csv", function(text) {
+    var tmp = text.split(",");
     words = tmp;
     if (!--csvLoadsRemaining) initializePlotPlot(lens,words);
 });
@@ -31,13 +31,13 @@ d3.text("data/wordCounts2013.csv", function(text) {
     allData = Array(52);
     for (var i=0; i<51; i++) {
 	allData[i] = {name: allStateNames[i],
-		      rawFreq: tmp[i].split(","),
+		      rawFreq: tmp[i].split(",").map(parseFloat),
 		      freq: tmp[i].split(",")};
     }
     // initialize the all data
     allData[51] = {name: allStateNames[51],
-		   rawFreq: Array(10000),
-		   freq: Array(10000),};
+		   rawFreq: Array(allData[0].freq.length),
+		   freq: Array(allData[0].freq.length),};
     for (var j=0; j<allData[0].freq.length; j++) {
 	allData[51].rawFreq[j] = 0.0;
     }
@@ -46,31 +46,6 @@ d3.text("data/wordCounts2013.csv", function(text) {
 	    allData[51].rawFreq[j] += parseFloat(allData[i].rawFreq[j]);
 	    }
     }
-    // //Merge the ag. data and GeoJSON
-    // //Loop through once for each ag. data value
-    // for (var i = 0; i < allData.length; i++) {
-	
-    // 	//Grab state name
-    // 	var stateName = allData[i].name;
-	
-    // 	//Grab data value, and convert from string to float
-    // 	var stateVal = allData[i].avhapps; 
-	
-    // 	//Find the corresponding state inside the GeoJSON
-    // 	for (var j = 0; j < stateFeatures.length; j++) {
-
-    // 	    var jsonState = stateFeatures[j].properties.name;
-	    
-    // 	    if (stateName == jsonState) {
-		
-    // 		//Copy the data value into the JSON
-    // 		stateFeatures[j].properties.avhapps = stateVal;
-		
-    // 		//Stop looking through the JSON
-    // 		break;
-    // 	    }
-    // 	}		
-    // }
     if (!--csvLoadsRemaining) initializePlotPlot(lens,words);
 });
 };
