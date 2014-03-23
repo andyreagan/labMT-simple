@@ -257,20 +257,30 @@ canvas.append("text")
    .attr("fill", "#000000")
    .attr("style", "text-anchor: middle;");
 
+if (compH >= refH) {
+    var happysad = "happier";
+}
+else { 
+    var happysad = "less happy";
+}
+
 canvas.selectAll(".sumtext")
-   .data([refH,compH])
+   .data(["Why ",refH,compH])
    .enter()
    .append("text")
-   .text(function(d,i) { if (i==0) {
-                             return "Reference happiness " + (d.toFixed(3));
-                         }
-                         else {
-			     return "Comparison happiness " + (d.toFixed(3));
-			 }}
-         )
+   .text(function(d,i) { 
+       if (i==0) {
+           return d+allData[shiftComp].name+" is "+happysad+" than "+allData[shiftRef].name;
+       }
+       else if (i==1) {
+           return "Reference happiness " + (d.toFixed(3));
+       }
+       else {
+	   return "Comparison happiness " + (d.toFixed(3));
+       }})
    .attr("class","axes-text")
    .attr("x",width/2+(figwidth-width)/2)
-   .attr("y",function(d,i) { return i*20+25 })
+   .attr("y",function(d,i) { return i*20+13 })
    .attr("font-size", "16.0px")
    .attr("fill", "#000000")
    .attr("style", "text-anchor: middle;");

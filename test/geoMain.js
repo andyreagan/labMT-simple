@@ -7,7 +7,7 @@ allStateNames = ["Alabama","Alaska","Arizona","Arkansas","California","Colorado"
 ,"Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska"
 ,"Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Ohio"
 ,"Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee"
-,"Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming","District of Columbia","All"]
+,"Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming","DC","All States"]
 
 function loadCsv() {
 var csvLoadsRemaining = 4;
@@ -96,8 +96,8 @@ function initializePlotPlot(lens,words) {
     // draw the map
     drawMap(d3.select('#map01'))
 
-    shiftRef = 0;
-    shiftComp = 0;
+    shiftRef = 51;
+    shiftComp = 51;
     
     // compute the shift initially
     // shiftObj = shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
