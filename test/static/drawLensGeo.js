@@ -136,7 +136,7 @@ function drawLensGeo(figure,lens) {
 	.attr("width", x(data[0].dx+d3.min(lens))-2 )
 	.attr("height", function(d) { return height - y(d.y); });
 
-    console.log(x(d3.min(lens)));
+    //console.log(x(d3.min(lens)));
 
     brushX = d3.scale.linear()
         .domain([d3.min(lens),d3.max(lens)])
@@ -163,36 +163,38 @@ function drawLensGeo(figure,lens) {
 	var extent0 = brush.extent(),
 	    extent1 = extent0; // should round it to bins
 	
-	//window.stopVals = extent1;
-	console.log(extent1);
+	// window.stopVals = extent1;
+	// console.log(extent1);
 
 	// reset
-    for (var j=0; j<allData.length; j++) {
-	for (var i=0; i<allData[j].rawFreq.length; i++) {
-	    if (lens[i] >= extent1[0] && lens[i] <= extent1[1]) {
-		allData[j].freq[i] = 0;
-            }
-	    else {
-		allData[j].freq[i] = allData[j].rawFreq[i];
+	for (var j=0; j<allData.length; j++) {
+	    for (var i=0; i<allData[j].rawFreq.length; i++) {
+		if (lens[i] >= extent1[0] && lens[i] <= extent1[1]) {
+		    allData[j].freq[i] = 0;
+		}
+		else {
+		    allData[j].freq[i] = allData[j].rawFreq[i];
+		}
 	    }
 	}
-    }
-    computeHapps();
+	computeHapps();
 	drawMap(d3.select('#map01'))
 
-	shiftObj = shift(allData[0].freq,allData[1].freq,lens,words);
-	plotShift(d3.select('#shift01'),shiftObj.sortedMag.slice(0,200),
-              shiftObj.sortedType.slice(0,200),
-              shiftObj.sortedWords.slice(0,200),
-              shiftObj.sumTypes,
-              shiftObj.refH,
-              shiftObj.compH);
+	if (shiftRef !== shiftComp) {
+	    shiftObj = shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
+	    plotShift(d3.select('#shift01'),shiftObj.sortedMag.slice(0,200),
+		      shiftObj.sortedType.slice(0,200),
+		      shiftObj.sortedWords.slice(0,200),
+		      shiftObj.sumTypes,
+		      shiftObj.refH,
+		      shiftObj.compH);
+	}
 
 	d3.select(this).transition()
 	    .call(brush.extent(extent1))
 	    .call(brush.event);
-    }
 
+    }
 }
 
 

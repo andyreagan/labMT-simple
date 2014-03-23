@@ -7,7 +7,7 @@ allStateNames = ["Alabama","Alaska","Arizona","Arkansas","California","Colorado"
 ,"Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska"
 ,"Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Ohio"
 ,"Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee"
-,"Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming","District of Columbia"]
+,"Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming","District of Columbia","All"]
 
 function loadCsv() {
 var csvLoadsRemaining = 4;
@@ -23,44 +23,54 @@ d3.text("labMTwordsGeo.csv", function(text) {
 });
 d3.json("static/us-states.topojson", function(data) {
     geoJson = data;
-    console.log(geoJson);
+    stateFeatures = topojson.feature(geoJson,geoJson.objects.states).features;
     if (!--csvLoadsRemaining) initializePlotPlot(lens,words);
 });
 d3.text("data/wordCounts2013.csv", function(text) {
     tmp = text.split("\n");
-    allData = Array(51);
-    for (var i=0; i<allData.length; i++) {
+    allData = Array(52);
+    for (var i=0; i<51; i++) {
 	allData[i] = {name: allStateNames[i],
 		      rawFreq: tmp[i].split(","),
 		      freq: tmp[i].split(",")};
     }
-    stateFeatures = topojson.feature(geoJson,geoJson.objects.states).features;
-    
-    //Merge the ag. data and GeoJSON
-    //Loop through once for each ag. data value
-    for (var i = 0; i < allData.length; i++) {
-	
-	//Grab state name
-	var stateName = allData[i].name;
-	
-	//Grab data value, and convert from string to float
-	var stateVal = allData[i].avhapps; 
-	
-	//Find the corresponding state inside the GeoJSON
-	for (var j = 0; j < stateFeatures.length; j++) {
-
-	    var jsonState = stateFeatures[j].properties.name;
-	    
-	    if (stateName == jsonState) {
-		
-		//Copy the data value into the JSON
-		stateFeatures[j].properties.avhapps = stateVal;
-		
-		//Stop looking through the JSON
-		break;
-	    }
-	}		
+    // initialize the all data
+    allData[51] = {name: allStateNames[51],
+		   rawFreq: Array(10000),
+		   freq: Array(10000),};
+    for (var j=0; j<allData[0].freq.length; j++) {
+	allData[51].rawFreq[j] = 0.0;
     }
+    for (var i=0; i<51; i++) {
+	for (var j=0; j<allData[0].freq.length; j++) {
+	    allData[51].rawFreq[j] += parseFloat(allData[i].rawFreq[j]);
+	    }
+    }
+    // //Merge the ag. data and GeoJSON
+    // //Loop through once for each ag. data value
+    // for (var i = 0; i < allData.length; i++) {
+	
+    // 	//Grab state name
+    // 	var stateName = allData[i].name;
+	
+    // 	//Grab data value, and convert from string to float
+    // 	var stateVal = allData[i].avhapps; 
+	
+    // 	//Find the corresponding state inside the GeoJSON
+    // 	for (var j = 0; j < stateFeatures.length; j++) {
+
+    // 	    var jsonState = stateFeatures[j].properties.name;
+	    
+    // 	    if (stateName == jsonState) {
+		
+    // 		//Copy the data value into the JSON
+    // 		stateFeatures[j].properties.avhapps = stateVal;
+		
+    // 		//Stop looking through the JSON
+    // 		break;
+    // 	    }
+    // 	}		
+    // }
     if (!--csvLoadsRemaining) initializePlotPlot(lens,words);
 });
 };
@@ -80,19 +90,23 @@ function initializePlotPlot(lens,words) {
 	    }
 	}
     }
-
+    // refill the avhapps value in the main data
     computeHapps();
 
-    shiftObj = shift(allData[0].freq,allData[1].freq,lens,words);
-    plotShift(d3.select("#shift01"),shiftObj.sortedMag.slice(0,200),
-              shiftObj.sortedType.slice(0,200),
-              shiftObj.sortedWords.slice(0,200),
-              shiftObj.sumTypes,
-              shiftObj.refH,
-              shiftObj.compH);
-
+    // draw the map
     drawMap(d3.select('#map01'))
 
+    shiftRef = 0;
+    shiftComp = 0;
+    
+    // compute the shift initially
+    // shiftObj = shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
+    // plotShift(d3.select("#shift01"),shiftObj.sortedMag.slice(0,200),
+    //           shiftObj.sortedType.slice(0,200),
+    //           shiftObj.sortedWords.slice(0,200),
+    //           shiftObj.sumTypes,
+    //           shiftObj.refH,
+    //           shiftObj.compH);
 };
 
 initializePlot();

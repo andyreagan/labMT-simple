@@ -9,7 +9,7 @@ function drawMap(figure) {
     */
 
     //Width and height
-    var w = 1000;
+    var w = 800;
     var h = 600;
 
     //Define map projection
@@ -48,14 +48,14 @@ function drawMap(figure) {
     var states = canvas.selectAll("path")
 	.data(stateFeatures);
     
-    console.log('bound topojson to paths');
-    console.log(geoJson);
-
     states.enter()
 	.append("path")
 	.attr("d", function(d,i) { return path(d.geometry); } )
 	.attr("id", function(d,i) { return d.properties.name; } )
-        .on("click",state_clicked);
+	.attr("class", "state")
+        .on("mousedown",state_clicked)
+        .on("mouseover",state_hover)
+        .on("mouseout",state_unhover);
 
     states.exit().remove();
 
@@ -71,7 +71,73 @@ function drawMap(figure) {
     	    }
     	});
 
-    function state_clicked(d,i) { console.log(d.properties.name); console.log(i); shiftB = i; }
+    function state_clicked(d,i) { 
+	// next line verifies that the data and json line up
+	// console.log(d.properties.name); console.log(allData[i].name); 
+
+	// toggle the reference
+	if (shiftRef !== i) {
+	    console.log("reference "+allData[i].name);
+	    shiftRef = i;
+	    d3.selectAll(".state").attr("stroke","none");
+	    d3.select(this).attr("stroke","black")
+	        .attr("stroke-width",3);
+	}
+	else { 
+	    console.log("reference everything");
+	    shiftRef = 51;
+	    d3.select(this).attr("stroke","none");
+	        //.attr("stroke-width",3);
+	}
+	
+	if (shiftRef !== shiftComp) {
+	    shiftObj = shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
+	    plotShift(d3.select('#shift01'),shiftObj.sortedMag.slice(0,200),
+		      shiftObj.sortedType.slice(0,200),
+		      shiftObj.sortedWords.slice(0,200),
+		      shiftObj.sumTypes,
+		      shiftObj.refH,
+		      shiftObj.compH);
+	}
+    }
+
+    function state_hover(d,i) { 
+	// next line verifies that the data and json line up
+	// console.log(d.properties.name); console.log(allData[i].name); 
+	shiftComp = i;
+	d3.select(this).style("fill","red");
+
+	if (shiftRef !== shiftComp) {
+	    shiftObj = shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
+	    plotShift(d3.select('#shift01'),shiftObj.sortedMag.slice(0,200),
+		      shiftObj.sortedType.slice(0,200),
+		      shiftObj.sortedWords.slice(0,200),
+		      shiftObj.sumTypes,
+		      shiftObj.refH,
+		      shiftObj.compH);
+	}
+	if (shiftRef !== shiftComp) { 
+	    console.log("comparison "+allData[shiftComp].name);
+	    //shift(); 
+	}
+    }
+
+    function state_unhover(d,i) { 
+	// next line verifies that the data and json line up
+	// console.log(d.properties.name); console.log(allData[i].name); 
+	shiftComp = i;
+	d3.select(this)
+         .style("fill", function() {
+	    // need to get the variable map right
+    	    var value = allData[i].avhapps;
+	    var numWords = d3.sum(allData[i].freq); // d3.sum(d.properties.freq);
+    	    if (numWords > 10000) {
+    		return color(value);
+    	    } else {
+    		return "#ccc";
+    	    }
+    	});
+    }
 
 };
 
