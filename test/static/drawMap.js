@@ -40,6 +40,32 @@ function drawMap(figure) {
 
     stateFeatures = topojson.feature(geoJson,geoJson.objects.states).features;
 
+    //Merge the ag. data and GeoJSON
+    //Loop through once for each ag. data value
+    for (var i = 0; i < allData.length; i++) {
+	
+	//Grab state name
+	var stateName = allData[i].name;
+	
+	//Grab data value, and convert from string to float
+	var stateVal = allData[i].avhapps;
+	
+	//Find the corresponding state inside the GeoJSON
+	for (var j = 0; j < stateFeatures.length; j++) {
+
+	    var jsonState = stateFeatures[j].properties.name;
+	    
+	    if (stateName == jsonState) {
+		
+		//Copy the data value into the JSON
+		stateFeatures[j].properties.avhapps = stateVal;
+		
+		//Stop looking through the JSON
+		break;
+	    }
+	}		
+    }
+    
     //Bind data and create one path per GeoJSON feature
     var states = svg.selectAll("path")
 	.data(stateFeatures);
