@@ -175,7 +175,7 @@ function drawLensGeo(figure,lens) {
 		for (var k=0; k<ignoreWords.length; k++) {
 		    if (ignoreWords[k] == words[i]) {
 			include = false;
-			console.log("ignored "+ignoreWords[k]);
+			//console.log("ignored "+ignoreWords[k]);
 		    }
 		}
 		// check if underneath lens cover

@@ -31,7 +31,7 @@ x = d3.scale.linear()
   .domain([-Math.abs(sortedMag[0]),Math.abs(sortedMag[0])])
   .range([(sortedWords[0].length+3)*9, width-(sortedWords[0].length+3)*9]);
 
-console.log(sumTypes);
+//console.log(sumTypes);
 var opposingFinalSum = false;
 var yHeight = 86;
 var clipHeight = 85;
@@ -39,7 +39,7 @@ var barHeight = 80;
 numWords = 23;
 
 if ((sumTypes[3]+sumTypes[1])*(sumTypes[0]+sumTypes[2])<0) {
-    console.log("opposing sums");
+    //console.log("opposing sums");
     var opposingFinalSum = true;
     var yHeight = 106;
     var clipHeight = 105;
@@ -404,7 +404,7 @@ axes.selectAll(".text")
     d3.selectAll(".tick line").style({'stroke':'black'});
      };
 
-console.log("happiness");
+console.log("happiness (it all worked)");
 
 };
 

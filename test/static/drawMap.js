@@ -77,14 +77,14 @@ function drawMap(figure) {
 
 	// toggle the reference
 	if (shiftRef !== i) {
-	    console.log("reference "+allData[i].name);
+	    //console.log("reference "+allData[i].name);
 	    shiftRef = i;
 	    d3.selectAll(".state").attr("stroke","none");
 	    d3.select(this).attr("stroke","black")
 	        .attr("stroke-width",3);
 	}
 	else { 
-	    console.log("reference everything");
+	    //console.log("reference everything");
 	    shiftRef = 51;
 	    d3.select(this).attr("stroke","none");
 	        //.attr("stroke-width",3);
@@ -117,7 +117,7 @@ function drawMap(figure) {
 		      shiftObj.compH);
 	}
 	if (shiftRef !== shiftComp) { 
-	    console.log("comparison "+allData[shiftComp].name);
+	    //console.log("comparison "+allData[shiftComp].name);
 	    //shift(); 
 	}
     }
