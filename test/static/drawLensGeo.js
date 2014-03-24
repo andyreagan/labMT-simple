@@ -170,12 +170,24 @@ function drawLensGeo(figure,lens) {
 	// reset
 	for (var j=0; j<allData.length; j++) {
 	    for (var i=0; i<allData[j].rawFreq.length; i++) {
-		if (lens[i] >= extent1[0] && lens[i] <= extent1[1]) {
-		    allData[j].freq[i] = 0;
+		var include = true;
+		// check if in removed word list
+		for (var k=0; k<ignoreWords.length; k++) {
+		    if (ignoreWords[k] == words[i]) {
+			include = false;
+			break;
+		    }
 		}
-		else {
+		// check if underneath lens cover
+		if (lens[i] >= extent1[0] && lens[i] <= extent1[1]) {
+		    include = false;
+		}
+		// include it, or set to 0
+		if (include) {
 		    allData[j].freq[i] = allData[j].rawFreq[i];
 		}
+		else { allData[j].freq[i] = 0; }
+		
 	    }
 	}
 	computeHapps();
