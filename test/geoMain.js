@@ -68,6 +68,31 @@ function initializePlotPlot(lens,words) {
 	}
     }
     // refill the avhapps value in the main data
+
+    // reset
+    for (var j=0; j<allData.length; j++) {
+	for (var i=0; i<allData[j].rawFreq.length; i++) {
+	    var include = true;
+	    // check if in removed word list
+	    for (var k=0; k<ignoreWords.length; k++) {
+		if (ignoreWords[k] == words[i]) {
+		    include = false;
+		    console.log("ignored "+ignoreWords[k]);
+		}
+	    }
+	    // check if underneath lens cover
+	    if (lens[i] >= 4 && lens[i] <= 6) {
+		include = false;
+	    }
+	    // include it, or set to 0
+	    if (include) {
+		allData[j].freq[i] = allData[j].rawFreq[i];
+	    }
+	    else { allData[j].freq[i] = 0; }
+	    
+	}
+    }
+
     computeHapps();
 
     // draw the map
