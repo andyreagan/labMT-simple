@@ -1,4 +1,4 @@
-function drawLens(figure,lens) {
+function drawLensGeo(figure,lens) {
 /* takes a d3 selection and draws the lens distribution
    on slide of the stop-window
      -reload data csv's
@@ -129,7 +129,7 @@ function drawLens(figure,lens) {
         .enter()
         .append("g")
         .attr("class","distrect")
-        .attr("fill",function(d,i) { if (d.x > lensMean) {return "grey";} else { return "grey";}})
+        .attr("fill",function(d,i) { if (d.x > lensMean) {return "yellow";} else { return "blue";}})
         .attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; });
 
     bar.append("rect")
@@ -156,7 +156,7 @@ function drawLens(figure,lens) {
     gBrush.selectAll("rect")
         .attr("height",height)
         .attr("y",15)
-	.style({'stroke-width':'2','stroke':'rgb(100,100,100)','opacity': 0.95})
+	.style({'stroke-width':'2','stroke':'rgb(100,100,100)','opacity': 0.7})
 	.attr("fill", "#FCFCFC");
 
     function brushended() {
@@ -168,26 +168,40 @@ function drawLens(figure,lens) {
 	// console.log(extent1);
 
 	// reset
-	var refF = Array(refFraw.length);
-	var compF = Array(compFraw.length);
-	for (var i=0; i<compFraw.length; i++) {
-	    if (lens[i] >= extent1[0] && lens[i] <= extent1[1]) {
-		refF[i]= 0;
-		compF[i]= 0;
+	for (var j=0; j<allData.length; j++) {
+	    for (var i=0; i<allData[j].rawFreq.length; i++) {
+		var include = true;
+		// check if in removed word list
+		for (var k=0; k<ignoreWords.length; k++) {
+		    if (ignoreWords[k] == words[i]) {
+			include = false;
+			//console.log("ignored "+ignoreWords[k]);
+		    }
+		}
+		// check if underneath lens cover
+		if (lens[i] >= extent1[0] && lens[i] <= extent1[1]) {
+		    include = false;
+		}
+		// include it, or set to 0
+		if (include) {
+		    allData[j].freq[i] = allData[j].rawFreq[i];
+		}
+		else { allData[j].freq[i] = 0; }
+		
 	    }
-            else { 
-                refF[i] = refFraw[i];
-                compF[i] = compFraw[i]; 
-            }
 	}
+	computeHapps();
+	drawMap(d3.select('#map01'))
 
-	shiftObj = shift(refF,compF,lens,words);
-	plotShift(d3.select('#figure01'),shiftObj.sortedMag.slice(0,200),
-              shiftObj.sortedType.slice(0,200),
-              shiftObj.sortedWords.slice(0,200),
-              shiftObj.sumTypes,
-              shiftObj.refH,
-              shiftObj.compH);
+	if (shiftRef !== shiftComp) {
+	    shiftObj = shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
+	    plotShift(d3.select('#shift01'),shiftObj.sortedMag.slice(0,200),
+		      shiftObj.sortedType.slice(0,200),
+		      shiftObj.sortedWords.slice(0,200),
+		      shiftObj.sumTypes,
+		      shiftObj.refH,
+		      shiftObj.compH);
+	}
 
 	d3.select(this).transition()
 	    .call(brush.extent(extent1))

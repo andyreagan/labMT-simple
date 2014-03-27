@@ -1,5 +1,5 @@
 // make the plot
-function plotShift(figure,sortedMag,sortedType,sortedWords,sortedWordsEn,sumTypes,refH,compH) {
+function plotShift(figure,sortedMag,sortedType,sortedWords,sumTypes,refH,compH) {
 /* plot the shift
 
    -take a d3 selection, and draw the shift SVG on it
@@ -13,11 +13,7 @@ function plotShift(figure,sortedMag,sortedType,sortedWords,sortedWordsEn,sumType
     width = .775*figwidth,
     height = .775*figheight,
     figcenter = width/2;
-    numWords = 23,
-    opposingFinalSum = false,
-    yHeight = 86,
-    clipHeight = 85,
-    barHeight = 80;
+    numWords = 23;
 
 // remove an old figure if it exists
 figure.select(".canvas").remove();
@@ -35,15 +31,19 @@ x = d3.scale.linear()
   .domain([-Math.abs(sortedMag[0]),Math.abs(sortedMag[0])])
   .range([(sortedWords[0].length+3)*9, width-(sortedWords[0].length+3)*9]);
 
-
+//console.log(sumTypes);
+var opposingFinalSum = false;
+var yHeight = 86;
+var clipHeight = 85;
+var barHeight = 80;
 
 
 if ((sumTypes[3]+sumTypes[1])*(sumTypes[0]+sumTypes[2])<0) {
     //console.log("opposing sums");
-    opposingFinalSum = true;
-    yHeight = 106;
-    clipHeight = 105;
-    barHeight = 100;
+    var opposingFinalSum = true;
+    var yHeight = 106;
+    var clipHeight = 105;
+    var barHeight = 100;
     numWords = 21;
 }
 
@@ -223,7 +223,6 @@ unclipped_axes.selectAll(".sumtextR")
    .text(function(d,i) { if (i == 0) {return "\u2211+\u2191";} else { return"\u2211-\u2193";} })
    .attr("x",function(d,i) { return topScale(d)+5; });
 
-
 unclipped_axes.selectAll(".sumtextL")
    .data([sumTypes[1],sumTypes[2]])
    .enter()
@@ -340,8 +339,7 @@ canvas.selectAll(".sumtext")
    .append("text")
    .text(function(d,i) { 
        if (i==0) {
-	   // if there are names of the texts, put them here
-           return d+"comparison text"+" is "+happysad+" than "+"reference text";
+           return d+allData[shiftComp].name+" is "+happysad+" than "+allData[shiftRef].name;
        }
        else if (i==1) {
            return "Reference happiness " + (d.toFixed(3));
@@ -381,8 +379,6 @@ axes.selectAll(".rect")
         var rectSelection = d3.select(this).style({opacity:'0.7'});
 });
 
-var flipVector = Array(sortedWords.length);
-
 axes.selectAll(".text")
    .data(sortedMag)
    .enter()
@@ -394,29 +390,7 @@ axes.selectAll(".text")
    .text(function(d,i) { if (sortedType[i] == 0) {tmpStr = "-\u2193";} else if (sortedType[i] == 1) {tmpStr = "\u2193+";}
    else if (sortedType[i] == 2) {tmpStr = "\u2191-";} else {tmpStr = "+\u2191";}
    if (sortedMag[i] < 0) {return tmpStr.concat(sortedWords[i]);} else { return sortedWords[i].concat(tmpStr); } })
-   .attr("x",function(d,i) { if (d>0) {return x(d)+2;} else {return x(d)-2; } } )
-   .on("click",function(d,i){
-       // goal is to toggle translation
-       // need translation vector
-       //console.log(flipVector[i]);
-       if (flipVector[i]) { 
-       if (sortedType[i] == 0) {tmpStr = "-\u2193";} else if (sortedType[i] == 1) {tmpStr = "\u2193+";}
-       else if (sortedType[i] == 2) {tmpStr = "\u2191-";} else {tmpStr = "+\u2191";}
-       if (sortedMag[i] < 0) { tmpStr = tmpStr.concat(sortedWords[i]);} else { tmpStr = sortedWords[i].concat(tmpStr); } 
-       flipVector[i] = 0;}
-       else {
-	   if (sortedType[i] == 0) {tmpStr = "-\u2193";} 
-	   else if (sortedType[i] == 1) {tmpStr = "\u2193+";}
-	   else if (sortedType[i] == 2) {tmpStr = "\u2191-";} 
-	   else {tmpStr = "+\u2191";}
-	   if (sortedMag[i] < 0) { tmpStr = tmpStr.concat(sortedWordsEn[i]);} 
-	   else { tmpStr = sortedWordsEn[i].concat(tmpStr); } 
-       flipVector[i] = 1; }
-       //console.log(tmpStr);
-       newText = d3.select(this).text(tmpStr);
-       //console.log(d);
-       //console.log(i);
-});
+   .attr("x",function(d,i) { if (d>0) {return x(d)+2;} else {return x(d)-2; } } );
 
     function zoomed() {
     //console.log(d3.event);

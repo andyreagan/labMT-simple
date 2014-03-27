@@ -10,7 +10,7 @@ function drawLens(figure,lens) {
     figwidth = 600 - margin.left - margin.right,
     figheight = 150 - margin.top - margin.bottom,
     width = .775*figwidth,
-    height = .775*figheight-10;
+    height = .775*figheight;
 
     // remove an old figure if it exists
     figure.select(".canvas").remove();
@@ -20,16 +20,14 @@ function drawLens(figure,lens) {
 	.attr("height",figheight)
 	.attr("class","canvas");
 
-
     // create the x and y axis
     x = d3.scale.linear()
-	//.domain([d3.min(lens),d3.max(lens)])
-	.domain([1.00,9.00])
+	.domain([d3.min(lens),d3.max(lens)])
 	.range([0,width]);
     
     // use d3.layout http://bl.ocks.org/mbostock/3048450
     data = d3.layout.histogram()
-        .bins(x.ticks(65))
+        .bins(x.ticks(75))
         (lens);
 
     // linear scale function
@@ -57,7 +55,7 @@ function drawLens(figure,lens) {
     var create_xAxis = function() {
 	return d3.svg.axis()
 	    .scale(x)
-	    .ticks(9)
+	    .ticks(5)
 	    .orient("bottom"); }
 
     // axis creation function
@@ -129,15 +127,15 @@ function drawLens(figure,lens) {
         .enter()
         .append("g")
         .attr("class","distrect")
-        .attr("fill",function(d,i) { if (d.x > lensMean) {return "grey";} else { return "grey";}})
+        .attr("fill",function(d,i) { if (d.x > lensMean) {return "yellow";} else { return "blue";}})
         .attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; });
 
     bar.append("rect")
 	.attr("x", 1)
-	.attr("width", x(data[0].dx+1)-2 )
+	.attr("width", x(data[0].dx+d3.min(lens))-2 )
 	.attr("height", function(d) { return height - y(d.y); });
 
-    //console.log(x(d3.min(lens)));
+    console.log(x(d3.min(lens)));
 
     brushX = d3.scale.linear()
         .domain([d3.min(lens),d3.max(lens)])
@@ -156,7 +154,7 @@ function drawLens(figure,lens) {
     gBrush.selectAll("rect")
         .attr("height",height)
         .attr("y",15)
-	.style({'stroke-width':'2','stroke':'rgb(100,100,100)','opacity': 0.95})
+	.style({'stroke-width':'2','stroke':'rgb(100,100,100)','opacity': 0.7})
 	.attr("fill", "#FCFCFC");
 
     function brushended() {
@@ -164,8 +162,8 @@ function drawLens(figure,lens) {
 	var extent0 = brush.extent(),
 	    extent1 = extent0; // should round it to bins
 	
-	// window.stopVals = extent1;
-	// console.log(extent1);
+	//window.stopVals = extent1;
+	console.log(extent1);
 
 	// reset
 	var refF = Array(refFraw.length);
@@ -192,8 +190,8 @@ function drawLens(figure,lens) {
 	d3.select(this).transition()
 	    .call(brush.extent(extent1))
 	    .call(brush.event);
-
     }
+
 }
 
 
