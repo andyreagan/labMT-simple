@@ -185,6 +185,7 @@ function drawLens(figure,lens) {
 	plotShift(d3.select('#figure01'),shiftObj.sortedMag.slice(0,200),
               shiftObj.sortedType.slice(0,200),
               shiftObj.sortedWords.slice(0,200),
+              shiftObj.sortedWordsEn.slice(0,200),
               shiftObj.sumTypes,
               shiftObj.refH,
               shiftObj.compH);
