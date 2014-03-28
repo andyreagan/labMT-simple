@@ -7,6 +7,7 @@
 <script src="static/shift-foreign.js" charset="utf-8"></script>
 <script src="static/drawLens.js" charset="utf-8"></script>
 <script src="static/selectChapter.js" charset="utf-8"></script>
+<script src="static/selectChapterTop.js" charset="utf-8"></script>
   <style>
     body {
       font-family: Verdana,Arial,sans-serif;
@@ -62,6 +63,7 @@ Removing 4 though 6, the default, corresponds to the tuned hedonometer for large
 <br>
 
 <div id="chapters01" class="figure"></div>
+<div id="chapters02" class="figure"></div>
 <br>
 <br>
 
@@ -124,7 +126,9 @@ d3.text("data/russian_words_translated.txt", function(text) {
 function initializePlotPlot(refFraw,compFraw,lens,words) {
     // draw the lens
     drawLens(d3.select("#lens01"),lens,refFraw,compFraw);
-    selectChapter(d3.select("#chapters01"),20);
+    selectChapterTop(d3.select("#chapters01"),20);
+    selectChapter(d3.select("#chapters02"),20);
+
 
     // initially apply the lens, and draw the shift
     refF = Array(refFraw.length);

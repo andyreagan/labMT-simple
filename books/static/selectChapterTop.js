@@ -1,4 +1,4 @@
-function selectChapter(figure,numSections) {
+function selectChapterTop(figure,numSections) {
 /* takes a d3 selection and draws the lens distribution
    on slide of the stop-window
      -reload data csv's
@@ -8,9 +8,9 @@ function selectChapter(figure,numSections) {
 
     margin = {top: 0, right: 0, bottom: 0, left: 0},
     figwidth = 600 - margin.left - margin.right,
-    figheight = 110 - margin.top - margin.bottom,
+    figheight = 80 - margin.top - margin.bottom,
     width = .775*figwidth,
-    height = .775*figheight-10;
+    height = figheight;
 
     // remove an old figure if it exists
     figure.select(".canvas").remove();
@@ -40,7 +40,7 @@ function selectChapter(figure,numSections) {
     // create the axes themselves
     var axes = canvas.append("g")
 	.attr("transform", "translate(" + (0.125 * figwidth) + "," +
-	      ((1 - 0.125 - 0.775 -0.095) * figheight) + ")")
+	      ((1 - 0.125 - 0.775) * figheight) + ")")
 	.attr("width", width)
 	.attr("height", height)
 	.attr("class", "main");
@@ -67,29 +67,6 @@ function selectChapter(figure,numSections) {
 	    .scale(y) //linear scale function
 	    .orient("left"); }
 
-    // draw the axes
-    // var yAxis = create_yAxis()
-    // 	.innerTickSize(6)
-    // 	.outerTickSize(0);
-
-    // axes.append("g")
-    // 	.attr("class", "top")
-    // 	.attr("transform", "(0,0)")
-    // 	.attr("font-size", "12.0px")
-    // 	.call(yAxis);
-
-    var xAxis = create_xAxis()
-	.innerTickSize(6)
-	.outerTickSize(0);
-
-    axes.append("g")
-	.attr("class", "x axis ")
-	.attr("font-size", "12.0px")
-	.attr("transform", "translate(0," + (height) + ")")
-	.call(xAxis);
-
-    d3.selectAll(".tick line").style({'stroke':'black'});
-
     // create the clip boundary
     var clip = axes.append("svg:clipPath")
 	.attr("id","clip")
@@ -101,51 +78,13 @@ function selectChapter(figure,numSections) {
 
     var unclipped_axes = axes;
  
-    //axes = axes.append("g")
-	//.attr("clip-path","url(#clip)");
-
-    // canvas.append("text")
-    // 	.text("Happs")
-    // 	.attr("class","axes-text")
-    // 	.attr("x",(figwidth-width)/4)
-    // 	.attr("y",figheight/2+30)
-    // 	.attr("font-size", "12.0px")
-    // 	.attr("fill", "#000000")
-    // 	.attr("transform", "rotate(-90.0," + (figwidth-width)/4 + "," + (figheight/2+30) + ")");
-
-    canvas.append("text")
-	.text("Percentage of book")
-	.attr("class","axes-text")
-	.attr("x",width/2+(figwidth-width)/2)
-	.attr("y",figheight)
-	.attr("font-size", "12.0px")
-	.attr("fill", "#000000")
-	.attr("style", "text-anchor: middle;");
-
-    var lensMean = d3.mean(lens);
-
-    // var bar = axes.selectAll(".rect")
-    //     .data(data)
-    //     .enter()
-    //     .append("g")
-    //     .attr("class","distrect")
-    //     .attr("fill",function(d,i) { if (d.x > lensMean) {return "grey";} else { return "grey";}})
-    //     .attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; });
-
-    // bar.append("rect")
-    // 	.attr("x", 1)
-    // 	.attr("width", x(data[0].dx+1)-2 )
-    // 	.attr("height", function(d) { return height - y(d.y); });
-
-    //console.log(x(d3.min(lens)));
-
     brushX = d3.scale.linear()
         .domain([0,numSections])
         .range([figwidth*.125,width+figwidth*.125]);
     
     var brush = d3.svg.brush()
         .x(brushX)
-        .extent([0,5])
+        .extent([15,20])
         .on("brushend",brushended);
 
     var gBrush = canvas.append("g")
@@ -154,8 +93,8 @@ function selectChapter(figure,numSections) {
         .call(brush.event);
 
     gBrush.selectAll("rect")
-        .attr("height",height)
-        .attr("y",0)
+        .attr("height",height-8)
+        .attr("y",8)
 	.style({'stroke-width':'2','stroke':'rgb(100,100,100)','opacity': 0.35})
 	.attr("fill", "blue");
 
