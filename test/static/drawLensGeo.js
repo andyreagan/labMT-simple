@@ -129,7 +129,7 @@ function drawLensGeo(figure,lens) {
         .enter()
         .append("g")
         .attr("class","distrect")
-        .attr("fill",function(d,i) { if (d.x > lensMean) {return "yellow";} else { return "blue";}})
+        .attr("fill",function(d,i) { if (d.x > lensMean) {return "grey";} else { return "grey";}})
         .attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; });
 
     bar.append("rect")
@@ -156,7 +156,7 @@ function drawLensGeo(figure,lens) {
     gBrush.selectAll("rect")
         .attr("height",height)
         .attr("y",15)
-	.style({'stroke-width':'2','stroke':'rgb(100,100,100)','opacity': 0.7})
+	.style({'stroke-width':'2','stroke':'rgb(100,100,100)','opacity': 0.95})
 	.attr("fill", "#FCFCFC");
 
     function brushended() {

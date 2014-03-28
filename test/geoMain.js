@@ -1,5 +1,6 @@
 function initializePlot() {
-    loadCsv();
+    timeDrop();
+    loadCsv("2013");
 }
 
 allStateNames = ["Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut"
@@ -11,7 +12,27 @@ allStateNames = ["Alabama","Alaska","Arizona","Arkansas","California","Colorado"
 
 ignoreWords = ["severe","flood","warning","earthquake","nigga","niggas","niggaz"];
 
-function loadCsv() {
+timeFrames = ["2011","2012","2013","l30","l7","l1"];
+timeFrameText = ["2011","2012","2013","Last 30 Days","Last Week","Last 24 Hours"];
+
+function timeDrop() {
+    var mainMenu = d3.select("#timeSelect").selectAll("option").data(timeFrames)
+        .enter().append("option")
+        .property("value",function(d,i) { 
+	    //console.log(d); 
+	    return d; })
+        .text(function(d,i) { 
+	    return timeFrameText[i]; });
+
+    d3.select("#timeSelect")
+        .on("change", function() {
+            key = this.selectedIndex;
+            timeName = timeFrames[key];
+            loadCsv(timeName); 
+	});
+}
+
+function loadCsv(time) {
 var csvLoadsRemaining = 4;
 d3.text("data/wordScores.csv", function(text) {
     var tmp = text.split(",");
@@ -28,7 +49,7 @@ d3.json("static/us-states.topojson", function(data) {
     stateFeatures = topojson.feature(geoJson,geoJson.objects.states).features;
     if (!--csvLoadsRemaining) initializePlotPlot(lens,words);
 });
-d3.text("data/wordCounts2013.csv", function(text) {
+d3.text("data/wordCounts"+(time)+".csv", function(text) {
     tmp = text.split("\n");
     allData = Array(52);
     for (var i=0; i<51; i++) {
