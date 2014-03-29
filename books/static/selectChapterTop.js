@@ -104,30 +104,39 @@ function selectChapterTop(figure,numSections) {
 	    extent1 = extent0.map(Math.round); // should round it to bins
 	
 	// window.stopVals = extent1;
-	console.log(extent1);
+	compFextent = extent1;
+	console.log(refFextent);
+	console.log(compFextent);
+	for (var k=compFextent[0]; k<compFextent[1]; k++) {
+	    console.log("grabbing comp chunk "+(k));
+	}
+	refF = Array(allFraw.length);
+	compF = Array(allFraw.length);
+	// fill them with 0's
+	for (var i=0; i<allFraw.length; i++) {
+            refF[i]= 0;
+            compF[i]= 0;
+	}
+	for (var i=0; i<allFraw.length; i++) {
+	    if (lens[i] < 4 || lens[i] > 6) {
+		for (var k=refFextent[0]; k<refFextent[1]; k++) {
+                    refF[i] += parseFloat(allFraw[i][k]);
+		}
+		for (var k=compFextent[0]; k<compFextent[1]; k++) {
+                    compF[i] += parseFloat(allFraw[i][k]);
+		}
+	    }
+	}
 
-	// // reset
-	// var refF = Array(refFraw.length);
-	// var compF = Array(compFraw.length);
-	// for (var i=0; i<compFraw.length; i++) {
-	//     if (lens[i] >= extent1[0] && lens[i] <= extent1[1]) {
-	// 	refF[i]= 0;
-	// 	compF[i]= 0;
-	//     }
-        //     else { 
-        //         refF[i] = refFraw[i];
-        //         compF[i] = compFraw[i]; 
-        //     }
-	// }
+	shiftObj = shift(refF,compF,lens,words);
 
-	// shiftObj = shift(refF,compF,lens,words);
-	// plotShift(d3.select('#figure01'),shiftObj.sortedMag.slice(0,200),
-        //       shiftObj.sortedType.slice(0,200),
-        //       shiftObj.sortedWords.slice(0,200),
-        //       shiftObj.sortedWordsEn.slice(0,200),
-        //       shiftObj.sumTypes,
-        //       shiftObj.refH,
-        //       shiftObj.compH);
+	plotShift(d3.select("#figure01"),shiftObj.sortedMag.slice(0,200),
+		  shiftObj.sortedType.slice(0,200),
+		  shiftObj.sortedWords.slice(0,200),
+		  shiftObj.sortedWordsEn.slice(0,200),
+		  shiftObj.sumTypes,
+		  shiftObj.refH,
+		  shiftObj.compH);
 
 	d3.select(this).transition()
 	    .call(brush.extent(extent1))

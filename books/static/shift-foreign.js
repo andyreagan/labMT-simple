@@ -1,4 +1,4 @@
-function shift(refF,compF,lens,words) {
+function shift(rrefF,ccompF,lens,words) {
 /* shift two frequency vectors
    -assume they've been zero-ed for stop words
    -lens is of full length
@@ -8,55 +8,46 @@ function shift(refF,compF,lens,words) {
 */
 
     //normalize frequencies
-    var Nref = 0.0;
-    var Ncomp = 0.0;
-    for (var i=0; i<refF.length; i++) {
-        Nref += parseFloat(refF[i]);
-        Ncomp += parseFloat(compF[i]);
-    }
+    var Nref = d3.sum(rrefF);
+    var Ncomp = d3.sum(ccompF);
 
-    // for (var i=0; i<refF.length; i++) {
-    //     refF[i] = parseFloat(refF[i])/Nref;
-    //     compF[i] = parseFloat(compF[i])/Ncomp;
-    // }
-    
     // compute reference happiness
     var refH = 0.0;
-    for (var i=0; i<refF.length; i++) {
-        refH += refF[i]*parseFloat(lens[i]);
+    for (var i=0; i<rrefF.length; i++) {
+        refH += rrefF[i]*lens[i];
     }
     refH = refH/Nref;
 
     // compute comparison happiness
     var compH = 0.0;
-    for (var i=0; i<compF.length; i++) {
-        compH += compF[i]*parseFloat(lens[i]);
+    for (var i=0; i<ccompF.length; i++) {
+        compH += ccompF[i]*lens[i];
     }
     compH = compH/Ncomp;
 
     // do the shifting
-    var shiftMag = Array(refF.length);
-    var shiftType = Array(refF.length);
+    var shiftMag = Array(rrefF.length);
+    var shiftType = Array(rrefF.length);
     var freqDiff = 0.0;
-    for (var i=0; i<refF.length; i++) {
-	freqDiff = compF[i]/Ncomp-refF[i]/Nref;
-        shiftMag[i] = (parseFloat(lens[i])-refH)*freqDiff;
+    for (var i=0; i<rrefF.length; i++) {
+	freqDiff = ccompF[i]/Ncomp-rrefF[i]/Nref;
+        shiftMag[i] = (lens[i]-refH)*freqDiff;
 	if (freqDiff > 0) { shiftType[i] = 2; }
 	else { shiftType[i] = 0}
-	if (parseFloat(lens[i]) > refH) { shiftType[i] += 1;}
+	if (lens[i] > refH) { shiftType[i] += 1;}
     }
 
     // do the sorting
-    var indices = Array(refF.length);
-    for (var i = 0; i < refF.length; i++) { indices[i] = i; }
+    var indices = Array(rrefF.length);
+    for (var i = 0; i < rrefF.length; i++) { indices[i] = i; }
     indices.sort(function(a,b) { return Math.abs(shiftMag[a]) < Math.abs(shiftMag[b]) ? 1 : Math.abs(shiftMag[a]) > Math.abs(shiftMag[b]) ? -1 : 0; });
 
-    var sortedMag = Array(refF.length);
-    var sortedType = Array(refF.length);
-    var sortedWords = Array(refF.length);
-    var sortedWordsEn = Array(refF.length);
+    var sortedMag = Array(rrefF.length);
+    var sortedType = Array(rrefF.length);
+    var sortedWords = Array(rrefF.length);
+    var sortedWordsEn = Array(rrefF.length);
 
-    for (var i = 0; i < refF.length; i++) { 
+    for (var i = 0; i < rrefF.length; i++) { 
 	sortedMag[i] = shiftMag[indices[i]]; 
 	sortedType[i] = shiftType[indices[i]]; 
 	sortedWords[i] = words[indices[i]];
@@ -65,7 +56,7 @@ function shift(refF,compF,lens,words) {
 
     // compute the sum of contributions of different types
     var sumTypes = [0.0,0.0,0.0,0.0];
-    for (var i = 0; i < refF.length; i++)
+    for (var i = 0; i < rrefF.length; i++)
     { 
         sumTypes[shiftType[i]] += shiftMag[i];
     }
