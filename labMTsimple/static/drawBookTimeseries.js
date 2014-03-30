@@ -37,7 +37,7 @@ function drawBookTimeseries(figure,numSections,data) {
     // linear scale function
     y =  d3.scale.linear()
 	.domain([d3.min(data),d3.max(data)])
-	.range([height, 0]); 
+	.range([height-8, 4]); 
 
     // create the axes themselves
     var axes = canvas.append("g")
