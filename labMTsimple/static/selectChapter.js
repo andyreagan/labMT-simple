@@ -8,9 +8,9 @@ function selectChapter(figure,numSections) {
 
     margin = {top: 0, right: 0, bottom: 0, left: 0},
     figwidth = 600 - margin.left - margin.right,
-    figheight = 110 - margin.top - margin.bottom,
+    figheight = 70 - margin.top - margin.bottom,
     width = .775*figwidth,
-    height = .775*figheight-10;
+    height = .775*figheight-20;
 
     // remove an old figure if it exists
     figure.select(".canvas").remove();
@@ -97,7 +97,7 @@ function selectChapter(figure,numSections) {
 	.attr("x",0)
 	.attr("y",80)
 	.attr("width",width)
-	.attr("height",height-75);
+	.attr("height",height-30);
 
     var unclipped_axes = axes;
  

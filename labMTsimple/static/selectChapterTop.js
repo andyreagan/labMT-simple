@@ -8,7 +8,7 @@ function selectChapterTop(figure,numSections) {
 
     margin = {top: 0, right: 0, bottom: 0, left: 0},
     figwidth = 600 - margin.left - margin.right,
-    figheight = 80 - margin.top - margin.bottom,
+    figheight = 38 - margin.top - margin.bottom,
     width = .775*figwidth,
     height = figheight;
 
@@ -72,9 +72,9 @@ function selectChapterTop(figure,numSections) {
 	.attr("id","clip")
 	.append("svg:rect")
 	.attr("x",0)
-	.attr("y",80)
+	.attr("y",38)
 	.attr("width",width)
-	.attr("height",height-80);
+	.attr("height",height-30);
 
     var unclipped_axes = axes;
  
@@ -93,8 +93,8 @@ function selectChapterTop(figure,numSections) {
         .call(brush.event);
 
     gBrush.selectAll("rect")
-        .attr("height",height-8)
-        .attr("y",8)
+        .attr("height",height-4)
+        .attr("y",4)
 	.style({'stroke-width':'2','stroke':'rgb(100,100,100)','opacity': 0.35})
 	.attr("fill", "blue");
 
