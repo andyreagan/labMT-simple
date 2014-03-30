@@ -1,5 +1,5 @@
 // make the plot
-function plotShift(figure,sortedMag,sortedType,sortedWords,sumTypes,refH,compH) {
+function plotShift(figure,sortedMag,sortedType,sortedWords,sortedWordsEn,sumTypes,refH,compH) {
 /* plot the shift
 
    -take a d3 selection, and draw the shift SVG on it
@@ -8,12 +8,16 @@ function plotShift(figure,sortedMag,sortedType,sortedWords,sumTypes,refH,compH) 
 
 */
     var margin = {top: 0, right: 0, bottom: 0, left: 0},
-    figwidth = 600 - margin.left - margin.right,
-    figheight = 800 - margin.top - margin.bottom,
+    figwidth = 500 - margin.left - margin.right,
+    figheight = 600 - margin.top - margin.bottom,
     width = .775*figwidth,
     height = .775*figheight,
-    figcenter = width/2,
-    numWords = 30;
+    figcenter = width/2;
+    numWords = 23,
+    opposingFinalSum = false,
+    yHeight = 86,
+    clipHeight = 85,
+    barHeight = 80;
 
 // remove an old figure if it exists
 figure.select(".canvas").remove();
@@ -31,10 +35,22 @@ x = d3.scale.linear()
   .domain([-Math.abs(sortedMag[0]),Math.abs(sortedMag[0])])
   .range([(sortedWords[0].length+3)*9, width-(sortedWords[0].length+3)*9]);
 
+
+
+
+if ((sumTypes[3]+sumTypes[1])*(sumTypes[0]+sumTypes[2])<0) {
+    //console.log("opposing sums");
+    opposingFinalSum = true;
+    yHeight = 106;
+    clipHeight = 105;
+    barHeight = 100;
+    numWords = 21;
+}
+
 // linear scale function
 y =  d3.scale.linear()
     .domain([numWords,1])
-    .range([height, 80]); 
+    .range([height, yHeight]); 
 
 // zoom object for the axes
 var zoom = d3.behavior.zoom()
@@ -63,8 +79,8 @@ axes.append("svg:rect")
 // axes creation functions
 var create_xAxis = function() {
     return d3.svg.axis()
+    .ticks(4)
     .scale(x)
-    .ticks(5)
     .orient("bottom"); }
 
 // axis creation function
@@ -80,6 +96,7 @@ var yAxis = create_yAxis()
 
 axes.append("g")
   .attr("class", "y axis ")
+  .attr("font-size", "14.0px")
   .attr("transform", "(0,0)")
   .call(yAxis);
 
@@ -89,6 +106,7 @@ var xAxis = create_xAxis()
 
 axes.append("g")
   .attr("class", "x axis ")
+  .attr("font-size", "14.0px")
   .attr("transform", "translate(0," + (height) + ")")
   .call(xAxis);
 
@@ -99,9 +117,9 @@ var clip = axes.append("svg:clipPath")
   .attr("id","clip")
   .append("svg:rect")
   .attr("x",0)
-  .attr("y",80)
+  .attr("y",clipHeight)
   .attr("width",width)
-  .attr("height",height-80);
+  .attr("height",height-clipHeight);
 
 // now something else
 var unclipped_axes = axes;
@@ -110,8 +128,8 @@ var unclipped_axes = axes;
 unclipped_axes.append("line")
     .attr("x1",0)
     .attr("x2",width)
-    .attr("y1",75)
-    .attr("y2",75)
+    .attr("y1",barHeight)
+    .attr("y2",barHeight)
     .style({"stroke-width" : "2", "stroke": "black"});
 
 var maxShiftSum = Math.max(Math.abs(sumTypes[1]),Math.abs(sumTypes[2]),sumTypes[0],sumTypes[3]);
@@ -119,11 +137,44 @@ topScale = d3.scale.linear()
   .domain([-maxShiftSum,maxShiftSum])
   .range([width*.1,width*.9]);
 
+// define the RHS summary bars so I can add if needed
+summaryArray = [sumTypes[3],sumTypes[0],sumTypes[3]+sumTypes[1]];
+
+// if the last summary is ambiguous, add another bar
+if (opposingFinalSum) { summaryArray.push(d3.sum(sumTypes)); }
+
 unclipped_axes.selectAll(".sumrectR")
-   .data([sumTypes[3],sumTypes[0],sumTypes[3]-Math.abs(sumTypes[1])])
+    .data(summaryArray)
    .enter()
    .append("rect")
-   .attr("fill", function(d,i) { if (i==0) {return "#FFFF4C";} else if (i==1) {return "#B3B3FF";} else {return "#FFFF4C";}})
+   .attr("fill", function(d,i) { 
+	   if (i==0) {
+	       return "#FFFF4C";
+	   } 
+	   else if (i==1) {
+	       return "#B3B3FF";
+	   } 
+	   else if (i==2) {
+	       // if positive, the postive increasing words won, color dark yellow
+	       if (d>0) { return "#FFFF4C";}
+	       // positive decreasing words won, color light yellow
+	       else { return "#FFFFB3";}
+	   }
+	   else {
+	       // positive words win in magnitude
+	       if (Math.abs(sumTypes[3]+sumTypes[1])>Math.abs(sumTypes[0]+sumTypes[2])) {
+		   // choose yellow color (as in i=2)
+		   if ((sumTypes[3]+sumTypes[1]) > 0) { return "#FFFF4C";}
+		   else { return "#FFFFB3";}
+	       }
+	       // negative words win
+	       else {
+		   // choose blue color
+		   if ((sumTypes[0]+sumTypes[2]) > 0) { return "#B3B3FF"; }
+		   else { return "#4C4CFF"; }
+	       }
+	   }
+       })
    .attr("class", "sumrectR")
    .attr("x",function(d,i) { 
                              if (d>0) { 
@@ -172,6 +223,7 @@ unclipped_axes.selectAll(".sumtextR")
    .text(function(d,i) { if (i == 0) {return "\u2211+\u2191";} else { return"\u2211-\u2193";} })
    .attr("x",function(d,i) { return topScale(d)+5; });
 
+
 unclipped_axes.selectAll(".sumtextL")
    .data([sumTypes[1],sumTypes[2]])
    .enter()
@@ -183,30 +235,48 @@ unclipped_axes.selectAll(".sumtextL")
    .attr("x",function(d,i) { return topScale(d)-5; });
 
 unclipped_axes.selectAll(".sumrectL")
-   .data([sumTypes[1],sumTypes[2],sumTypes[0]-Math.abs(sumTypes[2])])
+   .data([sumTypes[1],sumTypes[2],sumTypes[0]+sumTypes[2]])
    .enter()
    .append("rect")
-   .attr("fill", function(d,i) { if (i==0) {return "#FFFFB3";} else if (i==1) {return "#4C4CFF";} else {return "#4C4CFF";}})
+   .attr("fill", function(d,i) { 
+	   if (i==0) {
+	       return "#FFFFB3";
+	   } 
+	   else if (i==1) {
+	       return "#4C4CFF";
+	   } 
+	   else {
+	       // choose color based on whether increasing/decreasing wins
+	       if (d>0) {
+		   return "#B3B3FF";
+	       }
+	       else {
+		   return "#4C4CFF";
+	       }
+	   }
+       })
    .attr("class", "sumrectL")
    .attr("x",function(d,i) { 
-                             if (i<2) { 
-                               return topScale(d);
-                             } 
-                             else { 
-                                 if (d*(sumTypes[3]-Math.abs(sumTypes[1])) > 0) {
-                                     if (d>0) {
-                                         return topScale((sumTypes[3]-Math.abs(sumTypes[1])));
-                                      }
-                                     else {
-					 return topScale(d)-(figcenter-topScale((sumTypes[3]-Math.abs(sumTypes[1]))));
-                                     }
-                                 } 
-                                 else { 
-                                     if (d>0) {return figcenter} 
-                                     else { return topScale(d)} }
-                                 }
-                             }
-                             )
+	   if (i<2) { 
+	       return topScale(d);
+	   } 
+	   else { 
+	       // is they are not opposing
+	       if (!opposingFinalSum) {
+		   // if positive, place at end of other bar
+		   if (d>0) {
+		       return topScale((sumTypes[3]+sumTypes[1]));
+		   }
+		   // if negative, place at left of other bar, minus length (+topScale(d))
+		   else {
+		       return topScale(d)-(figcenter-topScale((sumTypes[3]+sumTypes[1])));
+		   }
+	       } 
+	       else { 
+		   if (d>0) {return figcenter} 
+		   else { return topScale(d)} }
+	   }
+       })
    .attr("y",function(d,i) { return i*22+7; } )
    .style({'opacity':'0.7','stroke-width':'1','stroke':'rgb(0,0,0)'})
    .attr("height",function(d,i) { return 17; } )
@@ -244,7 +314,7 @@ canvas.append("text")
    .attr("class","axes-text")
    .attr("x",(figwidth-width)/4)
    .attr("y",figheight/2+30)
-   .attr("font-size", "20.0px")
+   .attr("font-size", "16.0px")
    .attr("fill", "#000000")
    .attr("transform", "rotate(-90.0," + (figwidth-width)/4 + "," + (figheight/2+30) + ")");
 
@@ -253,24 +323,35 @@ canvas.append("text")
    .attr("class","axes-text")
    .attr("x",width/2+(figwidth-width)/2)
    .attr("y",3*(figheight-height)/4+height)
-   .attr("font-size", "20.0px")
+   .attr("font-size", "16.0px")
    .attr("fill", "#000000")
    .attr("style", "text-anchor: middle;");
 
+if (compH >= refH) {
+    var happysad = "happier";
+}
+else { 
+    var happysad = "less happy";
+}
+
 canvas.selectAll(".sumtext")
-   .data([refH,compH])
+   .data(["Why ",refH,compH])
    .enter()
    .append("text")
-   .text(function(d,i) { if (i==0) {
-                             return "Reference happiness " + (d.toFixed(3));
-                         }
-                         else {
-			     return "Comparison happiness " + (d.toFixed(3));
-			 }}
-         )
+   .text(function(d,i) { 
+       if (i==0) {
+	   // if there are names of the texts, put them here
+           return d+"comparison text"+" is "+happysad+" than "+"reference text";
+       }
+       else if (i==1) {
+           return "Reference happiness " + (d.toFixed(3));
+       }
+       else {
+	   return "Comparison happiness " + (d.toFixed(3));
+       }})
    .attr("class","axes-text")
    .attr("x",width/2+(figwidth-width)/2)
-   .attr("y",function(d,i) { return i*20+45 })
+   .attr("y",function(d,i) { return i*20+13 })
    .attr("font-size", "16.0px")
    .attr("fill", "#000000")
    .attr("style", "text-anchor: middle;");
@@ -300,6 +381,8 @@ axes.selectAll(".rect")
         var rectSelection = d3.select(this).style({opacity:'0.7'});
 });
 
+var flipVector = Array(sortedWords.length);
+
 axes.selectAll(".text")
    .data(sortedMag)
    .enter()
@@ -311,7 +394,29 @@ axes.selectAll(".text")
    .text(function(d,i) { if (sortedType[i] == 0) {tmpStr = "-\u2193";} else if (sortedType[i] == 1) {tmpStr = "\u2193+";}
    else if (sortedType[i] == 2) {tmpStr = "\u2191-";} else {tmpStr = "+\u2191";}
    if (sortedMag[i] < 0) {return tmpStr.concat(sortedWords[i]);} else { return sortedWords[i].concat(tmpStr); } })
-   .attr("x",function(d,i) { if (d>0) {return x(d)+2;} else {return x(d)-2; } } );
+   .attr("x",function(d,i) { if (d>0) {return x(d)+2;} else {return x(d)-2; } } )
+   .on("click",function(d,i){
+       // goal is to toggle translation
+       // need translation vector
+       //console.log(flipVector[i]);
+       if (flipVector[i]) { 
+       if (sortedType[i] == 0) {tmpStr = "-\u2193";} else if (sortedType[i] == 1) {tmpStr = "\u2193+";}
+       else if (sortedType[i] == 2) {tmpStr = "\u2191-";} else {tmpStr = "+\u2191";}
+       if (sortedMag[i] < 0) { tmpStr = tmpStr.concat(sortedWords[i]);} else { tmpStr = sortedWords[i].concat(tmpStr); } 
+       flipVector[i] = 0;}
+       else {
+	   if (sortedType[i] == 0) {tmpStr = "-\u2193";} 
+	   else if (sortedType[i] == 1) {tmpStr = "\u2193+";}
+	   else if (sortedType[i] == 2) {tmpStr = "\u2191-";} 
+	   else {tmpStr = "+\u2191";}
+	   if (sortedMag[i] < 0) { tmpStr = tmpStr.concat(sortedWordsEn[i]);} 
+	   else { tmpStr = sortedWordsEn[i].concat(tmpStr); } 
+       flipVector[i] = 1; }
+       //console.log(tmpStr);
+       newText = d3.select(this).text(tmpStr);
+       //console.log(d);
+       //console.log(i);
+});
 
     function zoomed() {
     //console.log(d3.event);
@@ -325,6 +430,10 @@ axes.selectAll(".text")
     d3.selectAll(".tick line").style({'stroke':'black'});
      };
 
-console.log("happiness");
+console.log("happiness (it all worked)");
 
 };
+
+
+
+

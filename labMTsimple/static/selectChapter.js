@@ -1,4 +1,4 @@
-function drawLensGeo(figure,lens) {
+function selectChapter(figure,numSections) {
 /* takes a d3 selection and draws the lens distribution
    on slide of the stop-window
      -reload data csv's
@@ -8,7 +8,7 @@ function drawLensGeo(figure,lens) {
 
     margin = {top: 0, right: 0, bottom: 0, left: 0},
     figwidth = 600 - margin.left - margin.right,
-    figheight = 150 - margin.top - margin.bottom,
+    figheight = 110 - margin.top - margin.bottom,
     width = .775*figwidth,
     height = .775*figheight-10;
 
@@ -24,23 +24,23 @@ function drawLensGeo(figure,lens) {
     // create the x and y axis
     x = d3.scale.linear()
 	//.domain([d3.min(lens),d3.max(lens)])
-	.domain([1.00,9.00])
+	.domain([0,numSections])
 	.range([0,width]);
     
     // use d3.layout http://bl.ocks.org/mbostock/3048450
-    data = d3.layout.histogram()
-        .bins(x.ticks(65))
-        (lens);
+    // data = d3.layout.histogram()
+    //     .bins(x.ticks(65))
+    //     (lens);
 
     // linear scale function
     y =  d3.scale.linear()
-	.domain([0,d3.max(data,function(d) { return d.y; } )])
+	.domain([0,1])
 	.range([height, 0]); 
 
     // create the axes themselves
     var axes = canvas.append("g")
 	.attr("transform", "translate(" + (0.125 * figwidth) + "," +
-	      ((1 - 0.125 - 0.775) * figheight) + ")")
+	      ((1 - 0.125 - 0.775 -0.095) * figheight) + ")")
 	.attr("width", width)
 	.attr("height", height)
 	.attr("class", "main");
@@ -68,15 +68,15 @@ function drawLensGeo(figure,lens) {
 	    .orient("left"); }
 
     // draw the axes
-    var yAxis = create_yAxis()
-	.innerTickSize(6)
-	.outerTickSize(0);
+    // var yAxis = create_yAxis()
+    // 	.innerTickSize(6)
+    // 	.outerTickSize(0);
 
-    axes.append("g")
-	.attr("class", "top")
-	.attr("transform", "(0,0)")
-	.attr("font-size", "12.0px")
-	.call(yAxis);
+    // axes.append("g")
+    // 	.attr("class", "top")
+    // 	.attr("transform", "(0,0)")
+    // 	.attr("font-size", "12.0px")
+    // 	.call(yAxis);
 
     var xAxis = create_xAxis()
 	.innerTickSize(6)
@@ -97,24 +97,24 @@ function drawLensGeo(figure,lens) {
 	.attr("x",0)
 	.attr("y",80)
 	.attr("width",width)
-	.attr("height",height-80);
+	.attr("height",height-75);
 
     var unclipped_axes = axes;
  
     //axes = axes.append("g")
 	//.attr("clip-path","url(#clip)");
 
-    canvas.append("text")
-	.text("Num Words")
-	.attr("class","axes-text")
-	.attr("x",(figwidth-width)/4)
-	.attr("y",figheight/2+30)
-	.attr("font-size", "12.0px")
-	.attr("fill", "#000000")
-	.attr("transform", "rotate(-90.0," + (figwidth-width)/4 + "," + (figheight/2+30) + ")");
+    // canvas.append("text")
+    // 	.text("Happs")
+    // 	.attr("class","axes-text")
+    // 	.attr("x",(figwidth-width)/4)
+    // 	.attr("y",figheight/2+30)
+    // 	.attr("font-size", "12.0px")
+    // 	.attr("fill", "#000000")
+    // 	.attr("transform", "rotate(-90.0," + (figwidth-width)/4 + "," + (figheight/2+30) + ")");
 
     canvas.append("text")
-	.text("Word score")
+	.text("Percentage of book")
 	.attr("class","axes-text")
 	.attr("x",width/2+(figwidth-width)/2)
 	.attr("y",figheight)
@@ -124,28 +124,28 @@ function drawLensGeo(figure,lens) {
 
     var lensMean = d3.mean(lens);
 
-    var bar = axes.selectAll(".rect")
-        .data(data)
-        .enter()
-        .append("g")
-        .attr("class","distrect")
-        .attr("fill",function(d,i) { if (d.x > lensMean) {return "yellow";} else { return "blue";}})
-        .attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; });
+    // var bar = axes.selectAll(".rect")
+    //     .data(data)
+    //     .enter()
+    //     .append("g")
+    //     .attr("class","distrect")
+    //     .attr("fill",function(d,i) { if (d.x > lensMean) {return "grey";} else { return "grey";}})
+    //     .attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; });
 
-    bar.append("rect")
-	.attr("x", 1)
-	.attr("width", x(data[0].dx+1)-2 )
-	.attr("height", function(d) { return height - y(d.y); });
+    // bar.append("rect")
+    // 	.attr("x", 1)
+    // 	.attr("width", x(data[0].dx+1)-2 )
+    // 	.attr("height", function(d) { return height - y(d.y); });
 
     //console.log(x(d3.min(lens)));
 
     brushX = d3.scale.linear()
-        .domain([d3.min(lens),d3.max(lens)])
+        .domain([0,numSections])
         .range([figwidth*.125,width+figwidth*.125]);
     
     var brush = d3.svg.brush()
         .x(brushX)
-        .extent([4,6])
+        .extent([0,5])
         .on("brushend",brushended);
 
     var gBrush = canvas.append("g")
@@ -155,53 +155,46 @@ function drawLensGeo(figure,lens) {
 
     gBrush.selectAll("rect")
         .attr("height",height)
-        .attr("y",15)
-	.style({'stroke-width':'2','stroke':'rgb(100,100,100)','opacity': 0.7})
-	.attr("fill", "#FCFCFC");
+        .attr("y",0)
+	.style({'stroke-width':'2','stroke':'rgb(100,100,100)','opacity': 0.35})
+	.attr("fill", "blue");
 
     function brushended() {
 	if (!d3.event.sourceEvent) return;
 	var extent0 = brush.extent(),
-	    extent1 = extent0; // should round it to bins
+	    extent1 = extent0.map(Math.round); // should round it to bins
 	
-	// window.stopVals = extent1;
-	// console.log(extent1);
-
-	// reset
-	for (var j=0; j<allData.length; j++) {
-	    for (var i=0; i<allData[j].rawFreq.length; i++) {
-		var include = true;
-		// check if in removed word list
-		for (var k=0; k<ignoreWords.length; k++) {
-		    if (ignoreWords[k] == words[i]) {
-			include = false;
-			//console.log("ignored "+ignoreWords[k]);
-		    }
+	refFextent = extent1;
+	console.log(refFextent);
+	console.log(compFextent);
+	for (var k=refFextent[0]; k<refFextent[1]; k++) {
+            console.log("grabbing reference chunk "+(k));
+	}
+	refF = Array(allFraw.length);
+	compF = Array(allFraw.length);
+	// fill them with 0's
+	for (var i=0; i<allFraw.length; i++) {
+            refF[i]= 0;
+            compF[i]= 0;
+	}
+	for (var i=0; i<allFraw.length; i++) {
+	    if (lens[i] < lensExtent[0] || lens[i] > lensExtent[1]) {
+		for (var k=refFextent[0]; k<refFextent[1]; k++) {
+                    refF[i] += parseFloat(allFraw[i][k]);
 		}
-		// check if underneath lens cover
-		if (lens[i] >= extent1[0] && lens[i] <= extent1[1]) {
-		    include = false;
+		for (var k=compFextent[0]; k<compFextent[1]; k++) {
+                    compF[i] += parseFloat(allFraw[i][k]);
 		}
-		// include it, or set to 0
-		if (include) {
-		    allData[j].freq[i] = allData[j].rawFreq[i];
-		}
-		else { allData[j].freq[i] = 0; }
-		
 	    }
 	}
-	computeHapps();
-	drawMap(d3.select('#map01'))
-
-	if (shiftRef !== shiftComp) {
-	    shiftObj = shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
-	    plotShift(d3.select('#shift01'),shiftObj.sortedMag.slice(0,200),
-		      shiftObj.sortedType.slice(0,200),
-		      shiftObj.sortedWords.slice(0,200),
-		      shiftObj.sumTypes,
-		      shiftObj.refH,
-		      shiftObj.compH);
-	}
+	shiftObj = shift(refF,compF,lens,words);
+	plotShift(d3.select("#figure01"),shiftObj.sortedMag.slice(0,200),
+		  shiftObj.sortedType.slice(0,200),
+		  shiftObj.sortedWords.slice(0,200),
+		  shiftObj.sortedWordsEn.slice(0,200),
+		  shiftObj.sumTypes,
+		  shiftObj.refH,
+		  shiftObj.compH);
 
 	d3.select(this).transition()
 	    .call(brush.extent(extent1))
