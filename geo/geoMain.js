@@ -44,7 +44,7 @@ d3.text("data/words.csv", function(text) {
     words = tmp;
     if (!--csvLoadsRemaining) initializePlotPlot(lens,words);
 });
-d3.json("static/us-states.topojson", function(data) {
+d3.json("data/us-states.topojson", function(data) {
     geoJson = data;
     stateFeatures = topojson.feature(geoJson,geoJson.objects.states).features;
     if (!--csvLoadsRemaining) initializePlotPlot(lens,words);
