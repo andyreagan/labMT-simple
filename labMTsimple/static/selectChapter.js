@@ -122,13 +122,23 @@ function selectChapter(figure,numSections) {
 	.attr("fill", "#000000")
 	.attr("style", "text-anchor: middle;");
 
+    canvas.append("text")
+	.text("Reference")
+	.attr("class","reflabel")
+	.attr("x",120)
+	.attr("y",figheight-48)
+	.attr("font-size", "12.0px")
+	.attr("fill", "#000000")
+	.attr("style", "text-anchor: middle;");
+
     brushX = d3.scale.linear()
         .domain([0,allDataRaw.length])
         .range([figwidth*.125,width+figwidth*.125]);
     
     var brush = d3.svg.brush()
         .x(brushX)
-        .extent([0,Math.round(allDataRaw.length*.15)])
+        .extent([0,Math.round(allDataRaw.length*.20)])
+        .on("brush",brushing)
         .on("brushend",brushended);
 
     var gBrush = canvas.append("g")
@@ -142,11 +152,21 @@ function selectChapter(figure,numSections) {
 	.style({'stroke-width':'2','stroke':'rgb(100,100,100)','opacity': 0.35})
 	.attr("fill", "rgb(90,90,90)");
 
-    function brushended() {
+    function brushing() {
 	if (!d3.event.sourceEvent) return;
 	var extent0 = brush.extent(),
 	    extent1 = extent0.map(Math.round); // should round it to bins
 	
+	d3.selectAll("text.reflabel").attr("x",brushX(d3.sum(extent1)/extent1.length));
+    };
+
+    function brushended() {
+	if (!d3.event.sourceEvent) return;
+	var extent0 = brush.extent(),
+	    extent1 = extent0.map(Math.round); // should round it to bins
+
+	//d3.selectAll("text.reflabel").attr("x",brushX(d3.sum(extent1)/extent1.length));
+
 	refFextent = extent1;
 
 	// initialize new values

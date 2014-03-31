@@ -72,6 +72,15 @@ function selectChapterTop(figure,numSections) {
 	.attr("height",height-30);
 
     var unclipped_axes = axes;
+
+    canvas.append("text")
+	.text("Comparison")
+	.attr("class","complabel")
+	.attr("x",.82*figwidth)
+	.attr("y",figheight-figheight/3)
+	.attr("font-size", "12.0px")
+	.attr("fill", "#000000")
+	.attr("style", "text-anchor: middle;");
  
     brushX = d3.scale.linear()
         .domain([0,allDataRaw.length])
@@ -79,7 +88,8 @@ function selectChapterTop(figure,numSections) {
     
     var brush = d3.svg.brush()
         .x(brushX)
-        .extent([Math.round(allDataRaw.length*.85),allDataRaw.length])
+        .extent([Math.round(allDataRaw.length*.80),allDataRaw.length])
+        .on("brush",brushing)
         .on("brushend",brushended);
 
     var gBrush = canvas.append("g")
@@ -93,11 +103,21 @@ function selectChapterTop(figure,numSections) {
 	.style({'stroke-width':'2','stroke':'rgb(100,100,100)','opacity': 0.35})
 	.attr("fill", "rgb(90,90,90)");
 
+    function brushing() {
+	if (!d3.event.sourceEvent) return;
+	var extent0 = brush.extent(),
+	    extent1 = extent0.map(Math.round); // should round it to bins
+	
+	d3.selectAll("text.complabel").attr("x",brushX(d3.sum(extent1)/extent1.length));
+    };
+
     function brushended() {
 	if (!d3.event.sourceEvent) return;
 	var extent0 = brush.extent(),
 	    extent1 = extent0.map(Math.round); // should round it to bins
 	
+	//d3.selectAll("text.complabel").attr("x",brushX(d3.sum(extent1)/extent1.length));
+
 	compFextent = extent1;
 
 	// initialize new values

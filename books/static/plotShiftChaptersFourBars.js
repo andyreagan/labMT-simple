@@ -1,0 +1,1 @@
+../../labMTsimple/static/plotShiftChaptersFourBars.js
