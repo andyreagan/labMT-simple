@@ -24,7 +24,7 @@ function selectChapter(figure,numSections) {
     // create the x and y axis
     x = d3.scale.linear()
 	//.domain([d3.min(lens),d3.max(lens)])
-	.domain([0,numSections])
+	.domain([0,100])
 	.range([0,width]);
     
     // use d3.layout http://bl.ocks.org/mbostock/3048450
@@ -122,30 +122,13 @@ function selectChapter(figure,numSections) {
 	.attr("fill", "#000000")
 	.attr("style", "text-anchor: middle;");
 
-    var lensMean = d3.mean(lens);
-
-    // var bar = axes.selectAll(".rect")
-    //     .data(data)
-    //     .enter()
-    //     .append("g")
-    //     .attr("class","distrect")
-    //     .attr("fill",function(d,i) { if (d.x > lensMean) {return "grey";} else { return "grey";}})
-    //     .attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; });
-
-    // bar.append("rect")
-    // 	.attr("x", 1)
-    // 	.attr("width", x(data[0].dx+1)-2 )
-    // 	.attr("height", function(d) { return height - y(d.y); });
-
-    //console.log(x(d3.min(lens)));
-
     brushX = d3.scale.linear()
-        .domain([0,numSections])
+        .domain([0,allDataRaw.length])
         .range([figwidth*.125,width+figwidth*.125]);
     
     var brush = d3.svg.brush()
         .x(brushX)
-        .extent([0,5])
+        .extent([0,Math.round(allDataRaw.length*.15)])
         .on("brushend",brushended);
 
     var gBrush = canvas.append("g")
@@ -157,7 +140,7 @@ function selectChapter(figure,numSections) {
         .attr("height",height)
         .attr("y",0)
 	.style({'stroke-width':'2','stroke':'rgb(100,100,100)','opacity': 0.35})
-	.attr("fill", "blue");
+	.attr("fill", "rgb(90,90,90)");
 
     function brushended() {
 	if (!d3.event.sourceEvent) return;
@@ -165,29 +148,26 @@ function selectChapter(figure,numSections) {
 	    extent1 = extent0.map(Math.round); // should round it to bins
 	
 	refFextent = extent1;
-	console.log(refFextent);
-	console.log(compFextent);
-	for (var k=refFextent[0]; k<refFextent[1]; k++) {
-            console.log("grabbing reference chunk "+(k));
-	}
-	refF = Array(allFraw.length);
-	compF = Array(allFraw.length);
-	// fill them with 0's
-	for (var i=0; i<allFraw.length; i++) {
+
+	// initialize new values
+	var refF = Array(allDataRaw[0].length);
+	var compF = Array(allDataRaw[0].length);
+	for (var i=0; i<allDataRaw[0].length; i++) {
             refF[i]= 0;
             compF[i]= 0;
 	}
-	for (var i=0; i<allFraw.length; i++) {
-	    if (lens[i] < lensExtent[0] || lens[i] > lensExtent[1]) {
+	// loop over each slice of data
+	for (var i=0; i<allDataRaw[0].length; i++) {
 		for (var k=refFextent[0]; k<refFextent[1]; k++) {
-                    refF[i] += parseFloat(allFraw[i][k]);
+                    refF[i] += allData[k][i];
 		}
 		for (var k=compFextent[0]; k<compFextent[1]; k++) {
-                    compF[i] += parseFloat(allFraw[i][k]);
+                    compF[i] += allData[k][i];
 		}
-	    }
 	}
-	shiftObj = shift(refF,compF,lens,words);
+	
+	console.log("redrawing shift");
+	var shiftObj = shift(refF,compF,lens,words);
 	plotShift(d3.select("#figure01"),shiftObj.sortedMag.slice(0,200),
 		  shiftObj.sortedType.slice(0,200),
 		  shiftObj.sortedWords.slice(0,200),

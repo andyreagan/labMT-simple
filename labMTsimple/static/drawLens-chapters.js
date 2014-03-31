@@ -51,7 +51,7 @@ function drawLens(figure,lens) {
 	.attr("height", height)
 	.attr("class", "bg")
 	.style({'stroke-width':'2','stroke':'rgb(0,0,0)'})
-	.attr("fill", "#FCFCFC");
+	.attr("fill", "#FFFFF0");
 
     // axes creation functions
     var create_xAxis = function() {
@@ -129,13 +129,26 @@ function drawLens(figure,lens) {
         .enter()
         .append("g")
         .attr("class","distrect")
-        .attr("fill",function(d,i) { if (d.x > lensMean) {return "grey";} else { return "grey";}})
+        .attr("fill",function(d,i) { if (d.x > lensMean) {return "#D3D3D3";} else { return "#D3D3D3";}})
         .attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; });
 
     bar.append("rect")
 	.attr("x", 1)
 	.attr("width", x(data[0].dx+1)-2 )
 	.attr("height", function(d) { return height - y(d.y); });
+
+    var line = d3.svg.line()
+	.x(function(d,i) { return x(d.x); })
+	.y(function(d) { return y(d.y); })
+	.interpolate("linear");
+
+    axes.append("path")
+	.datum(data)
+	.attr("class", "line")
+	.attr("d", line)
+	.attr("stroke","black")
+	.attr("stroke-width",3)
+	.attr("fill","none");
 
     //console.log(x(d3.min(lens)));
 
@@ -162,39 +175,59 @@ function drawLens(figure,lens) {
     function brushended() {
 	if (!d3.event.sourceEvent) return;
 	var extent0 = brush.extent(),
-	    extent1 = extent0; // should round it to bins
-	
-	// window.stopVals = extent1;
-	// console.log(extent1);
+	    extent1 = extent0;
+	lensExtent = extent1;
 
-	var refF = Array(allFraw.length);
-	var compF = Array(allFraw.length);
-
+	// initialize new values
+	var refF = Array(allDataRaw[0].length);
+	var compF = Array(allDataRaw[0].length);
+	allData = Array(allDataRaw.length);
 	// fill them with 0's
-	for (var i=0; i<allFraw.length; i++) {
+	for (var i=0; i<allDataRaw[0].length; i++) {
             refF[i]= 0;
             compF[i]= 0;
 	}
-
-	lensExtent = extent1;
-
-	console.log(refFextent);
-	console.log(compFextent);
-
-	for (var i=0; i<allFraw.length; i++) {
-	    if (lens[i] < lensExtent[0] || lens[i] > lensExtent[1]) {
+	for (var i=0; i<allDataRaw.length; i++) {
+	    allData[i] = Array(allDataRaw[i].length);
+	}
+	// loop over each slice of data
+	for (var i=0; i<allDataRaw[0].length; i++) {
+	    var include = true;
+	    for (var k=0; k<ignoreWords.length; k++) {
+		if (ignoreWords[k] == words[i]) {
+		    include = false;
+		}
+	    }
+	    if (lens[i] >= lensExtent[0] && lens[i] <= lensExtent[1]) {
+		include = false;
+	    }
+	    // grab the shift vectors
+	    if (include) {
 		for (var k=refFextent[0]; k<refFextent[1]; k++) {
-                    refF[i] += parseFloat(allFraw[i][k]);
+                    refF[i] += parseFloat(allDataRaw[k][i]);
 		}
 		for (var k=compFextent[0]; k<compFextent[1]; k++) {
-                    compF[i] += parseFloat(allFraw[i][k]);
+                    compF[i] += parseFloat(allDataRaw[k][i]);
 		}
+		for (var k=0; k<allDataRaw.length; k++) {
+		    allData[k][i] = allDataRaw[k][i];
+		}
+	    }
+	    // slice up the data
+	    // for quicker redraw on window selection
+	    // and happiness calculation
+	    // double overhead for storage
+            else { 
+	    	for (var k=0; k<allData.length; k++) { allData[k][i] = 0; }
 	    }
 	}
 	
+	console.log("redrawing timeserires");
+	var timeseries = computeHapps();
+	drawBookTimeseries(d3.select("#chapters03"),timeseries);
+
 	console.log("redrawing shift");
-	
-	shiftObj = shift(refF,compF,lens,words);
+	var shiftObj = shift(refF,compF,lens,words);
 	plotShift(d3.select("#figure01"),shiftObj.sortedMag.slice(0,200),
 		  shiftObj.sortedType.slice(0,200),
 		  shiftObj.sortedWords.slice(0,200),

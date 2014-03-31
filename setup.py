@@ -7,7 +7,7 @@ setup(
     name = 'labMTsimple',
     packages = ['labMTsimple'],
     package_data={'labMTsimple': ['data/labMT1.txt','static/d3.v3.min.js','static/drawLens.js','static/plotShift.js','static/shift.js']},
-    data_files=[('test', ['test/shiftPlot.html','test/data/18.01.14.txt','test/data/21.01.14.txt','test/static/shift.js','test/static/drawLens.js','test/static/plotShift.js'])],
+    data_files=[('test', ['test/shiftPlot.html','test/data/18.01.14.txt','test/data/21.01.14.txt'])],
     version = '1.2',
     description = 'Basic usage script for LabMT1.0 dataset',
     long_description = long_description,

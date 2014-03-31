@@ -1,4 +1,4 @@
-function drawBookTimeseries(figure,numSections,data) {
+function drawBookTimeseries(figure,data) {
 /* takes a d3 selection and draws the lens distribution
    on slide of the stop-window
      -reload data csv's
@@ -95,6 +95,17 @@ function drawBookTimeseries(figure,numSections,data) {
 	.attr("stroke","black")
 	.attr("stroke-width",3)
 	.attr("fill","none");
+
+    var area = d3.svg.area()
+	.x(function(d,i) { return x(i); })
+	.y0(height)
+	.y1(function(d) { return y(d); });
+
+    axes.append("path")
+        .datum(data)
+        .attr("class", "area")
+        .attr("d", area)
+        .attr("fill","#D3D3D3");
 
 }
 
