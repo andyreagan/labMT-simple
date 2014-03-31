@@ -119,6 +119,8 @@ function initializePlotPlot(lens,words) {
     // draw the map
     drawMap(d3.select('#map01'))
 
+    sortStates(d3.select('#table01'))
+
     shiftRef = 51;
     shiftComp = 51;
     
@@ -133,6 +135,42 @@ function initializePlotPlot(lens,words) {
 };
 
 initializePlot();
+
+
+function sortStates(figure) {
+    // var happsVector = Array(allData.length);
+    // for (var i=0; i<allData.length; i++) {
+    // 	happsVector[i] = allData[i].avhapps;
+    // }
+    
+
+    // do the sorting
+    var indices = Array(allData.length);
+    for (var i = 0; i < allData.length; i++) { indices[i] = i; }
+    indices.sort(function(a,b) { return Math.abs(allData[a].avhapps) < Math.abs(allData[b].avhapps) ? 1 : Math.abs(allData[a].avhapps) > Math.abs(allData[b].avhapps) ? -1 : 0; });
+    var sortedStates = Array(allData.length);
+    for (var i = 0; i < allData.length; i++) { sortedStates[i] = allStateNames[indices[i]]; }
+    console.log(sortedStates);
+
+    var table = figure.append("table"),
+        thead = table.append("thead"),
+        tbody = table.append("tbody");
+
+    var columns = ["Rank", "State"];
+
+    thead.append("tr")
+        .selectAll("th")
+        .data(columns)
+        .enter()
+        .append("th")
+            .text(function(column) { return column; });
+
+    var rows = tbody.selectAll("tr.none").data(sortedStates).enter().append("tr");
+    
+    rows.append("td").text(function(d,i) { return i+1; });
+
+    rows.append("td").text(function(d,i) { return d; });
+};
 
 
 
