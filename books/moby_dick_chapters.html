@@ -135,7 +135,8 @@ d3.text("data/labMTwords.csv", function(text) {
 function initializePlotPlot(allDataRaw,lens,words) {
     // initially apply the lens
     var minSize = 10000;
-    var dataSize = 2000;
+    var dataSize = 1000;
+
     minWindows = Math.round(minSize/dataSize);
     refFextent = [0,Math.round(allDataRaw.length*.15)];
     compFextent = [Math.round(allDataRaw.length*.85),allDataRaw.length];

@@ -21,7 +21,7 @@ print 'the valence of {0} is {1:.5}'.format('moby_dick',textValence)
 
 # split the text into chunks of size 10000
 # and print those frequency vectors
-minSize = 2000;
+minSize = 1000;
 allFvec = []
 from numpy import floor
 for i in xrange(int(floor(len(words)/minSize))):
