@@ -22,7 +22,7 @@ function drawMap(figure) {
 	.projection(projection);
 
     var numColors = 10,
-        hueRange = [239,60], // in degrees
+        hueRange = [240,60], // in degrees
         // see http://hslpicker.com/#ffd900
         saturation = 1, // full
         lightness = 0.5; // half

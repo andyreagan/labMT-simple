@@ -152,7 +152,10 @@ function sortStates(figure) {
     for (var i = 0; i < allData.length-1; i++) { sortedStates[i] = allStateNames[indices[i]]; }
     console.log(sortedStates);
 
-    var table = figure.append("table"),
+    // remove an old figure if it exists
+    figure.select(".table").remove();
+
+    var table = figure.append("table").attr("class","table"),
         thead = table.append("thead"),
         tbody = table.append("tbody");
 
