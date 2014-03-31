@@ -145,11 +145,11 @@ function sortStates(figure) {
     
 
     // do the sorting
-    var indices = Array(allData.length);
+    indices = Array(allData.length);
     for (var i = 0; i < allData.length; i++) { indices[i] = i; }
     indices.sort(function(a,b) { return Math.abs(allData[a].avhapps) < Math.abs(allData[b].avhapps) ? 1 : Math.abs(allData[a].avhapps) > Math.abs(allData[b].avhapps) ? -1 : 0; });
-    var sortedStates = Array(allData.length);
-    for (var i = 0; i < allData.length; i++) { sortedStates[i] = allStateNames[indices[i]]; }
+    var sortedStates = Array(allData.length-1);
+    for (var i = 0; i < allData.length-1; i++) { sortedStates[i] = allStateNames[indices[i]]; }
     console.log(sortedStates);
 
     var table = figure.append("table"),
@@ -165,7 +165,16 @@ function sortStates(figure) {
         .append("th")
             .text(function(column) { return column; });
 
-    var rows = tbody.selectAll("tr.none").data(sortedStates).enter().append("tr");
+    var rows = tbody.selectAll("tr.none")
+	.data(sortedStates)
+	.enter()
+	.append("tr")
+	.attr("style",function(d,i) { 
+	    var value = allData[indices[i]].avhapps; 
+	    // console.log(colorList);
+	    //var colorString = "rgb(" + colorList[0] + "," + colorList[1] + "," + colorList[2] + ")";
+	    return "background-color:" + color(value);
+	});
     
     rows.append("td").text(function(d,i) { return i+1; });
 
