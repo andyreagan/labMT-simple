@@ -66,7 +66,7 @@ function drawMap(figure) {
 	.append("path")
 	.attr("d", function(d,i) { return path(d.geometry); } )
 	.attr("id", function(d,i) { return d.properties.name; } )
-	.attr("class",function(d,i) { return "state map "+d.properties.name; } )
+	.attr("class",function(d,i) { return "state map "+d.properties.name[0]+d.properties.name.split(" ")[d.properties.name.split(" ").length-1]; } )
         .on("mousedown",state_clicked)
         .on("mouseover",state_hover)
         .on("mouseout",state_unhover);
@@ -94,7 +94,7 @@ function drawMap(figure) {
 	    //console.log("reference "+allData[i].name);
 	    shiftRef = i;
 	    d3.selectAll(".state").attr("stroke","none");
-	    d3.selectAll(".state."+allData[i].name).attr("stroke","black")
+	    d3.selectAll(".state."+allData[i].name[0]+allData[i].name.split(" ")[allData[i].name.split(" ").length-1]).attr("stroke","black")
 	        .attr("stroke-width",3);
 	}
 	else { 
@@ -117,9 +117,9 @@ function drawMap(figure) {
 
     function state_hover(d,i) { 
 	// next line verifies that the data and json line up
-	// console.log(d.properties.name); console.log(allData[i].name); 
+	// console.log(d.properties.name); console.log(allData[i].name.split(" ")[allData[i].name.split(" ").length-1]); 
 	shiftComp = i;
-	d3.selectAll(".state."+allData[i].name).style("fill","red");
+	d3.selectAll(".state."+allData[i].name[0]+allData[i].name.split(" ")[allData[i].name.split(" ").length-1]).style("fill","red");
 
 	if (shiftRef !== shiftComp) {
 	    shiftObj = shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
@@ -138,10 +138,10 @@ function drawMap(figure) {
 
     function state_unhover(d,i) { 
 	// next line verifies that the data and json line up
-	// console.log(d.properties.name); console.log(allData[i].name); 
+	// console.log(d.properties.name); console.log(allData[i].name.split(" ")[allData[i].name.split(" ").length-1]); 
 	shiftComp = i;
-	console.log(".state.list."+allData[i].name);
-	d3.selectAll(".state.list."+allData[i].name)
+	console.log(".state.list."+allData[i].name[0]+allData[i].name.split(" ")[allData[i].name.split(" ").length-1]);
+	d3.selectAll(".state.list."+allData[i].name[0]+allData[i].name.split(" ")[allData[i].name.split(" ").length-1])
 	    .style("fill",color(allData[i].avhapps));
 	d3.select(this)
          .style("fill", function() {

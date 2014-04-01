@@ -269,7 +269,7 @@ var stateG = axes.selectAll(".state")
 stateG.append("rect")
    .attr("x",-8)
     .attr("y",-18)
-    .attr("class",function(d,i) { return "state list "+d[2];})
+    .attr("class",function(d,i) { return "state list "+d[2][0]+d[2].split(" ")[d[2].split(" ").length-1];})
      .attr("width",width-4)
     .attr("height",23)
     .attr("fill",function(d,i) {return color(allData[d[1]].avhapps); })
@@ -293,7 +293,7 @@ stateG.append("text")
 	    //console.log("reference "+allData[i].name);
 	    shiftRef = d[1];
 	    d3.selectAll(".state").attr("stroke","none");
-	    d3.selectAll(".state."+d[2]).attr("stroke","black")
+	    d3.selectAll(".state."+d[2][0]+d[2].split(" ")[d[2].split(" ").length-1]).attr("stroke","black")
 	        .attr("stroke-width",3);
 	}
 	else { 
@@ -317,7 +317,7 @@ stateG.append("text")
 	// next line verifies that the data and json line up
 	// console.log(d.properties.name); console.log(allData[i].name); 
 	shiftComp = d[1];
-	d3.selectAll(".state."+d[2]).style("fill","red");
+	d3.selectAll(".state."+d[2][0]+d[2].split(" ")[d[2].split(" ").length-1]).style("fill","red");
 
 	if (shiftRef !== shiftComp) {
 	    shiftObj = shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
@@ -339,10 +339,10 @@ stateG.append("text")
 	// console.log(d.properties.name); console.log(allData[i].name); 
 	shiftComp = d[1];
 	console.log("unhover");
-	d3.selectAll(".state.list."+d[2])
+	d3.selectAll(".state.list."+d[2][0]+d[2].split(" ")[d[2].split(" ").length-1])
 	    .style("fill",function(d,i) {return color(allData[d[1]].avhapps); });
-	d3.selectAll(".state.map."+d[2]).style("fill",color(allData[d[1]].avhapps));
-	// d3.selectAll(".state.map."+d[2])
+	d3.selectAll(".state.map."+d[2][0]+d[2].split(" ")[d[2].split(" ").length-1]).style("fill",color(allData[d[1]].avhapps));
+	// d3.selectAll(".state.map."+d[2].split(" ")[d[2].split(" ").length-1])
         //  .style("fill", function() {
 	//     // need to get the variable map right
 	//     var value = allData[d[1]].avhapps;
