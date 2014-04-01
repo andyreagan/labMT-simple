@@ -191,7 +191,8 @@ function drawLensGeo(figure,lens) {
 	    }
 	}
 	computeHapps();
-	drawMap(d3.select('#map01'))
+	drawMap(d3.select('#map01'));
+	sortStates(d3.select('#table01'));
 
 	if (shiftRef !== shiftComp) {
 	    shiftObj = shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);

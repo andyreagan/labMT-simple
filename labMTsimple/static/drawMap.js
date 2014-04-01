@@ -66,7 +66,7 @@ function drawMap(figure) {
 	.append("path")
 	.attr("d", function(d,i) { return path(d.geometry); } )
 	.attr("id", function(d,i) { return d.properties.name; } )
-	.attr("class", "state")
+	.attr("class",function(d,i) { return "state map "+d.properties.name; } )
         .on("mousedown",state_clicked)
         .on("mouseover",state_hover)
         .on("mouseout",state_unhover);
@@ -94,13 +94,13 @@ function drawMap(figure) {
 	    //console.log("reference "+allData[i].name);
 	    shiftRef = i;
 	    d3.selectAll(".state").attr("stroke","none");
-	    d3.select(this).attr("stroke","black")
+	    d3.selectAll(".state."+allData[i].name).attr("stroke","black")
 	        .attr("stroke-width",3);
 	}
 	else { 
 	    //console.log("reference everything");
 	    shiftRef = 51;
-	    d3.select(this).attr("stroke","none");
+	    d3.selectAll(".state").attr("stroke","none");
 	        //.attr("stroke-width",3);
 	}
 	
@@ -119,7 +119,7 @@ function drawMap(figure) {
 	// next line verifies that the data and json line up
 	// console.log(d.properties.name); console.log(allData[i].name); 
 	shiftComp = i;
-	d3.select(this).style("fill","red");
+	d3.selectAll(".state."+allData[i].name).style("fill","red");
 
 	if (shiftRef !== shiftComp) {
 	    shiftObj = shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
@@ -140,6 +140,9 @@ function drawMap(figure) {
 	// next line verifies that the data and json line up
 	// console.log(d.properties.name); console.log(allData[i].name); 
 	shiftComp = i;
+	console.log(".state.list."+allData[i].name);
+	d3.selectAll(".state.list."+allData[i].name)
+	    .style("fill",color(allData[i].avhapps));
 	d3.select(this)
          .style("fill", function() {
 	    // need to get the variable map right

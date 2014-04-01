@@ -114,7 +114,7 @@ d3.selectAll(".tick line").style({'stroke':'black'});
 
 // create the clip boundary
 var clip = axes.append("svg:clipPath")
-  .attr("id","clip")
+  .attr("id","shiftclip")
   .append("svg:rect")
   .attr("x",0)
   .attr("y",clipHeight)
@@ -306,7 +306,7 @@ unclipped_axes.selectAll(".sumrectL")
     } );
  
 axes = axes.append("g")
-  .attr("clip-path","url(#clip)");
+  .attr("clip-path","url(#shiftclip)");
 
 canvas.append("text")
    .text("Word Rank")
