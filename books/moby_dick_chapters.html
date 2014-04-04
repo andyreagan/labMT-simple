@@ -136,13 +136,31 @@ function initializePlotPlot(allDataRaw,lens,words) {
     // initially apply the lens
     var minSize = 10000;
     var dataSize = 1000;
-
     minWindows = Math.round(minSize/dataSize);
+
+    // load variables from the URL					 
+    GET = {};
+    query = window.location.search.substring(1).split("&");
+    for (var i = 0, max = query.length; i < max; i++)
+    {
+        if (query[i] === "") // check for trailing & with no param
+            continue;
+        var param = query[i].split("=");
+        GET[decodeURIComponent(param[0])] = decodeURIComponent(param[1] || "");
+    }					 
+
+    if ("lens" in GET) {
+        var tmpArray = GET["lens"].substring(1,GET["lens"].length-1).split(',').map(parseFloat);
+    lensExtent = tmpArray;
+}
+else {					    
+    lensExtent = [4,6];
+}
+
+
+    ignoreWords = ["cried","cry","coffin"];				  
     refFextent = [0,Math.round(allDataRaw.length*.15)];
     compFextent = [Math.round(allDataRaw.length*.85),allDataRaw.length];
-    lensExtent = [4,6];
-    ignoreWords = ["cried","cry","coffin"];				  
-
 	// initialize new values
 	var refF = Array(allDataRaw[0].length);
 	var compF = Array(allDataRaw[0].length);

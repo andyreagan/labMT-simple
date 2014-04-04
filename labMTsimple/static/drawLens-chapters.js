@@ -153,12 +153,12 @@ function drawLens(figure,lens) {
     //console.log(x(d3.min(lens)));
 
     brushX = d3.scale.linear()
-        .domain([d3.min(lens),d3.max(lens)])
+        .domain([1,9])
         .range([figwidth*.125,width+figwidth*.125]);
     
     var brush = d3.svg.brush()
         .x(brushX)
-        .extent([4,6])
+        .extent(lensExtent)
         .on("brushend",brushended);
 
     var gBrush = canvas.append("g")
@@ -176,7 +176,9 @@ function drawLens(figure,lens) {
 	if (!d3.event.sourceEvent) return;
 	var extent0 = brush.extent(),
 	    extent1 = extent0;
-	lensExtent = extent1;
+	// round to nearest tenth (set 4 to 10)
+	// round to nearest quarter
+	lensExtent = [Math.round(extent1[0]*4)/4,Math.round(extent1[1]*4)/4];
 
 	// initialize new values
 	var refF = Array(allDataRaw[0].length);
@@ -236,8 +238,35 @@ function drawLens(figure,lens) {
 		  shiftObj.refH,
 		  shiftObj.compH);
 
+	// set the lens extent in the browser, if it didn't already exist
+	// break down the current window.location
+	GET = {};
+	query = window.location.search.substring(1).split("&");
+	for (var i = 0, max = query.length; i < max; i++)
+	{
+            if (query[i] === "") // check for trailing & with no param
+		continue;
+            var param = query[i].split("=");
+            GET[decodeURIComponent(param[0])] = decodeURIComponent(param[1] || "");
+	}					 
+	//if ("lens" in GET) {
+	if (true) {
+	    // push up the new one
+            console.log("pushing new varaible to the URL");
+	    //window.history.pushState(“object or string”, “Title”, “/another-new-url”);
+	    baseUrl = window.location.origin+window.location.pathname;
+	    newDataUrl = baseUrl + "?lens=[" + lensExtent[0] + "," + lensExtent[1] + "]"
+	    window.history.replaceState("object or string", "title",newDataUrl);
+	}
+	else {					    
+	    // create it
+	    if ("?" in window.location) {
+		console.log("yes, already variables in URL");
+	    }
+	}
+
 	d3.select(this).transition()
-	    .call(brush.extent(extent1))
+	    .call(brush.extent(lensExtent))
 	    .call(brush.event);
 
     }
