@@ -21,7 +21,7 @@ function drawMap(figure) {
     var path = d3.geo.path()
 	.projection(projection);
 
-    var numColors = 10,
+    var numColors = 20,
         hueRange = [240,60], // in degrees
         // see http://hslpicker.com/#ffd900
         saturation = 1, // full
