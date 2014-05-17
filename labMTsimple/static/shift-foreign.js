@@ -1,7 +1,7 @@
 function shift(rrefF,ccompF,lens,words) {
 /* shift two frequency vectors
    -assume they've been zero-ed for stop words
-   -lens is of full length
+   -lens is of full length (scores)
    -words is a list of utf8 strings
 
    return an object with the sorted quantities for plotting the shift
