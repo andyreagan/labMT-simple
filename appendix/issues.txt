@@ -1,0 +1,4 @@
+Here are some known issues:
+
+If the page is dragged, and then the lens moved, the timeseries is redrawn entirely so it loses the correct left offest.
+Marginal issue, I don't plan on fixing this.

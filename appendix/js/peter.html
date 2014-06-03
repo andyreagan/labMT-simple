@@ -1,0 +1,128 @@
+<html>
+<head>
+<title>Simple Shift Plot</title>
+<!-- <script src="d3/d3.js" charset="utf-8"></script> -->
+<script src="d3.andy.js" charset="utf-8"></script>
+<script src="plotShift.min.js" charset="utf-8"></script>
+<script src="shift.min.js" charset="utf-8"></script>
+  <style>
+    body {
+      font-family: Verdana,Arial,sans-serif;
+    }
+
+    h4 {
+    font-size: .8em;
+    margin: 60px 0 5px 0;
+    }
+
+    h5 {
+    font-size: .8em;
+    margin: 10px 0 5px 0;
+    }
+
+    body {
+    min-width: 650px;
+    }
+
+    #figure01 {
+      width: 600px;
+    }
+
+    .domain {
+      fill: none;
+      stroke: black;
+      stroke-width: 2;
+     }
+
+  </style>
+</head>
+<body>
+
+<center>
+Click on the graph and drag up to reveal additional words.
+<br>
+
+<div id="figure01" class="figure"></div>
+</center>
+
+<script>
+function loadCsv() {
+    var csvLoadsRemaining = 5;
+    d3.text("data/allUS.csv", function(text) {
+	tmp = text.split("\n");
+	// kill extra rows
+	refF = tmp.map(parseFloat);
+	var len = tmp.length-1;
+	while (!refF[len]) { refF = refF.slice(0,len); len--; } 
+	if (!--csvLoadsRemaining) intializePlot();
+    });
+    d3.text("data/wendys.csv", function(text) {
+	tmp = text.split("\n");
+	// kill extra rows
+	compF = tmp.map(parseFloat);
+	var len = tmp.length-1;
+	while (!compF[len]) { compF = compF.slice(0,len); len--; } 
+	if (!--csvLoadsRemaining) intializePlot();
+    });
+    d3.text("data/labMTvecLong.csv", function(text) {
+	var tmp = text.split("\n");
+	//console.log(tmp.length);
+	var len = tmp.length-1;
+	while (!tmp[len]) { tmp = tmp.slice(0,len); len--; } 
+	lens = tmp.map(parseFloat);
+	if (!--csvLoadsRemaining) intializePlot();
+    });
+    d3.text("data/labMTwordsLonger.csv", function(text) {
+	// slice them up
+	var tmp = text.split(",").slice(1,1000000);
+	words = tmp.map(function(d) { return d.split("\n").slice(0,d.split("\n").length-1).join(""); });
+	if (!--csvLoadsRemaining) intializePlot();
+    });
+    d3.text("data/labMTwordsLonger.csv", function(text) {
+	// slice them up
+	var tmp = text.split(",").slice(1,1000000);
+	words_en = tmp.map(function(d) { return d.split("\n").slice(0,d.split("\n").length-1).join(""); });
+	if (!--csvLoadsRemaining) intializePlot();
+    });
+};
+
+function intializePlot() {
+    // this list of words will be ignored
+    ignoreWords = ["cried","cry","coffin"];
+    // keep this
+    lensExtent = [4,6];
+    // 0 out the middles
+    for (var i=0; i<words.length; i++) {
+        var exclude = false;
+        for (var k=0; k<ignoreWords.length; k++) {
+	    if (ignoreWords[k] == words[i]) {
+		exclude = true;
+	    }
+        }
+        if (lens[i] > lensExtent[0] && lens[i] < lensExtent[1]) {
+	    exclude = true;
+	}
+	// grab the shift vectors
+	if (exclude) {
+            refF[i] = 0;
+            compF[i] = 0;
+	}
+    }
+
+    shiftObj = shift(refF,compF,lens,words);
+    plotShift(d3.select("#figure01"),shiftObj.sortedMag.slice(0,200),
+              shiftObj.sortedType.slice(0,200),
+              shiftObj.sortedWords.slice(0,200),
+              shiftObj.sortedWordsEn.slice(0,200),
+              shiftObj.sumTypes,
+              shiftObj.refH,
+              shiftObj.compH);
+};
+
+loadCsv();
+</script>
+
+</body>
+</html>
+
+

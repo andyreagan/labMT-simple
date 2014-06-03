@@ -470,6 +470,13 @@ function plotShift(figure,sortedMag,sortedType,sortedWords,sortedWordsEn,sumType
     };
     //console.log("happiness (it all worked)");
 
+    canvas.append("text")
+	.text("by Andy Reagan")
+        .attr("fill","#404040")
+	.attr("x",100)
+	.attr("y",10)
+	.attr("font-size", "11.0px");
+
     //resetButton();
 };
 
