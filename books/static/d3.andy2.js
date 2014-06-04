@@ -1,1 +1,0 @@
-../../labMTsimple/static/d3.andy2.js

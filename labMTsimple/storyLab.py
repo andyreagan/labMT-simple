@@ -51,7 +51,8 @@ def emotionFileReader(stopval=1.0,fileName='labMT1.txt',min=1.0,max=9.0,returnVe
   ## if labMT1 file, emotion value as third tab
   ## else, it's the second tab
   labMT1flag = False
-
+  scoreIndex = 1 # second value
+  print fileName
   if fileName == 'labMT1.txt':
     scoreIndex = 1 # second value
     labMT1flag = True
@@ -62,7 +63,7 @@ def emotionFileReader(stopval=1.0,fileName='labMT1.txt',min=1.0,max=9.0,returnVe
   except IOError:
     relpath = os.path.abspath(__file__).split('/')[1:-1]
     relpath.append('data')
-    relpath.append('labMT1.txt')
+    relpath.append(fileName)
     fileName = ''
     for pathp in relpath:
       fileName += '/' + pathp
@@ -162,7 +163,7 @@ def emotion(tmpStr,someDict,scoreIndex=1,shift=False,happsList=[]):
     for word in words:
       if word in someDict:
         scoreList.append(float(someDict[word][scoreIndex]))
-        freqList[someDict[word][0]] += 1
+        freqList[int(someDict[word][0])] += 1
   else:
     for word in words:
       if word in someDict:

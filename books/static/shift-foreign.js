@@ -1,1 +1,0 @@
-../../labMTsimple/static/shift-foreign.js
