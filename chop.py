@@ -1,3 +1,11 @@
+# chop.py
+#
+# chop up a text into a bunch of frequency vectors of length
+# 
+# USAGE
+#
+# python chop.py data/count-of-monte-cristo.txt output.txt french
+
 from labMTsimple.storyLab import *
 
 if __name__ == "__main__":
@@ -5,8 +13,9 @@ if __name__ == "__main__":
   rawbook = sys.argv[1]
   saveas = sys.argv[2]
   saveasrolling = sys.argv[2]
+  lang = sys.argv[2]
   
-  labMT,labMTvector,labMTwordList = emotionFileReader(stopval=0.0,fileName='labMT1french.txt',returnVector=True)
+  labMT,labMTvector,labMTwordList = emotionFileReader(stopval=0.0,fileName='labMT1'+lang+'.txt',returnVector=True)
 
   # make sure we got the right list
   print labMT['the']

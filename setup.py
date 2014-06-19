@@ -6,7 +6,7 @@ with open('README.txt') as file:
 setup(
     name = 'labMTsimple',
     packages = ['labMTsimple'],
-    package_data={'labMTsimple': ['data/labMT1.txt','data/labMT1french.txt','data/labMT1russian.txt','static/d3.v3.min.js','static/drawLens.js','static/plotShift.js','static/shift.js']},
+    package_data={'labMTsimple': ['data/labMT1.txt','data/labMT1raw.txt','data/labMT2arabic.txt','data/labMT2english.txt','data/labMT2chinese.txt','data/labMT2french.txt','data/labMT2german.txt','data/labMT2hindi.txt','data/labMT2indonesian.txt','data/labMT2korean.txt','data/labMT2pashto.txt','data/labMT2portuguese.txt','data/labMT2russian.txt','data/labMT2spanish.txt','data/labMT2urdu.txt','static/d3.v3.min.js','static/drawLens.js','static/plotShift.js','static/shift.js']},
     data_files=[('test', ['test/shiftPlot.html','test/data/18.01.14.txt','test/data/21.01.14.txt'])],
     version = '1.2',
     description = 'Basic usage script for LabMT1.0 dataset',

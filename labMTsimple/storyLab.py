@@ -43,6 +43,8 @@
 # 2014-03-01
 
 import os
+import re
+import codecs
 
 def emotionFileReader(stopval=1.0,fileName='labMT1.txt',min=1.0,max=9.0,returnVector=False):
   ## stopval is our lens, \Delta h
@@ -59,18 +61,21 @@ def emotionFileReader(stopval=1.0,fileName='labMT1.txt',min=1.0,max=9.0,returnVe
   if 'labMT2' in fileName:
     scoreIndex = 1
   try:
-    f = open(fileName,'r')
+    f = codecs.open(fileName,'r','utf8')
   except IOError:
-    relpath = os.path.abspath(__file__).split('/')[1:-1]
+    relpath = os.path.abspath(__file__).split(u'/')[1:-1]
     relpath.append('data')
     relpath.append(fileName)
     fileName = ''
     for pathp in relpath:
       fileName += '/' + pathp
-    f = open(fileName,'r')
-    
-  tmpDict = dict([(str(line.split('\t')[0].rstrip('"').lstrip('"')),
-                  [x.rstrip() for x in line.split('\t')[1:]]) for line in f])
+    f = codecs.open(fileName,'r','utf8')
+
+  # skip the first line
+  f.readline()
+
+  tmpDict = dict([(line.split(u'\t')[0].rstrip(u'"').lstrip(u'"'),
+                  [x.rstrip(u'"') for x in line.split(u'\t')[1:]]) for line in f])
 
   f.close()
   
@@ -94,12 +99,14 @@ def emotionFileReader(stopval=1.0,fileName='labMT1.txt',min=1.0,max=9.0,returnVe
     del tmpDict[word]
 
   ## build vector of all scores
-  f = open(fileName,'r')
-  tmpList = [float(line.split('\t')[2]) for line in f]
+  f = codecs.open(fileName,'r','utf8')
+  f.readline()
+  tmpList = [float(line.split(u'\t')[2]) for line in f]
   f.close()
   ## build vector of all words
-  f = open(fileName,'r')
-  wordList = [line.split('\t')[0] for line in f]
+  f = codecs.open(fileName,'r','utf8')
+  f.readline()
+  wordList = [line.split(u'\t')[0] for line in f]
   f.close()
 
   if returnVector:
@@ -107,10 +114,10 @@ def emotionFileReader(stopval=1.0,fileName='labMT1.txt',min=1.0,max=9.0,returnVe
   else:
     return tmpDict
 
-def emotionFileReaderRaw(stopval=1.0,fileName='labMT1raw.txt',min=1.0,max=9.0,returnVector=False):
+def emotionFileReaderRaw(stopval=1.0,fileName=u'labMT1raw.txt',min=1.0,max=9.0,returnVector=False):
 
   try:
-    f = open(fileName,'r')
+    f = codecs.open(fileName,'r','utf8')
   except IOError:
     relpath = os.path.abspath(__file__).split('/')[1:-1]
     relpath.append('data')
@@ -118,7 +125,7 @@ def emotionFileReaderRaw(stopval=1.0,fileName='labMT1raw.txt',min=1.0,max=9.0,re
     fileName = ''
     for pathp in relpath:
       fileName += '/' + pathp
-    f = open(fileName,'r')
+    f = codecs.open(fileName,'r','utf8')
 
   tmpDict = dict()
 
@@ -126,7 +133,7 @@ def emotionFileReaderRaw(stopval=1.0,fileName='labMT1raw.txt',min=1.0,max=9.0,re
     word = f.readline()
     tmpDict[word] = []
     for i in xrange(10):
-      tmpDict[word].append(map(int,f.readline().split('\t'))[1])
+      tmpDict[word].append(map(int,f.readline().split(u'\t'))[1])
   f.close()
   
   ## remove words
@@ -157,13 +164,17 @@ def emotion(tmpStr,someDict,scoreIndex=1,shift=False,happsList=[]):
     freqList = [0 for i in xrange(len(happsList))]
 
   # doing this without the NLTK
-  words = [x.lower().lstrip("?';:.$%&()\\!*[]{}|\"<>,^-_=+").rstrip("@#?';:.$%&()\\!*[]{}|\"<>,^-_=+") for x in tmpStr.split()]
+  words = [x.lower().lstrip(u"?';:.$%&()\\!*[]{}|\"<>,^-_=+").rstrip(u"@#?';:.$%&()\\!*[]{}|\"<>,^-_=+") for x in re.split(u'\s',tmpStr,flags=re.UNICODE)]
+
+  # print words[0:10]
+
   # only use the if once
   if shift:
     for word in words:
       if word in someDict:
         scoreList.append(float(someDict[word][scoreIndex]))
-        freqList[int(someDict[word][0])] += 1
+        # print int(someDict[word][0])
+        freqList[int(someDict[word][0])-1] += 1
   else:
     for word in words:
       if word in someDict:
@@ -230,7 +241,7 @@ def shift(emoList,refFreq,compFreq):
 
 def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile):
   ## write out the template
-  f = open('tmp.js','w')
+  f = codecs.open('tmp.js','w','utf8')
   f.write('function initializePlot() { loadCsv(); }\n\n')
 
   ## dump the data
@@ -286,7 +297,7 @@ def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile):
   
   ## dump out a static shift view page
   ## need to replace all of the js loads
-  f = open(outFile,'w')  
+  f = codecs.open(outFile,'w','utf8')  
   f.write('<html>\n')
   f.write('<head>\n')
   f.write('<title>Simple Shift Plot</title>\n')
