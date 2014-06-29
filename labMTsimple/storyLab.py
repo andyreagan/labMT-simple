@@ -45,6 +45,7 @@
 import os
 import re
 import codecs
+import copy
 
 def emotionFileReader(stopval=1.0,fileName='labMT1.txt',min=1.0,max=9.0,returnVector=False):
   ## stopval is our lens, \Delta h
@@ -193,6 +194,25 @@ def emotion(tmpStr,someDict,scoreIndex=1,shift=False,happsList=[]):
     return happs,freqList
   else:
     return happs
+
+def stopper(tmpVec,labMTvector,stopVal=1.0):
+  newVec = copy.copy(tmpVec)
+  for i in xrange(len(labMTvector)):
+    if abs(labMTvector[i]-5.0) < stopVal:
+      newVec[i] = 0
+
+  return newVec
+
+def emotionV(tmpVec,labMTvector):
+  tmpSum = sum(tmpVec)
+  if tmpSum > 0:
+    happs = 0.0
+    for i in xrange(len(labMTvector)):
+      happs += tmpVec[i]*float(labMTvector[i])
+    happs = float(happs)/float(tmpSum)
+    return happs
+  else:
+    return -1
 
 def allEmotions(tmpStr,*allDicts):
   emotionList = []
