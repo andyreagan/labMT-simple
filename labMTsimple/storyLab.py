@@ -195,10 +195,15 @@ def emotion(tmpStr,someDict,scoreIndex=1,shift=False,happsList=[]):
   else:
     return happs
 
-def stopper(tmpVec,labMTvector,stopVal=1.0):
+def stopper(tmpVec,labMTvector,labMTwords,stopVal=1.0,ignore=[]):
+  ignoreWords = ["nigga","nigger","niggaz","niggas"];
+  for word in ignore:
+    ignoreWords.append(word)
   newVec = copy.copy(tmpVec)
   for i in xrange(len(labMTvector)):
     if abs(labMTvector[i]-5.0) < stopVal:
+      newVec[i] = 0
+    if labMTwords[i] in ignoreWords:
       newVec[i] = 0
 
   return newVec
