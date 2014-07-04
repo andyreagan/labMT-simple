@@ -242,7 +242,7 @@ def plothapps(happsTimeSeries,picname):
   plt.savefig(picname)
   plt.close(fig)
 
-def shift(emoList,refFreq,compFreq):
+def shift(refFreq,compFreq,lens,words,sort=True):
   ## normalize frequencies
   Nref = float(sum(refFreq))
   Ncomp = float(sum(compFreq))
@@ -250,19 +250,30 @@ def shift(emoList,refFreq,compFreq):
     refFreq[i] = float(refFreq[i])/Nref
     compFreq[i] = float(compFreq[i])/Ncomp
   ## compute the reference happiness
-  refHapps = sum([refFreq[i]*emoList[i] for i in xrange(len(emoList))])
+  refH = sum([refFreq[i]*lens[i] for i in xrange(len(lens))])
   ## determine shift magnitude, type
-  shiftMag = [0 for i in xrange(len(emoList))]
-  shiftType = [0 for i in xrange(len(emoList))]
-  for i in xrange(len(emoList)):
+  shiftMag = [0 for i in xrange(len(lens))]
+  shiftType = [0 for i in xrange(len(lens))]
+  for i in xrange(len(lens)):
     freqDiff = compFreq[i]-refFreq[i]
-    shiftMag[i] = (emoList[i]-refHapps)*freqDiff
+    shiftMag[i] = (lens[i]-refH)*freqDiff
     if freqDiff > 0:
       shiftType[i] += 2
-    if emoList[i] > refHapps:
+    if lens[i] > refH:
       shiftType[i] += 1
 
-  return shiftMag,shiftType
+  indices = sorted(range(len(shiftMag)), key=lambda k: abs(shiftMag[k]), reverse=True)
+  sumTypes = [0.0 for i in xrange(4)]
+  for i in xrange(len(lens)):
+    sumTypes[shiftType[i]] += shiftMag[i]
+  sortedMag = [shiftMag[i] for i in indices]
+  sortedType = [shiftType[i] for i in indices]
+  sortedWords = [words[i] for i in indices]
+
+  if sort:
+    return sortedMag,sortedWords,sortedType,sumTypes
+  else:
+    return shiftMag,shiftType,sumTypes
 
 def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile):
   ## write out the template
