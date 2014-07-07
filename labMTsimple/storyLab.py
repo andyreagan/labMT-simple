@@ -165,11 +165,23 @@ def emotion(tmpStr,someDict,scoreIndex=1,shift=False,happsList=[]):
     freqList = [0 for i in xrange(len(happsList))]
 
   # doing this without the NLTK
-  words = [x.lower().lstrip(u"?';:.$%&()\\!*[]{}|\"<>,^-_=+").rstrip(u"@#?';:.$%&()\\!*[]{}|\"<>,^-_=+") for x in re.split(u'\s',tmpStr,flags=re.UNICODE)]
+  # words = [x.lower().lstrip(u"?';:.$%&()\\!*[]{}|\"<>,^-_=+").rstrip(u"@#?';:.$%&()\\!*[]{}|\"<>,^-_=+") for x in re.split(u'\s',tmpStr,flags=re.UNICODE)]
+  
+  # better re search
+  # keeping all of the non-alphanumeric chars that show up inside words in the labMT set
+  # which were found by:
+  # lang = "english";
+  # labMT,labMTvector,labMTwordList = emotionFileReader(stopval=0.0,fileName='labMT2'+lang+'.txt',returnVector=True)
+  # charset = set([])
+  # for word in labMTwordList:
+  #     if len(re.findall('[^\w]+',word)) > 0:
+  #         for i in xrange(len(re.findall('[^\w]+',word))):
+  #             charset.add(re.findall('[^\w]+',word)[i])
 
+  word = [x.lower() for x in re.findall(r"[\w\@\#\'\&\]\*\-\/\[\=\;]+",tmpStr)]
   # print words[0:10]
 
-  # only use the if once
+  # only use the if shifting
   if shift:
     for word in words:
       if word in someDict:
