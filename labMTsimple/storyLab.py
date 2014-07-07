@@ -178,7 +178,7 @@ def emotion(tmpStr,someDict,scoreIndex=1,shift=False,happsList=[]):
   #         for i in xrange(len(re.findall('[^\w]+',word))):
   #             charset.add(re.findall('[^\w]+',word)[i])
 
-  word = [x.lower() for x in re.findall(r"[\w\@\#\'\&\]\*\-\/\[\=\;]+",tmpStr)]
+  words = [x.lower() for x in re.findall(r"[\w\@\#\'\&\]\*\-\/\[\=\;]+",tmpStr)]
   # print words[0:10]
 
   # only use the if shifting
@@ -278,6 +278,7 @@ def shift(refFreq,compFreq,lens,words,sort=True):
   sumTypes = [0.0 for i in xrange(4)]
   for i in xrange(len(lens)):
     sumTypes[shiftType[i]] += shiftMag[i]
+
   sortedMag = [shiftMag[i] for i in indices]
   sortedType = [shiftType[i] for i in indices]
   sortedWords = [words[i] for i in indices]
