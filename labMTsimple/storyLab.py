@@ -166,6 +166,7 @@ def emotion(tmpStr,someDict,scoreIndex=1,shift=False,happsList=[]):
 
   # doing this without the NLTK
   words = [x.lower().lstrip(u"?';:.$%&()\\!*[]{}|\"<>,^-_=+").rstrip(u"@#?';:.$%&()\\!*[]{}|\"<>,^-_=+") for x in re.split(u'\s',tmpStr,flags=re.UNICODE)]
+  
 
   # print words[0:10]
 
