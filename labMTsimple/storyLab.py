@@ -178,7 +178,7 @@ def emotion(tmpStr,someDict,scoreIndex=1,shift=False,happsList=[]):
   #         for i in xrange(len(re.findall('[^\w]+',word))):
   #             charset.add(re.findall('[^\w]+',word)[i])
 
-  words = [x.lower() for x in re.findall(r"[\w\@\#\'\&\]\*\-\/\[\=\;]+",tmpStr),flags=re.UNICODE]
+  words = [x.lower() for x in re.findall(r"[\w\@\#\'\&\]\*\-\/\[\=\;]+",tmpStr,flags=re.UNICODE)]
   # print words[0:10]
 
   # only use the if shifting
