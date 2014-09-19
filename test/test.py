@@ -49,18 +49,20 @@ def cleanup_after_test(fname):
     # 2) leave all the files (comment everything)
     # 3) try to make the pdf from here (uncomment second block)
 
-    print "don't cleanup yet to check the files"
+    # print "don't cleanup yet to check the files"
     # subprocess.check_output("\\rm "+fname,shell=True)
     # subprocess.check_output("\\rm example-data.js",shell=True)
     # subprocess.check_output("\\rm -r static",shell=True)
 
-    # print "this will definitely only work for me"
-    # subprocess.check_output("phantom-crowbar /Users/andyreagan/work/2014/labMTsimple/test.html shiftsvg test.svg",shell=True)
-    # subprocess.check_output("inkscape -f test.svg -A test.pdf",shell=True)
-    # subprocess.check_output("\\rm "+fname,shell=True)
-    # subprocess.check_output("\\rm example-data.js local.svg",shell=True)
-    # subprocess.check_output("\\rm -r static",shell=True)
-    
+    print "this will definitely only work for me"
+    # subprocess.check_output("source ~/.bashrc; phantom-crowbar /Users/andyreagan/work/2014/labMTsimple/test.html shiftsvg test.svg",shell=True)
+    subprocess.check_output("phantomjs /Users/andyreagan/work/2014/2014-09d3-crowbar-chrome-automation/phantom-crowbar.js /Users/andyreagan/work/2014/labMTsimple/test.html shiftsvg test.svg",shell=True)
+    subprocess.check_output("inkscape -f test.svg -A test.pdf",shell=True)
+    subprocess.check_output("\\rm "+fname,shell=True)
+    subprocess.check_output("\\rm test.svg",shell=True)
+    subprocess.check_output("\\rm -r static",shell=True)
+    print "check test.pdf for the shift"
+
 def test_labMT_english():
    dataobject = setup_test("english")
    try:
