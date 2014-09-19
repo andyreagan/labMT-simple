@@ -59,7 +59,7 @@ def cleanup_after_test(fname):
     except:
         print "didn't work, of course"
         print "don't cleanup yet to check the files"
-    print "the static directory, and test.html are left to inspect"
+        print "the static directory, and test.html are left to inspect"
         # subprocess.check_output("\\rm "+fname,shell=True)
         # subprocess.check_output("\\rm example-data.js",shell=True)
         # subprocess.check_output("\\rm -r static",shell=True)        
