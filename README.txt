@@ -18,15 +18,15 @@ between the two corpora. The corpora should be large (e.g. at least
 10,000 words) in order for the difference to be meaningful, as this is a
 bag-of-words approach. As an example, a random collection of English
 tweets from both Saturday January 18 2014 and Tuesday January 21 2014
-are included in the "test" directory. They can be compared by moving to
-the test directory, using the command
+are included in the "example" directory. They can be compared by moving
+to the test directory, using the command
 
 .. code:: python
 
-    python test.py
+    python example.py example-shift.html
 
-and opening the file test.html. For an explanation of the resulting
-plot, please visit
+and opening the file ``example-shift.html`` in a web browser. For an
+explanation of the resulting plot, please visit
 
 http://www.hedonometer.org/shifts.html
 

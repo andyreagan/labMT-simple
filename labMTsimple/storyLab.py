@@ -55,7 +55,7 @@ def emotionFileReader(stopval=1.0,fileName='labMT1.txt',min=1.0,max=9.0,returnVe
   ## else, it's the second tab
   labMT1flag = False
   scoreIndex = 1 # second value
-  print fileName
+  # print fileName
   if fileName == 'labMT1.txt':
     scoreIndex = 1 # second value
     labMT1flag = True
@@ -289,71 +289,40 @@ def shift(refFreq,compFreq,lens,words,sort=True):
     return shiftMag,shiftType,sumTypes
 
 def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile):
+  if not os.path.exists('static'):
+    print "making static directory in path"
+    os.mkdir('static')
+
   ## write out the template
-  f = codecs.open('tmp.js','w','utf8')
-  f.write('function initializePlot() { loadCsv(); }\n\n')
+  f = codecs.open('static/'+outFile.split('.')[0]+'-data.js','w','utf8')
+  # f.write('function initializePlot() { loadCsv(); }\n\n')
 
   ## dump the data
-  f.write('function loadCsv() {\n')
-  f.write('    lens = [')
+  # f.write('function loadCsv() {\n')
+  f.write('lens = [')
   for score in scoreList:
     f.write(str(score)+',')
   f.write('];\n\n')
-  f.write('    words = [')
+  f.write('words = [')
   for word in wordList:
     f.write('"'+str(word)+'",')
   f.write('];\n\n')
-  f.write('    refFraw = [')
+  f.write('refFraw = [')
   for freq in refFreq:
     f.write('{0:.0f},'.format(freq))
   f.write('];\n\n')
-  f.write('    compFraw = [')
+  f.write('compFraw = [')
   for freq in compFreq:
     f.write('{0:.0f},'.format(freq))
   f.write('];\n\n')
-  f.write('    initializePlotPlot(refFraw,compFraw,lens,words);\n };\n')
-
-  ## rest of the main js
-  f.write('  function initializePlotPlot(refFraw,compFraw,lens,words) {\n')
-  f.write('    // draw the lens\n')
-  f.write('    drawLens(d3.select("#lens01"),lens,refFraw,compFraw);\n')
-  f.write('\n')
-  f.write('    // initially apply the lens, and draw the shift\n')
-  f.write('    var refF = Array(refFraw.length);\n')
-  f.write('    var compF = Array(compFraw.length);\n')
-  f.write('    for (var i=0; i<refFraw.length; i++) {\n')
-  f.write('	if (lens[i] > 4 && lens[i] < 6) {\n')
-  f.write('            refF[i]= 0;\n')
-  f.write('            compF[i]= 0;\n')
-  f.write('        }\n')
-  f.write('	else {\n')
-  f.write('            refF[i]= refFraw[i];\n')
-  f.write('            compF[i]= compFraw[i];\n')
-  f.write('	}\n')
-  f.write('    }\n')
-  f.write('    shiftObj = shift(refF,compF,lens,words);\n')
-  f.write('    plotShift(d3.select("#figure01"),shiftObj.sortedMag.slice(0,200),\n')
-  f.write('              shiftObj.sortedType.slice(0,200),\n')
-  f.write('              shiftObj.sortedWords.slice(0,200),\n')
-  f.write('              shiftObj.sumTypes,\n')
-  f.write('              shiftObj.refH,\n')
-  f.write('              shiftObj.compH);\n')
-  f.write('\n')
-  f.write('};\n')
-  f.write('\n')
-  f.write('initializePlot();\n')
   f.close()
   
   ## dump out a static shift view page
-  ## need to replace all of the js loads
   f = codecs.open(outFile,'w','utf8')  
   f.write('<html>\n')
   f.write('<head>\n')
   f.write('<title>Simple Shift Plot</title>\n')
-  f.write('<script src="static/d3.v3.min.js" charset="utf-8"></script>\n')
-  f.write('<script src="static/plotShift.js" charset="utf-8"></script>\n')
-  f.write('<script src="static/shift.js" charset="utf-8"></script>\n')
-  f.write('<script src="static/drawLens.js" charset="utf-8"></script>\n')
+
   f.write('  <style>\n')
   f.write('    body {\n')
   f.write('      font-family: Verdana,Arial,sans-serif;\n')
@@ -377,10 +346,6 @@ def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile):
   f.write('      width: 500px;\n')
   f.write('    }\n')
   f.write('\n')
-  f.write('    #lens01 {\n')
-  f.write('      width: 600px;\n')
-  f.write('    }\n')
-  f.write('\n')
   f.write('    #figure01 {\n')
   f.write('      width: 600px;\n')
   f.write('    }\n')
@@ -392,6 +357,7 @@ def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile):
   f.write('     }\n')
   f.write('\n')
   f.write('  </style>\n')
+  f.write('<link href="static/hedotools.shift.css" rel="stylesheet">\n')
   f.write('</head>\n')
   f.write('<body>\n')
   f.write('\n')
@@ -403,10 +369,10 @@ def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile):
   f.write('Removing 4 though 6, the default, corresponds to the tuned hedonometer for large corpuses.</div>\n')
   f.write('<br>\n')
   f.write('\n')
-  f.write('<div id="lens01" class="figure"></div>\n')
-  f.write('\n')
-  f.write('<br>\n')
-  f.write('\n')
+  # f.write('<div id="lens01" class="figure"></div>\n')
+  # f.write('\n')
+  # f.write('<br>\n')
+  # f.write('\n')
   f.write('Click on the graph and drag up to reveal additional words.\n')
   f.write('\n')
   f.write('<div id="figure01" class="figure"></div>\n')
@@ -415,16 +381,22 @@ def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile):
   f.write('\n')
   f.write('<div id="footer"></div>\n')
   f.write('\n')
-  f.write('<script src="tmp.js" charset="utf-8"></script>\n')
+  f.write('<script src="static/d3.andy.js" charset="utf-8"></script>\n')
+  f.write('<script src="static/jquery-1.11.0.min.js" charset="utf-8"></script>\n')
+  f.write('<script src="static/urllib.js" charset="utf-8"></script>\n')
+  f.write('<script src="static/hedotools.init.js" charset="utf-8"></script>\n')
+  f.write('<script src="static/hedotools.shifter.js" charset="utf-8"></script>\n')
+  f.write('<script src="static/'+outFile.split('.')[0]+'-data.js" charset="utf-8"></script>\n')
+  f.write('<script src="static/example-on-load.js" charset="utf-8"></script>\n')
   f.write('\n')
   f.write('</body>\n')
   f.write('</html>\n')
   f.close()
 
-  if not os.path.exists('static'):
-    os.mkdir('static')
+
   
-  for staticfile in ['d3.v3.min.js','plotShift.js','shift.js','drawLens.js']:
+  # for staticfile in ['d3.v3.min.js','plotShift.js','shift.js','example-on-load.js']:
+  for staticfile in ['d3.andy.js','jquery-1.11.0.min.js','urllib.js','hedotools.init.js','hedotools.shifter.js','example-on-load.js','hedotools.shift.css']:
     if not os.path.isfile('static/'+staticfile):
       import shutil
       relpath = os.path.abspath(__file__).split('/')[1:-1]
@@ -435,6 +407,8 @@ def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile):
         fileName += '/' + pathp    
       print 'copying over '+fileName
       shutil.copy(fileName,'static/'+staticfile)
+
+  # shutil.copy(outFile,'static/template.html')
 
 if __name__ == '__main__':
   ## run from standard in

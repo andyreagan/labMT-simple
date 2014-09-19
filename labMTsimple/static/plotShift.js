@@ -35,9 +35,6 @@ x = d3.scale.linear()
   .domain([-Math.abs(sortedMag[0]),Math.abs(sortedMag[0])])
   .range([(sortedWords[0].length+3)*9, width-(sortedWords[0].length+3)*9]);
 
-
-
-
 if ((sumTypes[3]+sumTypes[1])*(sumTypes[0]+sumTypes[2])<0) {
     //console.log("opposing sums");
     opposingFinalSum = true;
@@ -333,28 +330,6 @@ if (compH >= refH) {
 else { 
     var happysad = "less happy";
 }
-
-canvas.selectAll(".sumtext")
-   .data(["Why ",refH,compH])
-   .enter()
-   .append("text")
-   .text(function(d,i) { 
-       if (i==0) {
-	   // if there are names of the texts, put them here
-           return d+"comparison text"+" is "+happysad+" than "+"reference text";
-       }
-       else if (i==1) {
-           return "Reference happiness " + (d.toFixed(3));
-       }
-       else {
-	   return "Comparison happiness " + (d.toFixed(3));
-       }})
-   .attr("class","axes-text")
-   .attr("x",width/2+(figwidth-width)/2)
-   .attr("y",function(d,i) { return i*20+13 })
-   .attr("font-size", "16.0px")
-   .attr("fill", "#000000")
-   .attr("style", "text-anchor: middle;");
 
 intStr = ["zero","one","two","three"];
 
