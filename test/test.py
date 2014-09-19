@@ -44,24 +44,26 @@ def make_test_assertions(test_output,fname):
     print "passed with stop words"
 
 def cleanup_after_test(fname):
-    # there are three option here
-    # 1) clean everything up (uncomment first block)
+    # there are two options here
+    # 1) clean everything up (uncomment second block) if the pdf can't be made
     # 2) leave all the files (comment everything)
-    # 3) try to make the pdf from here (uncomment second block)
 
-    # print "don't cleanup yet to check the files"
-    # subprocess.check_output("\\rm "+fname,shell=True)
-    # subprocess.check_output("\\rm example-data.js",shell=True)
-    # subprocess.check_output("\\rm -r static",shell=True)
+    try:
+        print "this will definitely only work for me"
+        subprocess.check_output("phantomjs /Users/andyreagan/work/2014/2014-09d3-crowbar-chrome-automation/phantom-crowbar.js /Users/andyreagan/work/2014/labMTsimple/test.html shiftsvg test.svg",shell=True)
+        subprocess.check_output("inkscape -f test.svg -A test.pdf",shell=True)
+        subprocess.check_output("\\rm "+fname,shell=True)
+        subprocess.check_output("\\rm test.svg",shell=True)
+        subprocess.check_output("\\rm -r static",shell=True)
+        print "check test.pdf for the shift"
+    except:
+        print "didn't work, of course"
+        print "don't cleanup yet to check the files"
+    print "the static directory, and test.html are left to inspect"
+        # subprocess.check_output("\\rm "+fname,shell=True)
+        # subprocess.check_output("\\rm example-data.js",shell=True)
+        # subprocess.check_output("\\rm -r static",shell=True)        
 
-    print "this will definitely only work for me"
-    # subprocess.check_output("source ~/.bashrc; phantom-crowbar /Users/andyreagan/work/2014/labMTsimple/test.html shiftsvg test.svg",shell=True)
-    subprocess.check_output("phantomjs /Users/andyreagan/work/2014/2014-09d3-crowbar-chrome-automation/phantom-crowbar.js /Users/andyreagan/work/2014/labMTsimple/test.html shiftsvg test.svg",shell=True)
-    subprocess.check_output("inkscape -f test.svg -A test.pdf",shell=True)
-    subprocess.check_output("\\rm "+fname,shell=True)
-    subprocess.check_output("\\rm test.svg",shell=True)
-    subprocess.check_output("\\rm -r static",shell=True)
-    print "check test.pdf for the shift"
 
 def test_labMT_english():
    dataobject = setup_test("english")
