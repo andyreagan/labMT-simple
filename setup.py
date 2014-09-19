@@ -14,7 +14,7 @@ setup(
     author = 'Andy Reagan',
     author_email = 'andy@andyreagan.com',
     url = 'https://github.com/andyreagan/labMT-simple', 
-    download_url = 'https://github.com/andyreagan/labMT-simple/tarball/2.0',
+    download_url = 'https://github.com/andyreagan/labMT-simple/tarball/2.1',
     keywords = [],
     classifiers = ['Development Status :: 4 - Beta',
                    'Programming Language :: Python'],
