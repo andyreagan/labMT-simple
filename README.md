@@ -29,7 +29,7 @@ git clone https://github.com/andyreagan/labMT-simple.git
 and then installing locally using
 
 ```bash
-sudo python setup.py install
+python setup.py install
 ```
 
 Tests can be run by navigating to the test directory, and running
