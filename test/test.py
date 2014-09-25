@@ -52,9 +52,9 @@ def cleanup_after_test(fname):
         print "this will definitely only work for me"
         subprocess.check_output("phantomjs /Users/andyreagan/work/2014/2014-09d3-crowbar-chrome-automation/phantom-crowbar.js /Users/andyreagan/work/2014/labMTsimple/test.html shiftsvg test.svg",shell=True)
         subprocess.check_output("inkscape -f test.svg -A test.pdf",shell=True)
-        subprocess.check_output("\\rm "+fname,shell=True)
-        subprocess.check_output("\\rm test.svg",shell=True)
-        subprocess.check_output("\\rm -r static",shell=True)
+        # subprocess.check_output("\\rm "+fname,shell=True)
+        # subprocess.check_output("\\rm test.svg",shell=True)
+        # subprocess.check_output("\\rm -r static",shell=True)
         print "check test.pdf for the shift"
     except:
         print "didn't work, of course"

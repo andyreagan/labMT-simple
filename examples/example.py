@@ -57,9 +57,9 @@ if __name__ == '__main__':
     f.write(labMTwordList[i])
   f.close()
 
-  stoppedVec = stopper(labMTvector,labMTwordList,stopVal=1.0)
-  stoppedVec = stopper(,stopVal=1.0)
+  tuesdayStoppedVec = stopper(tuesdayFvec,labMTvector,labMTwordList,stopVal=1.0)
+  saturdayStoppedVec = stopper(saturdayFvec,labMTvector,labMTwordList,stopVal=1.0)
   
-  shiftHtml(labMTvector,labMTwordList,tuesdayFvec,saturdayFvec,'test.html')
+  shiftHtml(labMTvector,labMTwordList,tuesdayStoppedVec,saturdayStoppedVec,sys.argv[1])
 
 
