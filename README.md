@@ -32,13 +32,15 @@ and then installing locally using
 python setup.py install
 ```
 
-Tests can be run by navigating to the test directory, and running
+Tests are based on nose2, `pip install nose2`, and can be run by executing
 
 ```bash
-python test.py
+nose2
 ```
 
-which will compare the two days in test/data and print test.html which shifts them, allowing for a changable lens.
+in the root directory of this repository.
+
+This will compare the two days in test/data and print test.html which shifts them, allowing for a changable lens.
 
 This repository can also be installed using pip
 
