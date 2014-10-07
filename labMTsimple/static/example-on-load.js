@@ -24,4 +24,4 @@ for (var i=0; i<refFraw.length; i++) {
 // now with hedotools
 
 hedotools.shifter.shift(refF,compF,lens,words);
-hedotools.shifter.setfigure(d3.select('#figure01')).setText("Title text").plot();
+hedotools.shifter.setfigure(d3.select('#figure01')).plot();
