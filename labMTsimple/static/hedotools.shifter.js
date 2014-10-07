@@ -1,7 +1,21 @@
 // current usage example:
+// (from the sankey page)
 //
-// var shiftObj = hedotools.shifter.shift(allDataOld[hedotools.sankey.newindices()[0]].freq,allData[hedotools.sankey.newindices()[0]].freq,lens,words);
-// shiftObj.setfigure(d3.select('#shift01')).setHeight(400).setText("Why "+allDataOld[hedotools.sankey.newindices()[0]].name+" has become "+"happier"+":").plot();
+// hedotools.shifter.shift(allDataOld[hedotools.sankey.newindices()[0]].freq,allData[hedotools.sankey.newindices()[0]].freq,lens,words);
+// hedotools.shifter.setfigure(d3.select('#shift01')).setHeight(400).setText("Why "+allDataOld[hedotools.sankey.newindices()[0]].name+" has become "+"happier"+":").plot();
+//
+// there are two options for having it compute the shift
+// calling the .shift() with four arguments does the trick
+// or calling .shifter() with no arguments also does it
+// for the latter, need to have defined the variables beforehand
+// using the _lens, _words, etc accessors
+//
+// if the text isn't set, will attempt to grab it using the
+// allData structure (which works in the maps.html)
+//
+// the text setting here removes all p instances in the figure,
+// and then inserts a new one before the svg, inside the figure (using d3.insert)
+//
 // can also use the setText method to set the text
 // need to do this outside of maps page
 
@@ -22,7 +36,7 @@ hedotools.shifter = function()
     var figure = d3.select("body");
 
     var setfigure = function(_) {
-	console.log("setting figure");
+	// console.log("setting figure");
 	figure = _;
 	grabwidth();
 	return hedotools.shifter;
@@ -63,8 +77,8 @@ hedotools.shifter = function()
 
     // pull the width, set the height fixed
     var grabwidth = function() {
-	console.log("setting width from figure");
-	console.log(parseInt(figure.style("width")));
+	// console.log("setting width from figure");
+	// console.log(parseInt(figure.style("width")));
 	fullwidth = d3.min([parseInt(figure.style("width")),fullwidth]);
 	boxwidth = fullwidth-margin.left-margin.right;
 	figwidth = boxwidth-axeslabelmargin.left-axeslabelmargin.right;
@@ -121,7 +135,7 @@ hedotools.shifter = function()
     }
 
     var setdata = function(a,b,c,d,e,f) {
-	console.log("setting data");
+	// console.log("setting data");
 	sortedMag = a;
 	sortedType = b;
 	sortedWords = c;
@@ -131,7 +145,7 @@ hedotools.shifter = function()
 	return hedotools.shifter;
     }
 
-    var comparisonText = "";
+    var comparisonText = [""];
 
     var setText = function(_) {
 	if (!arguments.length) return _;
@@ -175,8 +189,8 @@ hedotools.shifter = function()
     var ignore = function(_) {
 	if (!arguments.length) return ignoreWords;
 	ignoreWords = ignoreWords.concat(_);
-	console.log(_);
-	console.log(ignoreWords);
+	// console.log(_);
+	// console.log(ignoreWords);
 	return hedotools.shifter;
     }
 
@@ -239,7 +253,7 @@ hedotools.shifter = function()
             refH += refF[i]*parseFloat(lens[i]);
 	}
 	refH = refH/Nref;
-	console.log(refH);
+	// console.log(refH);
 
 	// compute reference variance
 	// var refV = 0.0;
@@ -247,7 +261,7 @@ hedotools.shifter = function()
 	//     refV += refF[i]*Math.pow(parseFloat(lens[i])-refH,2);
 	// }
 	// refV = refV/Nref; 
-	// console.log(refV);
+	// // console.log(refV);
 
 	// compute comparison happiness
 	compH = 0.0;
@@ -267,6 +281,14 @@ hedotools.shifter = function()
 	    else { shiftType[i] = 0}
 	    if (parseFloat(lens[i]) > refH) { shiftType[i] += 1;}
 	}
+
+	// +2 for frequency up
+	// +1 for happier
+	// => 
+	// 0 sad, down
+	// 1 happy, down
+	// 2 sad, up
+	// 3 happy, up
 
 	// do the sorting
 	var indices = Array(refF.length);
@@ -317,7 +339,7 @@ hedotools.shifter = function()
 	   for each word
 
 	*/
-	console.log("plotting shift");
+	// console.log("plotting shift");
 
 	figure.selectAll("svg").remove();
 
@@ -440,23 +462,24 @@ hedotools.shifter = function()
 	// d3.select("[id=fbtitle]").attr("content","Hedonometer Maps: Andy has been here");
 
 	// if there wasn't any text passed, make it
-	if (comparisonText.length < 1) {
-	    console.log("generating text for wordshift");
-	    comparisonText = "Why "+allData[shiftComp].name+" is "+happysad+" than "+allData[shiftRef].name+":";
+	if (comparisonText[0].length < 1) {
+	    // console.log("generating text for wordshift");
+	    comparisonText[0] = "Why comparison is "+happysad+" than reference:";
 	}
 	else { 
-	    console.log("word shift text is:");
-	    console.log(comparisonText);
+	    // console.log("word shift text is:");
+	    // console.log(comparisonText);
 	}
 
 	figure.selectAll("p")
 	    .remove();
 
 	figure.selectAll("p")
-	    .data([comparisonText])
+	    .data(comparisonText)
 	    .enter()
 	    .insert("p","svg")
-	    .text(function(d) { return d; });
+	    .attr("class","shifttitle")
+	    .html(function(d) { return d; });
 	
 	var typeClass = ["negdown","posdown","negup","posup"];
 
@@ -656,8 +679,8 @@ hedotools.shifter = function()
 	// push to the side of d
 	    .attr("x",function(d,i) { return topScale(d)+5*d/Math.abs(d); });
 
-	// var summaryArray = [sumTypes[2],sumTypes[1],sumTypes[0]+sumTypes[2]];
-	var summaryArray = [sumTypes[2],sumTypes[1]];
+	// var summaryArray = [sumTypes[1],sumTypes[2],sumTypes[0]+sumTypes[2]];
+	var summaryArray = [sumTypes[1],sumTypes[2]];
 
 	var typeClass = ["posdown","negup"];
 
@@ -729,7 +752,7 @@ hedotools.shifter = function()
 	    } );
 
 	axes.selectAll(".sumtextL")
-	    .data([sumTypes[2],sumTypes[1]])
+	    .data(summaryArray)
 	    .enter()
 	    .append("text")
 	    .attr("class", "sumtextL")
