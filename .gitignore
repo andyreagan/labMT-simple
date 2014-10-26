@@ -6,3 +6,4 @@ build
 .pypirc
 deploy.sh
 .DS_Store
+pyenv
