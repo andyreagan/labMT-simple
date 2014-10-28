@@ -27,11 +27,17 @@ if __name__ == '__main__':
   ## compute valence score and return frequency vector for generating wordshift
   saturdayValence,saturdayFvec = emotion(saturday,labMT,shift=True,happsList=labMTvector)
   tuesdayValence,tuesdayFvec = emotion(tuesday,labMT,shift=True,happsList=labMTvector)
+
+  ## but we didn't apply a lens yet, so stop the vectors first
+  tuesdayStoppedVec = stopper(tuesdayFvec,labMTvector,labMTwordList,stopVal=1.0)
+  saturdayStoppedVec = stopper(saturdayFvec,labMTvector,labMTwordList,stopVal=1.0)
+
+  ## and then apply a lens
+  saturdayValence = emotionV(saturdayStoppedVec,labMTvector)
+  tuesdayValence = emotionV(tuesdayStoppedVec,labMTvector)
+  
   print 'the valence of {0} is {1:.5}'.format('saturday',saturdayValence)
   print 'the valence of {0} is {1:.5}'.format('tuesday',tuesdayValence)
-
-  print tuesdayFvec[:10]
-  print tuesdayFvec[9522]
 
   writeCsv = False
   if writeCsv:
@@ -66,9 +72,6 @@ if __name__ == '__main__':
   tuesdayStoppedVec = stopper(tuesdayFvec,labMTvector,labMTwordList,stopVal=1.0)
   saturdayStoppedVec = stopper(saturdayFvec,labMTvector,labMTwordList,stopVal=1.0)
 
-  print tuesdayStoppedVec[:10]
-  print tuesdayStoppedVec[9522]
-  
   shiftHtml(labMTvector,labMTwordList,tuesdayStoppedVec,saturdayStoppedVec,sys.argv[1])
 
 
