@@ -3,7 +3,6 @@ README.txt
 labMTsimple/__init__.py
 labMTsimple/storyLab.py
 labMTsimple/data/labMT1.txt
-labMTsimple/data/labMT1raw.txt
 labMTsimple/data/labMT2arabic.txt
 labMTsimple/data/labMT2chinese.txt
 labMTsimple/data/labMT2english.txt
