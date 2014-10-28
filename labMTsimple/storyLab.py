@@ -375,6 +375,8 @@ def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile):
   # f.write('\n')
   f.write('Click on the graph and drag up to reveal additional words.\n')
   f.write('\n')
+  f.write('<br>\n')
+  f.write('\n')
   f.write('<div id="figure01" class="figure"></div>\n')
   f.write('\n')
   f.write('</center>\n')

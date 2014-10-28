@@ -4,7 +4,7 @@ import codecs ## handle utf8
 
 if __name__ == '__main__':
   lang = 'english'
-  labMT,labMTvector,labMTwordList = emotionFileReader(stopval = 0.0,fileName='labMT2'+lang,returnVector=True)
+  labMT,labMTvector,labMTwordList = emotionFileReader(stopval = 0.0,fileName='labMT2'+lang+'.txt',returnVector=True)
   
   ## take a look at these guys
   print 'the word laughter in the hash has the data:'
