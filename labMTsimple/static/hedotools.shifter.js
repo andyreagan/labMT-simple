@@ -101,7 +101,7 @@ hedotools.shifter = function()
 
     // full width and height. we'll draw the outer svg this big
     var fullwidth = 700;
-    var fullheight = 500;
+    var fullheight = 500 // 650; // make sure to change num words too
 
     var margin = {top: 0, right: 0, bottom: 0, left: 0};
 
@@ -121,7 +121,7 @@ hedotools.shifter = function()
     // individual bar height, and number of words
     // need to be tuned to the height of the plot
     var iBarH = 11;
-    var numWords = 23;
+    var numWords = 23; // 37 with height 650
     
     // all inside the axes
     var yHeight = (7+17*3+14+5-13); // 101
@@ -151,6 +151,7 @@ hedotools.shifter = function()
 
     // pull the width, set the height fixed
     var setHeight = function(_) {
+	if (!arguments.length) return fullheight;
 	fullheight = _;
 	boxheight = fullheight-margin.top-margin.bottom;
 	figheight = boxheight - axeslabelmargin.top - axeslabelmargin.bottom;
@@ -199,6 +200,13 @@ hedotools.shifter = function()
     var _compH = function(_) {
 	if (!arguments.length) return compH;
 	compH = _;
+	return hedotools.shifter;
+    }
+
+    var numBoldLines = 1;
+    var setTextBold = function(_) {
+	if (!arguments.length) return numBoldLines;
+	numBoldLines = _;
 	return hedotools.shifter;
     }
 
@@ -356,6 +364,15 @@ hedotools.shifter = function()
     var concatter = function() {
 	if (prefix) {
 	    // new method, with numbers prefixed
+	    // log everything
+	    // console.log(sortedMag);
+	    // console.log(sortedWords);
+	    // console.log(sortedWordsEn);
+	    // console.log(sortedType);
+	    // console.log(refF);
+	    // console.log(compF);
+	    // console.log(lens);
+	    // console.log(words);
 	    sortedWords = sortedWords.map(function(d,i) { 
 		if (sortedType[i] == 0) {
 		    return ((i+1)+". ").concat(d.concat("-\u2193"));
@@ -435,7 +452,8 @@ hedotools.shifter = function()
 	//normalize frequencies
 	var Nref = 0.0;
 	var Ncomp = 0.0;
-	for (var i=0; i<refF.length; i++) {
+	var lensLength = d3.min([refF.length,compF.length,words.length,lens.length])
+	for (var i=0; i<lensLength; i++) {
             Nref += parseFloat(refF[i]);
             Ncomp += parseFloat(compF[i]);
 	}
@@ -447,7 +465,7 @@ hedotools.shifter = function()
 	
 	// compute reference happiness
 	refH = 0.0;
-	for (var i=0; i<refF.length; i++) {
+	for (var i=0; i<lensLength; i++) {
             refH += refF[i]*parseFloat(lens[i]);
 	}
 	refH = refH/Nref;
@@ -463,16 +481,16 @@ hedotools.shifter = function()
 
 	// compute comparison happiness
 	compH = 0.0;
-	for (var i=0; i<compF.length; i++) {
+	for (var i=0; i<lensLength; i++) {
             compH += compF[i]*parseFloat(lens[i]);
 	}
 	compH = compH/Ncomp;
 
 	// do the shifting
-	var shiftMag = Array(refF.length);
-	var shiftType = Array(refF.length);
+	var shiftMag = Array(lensLength);
+	var shiftType = Array(lensLength);
 	var freqDiff = 0.0;
-	for (var i=0; i<refF.length; i++) {
+	for (var i=0; i<lensLength; i++) {
 	    freqDiff = compF[i]/Ncomp-refF[i]/Nref;
             shiftMag[i] = (parseFloat(lens[i])-refH)*freqDiff;
 	    if (freqDiff > 0) { shiftType[i] = 2; }
@@ -489,8 +507,8 @@ hedotools.shifter = function()
 	// 3 happy, up
 
 	// do the sorting
-	var indices = Array(refF.length);
-	for (var i = 0; i < refF.length; i++) { indices[i] = i; }
+	var indices = Array(lensLength);
+	for (var i = 0; i < lensLength; i++) { indices[i] = i; }
 	indices.sort(function(a,b) { return Math.abs(shiftMag[a]) < Math.abs(shiftMag[b]) ? 1 : Math.abs(shiftMag[a]) > Math.abs(shiftMag[b]) ? -1 : 0; });
 
 	sortedMag = Array(numwordstoplot);
@@ -505,9 +523,9 @@ hedotools.shifter = function()
 
 	if (distflag) {
 	    // declare some new variables
-	    sortedMagFull = Array(lens.length);
-	    sortedTypeFull = Array(lens.length);
-	    for (var i = 0; i < lens.length; i++) { 
+	    sortedMagFull = Array(lensLength);
+	    sortedTypeFull = Array(lensLength);
+	    for (var i = 0; i < lensLength; i++) { 
 		sortedMagFull[i] = shiftMag[indices[i]]; 
 		sortedTypeFull[i] = shiftType[indices[i]]; 
 	    }
@@ -515,7 +533,7 @@ hedotools.shifter = function()
 
 	// compute the sum of contributions of different types
 	sumTypes = [0.0,0.0,0.0,0.0];
-	for (var i = 0; i < refF.length; i++)
+	for (var i = 0; i < lensLength; i++)
 	{ 
             sumTypes[shiftType[i]] += shiftMag[i];
 	}
@@ -527,7 +545,7 @@ hedotools.shifter = function()
 
 	if (translate) {
 	    sortedWordsEn = Array(numwordstoplot);
-	    for (var i = 0; i < sortedWordsEn.length; i++) { 
+	    for (var i = 0; i < numwordstoplot; i++) { 
 		sortedWordsEn[i] = words_en[indices[i]]; 
 	    }   
 	}
@@ -939,17 +957,24 @@ hedotools.shifter = function()
 		     'color': '#333',
 		     // if there are 4 items...make the first two bold
 		     'font-weight': function(d,i) { 
-			 if (comparisonText.length > 3) {
-			     if (i < (comparisonText.length - 2) ) {
-				 return "bold";
-			     }
-			     else {
-				 return "normal";
-			     }
+			 // using this variable numBoldLines
+			 if (i < numBoldLines) {
+			     return "bold";
 			 }
 			 else {
 			     return "normal";
 			 }
+			 // if (comparisonText.length > 3) {
+			 //     if (i < (comparisonText.length - 2) ) {
+			 // 	 return "bold";
+			 //     }
+			 //     else {
+			 // 	 return "normal";
+			 //     }
+			 // }
+			 // else {
+			 //     return "normal";
+			 // }
 		     },
 		   })
 	    .text(function(d,i) { return d; });
@@ -1970,6 +1995,7 @@ hedotools.shifter = function()
 
     var opublic = { shift: shift,
 		    ignore: ignore,
+		    setTextBold: setTextBold,
 		    stop: stop,
 		    istopper: istopper,
 		    shifter: shifter,
