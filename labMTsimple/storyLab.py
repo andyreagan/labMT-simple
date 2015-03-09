@@ -47,30 +47,26 @@ import re
 import codecs
 import copy
 
-def emotionFileReader(stopval=1.0,fileName='labMT1.txt',min=1.0,max=9.0,returnVector=False):
+def emotionFileReader(stopval=1.0,lang="english",min=1.0,max=9.0,returnVector=False):
   ## stopval is our lens, \Delta h
   ## read the labMT dataset into a dict with this lens
   ## must be tab-deliminated
-  ## if labMT1 file, emotion value as third tab
-  ## else, it's the second tab
+
   labMT1flag = False
   scoreIndex = 1 # second value
-  # print fileName
-  if fileName == 'labMT1.txt':
-    scoreIndex = 1 # second value
-    labMT1flag = True
-  if 'labMT2' in fileName:
-    scoreIndex = 1
+
+  fileName = 'labMT/labMT2{0}.txt'.format(lang)
+
   try:
     f = codecs.open(fileName,'r','utf8')
   except IOError:
     relpath = os.path.abspath(__file__).split(u'/')[1:-1]
     relpath.append('data')
     relpath.append(fileName)
-    fileName = ''
-    for pathp in relpath:
-      fileName += '/' + pathp
+    fileName = '/'+'/'.join(relpath)
     f = codecs.open(fileName,'r','utf8')
+  except:
+    raise('could not open the needed file')
 
   # skip the first line
   f.readline()
@@ -220,12 +216,12 @@ def stopper(tmpVec,labMTvector,labMTwords,stopVal=1.0,ignore=[]):
 
   return newVec
 
-def emotionV(tmpVec,labMTvector):
-  tmpSum = sum(tmpVec)
+def emotionV(frequencyVec,scoreVec):
+  tmpSum = sum(frequencyVec)
   if tmpSum > 0:
     happs = 0.0
-    for i in xrange(len(labMTvector)):
-      happs += tmpVec[i]*float(labMTvector[i])
+    for i in xrange(len(scoreVec)):
+      happs += frequencyVec[i]*float(scoreVec[i])
     happs = float(happs)/float(tmpSum)
     return happs
   else:

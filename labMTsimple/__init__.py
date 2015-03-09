@@ -1,2 +1,2 @@
-all = ['storyLab']
+all = ['storyLab','speedy',]
 
