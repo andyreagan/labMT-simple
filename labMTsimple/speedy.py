@@ -60,13 +60,15 @@ class sentiDict:
             LabMT = dict()
             f = self.openWithPath("data/labMT/labMT2english.txt","r")
             f.readline()
+            i = 0
             for line in f:
                 l = line.rstrip().split("\t")
-                LabMT[l[0]] = float(l[2])
+                LabMT[l[0]] = (float(l[2]),i)
+                i=i+1
             f.close()
             stopWords = []
             for word in LabMT:
-                if abs(LabMT[word]-5.0) < self.stopVal:
+                if abs(LabMT[word][0]-5.0) < self.stopVal:
                     stopWords.append(word)
             for word in stopWords:
                 del LabMT[word]
@@ -75,15 +77,17 @@ class sentiDict:
             ANEW = dict()
             f = self.openWithPath("data/ANEW/all.csv")
             f.readline()
+            i = 0
             for line in f:
                 l = line.rstrip().split(",")
-                ANEW[l[0]] = float(l[2])
+                ANEW[l[0]] = (float(l[2]),i)
+                i+=1
             f.close()
             print len(ANEW)
             # stop the thing too
             stopWords = []
             for word in ANEW:
-                if abs(ANEW[word]-5.0) < self.stopVal:
+                if abs(ANEW[word][0]-5.0) < self.stopVal:
                     stopWords.append(word)
             for word in stopWords:
                 del ANEW[word]
@@ -95,19 +99,23 @@ class sentiDict:
             LIWC = dict()
             f = self.openWithPath("data/LIWC/LIWC2007_affectwords_raw.txt")
             f.readline()
+            i = 0
             for line in f:
                 l = line.rstrip().split("\t")
                 word = l[0]
                 if '126' in l:
                     score = 1
-                    LIWC[word] = score
+                    LIWC[word] = (score,i)
+                    i+=1
                 elif '127' in l:
                     score = -1
-                    LIWC[word] = score
+                    LIWC[word] = (score,i)
+                    i+=1
                 else:
                     if self.stopVal == 0.0:
                         score = 0
-                        LIWC[word] = score
+                        LIWC[word] = (score,i)
+                        i+=1
             f.close()
             return LIWC
             
@@ -117,6 +125,7 @@ class sentiDict:
             scores = [-1,0,1]
             emotions = ["negative","neutral","positive"]
             f = self.openWithPath("data/MPQA-lexicon/subjectivity_clues_hltemnlp05/subjclueslen1-HLTEMNLP05.tff","r")
+            i = 0
             for line in f:
                 # print line
                 l = [x.split("=")[1] for x in line.rstrip().split(" ")]
@@ -128,9 +137,11 @@ class sentiDict:
                     if not MPQA[l[2]] == scores[emotions.index(l[5])]:
                         print '{0} is both {1} and {2}, declaring neutral'.format(l[2],MPQA[l[2]],scores[emotions.index(l[5])])
                         l[5] = "neutral"
+                        del MPQA[l[2]]
                 if (l[4]=="y"):
                     l[2] += '*'
-                MPQA[l[2]] = scores[emotions.index(l[5])]
+                MPQA[l[2]] = (scores[emotions.index(l[5])],i)
+                i+=1
             f.close()
             print len(MPQA)
             stopWords = []
@@ -147,16 +158,19 @@ class sentiDict:
             # f = self.openWithPath("liu-lexicon/negative-words-clean.txt","r",'utf-8')
             # f = self.openWithPath("liu-lexicon/negative-words-clean.txt","r")
             f = self.openWithPath("data/liu-lexicon/negative-words-clean.txt","r")
+            i=0
             for line in f:
                 l = line.rstrip()
-                liu[l] = -1
+                liu[l] = (-1,i)
+                i+=1
             f.close()
             # f = self.openWithPath("liu-lexicon/positive-words-clean.txt","r",'utf-8')
             # f = self.openWithPath("liu-lexicon/positive-words-clean.txt","r")
             f = self.openWithPath("data/liu-lexicon/positive-words-clean.txt","r")
             for line in f:
                 l = line.rstrip()
-                liu[l] = 1
+                liu[l] = (1,i)
+                i+=1
             f.close()
             print len(liu)
             return liu
@@ -170,14 +184,16 @@ class sentiDict:
         for key,score in userdict.iteritems():
             if key[-1] == '*':
                 tmpstemwords.append(key.replace('*',''))
-                tmpstemscores.append(score)
+                tmpstemscores.append(score[0])
             else:
                 tmpfixedwords.append(key)
-                tmpfixedscores.append(score)
-        # this now sorts both lists by word
+                tmpfixedscores.append(score[0])
+        # keep the original sort in this case
         if self.corpus in ['LabMT','ANEW']:
             stemindexer = sorted(range(len(tmpstemscores)), key=lambda k: tmpstemscores[k], reverse=True)
-            fixedindexer = sorted(range(len(tmpfixedscores)), key=lambda k: tmpfixedscores[k], reverse=True)
+            # the stem indexer doesn't matter...
+            # fixedindexer = sorted(range(len(tmpfixedscores)), key=lambda k: tmpfixedscores[k], reverse=True)
+            fixedindexer = [userdict[word][1] for word in userdict]
         else:
             stemindexer = sorted(range(len(tmpstemscores)), key=lambda k: tmpstemwords[k])
             fixedindexer = sorted(range(len(tmpfixedscores)), key=lambda k: tmpfixedwords[k])
@@ -214,13 +230,14 @@ class sentiDict:
 
     # works for both trie types
     # only one needed to make the plots
+    # only use this for coverage, so don't even worry about
+    # using with a dict
     def matcherTrieBool(self,word):
         if word in self.data[0]:
             return 1
         else:
             return len(self.data[1].prefixes(word))
-    
-    # works for both trie types    
+
     def wordVecifyTrieDa(self,wordDict):
         # INPUTS
         # wordDict is our favorite hash table of word and count
@@ -252,6 +269,15 @@ class sentiDict:
             elif len(self.data[1].prefixes(word)) > 0:
                 wordVec[self.data[1].get(self.data[1].prefixes(word)[0])[0][1]] += count
         return wordVec
+
+    def wordVecifyTrieDict(self,wordDict):
+        # INPUTS
+        # wordDict is our favorite hash table of word and count
+        wordVec = np.zeros(len(self.data))
+        for word,count in wordDict.iteritems():
+            if word in self.data:
+                wordVec[self.data[word][1]] += count
+        return wordVec
     
     def scoreTrieMarisa(self,wordDict):
         # INPUTS
@@ -281,6 +307,17 @@ class sentiDict:
                 totalscore += count*self.data[1].prefix_items(word)[0][1][0]
         return totalscore/totalcount
 
+    def scoreTrieDict(self,wordDict):
+        # INPUTS
+        # wordDict is a favorite hash table of word and count
+        totalcount = 0
+        totalscore = 0.0
+        for word,count in wordDict.iteritems():
+            if word in self.data:
+                totalcount += count
+                totalscore += count*self.data[word]
+        return totalscore/totalcount
+
     def matcherTrieMarisa(self,word,wordVec,count):
         if word in self.data[0]:
             wordVec[self.data[0].get(word)[0][1]] += count
@@ -289,6 +326,10 @@ class sentiDict:
         # also they'll match anything after the word, not just [a-z']
         elif len(self.data[1].prefixes(word)) > 0:
             wordVec[self.data[1].get(self.data[1].prefixes(word)[0])[0][1]] += count
+
+    def matcherTrieDict(self,word,wordVec,count):
+        if word in self.data:
+            wordVec[self.data[word][1]] += count
 
     def matcherTrieDa(self,word,wordVec,count):
         if word in self.data[0]:
@@ -311,6 +352,9 @@ class sentiDict:
             # why not just set them all in here?
             # they might be global...
             self.makeListsFromDict(self.data)
+            self.matcherTrie = self.matcherTrieDict
+            self.scoreTrie = self.scoreTrieDict
+            self.wordVecify = self.wordVecifyTrieDict
             
         if datastructure == 'marisatrie':
             fmt = "fH"
@@ -327,11 +371,12 @@ class sentiDict:
                 # create the trie
                 self.data = self.makeMarisaTrie()
 
-            self.matcherTrie = self.matcherTrieMarisa
-            self.scoreTrie = self.scoreTrieMarisa
-            self.wordVecifyTrie = self.wordVecifyTrieMarisa
+            self.matcher = self.matcherTrieMarisa
+            self.score = self.scoreTrieMarisa
+            self.wordVecify = self.wordVecifyTrieMarisa
 
         if datastructure == 'datrie':
+            print 'note that datrie often seg faults'
             if isfile('{0}/{1:.2f}-fixed.da'.format(self.folders[self.cindex],stopVal)):
                 self.data = (datrie.Trie.load('{0}/{1:.2f}-fixed.da'.format(self.folders[self.cindex],stopVal)),datrie.Trie.load('{0}/{1:.2f}-stem.da'.format(self.folders[self.cindex],stopVal)),)
             else:
@@ -342,6 +387,6 @@ class sentiDict:
                 # create the trie
                 self.data = self.makeDaTrie()
 
-            self.matcherTrie = self.matcherTrieDa
-            self.scoreTrie = self.scoreTrieDa
-            self.wordVecifyTrie = self.wordVecifyTrieDa
+            self.matcher = self.matcherTrieDa
+            self.score = self.scoreTrieDa
+            self.wordVecify = self.wordVecifyTrieDa
