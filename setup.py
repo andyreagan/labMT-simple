@@ -8,7 +8,7 @@ setup(
     packages = ['labMTsimple'],
     package_data={'labMTsimple': ['data/labMT/*.txt','data/ANEW/all.csv','data/MPQA-lexicon/subjectivity_clues_hltemnlp05/*.tff','data/liu-lexicon/*-clean.txt','static/d3.andy.js','static/jquery-1.11.0.min.js','static/urllib.js','static/hedotools.init.js','static/hedotools.shifter.js','static/example-on-load.js','static/hedotools.shift.css']},
     version = '2.2',
-    description = 'Basic usage script for dictionary-based sentiment analysis. Intended use with labMT data.'
+    description = 'Basic usage script for dictionary-based sentiment analysis. Intended use with labMT data',
     long_description = long_description,
     author = 'Andy Reagan',
     author_email = 'andy@andyreagan.com',
