@@ -10,7 +10,15 @@ import codecs
 # from os import listdir
 from os import mkdir
 from os.path import isfile,abspath,isdir
-# import sys
+import sys
+# handle both pythons
+if sys.version < '3':
+    import codecs
+    def u(x):
+        return codecs.unicode_escape_decode(x)[0]
+else:
+    def u(x):
+        return x
 # import matplotlib.pyplot as plt
 import numpy as np
 # from json import loads
@@ -37,13 +45,10 @@ class sentiDict:
             f = codecs.open(filename,mode,'utf8')
             return f
         except IOError:
-            print abspath(__file__)
             relpath = abspath(__file__).split(u'/')[:-1]
-            print relpath
             # relpath.append('data')
             relpath.append(filename)
             filename = '/'.join(relpath)
-            print filename
             f = codecs.open(filename,mode,'utf8')
             return f
         except:
@@ -83,7 +88,6 @@ class sentiDict:
                 ANEW[l[0]] = (float(l[2]),i)
                 i+=1
             f.close()
-            print len(ANEW)
             # stop the thing too
             stopWords = []
             for word in ANEW:
@@ -127,15 +131,12 @@ class sentiDict:
             f = self.openWithPath("data/MPQA-lexicon/subjectivity_clues_hltemnlp05/subjclueslen1-HLTEMNLP05.tff","r")
             i = 0
             for line in f:
-                # print line
                 l = [x.split("=")[1] for x in line.rstrip().split(" ")]
                 if l[5] == 'both':
-                    print '{0} is both'.format(l[2])
                     l[5] = "neutral"
                 # check that no words are different polarity when duplicated
                 if l[2] in MPQA:
                     if not MPQA[l[2]] == scores[emotions.index(l[5])]:
-                        print '{0} is both {1} and {2}, declaring neutral'.format(l[2],MPQA[l[2]],scores[emotions.index(l[5])])
                         l[5] = "neutral"
                         del MPQA[l[2]]
                 if (l[4]=="y"):
@@ -143,7 +144,6 @@ class sentiDict:
                 MPQA[l[2]] = (scores[emotions.index(l[5])],i)
                 i+=1
             f.close()
-            print len(MPQA)
             stopWords = []
             if self.stopVal > 0.0:
                 for word in MPQA:
@@ -172,16 +172,14 @@ class sentiDict:
                 liu[l] = (1,i)
                 i+=1
             f.close()
-            print len(liu)
             return liu
 
     def makeListsFromDict(self,userdict):
-        # print self.data['happy']
         tmpfixedwords = []
         tmpfixedscores = []
         tmpstemwords = []
         tmpstemscores = []
-        for key,score in userdict.iteritems():
+        for key,score in userdict.items():
             if key[-1] == '*':
                 tmpstemwords.append(key.replace('*',''))
                 tmpstemscores.append(score[0])
@@ -193,7 +191,10 @@ class sentiDict:
             stemindexer = sorted(range(len(tmpstemscores)), key=lambda k: tmpstemscores[k], reverse=True)
             # the stem indexer doesn't matter...
             # fixedindexer = sorted(range(len(tmpfixedscores)), key=lambda k: tmpfixedscores[k], reverse=True)
-            fixedindexer = [userdict[word][1] for word in userdict]
+            # this doesn't actually make a new sort!
+            # FIXXXXXX
+            # fixedindexer = [userdict[word][1] for word in userdict]
+            fixedindexer = sorted(range(len(tmpfixedwords)), key=lambda k: userdict[tmpfixedwords[k]][1])
         else:
             stemindexer = sorted(range(len(tmpstemscores)), key=lambda k: tmpstemwords[k])
             fixedindexer = sorted(range(len(tmpfixedscores)), key=lambda k: tmpfixedwords[k])
@@ -205,8 +206,8 @@ class sentiDict:
 
     def makeMarisaTrie(self):
         fmt = "fH"
-        fixedtrie = marisa_trie.RecordTrie(fmt,zip(map(unicode,self.fixedwords),zip(self.fixedscores,range(len(self.fixedscores)))))
-        stemtrie = marisa_trie.RecordTrie(fmt,zip(map(unicode,self.stemwords),zip(self.stemscores,range(len(self.stemscores)))))
+        fixedtrie = marisa_trie.RecordTrie(fmt,zip(map(u,self.fixedwords),zip(self.fixedscores,range(len(self.fixedscores)))))
+        stemtrie = marisa_trie.RecordTrie(fmt,zip(map(u,self.stemwords),zip(self.stemscores,range(len(self.stemscores)))))
         fixedtrie.save('{0}/{1:.2f}-fixed.marisa'.format(self.folders[self.cindex],self.stopVal))
         stemtrie.save('{0}/{1:.2f}-stem.marisa'.format(self.folders[self.cindex],self.stopVal))
         return (fixedtrie,stemtrie)
@@ -221,9 +222,9 @@ class sentiDict:
         fixedtrie = datrie.Trie(charset)
         stemtrie = datrie.Trie(charset)
         for i,word in zip(range(len(self.fixedwords)),self.fixedwords):
-            fixedtrie[unicode(word)] = (self.fixedscores[i],i)
+            fixedtrie[u(word)] = (self.fixedscores[i],i)
         for i,word in zip(range(len(self.stemwords)),self.stemwords):
-            stemtrie[unicode(word)] = (self.stemscores[i],i)
+            stemtrie[u(word)] = (self.stemscores[i],i)
         fixedtrie.save('{0}/{1:.2f}-fixed.da'.format(self.folders[self.cindex],self.stopVal))
         stemtrie.save('{0}/{1:.2f}-stem.da'.format(self.folders[self.cindex],self.stopVal))
         return (fixedtrie,stemtrie)
@@ -242,17 +243,13 @@ class sentiDict:
         # INPUTS
         # wordDict is our favorite hash table of word and count
         wordVec = np.zeros(len(self.data[0])+len(self.data[1]))
-        print wordVec
-        for word,count in wordDict.iteritems():
-            print word
+        for word,count in wordDict.items():
             if word in self.data[0]:
-                print "found in fixed"
                 wordVec[self.data[0][word][1]] += count
             # this strictly assumes that the keys in the stem set
             # are non-overlapping!
             # also they'll match anything after the word, not just [a-z']
             elif len(self.data[1].prefixes(word)) > 0:
-                print "found in stems"
                 wordVec[self.data[1].prefix_items(word)[0][1]] += count
         return wordVec
 
@@ -260,7 +257,7 @@ class sentiDict:
         # INPUTS
         # wordDict is our favorite hash table of word and count
         wordVec = np.zeros(len(self.data[0])+len(self.data[1]))
-        for word,count in wordDict.iteritems():
+        for word,count in wordDict.items():
             if word in self.data[0]:
                 wordVec[self.data[0].get(word)[0][1]] += count
             # this strictly assumes that the keys in the stem set
@@ -274,7 +271,7 @@ class sentiDict:
         # INPUTS
         # wordDict is our favorite hash table of word and count
         wordVec = np.zeros(len(self.data))
-        for word,count in wordDict.iteritems():
+        for word,count in wordDict.items():
             if word in self.data:
                 wordVec[self.data[word][1]] += count
         return wordVec
@@ -284,7 +281,7 @@ class sentiDict:
         # wordDict is a favorite hash table of word and count
         totalcount = 0
         totalscore = 0.0
-        for word,count in wordDict.iteritems():
+        for word,count in wordDict.items():
             if word in self.data[0]:
                 totalcount += count
                 totalscore += count*self.data[0].get(word)[0][0]
@@ -298,7 +295,7 @@ class sentiDict:
         # wordDict is a favorite hash table of word and count
         totalcount = 0
         totalscore = 0.0
-        for word,count in wordDict.iteritems():
+        for word,count in wordDict.items():
             if word in self.data[0]:
                 totalcount += count
                 totalscore += count*self.data[0][word][0]
@@ -312,7 +309,7 @@ class sentiDict:
         # wordDict is a favorite hash table of word and count
         totalcount = 0
         totalscore = 0.0
-        for word,count in wordDict.iteritems():
+        for word,count in wordDict.items():
             if word in self.data:
                 totalcount += count
                 totalscore += count*self.data[word]
@@ -359,7 +356,6 @@ class sentiDict:
         if datastructure == 'marisatrie':
             fmt = "fH"
             if isfile('{0}/{1:.2f}-fixed.marisa'.format(self.folders[self.cindex],stopVal)):
-                print "found marisa file for corpus {0} at stopval {1}".format(self.corpus,stopVal)
                 self.data = (marisa_trie.RecordTrie(fmt,[]),marisa_trie.RecordTrie(fmt,[]))
                 self.data[0].load('{0}/{1:.2f}-fixed.marisa'.format(self.folders[self.cindex],stopVal))
                 self.data[1].load('{0}/{1:.2f}-stem.marisa'.format(self.folders[self.cindex],stopVal))
@@ -376,7 +372,7 @@ class sentiDict:
             self.wordVecify = self.wordVecifyTrieMarisa
 
         if datastructure == 'datrie':
-            print 'note that datrie often seg faults'
+            print('note that datrie often seg faults')
             if isfile('{0}/{1:.2f}-fixed.da'.format(self.folders[self.cindex],stopVal)):
                 self.data = (datrie.Trie.load('{0}/{1:.2f}-fixed.da'.format(self.folders[self.cindex],stopVal)),datrie.Trie.load('{0}/{1:.2f}-stem.da'.format(self.folders[self.cindex],stopVal)),)
             else:

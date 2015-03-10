@@ -175,14 +175,12 @@ def emotion(tmpStr,someDict,scoreIndex=1,shift=False,happsList=[]):
   #             charset.add(re.findall('[^\w]+',word)[i])
 
   words = [x.lower() for x in re.findall(r"[\w\@\#\'\&\]\*\-\/\[\=\;]+",tmpStr,flags=re.UNICODE)]
-  # print words[0:10]
 
   # only use the if shifting
   if shift:
     for word in words:
       if word in someDict:
         scoreList.append(float(someDict[word][scoreIndex]))
-        # print int(someDict[word][0])
         freqList[int(someDict[word][0])-1] += 1
   else:
     for word in words:
@@ -286,7 +284,6 @@ def shift(refFreq,compFreq,lens,words,sort=True):
 
 def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile):
   if not os.path.exists('static'):
-    print "making static directory in path"
     os.mkdir('static')
 
   ## write out the template
@@ -397,7 +394,6 @@ def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile):
       fileName = ''
       for pathp in relpath:
         fileName += '/' + pathp    
-      print 'copying over '+fileName
       shutil.copy(fileName,'static/'+staticfile)
 
   # shutil.copy(outFile,'static/template.html')
@@ -409,7 +405,7 @@ if __name__ == '__main__':
   happsList = [emotion(line,labMT) for line in fileinput.input()]
   
   for value in happsList:
-    print value
+    print(value)
     
   
 
