@@ -465,6 +465,7 @@ hedotools.shifter = function()
             compH += compF[i]*parseFloat(lens[i]);
 	}
 	compH = compH/Ncomp;
+	refH = compH;
 
 	// do the shifting
 	var shiftMag = Array(lensLength);

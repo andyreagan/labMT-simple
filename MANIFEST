@@ -25,7 +25,9 @@ labMTsimple/data/labMT/labMT2spanish.txt
 labMTsimple/data/labMT/labMT2urdu.txt
 labMTsimple/data/liu-lexicon/negative-words-clean.txt
 labMTsimple/data/liu-lexicon/positive-words-clean.txt
+labMTsimple/data/warriner/BRM-emot-submit.csv
 labMTsimple/static/d3.andy.js
+labMTsimple/static/example-on-load-self.js
 labMTsimple/static/example-on-load.js
 labMTsimple/static/hedotools.init.js
 labMTsimple/static/hedotools.shift.css

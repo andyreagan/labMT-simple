@@ -72,7 +72,7 @@ def emotionFileReader(stopval=1.0,lang="english",min=1.0,max=9.0,returnVector=Fa
   f.readline()
 
   tmpDict = dict([(line.split(u'\t')[0].rstrip(u'"').lstrip(u'"'),
-                  [x.rstrip(u'"') for x in line.split(u'\t')[1:]]) for line in f])
+        [x.rstrip(u'"') for x in line.split(u'\t')[1:]]) for line in f])
 
   f.close()
   
@@ -129,7 +129,7 @@ def emotionFileReaderRaw(stopval=1.0,fileName=u'labMT1raw.txt',min=1.0,max=9.0,r
   while f:
     word = f.readline()
     tmpDict[word] = []
-    for i in xrange(10):
+    for i in range(10):
       tmpDict[word].append(map(int,f.readline().split(u'\t'))[1])
   f.close()
   
@@ -158,7 +158,7 @@ def emotion(tmpStr,someDict,scoreIndex=1,shift=False,happsList=[]):
   scoreList = []
   # make a frequency vector
   if shift:
-    freqList = [0 for i in xrange(len(happsList))]
+    freqList = [0 for i in range(len(happsList))]
 
   # doing this without the NLTK
   # words = [x.lower().lstrip(u"?';:.$%&()\\!*[]{}|\"<>,^-_=+").rstrip(u"@#?';:.$%&()\\!*[]{}|\"<>,^-_=+") for x in re.split(u'\s',tmpStr,flags=re.UNICODE)]
@@ -171,7 +171,7 @@ def emotion(tmpStr,someDict,scoreIndex=1,shift=False,happsList=[]):
   # charset = set([])
   # for word in labMTwordList:
   #     if len(re.findall('[^\w]+',word)) > 0:
-  #         for i in xrange(len(re.findall('[^\w]+',word))):
+  #         for i in range(len(re.findall('[^\w]+',word))):
   #             charset.add(re.findall('[^\w]+',word)[i])
 
   words = [x.lower() for x in re.findall(r"[\w\@\#\'\&\]\*\-\/\[\=\;]+",tmpStr,flags=re.UNICODE)]
@@ -206,7 +206,7 @@ def stopper(tmpVec,labMTvector,labMTwords,stopVal=1.0,ignore=[]):
   for word in ignore:
     ignoreWords.append(word)
   newVec = copy.copy(tmpVec)
-  for i in xrange(len(labMTvector)):
+  for i in range(len(labMTvector)):
     if abs(labMTvector[i]-5.0) < stopVal:
       newVec[i] = 0
     if labMTwords[i] in ignoreWords:
@@ -218,7 +218,7 @@ def emotionV(frequencyVec,scoreVec):
   tmpSum = sum(frequencyVec)
   if tmpSum > 0:
     happs = 0.0
-    for i in xrange(len(scoreVec)):
+    for i in range(len(scoreVec)):
       happs += frequencyVec[i]*float(scoreVec[i])
     happs = float(happs)/float(tmpSum)
     return happs
@@ -252,15 +252,15 @@ def shift(refFreq,compFreq,lens,words,sort=True):
   ## normalize frequencies
   Nref = float(sum(refFreq))
   Ncomp = float(sum(compFreq))
-  for i in xrange(len(refFreq)):
+  for i in range(len(refFreq)):
     refFreq[i] = float(refFreq[i])/Nref
     compFreq[i] = float(compFreq[i])/Ncomp
   ## compute the reference happiness
-  refH = sum([refFreq[i]*lens[i] for i in xrange(len(lens))])
+  refH = sum([refFreq[i]*lens[i] for i in range(len(lens))])
   ## determine shift magnitude, type
-  shiftMag = [0 for i in xrange(len(lens))]
-  shiftType = [0 for i in xrange(len(lens))]
-  for i in xrange(len(lens)):
+  shiftMag = [0 for i in range(len(lens))]
+  shiftType = [0 for i in range(len(lens))]
+  for i in range(len(lens)):
     freqDiff = compFreq[i]-refFreq[i]
     shiftMag[i] = (lens[i]-refH)*freqDiff
     if freqDiff > 0:
@@ -269,8 +269,8 @@ def shift(refFreq,compFreq,lens,words,sort=True):
       shiftType[i] += 1
 
   indices = sorted(range(len(shiftMag)), key=lambda k: abs(shiftMag[k]), reverse=True)
-  sumTypes = [0.0 for i in xrange(4)]
-  for i in xrange(len(lens)):
+  sumTypes = [0.0 for i in range(4)]
+  for i in range(len(lens)):
     sumTypes[shiftType[i]] += shiftMag[i]
 
   sortedMag = [shiftMag[i] for i in indices]
@@ -413,10 +413,6 @@ def shiftHtmlSelf(scoreList,wordList,compFreq,outFile):
   f.write('words = [')
   for word in wordList:
     f.write('"'+str(word)+'",')
-  f.write('];\n\n')
-  f.write('refFraw = [')
-  for freq in refFreq:
-    f.write('{0:.0f},'.format(freq))
   f.write('];\n\n')
   f.write('compFraw = [')
   for freq in compFreq:
