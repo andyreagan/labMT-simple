@@ -396,6 +396,120 @@ def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile):
         fileName += '/' + pathp    
       shutil.copy(fileName,'static/'+staticfile)
 
+def shiftHtmlSelf(scoreList,wordList,compFreq,outFile):
+  if not os.path.exists('static'):
+    os.mkdir('static')
+
+  ## write out the template
+  f = codecs.open('static/'+outFile.split('.')[0]+'-data.js','w','utf8')
+  # f.write('function initializePlot() { loadCsv(); }\n\n')
+
+  ## dump the data
+  # f.write('function loadCsv() {\n')
+  f.write('lens = [')
+  for score in scoreList:
+    f.write(str(score)+',')
+  f.write('];\n\n')
+  f.write('words = [')
+  for word in wordList:
+    f.write('"'+str(word)+'",')
+  f.write('];\n\n')
+  f.write('refFraw = [')
+  for freq in refFreq:
+    f.write('{0:.0f},'.format(freq))
+  f.write('];\n\n')
+  f.write('compFraw = [')
+  for freq in compFreq:
+    f.write('{0:.0f},'.format(freq))
+  f.write('];\n\n')
+  f.close()
+  
+  ## dump out a static shift view page
+  f = codecs.open(outFile,'w','utf8')  
+  f.write('<html>\n')
+  f.write('<head>\n')
+  f.write('<title>Simple Shift Plot</title>\n')
+
+  f.write('  <style>\n')
+  f.write('    body {\n')
+  f.write('      font-family: Verdana,Arial,sans-serif;\n')
+  f.write('    }\n')
+  f.write('\n')
+  f.write('    h4 {\n')
+  f.write('    font-size: .8em;\n')
+  f.write('    margin: 60px 0 5px 0;\n')
+  f.write('    }\n')
+  f.write('\n')
+  f.write('    h5 {\n')
+  f.write('    font-size: .8em;\n')
+  f.write('    margin: 10px 0 5px 0;\n')
+  f.write('    }\n')
+  f.write('\n')
+  f.write('    body {\n')
+  f.write('    min-width: 650px;\n')
+  f.write('    }\n')
+  f.write('\n')
+  f.write('    #caption01 {\n')
+  f.write('      width: 500px;\n')
+  f.write('    }\n')
+  f.write('\n')
+  f.write('    #figure01 {\n')
+  f.write('      width: 600px;\n')
+  f.write('    }\n')
+  f.write('\n')
+  f.write('    .domain {\n')
+  f.write('      fill: none;\n')
+  f.write('      stroke: black;\n')
+  f.write('      stroke-width: 2;\n')
+  f.write('     }\n')
+  f.write('\n')
+  f.write('  </style>\n')
+  f.write('<link href="static/hedotools.shift.css" rel="stylesheet">\n')
+  f.write('</head>\n')
+  f.write('<body>\n')
+  f.write('\n')
+  f.write('<div id="header"></div>\n')
+  f.write('<center>\n')
+  # f.write('<div id="lens01" class="figure"></div>\n')
+  # f.write('\n')
+  # f.write('<br>\n')
+  # f.write('\n')
+  f.write('<p>Click on the graph and drag up to reveal additional words.</p>\n')
+  f.write('\n')
+  f.write('<br>\n')
+  f.write('\n')
+  f.write('<div id="figure01" class="figure"></div>\n')
+  f.write('\n')
+  f.write('</center>\n')
+  f.write('\n')
+  f.write('<div id="footer"></div>\n')
+  f.write('\n')
+  f.write('<script src="static/d3.andy.js" charset="utf-8"></script>\n')
+  f.write('<script src="static/jquery-1.11.0.min.js" charset="utf-8"></script>\n')
+  f.write('<script src="static/urllib.js" charset="utf-8"></script>\n')
+  f.write('<script src="static/hedotools.init.js" charset="utf-8"></script>\n')
+  f.write('<script src="static/hedotools.shifter.js" charset="utf-8"></script>\n')
+  f.write('<script src="static/'+outFile.split('.')[0]+'-data.js" charset="utf-8"></script>\n')
+  f.write('<script src="static/example-on-load-self.js" charset="utf-8"></script>\n')
+  f.write('\n')
+  f.write('</body>\n')
+  f.write('</html>\n')
+  f.close()
+
+
+  
+  # for staticfile in ['d3.v3.min.js','plotShift.js','shift.js','example-on-load.js']:
+  for staticfile in ['d3.andy.js','jquery-1.11.0.min.js','urllib.js','hedotools.init.js','hedotools.shifter.js','example-on-load-self.js','hedotools.shift.css']:
+    if not os.path.isfile('static/'+staticfile):
+      import shutil
+      relpath = os.path.abspath(__file__).split('/')[1:-1]
+      relpath.append('static')
+      relpath.append(staticfile)
+      fileName = ''
+      for pathp in relpath:
+        fileName += '/' + pathp    
+      shutil.copy(fileName,'static/'+staticfile)
+
   # shutil.copy(outFile,'static/template.html')
 
 if __name__ == '__main__':

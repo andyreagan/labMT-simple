@@ -7,6 +7,8 @@ labMTsimple/speedy.py
 labMTsimple/storyLab.py
 labMTsimple/data/ANEW/all.csv
 labMTsimple/data/MPQA-lexicon/subjectivity_clues_hltemnlp05/subjclueslen1-HLTEMNLP05.tff
+labMTsimple/data/PANAS-X/affect.txt
+labMTsimple/data/PANAS-X/all.txt
 labMTsimple/data/labMT/labMT1.txt
 labMTsimple/data/labMT/labMT2arabic.txt
 labMTsimple/data/labMT/labMT2chinese.txt

@@ -80,7 +80,7 @@ class sentiDict:
             return LabMT
         if self.corpus == 'ANEW':        
             ANEW = dict()
-            f = self.openWithPath("data/ANEW/all.csv")
+            f = self.openWithPath("data/ANEW/all.csv","r")
             f.readline()
             i = 0
             for line in f:
@@ -97,29 +97,46 @@ class sentiDict:
                 del ANEW[word]
             return ANEW
 
+        if self.corpus == 'Warriner':
+            warriner = dict()
+            f = self.openWithPath("data/warriner/BRM-emot-submit.csv","r")
+            for line in f:
+                l = line.rstrip().split(',')
+                warriner[l[1]] = (float(l[2]),int(l[0]))
+            f.close()
+            stopWords = []
+            for word in warriner:
+                if abs(warriner[word][0]-5.0) < self.stopVal:
+                    stopWords.append(word)
+            for word in stopWords:
+                del warriner[word]
+            return warriner
+
         if self.corpus == 'LIWC':
             # many (most) of these words are stems
             # so we'll need to deal with this in applying it
             LIWC = dict()
-            f = self.openWithPath("data/LIWC/LIWC2007_affectwords_raw.txt")
-            f.readline()
+            # all the 125's pulled out
+            # f = self.openWithPath("data/LIWC/LIWC2007_English100131_words.dic","r")
+            # mostly just the raw data
+            f = self.openWithPath("data/LIWC/LIWC2007_English100131_words.dic","r")
             i = 0
             for line in f:
                 l = line.rstrip().split("\t")
                 word = l[0]
-                if '126' in l:
-                    score = 1
-                    LIWC[word] = (score,i)
-                    i+=1
-                elif '127' in l:
-                    score = -1
-                    LIWC[word] = (score,i)
-                    i+=1
-                else:
-                    if self.stopVal == 0.0:
-                        score = 0
+                if '125' in l:
+                    if '126' in l:
+                        score = 1
                         LIWC[word] = (score,i)
                         i+=1
+                    elif '127' in l:
+                        score = -1
+                        LIWC[word] = (score,i)
+                        i+=1
+                elif self.stopVal == 0.0:
+                    score = 0
+                    LIWC[word] = (score,i)
+                    i+=1
             f.close()
             return LIWC
             
@@ -173,6 +190,41 @@ class sentiDict:
                 i+=1
             f.close()
             return liu
+        if self.corpus == 'PANAS-X':
+            PANAS = dict()
+            f = self.openWithPath("data/PANAS-X/affect.txt","r")
+            i=0
+            for line in f:
+                l = line.rstrip().split(',')
+                PANAS[l[0]] = (int(l[1]),i)
+                i+=1
+            f.close()
+            return PANAS
+
+    def bootstrapify(self):
+        if self.corpus in ['LabMT','ANEW']:
+            oldcorpus = self.corpus
+            # go get the stem sets to extend
+            self.corpus = 'LIWC'
+            tmpdict = self.loadDict()
+            # make lists from it
+            self.makeListsFromDict(tmpdict)
+            # create the trie
+            LIWCtrie = self.makeMarisaTrie()
+            self.corpus = 'MPQA'
+            tmpdict = self.loadDict()
+            # make lists from it
+            self.makeListsFromDict(tmpdict)
+            # create the trie
+            MPQAtrie = self.makeMarisaTrie()
+            self.corpus = oldcorpus
+            
+        if self.corpus not in ['LabMT','ANEW']:
+            pass
+            # go get the other +/- 1 sets and add
+            # only keep the ones that agree
+            # check agreement on everything
+            # add stems, then add fixed (if not in stems)
 
     def makeListsFromDict(self,userdict):
         tmpfixedwords = []
@@ -234,6 +286,7 @@ class sentiDict:
     # only use this for coverage, so don't even worry about
     # using with a dict
     def matcherTrieBool(self,word):
+        '''matcherTrieBool(word) just checks if a word is in the list'''
         if word in self.data[0]:
             return 1
         else:
@@ -338,7 +391,7 @@ class sentiDict:
             wordVec[self.data[1].prefix_items(word)[0][1]] += count
 
     # all going to be for english
-    def __init__(self,corpus,datastructure='dict',stopVal=0.0):
+    def __init__(self,corpus,datastructure='dict',bootstrap='False',stopVal=0.0):
         self.corpus = corpus
         self.cindex = self.titles.index(self.corpus)
         self.stopVal = stopVal
@@ -346,8 +399,8 @@ class sentiDict:
             mkdir('{0}'.format(self.folders[self.cindex]))
         if datastructure == 'dict':
             self.data = self.loadDict()
-            # why not just set them all in here?
-            # they might be global...
+            if bootstrap:
+                self.bootstrapify()
             self.makeListsFromDict(self.data)
             self.matcherTrie = self.matcherTrieDict
             self.scoreTrie = self.scoreTrieDict
@@ -386,3 +439,14 @@ class sentiDict:
             self.matcher = self.matcherTrieDa
             self.score = self.scoreTrieDa
             self.wordVecify = self.wordVecifyTrieDa
+
+
+
+
+
+
+
+
+
+
+
