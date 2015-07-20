@@ -37,8 +37,8 @@ import datrie
 class sentiDict:
     
     # these are the global lists
-    folders = ('labMT','ANEW','LIWC','MPQA-lexicon','liu-lexicon')
-    titles = ['LabMT','ANEW','LIWC','MPQA','Liu']
+    folders = ('labMT','ANEW','LIWC','MPQA-lexicon','liu-lexicon','Warriner',)
+    titles = ['LabMT','ANEW','LIWC','MPQA','Liu','Warriner',]
 
     def openWithPath(self,filename,mode):
         try:
@@ -57,7 +57,7 @@ class sentiDict:
 
     # load the corpus into a dictionary
     # straight from the origin corpus file
-    def loadDict(self):
+    def loadDict(self,bananas):
         if self.corpus == 'LabMT':
             # cheat on this one
             # LabMT = emotionFileReader(stopval=self.stopVal,fileName='labMT2english.txt')
@@ -68,7 +68,7 @@ class sentiDict:
             i = 0
             for line in f:
                 l = line.rstrip().split("\t")
-                LabMT[l[0]] = (float(l[2]),i)
+                LabMT[l[0]] = (float(l[2]),i,float(l[3]))
                 i=i+1
             f.close()
             stopWords = []
@@ -85,7 +85,7 @@ class sentiDict:
             i = 0
             for line in f:
                 l = line.rstrip().split(",")
-                ANEW[l[0]] = (float(l[2]),i)
+                ANEW[l[0]] = (float(l[2]),i,float(l[3]))
                 i+=1
             f.close()
             # stop the thing too
@@ -100,9 +100,10 @@ class sentiDict:
         if self.corpus == 'Warriner':
             warriner = dict()
             f = self.openWithPath("data/warriner/BRM-emot-submit.csv","r")
+            f.readline()
             for line in f:
                 l = line.rstrip().split(',')
-                warriner[l[1]] = (float(l[2]),int(l[0]))
+                warriner[l[1]] = (float(l[2]),int(l[0]),float(l[3]))
             f.close()
             stopWords = []
             for word in warriner:
@@ -133,7 +134,15 @@ class sentiDict:
                         score = -1
                         LIWC[word] = (score,i)
                         i+=1
-                elif self.stopVal == 0.0:
+                # get the words that are "function" words
+                # specifically not getting them with emotion
+                # if the bananas is false
+                elif self.stopVal == 0.0 and '1' in l and not bananas:
+                    score = 0
+                    LIWC[word] = (score,i)
+                    i+=1
+                # but if bananas, put them neutral regardless of affect!
+                if self.stopVal == 0.0 and '1' in l and bananas:
                     score = 0
                     LIWC[word] = (score,i)
                     i+=1
@@ -365,8 +374,11 @@ class sentiDict:
         for word,count in wordDict.items():
             if word in self.data:
                 totalcount += count
-                totalscore += count*self.data[word]
-        return totalscore/totalcount
+                totalscore += count*self.data[word][0]
+        if totalcount > 0:
+            return totalscore/totalcount
+        else:
+            return 0.0
 
     def matcherTrieMarisa(self,word,wordVec,count):
         if word in self.data[0]:
@@ -391,14 +403,14 @@ class sentiDict:
             wordVec[self.data[1].prefix_items(word)[0][1]] += count
 
     # all going to be for english
-    def __init__(self,corpus,datastructure='dict',bootstrap='False',stopVal=0.0):
+    def __init__(self,corpus,datastructure='dict',bootstrap=False,stopVal=0.0,bananas=False,loadFromFile=False):
         self.corpus = corpus
         self.cindex = self.titles.index(self.corpus)
         self.stopVal = stopVal
         if not isdir('{0}'.format(self.folders[self.cindex])):
             mkdir('{0}'.format(self.folders[self.cindex]))
         if datastructure == 'dict':
-            self.data = self.loadDict()
+            self.data = self.loadDict(bananas)
             if bootstrap:
                 self.bootstrapify()
             self.makeListsFromDict(self.data)
@@ -408,13 +420,13 @@ class sentiDict:
             
         if datastructure == 'marisatrie':
             fmt = "fH"
-            if isfile('{0}/{1:.2f}-fixed.marisa'.format(self.folders[self.cindex],stopVal)):
+            if isfile('{0}/{1:.2f}-fixed.marisa'.format(self.folders[self.cindex],stopVal)) and loadFromFile:
                 self.data = (marisa_trie.RecordTrie(fmt,[]),marisa_trie.RecordTrie(fmt,[]))
                 self.data[0].load('{0}/{1:.2f}-fixed.marisa'.format(self.folders[self.cindex],stopVal))
                 self.data[1].load('{0}/{1:.2f}-stem.marisa'.format(self.folders[self.cindex],stopVal))
             else:
                 # load up the dict
-                tmpdict = self.loadDict()
+                tmpdict = self.loadDict(bananas)
                 # make lists from it
                 self.makeListsFromDict(tmpdict)
                 # create the trie
@@ -426,11 +438,11 @@ class sentiDict:
 
         if datastructure == 'datrie':
             print('note that datrie often seg faults')
-            if isfile('{0}/{1:.2f}-fixed.da'.format(self.folders[self.cindex],stopVal)):
+            if isfile('{0}/{1:.2f}-fixed.da'.format(self.folders[self.cindex],stopVal)) and loadFromFile:
                 self.data = (datrie.Trie.load('{0}/{1:.2f}-fixed.da'.format(self.folders[self.cindex],stopVal)),datrie.Trie.load('{0}/{1:.2f}-stem.da'.format(self.folders[self.cindex],stopVal)),)
             else:
                 # load up the dict
-                tmpdict = self.loadDict()
+                tmpdict = self.loadDict(bananas)
                 # make lists from it
                 self.makeListsFromDict(tmpdict)
                 # create the trie
@@ -439,14 +451,3 @@ class sentiDict:
             self.matcher = self.matcherTrieDa
             self.score = self.scoreTrieDa
             self.wordVecify = self.wordVecifyTrieDa
-
-
-
-
-
-
-
-
-
-
-
