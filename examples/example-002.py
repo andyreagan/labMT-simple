@@ -70,7 +70,7 @@ if __name__ == '__main__':
       f.write(labMTwordList[i]) 
     f.close()
 
-  filename = "example-001-shift.html"
+  filename = "example-002-shift.html"
   shiftHtml(labMTvector,labMTwordList,tuesdayStoppedVec,saturdayStoppedVec,filename)
 
 

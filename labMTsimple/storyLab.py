@@ -271,28 +271,6 @@ def allEmotions(tmpStr,*allDicts):
     emotionList.append(emotion(tmpStr,tmpDict))
   return emotionList
 
-def plothapps(happsTimeSeries,picname):
-  # plothapps(happsTimeSeries,picname)
-  # 
-  # ** uses matplotlib
-  #
-  # just makes a quick timeseries plot
-  
-  import matplotlib.pyplot as plt
-
-  # create a figure, fig is now a matplotlib.figure.Figure instance
-  fig = plt.figure()
-
-  # plot the time series
-  ax1 = fig.add_axes([0.2,0.2,0.7,0.7]) #  [left, bottom, width, height]
-  ax1.plot(range(len(happs)),happsTimeSeries)
-  ax1.set_xlabel('Time')
-  ax1.set_ylabel('Happs')
-  ax1.set_title('Happiness over time')
-
-  plt.savefig(picname)
-  plt.close(fig)
-
 def shift(refFreq,compFreq,lens,words,sort=True):
   # shift(refFreq,compFreq,lens,words,sort=True)
   #
@@ -356,7 +334,7 @@ def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile):
   # write out the template
   f = codecs.open('static/'+outFileShort+'-data.js','w','utf8')
   f.write('lens = ['+','.join(map(lambda x: '{0:.0f}'.format(x),scoreList))+'];\n\n')
-  f.write('words = ['+','.join(map(lambda x: '{0}'.format(x),wordList))+'];\n\n')
+  f.write('words = ['+','.join(map(lambda x: '"{0}"'.format(x),wordList))+'];\n\n')
   f.write('refFraw = ['+','.join(map(lambda x: '{0:.0f}'.format(x),refFreq))+'];\n\n')
   f.write('compFraw = ['+','.join(map(lambda x: '{0:.0f}'.format(x),compFreq))+'];\n\n')
   f.close()
@@ -389,7 +367,7 @@ def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile):
 <script src="static/urllib.js" charset="utf-8"></script>
 <script src="static/hedotools.init.js" charset="utf-8"></script>
 <script src="static/hedotools.shifter.js" charset="utf-8"></script>
-<script src="static/'+{0}+'-data.js" charset="utf-8"></script>
+<script src="static/{0}-data.js" charset="utf-8"></script>
 <script src="static/example-on-load.js" charset="utf-8"></script>
 
 </body>
@@ -408,9 +386,53 @@ def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile):
       relpath.append(staticfile)
       fileName = ''
       for pathp in relpath:
-        fileName += '/' + pathp    
+        fileName += '/' + pathp
       shutil.copy(fileName,'static/'+staticfile)
 
+def generateSVG(htmlfile,output=""):
+  # generateSVG(htmlfile,output="")
+  #
+  # use phantomjs and the local crowbar to make the svg file
+
+  if len(output) == 0:
+    output = htmlfile.replace(".html",".svg")
+  import subprocess  
+  status = subprocess.check_output("phantomjs static/shift-crowbar.js {0} shiftsvg {1}".format(htmlfile,output),shell=True)
+
+  return output
+
+def generatePDF(filename,program="rsvg"):
+  # generatePDF(filename,program="rsvg")
+  #
+  # use rsvg or inkscape to make a PDF from the SVG
+  
+  output = filename.replace(".svg","")
+  import subprocess
+  if program == "rsvg":
+    command = "rsvg-convert --format=eps {0} > {1}.eps".format(filename,output)
+    status = subprocess.check_output(command,shell=True)
+    command = "epstopdf {0}.eps".format(output)
+    status = subprocess.check_output(command,shell=True)
+    return '{0}.pdf'.format(output)
+  elif program == "inkscape":
+    command = "/Applications/Inkscape.app/Contents/Resources/bin/inkscape -f $(pwd)/{0} -A $(pwd)/{1}.pdf".format(filename,output)
+    status = subprocess.check_output(command,shell=True)
+    return '{0}.pdf'.format(output)
+
+def shiftPDF(scoreList,wordList,refFreq,compFreq,outFile):
+  # shiftPDF(scoreList,wordList,refFreq,compFreq,outFile)
+  #
+  # generate a PDF wordshift directly from frequency files!
+  # outfile should probably end in .html
+  # and this will make a file that ends in .svg,.eps,and .pdf
+  # in addition to html file, in making the wordshift
+  
+  shiftHtml(scoreList,wordList,refFreq,compFreq,outFile)
+  svgfile = generateSVG(htmlfile)
+  pdffile = generatePDF(svgfile)
+  command = "open {0}".format(pdffile)
+  status = subprocess.check_output(command,shell=True)
+  
 if __name__ == '__main__':
   # run from standard in
   import fileinput

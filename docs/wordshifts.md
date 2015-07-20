@@ -95,3 +95,10 @@ epstopdf wordshift-rsvg.eps
 
 And again, feel free to tweet suggestions at [@andyreagan](https://twitter.com/andyreagan), and submit pull requests to the [source code](https://github.com/andyreagan/labMT-simple)!
 
+Full Automation
+---------------
+
+I've wrapped up all of this into what is potentially the most backwards way to generate figure imaginable.
+The `shiftPDF` function operates the same way as the `shiftHTML`, but uses the headless web server to render the d3 graphic, then exectues a piece of injected JS to save a local SVG, and uses command line image manipulation libraries to massage it into a PDF.
+
+On my macbook, this works, but your mileage will most certainly vary.
