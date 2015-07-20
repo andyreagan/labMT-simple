@@ -76,6 +76,7 @@
 <li class="toctree-l2"><a class="reference internal" href="getting-started.html#usage">Usage</a></li>
 <li class="toctree-l2"><a class="reference internal" href="getting-started.html#installation">Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="getting-started.html#running-tests">Running tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started.html#developing-with-labmt-simple-locally">Developing with labMT-simple locally</a></li>
 <li class="toctree-l2"><a class="reference internal" href="getting-started.html#building-these-docs">Building these docs</a></li>
 </ul>
 </li>
@@ -85,8 +86,11 @@
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Making Wordshifts</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#more-installation">More Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#example">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-phantom-crowbar">Installing phantom-crowbar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-inkscape">Installing inkscape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-rsvg">Installing rsvg</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-labmtsimple">Installing labMTsimple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#making-your-first-shift">Making your first shift</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="advanced.html">Advanced Usage</a><ul>
@@ -143,11 +147,77 @@
             
   <div class="section" id="making-wordshifts">
 <span id="making-wordshifts"></span><h1>Making Wordshifts<a class="headerlink" href="#making-wordshifts" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="more-installation">
-<span id="more-installation"></span><h2>More Installation<a class="headerlink" href="#more-installation" title="Permalink to this headline">¶</a></h2>
+<p>I just merged updates to the d3 wordshift plotting into labMTsimple, and combined with phantom crowbar (see previous post), it&#8217;s easier than ever to use the labMT data set to compare texts.</p>
+<p>To make an html page with the shift, you&#8217;ll just need to have labMT-simple installed.
+To automate the process into generating svg files, you&#8217;ll need the phantom crowbar, which depends on phantomjs.
+To go all the way to pdf, you&#8217;ll also need inkscape for making vectorized pdfs, or rsvg for making better formatted, but rasterized, versions.</p>
+<p>Let&#8217;s get set up to make shifts automatically.
+Since they&#8217;re aren&#8217;t many dependencies all the way down, start by getting phantomjs installed, then the phantom-crowbar.</p>
+<div class="section" id="installing-phantom-crowbar">
+<span id="installing-phantom-crowbar"></span><h2>Installing phantom-crowbar<a class="headerlink" href="#installing-phantom-crowbar" title="Permalink to this headline">¶</a></h2>
+<p>For the phantomjs, I prefer to use homebrew:</p>
+<pre class="literal-block">
+brew update
+brew upgrade
+brew install phantomjs
+</pre>
+<p>Then to get the crowbar, clone the git repository.</p>
+<pre class="literal-block">
+cd ~
+git clone https://github.com/andyreagan/phantom-crowbar
+</pre>
+<p>To use it system-wide, I use the bash alias:</p>
+<pre class="literal-block">
+alias phantom-crowbar=&quot;/usr/local/bin/phantomjs ~/phantom-crowbar/phantom-crowbar.js&quot;
+</pre>
+<p>Without too much detail, I recommend adding this to your <code class="docutils literal"><span class="pre">~/.bash_profile</span></code> so that it&#8217;s loaded every time you start a terminal session.</p>
 </div>
-<div class="section" id="example">
-<span id="example"></span><h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="installing-inkscape">
+<span id="installing-inkscape"></span><h2>Installing inkscape<a class="headerlink" href="#installing-inkscape" title="Permalink to this headline">¶</a></h2>
+<p>You only need inkscape if you want to go from svg to pdf (and there are other ways too), but this one is easy with, again, homebrew.</p>
+<pre class="literal-block">
+brew install inkscape
+</pre>
+</div>
+<div class="section" id="installing-rsvg">
+<span id="installing-rsvg"></span><h2>Installing rsvg<a class="headerlink" href="#installing-rsvg" title="Permalink to this headline">¶</a></h2>
+<p>You only need inkscape if you want to go from svg to pdf (and there are other ways too), but this one is easy with, again, homebrew.</p>
+<pre class="literal-block">
+brew install librsvg
+</pre>
+</div>
+<div class="section" id="installing-labmtsimple">
+<span id="installing-labmtsimple"></span><h2>Installing labMTsimple<a class="headerlink" href="#installing-labmtsimple" title="Permalink to this headline">¶</a></h2>
+<p>There are two ways to get it: using pip of cloning the git repo.
+If you&#8217;re not sure, use pip.
+I think pip makes it easier to keep it up to date, etc.</p>
+<pre class="literal-block">
+pip install labMTsimple
+</pre>
+</div>
+<div class="section" id="making-your-first-shift">
+<span id="making-your-first-shift"></span><h2>Making your first shift<a class="headerlink" href="#making-your-first-shift" title="Permalink to this headline">¶</a></h2>
+<p>If you cloned the git repository, install the thing and then you can check out the example in <code class="docutils literal"><span class="pre">examples/example.py</span></code>.
+If you went with pip, see that file on <a class="reference external" href="https://github.com/andyreagan/labMT-simple/blob/master/examples/example.py">github</a>.</p>
+<p>Go ahead and run that script!</p>
+<pre class="literal-block">
+python example-002.py
+</pre>
+<p>You can open the html file to see the shift in any browser, with your choice of local webserver.
+Python&#8217;s SimpleHTTPServer works fine, and I&#8217;ve found that the node based http-server is a bit more stable.</p>
+<p>To take out the svg, go ahead and use the <code class="docutils literal"><span class="pre">phantom-crowbar.js</span></code> file provided in the example directory.
+Running it looks like this, for me:</p>
+<pre class="literal-block">
+/usr/local/bin/phantomjs phantom-crowbar.js example-002.html shiftsvg wordshift.svg
+</pre>
+<p>Using inkscape or librsvg on my computer look like this:</p>
+<pre class="literal-block">
+/Applications/Inkscape.app/Contents/Resources/bin/inkscape -f $(pwd)/wordshift.svg -A $(pwd)/wordshift-inkscape.pdf
+
+rsvg-convert --format=eps worshift.svg &gt; wordshift-rsvg.eps
+epstopdf wordshift-rsvg.eps
+</pre>
+<p>And again, feel free to tweet suggestions at <a class="reference external" href="https://twitter.com/andyreagan">&#64;andyreagan</a>, and submit pull requests to the <a class="reference external" href="https://github.com/andyreagan/labMT-simple">source code</a>!</p>
 </div>
 </div>
 

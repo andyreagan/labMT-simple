@@ -76,6 +76,7 @@
 <li class="toctree-l2"><a class="reference internal" href="getting-started.html#usage">Usage</a></li>
 <li class="toctree-l2"><a class="reference internal" href="getting-started.html#installation">Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="getting-started.html#running-tests">Running tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started.html#developing-with-labmt-simple-locally">Developing with labMT-simple locally</a></li>
 <li class="toctree-l2"><a class="reference internal" href="getting-started.html#building-these-docs">Building these docs</a></li>
 </ul>
 </li>
@@ -85,8 +86,11 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="wordshifts.html">Making Wordshifts</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="wordshifts.html#more-installation">More Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="wordshifts.html#example">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wordshifts.html#installing-phantom-crowbar">Installing phantom-crowbar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wordshifts.html#installing-inkscape">Installing inkscape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wordshifts.html#installing-rsvg">Installing rsvg</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wordshifts.html#installing-labmtsimple">Installing labMTsimple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wordshifts.html#making-your-first-shift">Making your first shift</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Advanced Usage</a><ul>
@@ -145,9 +149,14 @@
 <span id="advanced-usage"></span><h1>Advanced Usage<a class="headerlink" href="#advanced-usage" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="about-tries">
 <span id="about-tries"></span><h2>About Tries<a class="headerlink" href="#about-tries" title="Permalink to this headline">¶</a></h2>
+<p>For dictionary lookup of scores from phrases, the fastest benchmarks I&#8217;ve found and that were reasonable stable were from the libraries <code class="docutils literal"><span class="pre">datrie</span></code> and <code class="docutils literal"><span class="pre">marisatrie</span></code> which both have python bindings.</p>
+<p>They&#8217;re used in the <code class="docutils literal"><span class="pre">speedy</span></code> module in an attempt to both speed things up, and match against word stems.</p>
 </div>
 <div class="section" id="advanced-parsing">
 <span id="advanced-parsing"></span><h2>Advanced Parsing<a class="headerlink" href="#advanced-parsing" title="Permalink to this headline">¶</a></h2>
+<p>Some dictionaries use word stems to cover the multiple uses of a single word, with a single score.
+We can very quickly match these word stems using a prefix match on a trie.
+This is much better than using many compiled RE matches, which in my testing took a very long time.</p>
 </div>
 </div>
 

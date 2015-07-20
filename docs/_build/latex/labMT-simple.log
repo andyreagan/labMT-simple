@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.5.25)  20 JUL 2015 10:56
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.5.25)  20 JUL 2015 16:07
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -940,40 +940,88 @@ LaTeX Font Info:    Try loading font information for T1+pcr on input line 146.
 (/usr/local/texlive/2014/texmf-dist/tex/latex/psnfss/t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 ) [3]
-LaTeX Font Info:    Try loading font information for TS1+pcr on input line 196.
+LaTeX Font Info:    Try loading font information for TS1+pcr on input line 205.
 
 
 (/usr/local/texlive/2014/texmf-dist/tex/latex/psnfss/ts1pcr.fd
 File: ts1pcr.fd 2001/06/04 font definitions for TS1/pcr.
 ) [4]
 Chapter 2.
+
+Overfull \hbox (82.245pt too wide) in paragraph at lines 232--232
+[]\T1/pcr/m/n/10 labMT,labMTvector,labMTwordList = emotionFileReader(stopval=0.
+0,lang=lang,returnVector=True)[] 
+ []
+
+
+Overfull \hbox (52.245pt too wide) in paragraph at lines 237--237
+[]\T1/pcr/m/n/10 saturdayValence,saturdayFvec = emotion(saturday,labMT,shift=Tr
+ue,happsList=labMTvector)[] 
+ []
+
+
+Overfull \hbox (34.245pt too wide) in paragraph at lines 238--238
+[]\T1/pcr/m/n/10 tuesdayValence,tuesdayFvec = emotion(tuesday,labMT,shift=True,
+happsList=labMTvector)[] 
+ []
+
+
+Overfull \hbox (10.245pt too wide) in paragraph at lines 245--245
+[]\T1/pcr/m/n/10 saturdayStoppedVec = stopper(saturdayFvec,labMTvector,labMTwor
+dList,stopVal=1.0)[] 
+ []
+
 [5
 
 ] [6
 
 ]
 Chapter 3.
-[7] [8
 
-]
+Overfull \hbox (52.245pt too wide) in paragraph at lines 281--281
+[]\T1/pcr/m/n/10 alias phantom-crowbar=\TS1/pcr/m/n/10 ''\T1/pcr/m/n/10 /usr/lo
+cal/bin/phantomjs ~/phantom-crowbar/phantom-crowbar.js\TS1/pcr/m/n/10 ''[] 
+ []
+
+[7]
+Underfull \hbox (badness 6893) in paragraph at lines 315--317
+\T1/ptm/m/n/10 If you cloned the git repos-i-tory, in-stall the thing and then 
+you can check out the ex-am-ple in
+ []
+
+
+Overfull \hbox (28.245pt too wide) in paragraph at lines 329--329
+[]\T1/pcr/m/n/10 /usr/local/bin/phantomjs phantom-crowbar.js example-002.html s
+hiftsvg wordshift.svg[] 
+ []
+
+
+Overfull \hbox (220.245pt too wide) in paragraph at lines 334--334
+[]\T1/pcr/m/n/10 /Applications/Inkscape.app/Contents/Resources/bin/inkscape -f 
+$(pwd)/wordshift.svg -A $(pwd)/wordshift-inkscape.pdf[] 
+ []
+
+[8]
 Chapter 4.
-[9] [10
+[9
+
+] [10
 
 ]
 Chapter 5.
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <12> not available
-(Font)              Font shape `T1/phv/b/n' tried instead on input line 233.
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 366.
 LaTeX Font Info:    Font shape `T1/pcr/bx/n' in size <10> not available
-(Font)              Font shape `T1/pcr/b/n' tried instead on input line 240.
+(Font)              Font shape `T1/pcr/b/n' tried instead on input line 373.
 [11]
-Underfull \hbox (badness 10000) in paragraph at lines 383--383
+Underfull \hbox (badness 10000) in paragraph at lines 516--516
 []\T1/ptm/m/it/10 stopval=1.0\T1/ptm/m/n/10 , \T1/ptm/m/it/10 file-Name=u'labMT
 1raw.txt'\T1/ptm/m/n/10 ,
  []
 
 [12]
 Chapter 6.
-LaTeX Font Info:    Try loading font information for TS1+ptm on input line 429.
+LaTeX Font Info:    Try loading font information for TS1+ptm on input line 562.
 
 (/usr/local/texlive/2014/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
@@ -1041,23 +1089,23 @@ Underfull \hbox (badness 10000) in paragraph at lines 69--70
 [17
 
 ])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 452.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 452.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 585.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 585.
  (./labMT-simple.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 452.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 452.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 585.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 585.
 Package rerunfilecheck Info: File `labMT-simple.out' has not changed.
-(rerunfilecheck)             Checksum: E9DE14E9EA163ECDA88423915CE30F65;1070.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 452.
+(rerunfilecheck)             Checksum: 8FF835B33D1AB5D4CBEF39717A5991C1;1375.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 585.
  ) 
 Here is how much of TeX's memory you used:
- 9319 strings out of 493117
- 131587 string characters out of 6135433
- 233803 words of memory out of 5000000
- 12446 multiletter control sequences out of 15000+600000
+ 9331 strings out of 493117
+ 131862 string characters out of 6135433
+ 234028 words of memory out of 5000000
+ 12454 multiletter control sequences out of 15000+600000
  58251 words of font info for 64 fonts, out of 8000000 for 9000
  1142 hyphenation exceptions out of 8191
- 36i,11n,45p,559b,459s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 36i,12n,45p,559b,459s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2014/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
 exlive/2014/texmf-dist/fonts/type1/urw/courier/ucrb8a.pfb></usr/local/texlive/2
 014/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2014/texm
@@ -1067,10 +1115,10 @@ type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/u
 rw/times/utmb8a.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/urw/times/u
 tmr8a.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/urw/times/utmri8a.pfb
 >
-Output written on labMT-simple.pdf (21 pages, 115877 bytes).
+Output written on labMT-simple.pdf (21 pages, 125469 bytes).
 PDF statistics:
- 321 PDF objects out of 1000 (max. 8388607)
- 282 compressed objects within 3 object streams
- 77 named destinations out of 1000 (max. 500000)
- 173 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 347 PDF objects out of 1000 (max. 8388607)
+ 307 compressed objects within 4 object streams
+ 81 named destinations out of 1000 (max. 500000)
+ 205 words of extra memory for PDF output out of 10000 (max. 10000000)
 

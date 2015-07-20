@@ -76,6 +76,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#running-tests">Running tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#developing-with-labmt-simple-locally">Developing with labMT-simple locally</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#building-these-docs">Building these docs</a></li>
 </ul>
 </li>
@@ -85,8 +86,11 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="wordshifts.html">Making Wordshifts</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="wordshifts.html#more-installation">More Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="wordshifts.html#example">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wordshifts.html#installing-phantom-crowbar">Installing phantom-crowbar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wordshifts.html#installing-inkscape">Installing inkscape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wordshifts.html#installing-rsvg">Installing rsvg</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wordshifts.html#installing-labmtsimple">Installing labMTsimple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wordshifts.html#making-your-first-shift">Making your first shift</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="advanced.html">Advanced Usage</a><ul>
@@ -153,16 +157,14 @@ a simple labMT usage script</p>
 python example.py example-shift.html
 </pre>
 <p>and opening the file <code class="docutils literal"><span class="pre">example-shift.html</span></code> in a web browser. For an explanation of the resulting plot, please visit</p>
-<p>http://www.hedonometer.org/shifts.html</p>
+<p><a class="reference external" href="http://www.hedonometer.org/shifts.html">http://www.hedonometer.org/shifts.html</a></p>
 </div>
 <div class="section" id="installation">
 <span id="installation"></span><h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
-<p>Cloning the github directly is recommended, i.e.</p>
+<p>Cloning the github directly is recommended, and then installing locally:</p>
 <pre class="literal-block">
 git clone https://github.com/andyreagan/labMT-simple.git
-</pre>
-<p>and then installing locally using</p>
-<pre class="literal-block">
+cd labMT-simple
 python setup.py install
 </pre>
 <p>This repository can also be installed using pip</p>
@@ -173,12 +175,23 @@ pip install labMTsimple
 </div>
 <div class="section" id="running-tests">
 <span id="running-tests"></span><h2>Running tests<a class="headerlink" href="#running-tests" title="Permalink to this headline">¶</a></h2>
-<p>Tests are based on nose2, <code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">nose2</span></code>, and can be run by executing</p>
+<p>Tests are based on nose2, <code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">nose2</span></code>, and can be run inside the by executing</p>
 <pre class="literal-block">
 nose2
 </pre>
 <p>in the root directory of this repository.</p>
 <p>This will compare the two days in test/data and print test.html which shifts them, allowing for a changable lens.</p>
+</div>
+<div class="section" id="developing-with-labmt-simple-locally">
+<span id="developing-with-labmt-simple-locally"></span><h2>Developing with labMT-simple locally<a class="headerlink" href="#developing-with-labmt-simple-locally" title="Permalink to this headline">¶</a></h2>
+<p>I find it really useful to reload the library when testing it interactively:</p>
+<pre class="literal-block">
+try:
+    reload
+except NameError:
+    # Python 3
+    from importlib import reload
+</pre>
 </div>
 <div class="section" id="building-these-docs">
 <span id="building-these-docs"></span><h2>Building these docs<a class="headerlink" href="#building-these-docs" title="Permalink to this headline">¶</a></h2>

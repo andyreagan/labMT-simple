@@ -3,13 +3,17 @@
 \contentsline {section}{\numberline {1.1}Usage}{3}{section.1.1}
 \contentsline {section}{\numberline {1.2}Installation}{3}{section.1.2}
 \contentsline {section}{\numberline {1.3}Running tests}{3}{section.1.3}
-\contentsline {section}{\numberline {1.4}Building these docs}{4}{section.1.4}
+\contentsline {section}{\numberline {1.4}Developing with labMT-simple locally}{4}{section.1.4}
+\contentsline {section}{\numberline {1.5}Building these docs}{4}{section.1.5}
 \contentsline {chapter}{\numberline {2}Detailed Examples}{5}{chapter.2}
 \contentsline {section}{\numberline {2.1}Preparing texts}{5}{section.2.1}
 \contentsline {section}{\numberline {2.2}Loading dictionaries}{5}{section.2.2}
 \contentsline {chapter}{\numberline {3}Making Wordshifts}{7}{chapter.3}
-\contentsline {section}{\numberline {3.1}More Installation}{7}{section.3.1}
-\contentsline {section}{\numberline {3.2}Example}{7}{section.3.2}
+\contentsline {section}{\numberline {3.1}Installing phantom-crowbar}{7}{section.3.1}
+\contentsline {section}{\numberline {3.2}Installing inkscape}{7}{section.3.2}
+\contentsline {section}{\numberline {3.3}Installing rsvg}{7}{section.3.3}
+\contentsline {section}{\numberline {3.4}Installing labMTsimple}{8}{section.3.4}
+\contentsline {section}{\numberline {3.5}Making your first shift}{8}{section.3.5}
 \contentsline {chapter}{\numberline {4}Advanced Usage}{9}{chapter.4}
 \contentsline {section}{\numberline {4.1}About Tries}{9}{section.4.1}
 \contentsline {section}{\numberline {4.2}Advanced Parsing}{9}{section.4.2}

@@ -290,11 +290,12 @@ class sentiDict:
         stemtrie.save('{0}/{1:.2f}-stem.da'.format(self.folders[self.cindex],self.stopVal))
         return (fixedtrie,stemtrie)
 
+
+    def matcherTrieBool(self,word):
     # works for both trie types
     # only one needed to make the plots
     # only use this for coverage, so don't even worry about
-    # using with a dict
-    def matcherTrieBool(self,word):
+    # using with a dict        
         '''matcherTrieBool(word) just checks if a word is in the list'''
         if word in self.data[0]:
             return 1

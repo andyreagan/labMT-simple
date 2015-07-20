@@ -17,21 +17,17 @@ python example.py example-shift.html
 
 and opening the file `example-shift.html` in a web browser. For an explanation of the resulting plot, please visit
 
-http://www.hedonometer.org/shifts.html
+[http://www.hedonometer.org/shifts.html](http://www.hedonometer.org/shifts.html)
 
 
 Installation
 ------------
 
-Cloning the github directly is recommended, i.e.
+Cloning the github directly is recommended, and then installing locally:
 
 ```bash
 git clone https://github.com/andyreagan/labMT-simple.git
-```
-
-and then installing locally using
-
-```bash
+cd labMT-simple
 python setup.py install
 ```
 
@@ -47,7 +43,7 @@ in which case you can download the tests from github and run them, if desired.
 Running tests
 -------------
 
-Tests are based on nose2, `pip install nose2`, and can be run by executing
+Tests are based on nose2, `pip install nose2`, and can be run inside the by executing
 
 ```bash
 nose2
@@ -57,6 +53,19 @@ in the root directory of this repository.
 
 This will compare the two days in test/data and print test.html which shifts them, allowing for a changable lens.
 
+Developing with labMT-simple locally
+------------------------------------
+
+I find it really useful to reload the library when testing it interactively:
+
+```python
+try:
+    reload
+except NameError:
+    # Python 3
+    from importlib import reload
+```
+	
 Building these docs
 -------------------
 

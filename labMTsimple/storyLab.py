@@ -48,9 +48,14 @@ import codecs
 import copy
 
 def emotionFileReader(stopval=1.0,lang="english",min=1.0,max=9.0,returnVector=False):
-  ## stopval is our lens, \Delta h
-  ## read the labMT dataset into a dict with this lens
-  ## must be tab-deliminated
+  # emotionFileReader(stopval=1.0,lang="english",min=1.0,max=9.0,returnVector=False)
+  # 
+  # stopval is our lens, \Delta h
+  # read the labMT dataset into a dict with this lens
+  # must be tab-deliminated
+  #
+  # with returnVector = True, returns tmpDict,tmpList,wordList
+  # otherwise, just the dictionary
 
   labMT1flag = False
   scoreIndex = 1 # second value
@@ -76,11 +81,11 @@ def emotionFileReader(stopval=1.0,lang="english",min=1.0,max=9.0,returnVector=Fa
 
   f.close()
   
-  ## remove words
+  # remove words
   stopWords = []
 
   for word in tmpDict:
-    ## start the index at 0
+    # start the index at 0
     if labMT1flag:
       tmpDict[word][0] = int(tmpDict[word][0])-1
     if abs(float(tmpDict[word][scoreIndex])-5.0) < stopval:
@@ -95,12 +100,12 @@ def emotionFileReader(stopval=1.0,lang="english",min=1.0,max=9.0,returnVector=Fa
   for word in stopWords:
     del tmpDict[word]
 
-  ## build vector of all scores
+  # build vector of all scores
   f = codecs.open(fileName,'r','utf8')
   f.readline()
   tmpList = [float(line.split(u'\t')[2]) for line in f]
   f.close()
-  ## build vector of all words
+  # build vector of all words
   f = codecs.open(fileName,'r','utf8')
   f.readline()
   wordList = [line.split(u'\t')[0] for line in f]
@@ -112,7 +117,12 @@ def emotionFileReader(stopval=1.0,lang="english",min=1.0,max=9.0,returnVector=Fa
     return tmpDict
 
 def emotionFileReaderRaw(stopval=1.0,fileName=u'labMT1raw.txt',min=1.0,max=9.0,returnVector=False):
-
+  # emotionFileReaderRaw(stopval=1.0,fileName=u'labMT1raw.txt',min=1.0,max=9.0,returnVector=False)
+  #
+  # idea here was originally to use the individual word scores to
+  # sample from for each word, and generate a more statistically sound
+  # standard deviation
+  
   try:
     f = codecs.open(fileName,'r','utf8')
   except IOError:
@@ -133,11 +143,11 @@ def emotionFileReaderRaw(stopval=1.0,fileName=u'labMT1raw.txt',min=1.0,max=9.0,r
       tmpDict[word].append(map(int,f.readline().split(u'\t'))[1])
   f.close()
   
-  ## remove words
+  # remove words
   stopWords = []
 
   for word in tmpDict:
-    ## start the index at 0
+    # start the index at 0
     if labMT1flag:
       tmpDict[word][0] = int(tmpDict[word][0])-1
     if abs(float(tmpDict[word][scoreIndex])-5.0) < stopval:
@@ -155,6 +165,11 @@ def emotionFileReaderRaw(stopval=1.0,fileName=u'labMT1raw.txt',min=1.0,max=9.0,r
   return tmpDict
 
 def emotion(tmpStr,someDict,scoreIndex=1,shift=False,happsList=[]):
+  # emotion(tmpStr,someDict,scoreIndex=1,shift=False,happsList=[])
+  #
+  # take a string and the happiness dictionary, and rate the string
+  # if shift=True, will return a vector (also then needs the happsList)
+  
   scoreList = []
   # make a frequency vector
   if shift:
@@ -174,6 +189,12 @@ def emotion(tmpStr,someDict,scoreIndex=1,shift=False,happsList=[]):
   #         for i in range(len(re.findall('[^\w]+',word))):
   #             charset.add(re.findall('[^\w]+',word)[i])
 
+  # this new replace isn't the exact same as the original parse
+  # but it's closer to the one that MITRE developed, and I think
+  # that it is an improvement
+  replaceStrings = ['---','--','\'\'']
+  for replaceString in replaceStrings:
+        tmpStr = tmpStr.replace(replaceString,' ')
   words = [x.lower() for x in re.findall(r"[\w\@\#\'\&\]\*\-\/\[\=\;]+",tmpStr,flags=re.UNICODE)]
 
   # only use the if shifting
@@ -187,10 +208,10 @@ def emotion(tmpStr,someDict,scoreIndex=1,shift=False,happsList=[]):
       if word in someDict:
         scoreList.append(float(someDict[word][scoreIndex]))
 
-  ## with numpy (and mean in the namespace)
-  ## happs = mean(scoreList)
+  # with numpy (and mean in the namespace)
+  # happs = mean(scoreList)
   
-  ## without numpy
+  # without numpy
   if len(scoreList) > 0:
     happs = sum(scoreList)/float(len(scoreList))
   else:
@@ -202,6 +223,13 @@ def emotion(tmpStr,someDict,scoreIndex=1,shift=False,happsList=[]):
     return happs
 
 def stopper(tmpVec,labMTvector,labMTwords,stopVal=1.0,ignore=[]):
+  # stopper(tmpVec,labMTvector,labMTwords,stopVal=1.0,ignore=[])
+  #
+  # take a frequency vector, and 0 out the stop words
+  # will always remove the nig* words
+  #
+  # return the 0'ed vector
+  
   ignoreWords = ["nigga","nigger","niggaz","niggas"];
   for word in ignore:
     ignoreWords.append(word)
@@ -215,6 +243,13 @@ def stopper(tmpVec,labMTvector,labMTwords,stopVal=1.0,ignore=[]):
   return newVec
 
 def emotionV(frequencyVec,scoreVec):
+  # emotionV(frequencyVec,scoreVec)
+  #
+  # given the frequency vector and the score vector, compute the happs
+  # doesn't use numpy
+  #
+  # but equivalent to np.dot(freq,happs)/np.sum(freq)
+  
   tmpSum = sum(frequencyVec)
   if tmpSum > 0:
     happs = 0.0
@@ -226,20 +261,30 @@ def emotionV(frequencyVec,scoreVec):
     return -1
 
 def allEmotions(tmpStr,*allDicts):
+  # allEmotions(tmpStr,*allDicts)
+  #
+  # compute scores from a list of dicts
+  # and return a list of scores
+  
   emotionList = []
   for tmpDict in allDicts:
     emotionList.append(emotion(tmpStr,tmpDict))
   return emotionList
 
 def plothapps(happsTimeSeries,picname):
-  ## uses matplotlib
+  # plothapps(happsTimeSeries,picname)
+  # 
+  # ** uses matplotlib
+  #
+  # just makes a quick timeseries plot
+  
   import matplotlib.pyplot as plt
 
-  ## create a figure, fig is now a matplotlib.figure.Figure instance
+  # create a figure, fig is now a matplotlib.figure.Figure instance
   fig = plt.figure()
 
-  ## plot the time series
-  ax1 = fig.add_axes([0.2,0.2,0.7,0.7]) ##  [left, bottom, width, height]
+  # plot the time series
+  ax1 = fig.add_axes([0.2,0.2,0.7,0.7]) #  [left, bottom, width, height]
   ax1.plot(range(len(happs)),happsTimeSeries)
   ax1.set_xlabel('Time')
   ax1.set_ylabel('Happs')
@@ -249,15 +294,24 @@ def plothapps(happsTimeSeries,picname):
   plt.close(fig)
 
 def shift(refFreq,compFreq,lens,words,sort=True):
-  ## normalize frequencies
+  # shift(refFreq,compFreq,lens,words,sort=True)
+  #
+  # compute a shift, and return the results
+  # if sort=True
+  # will return the three sorted lists, and sumTypes
+  # else
+  # just the two shift lists, and sumTypes
+  # (words don't need to be sorted)
+  
+  # normalize frequencies
   Nref = float(sum(refFreq))
   Ncomp = float(sum(compFreq))
   for i in range(len(refFreq)):
     refFreq[i] = float(refFreq[i])/Nref
     compFreq[i] = float(compFreq[i])/Ncomp
-  ## compute the reference happiness
+  # compute the reference happiness
   refH = sum([refFreq[i]*lens[i] for i in range(len(lens))])
-  ## determine shift magnitude, type
+  # determine shift magnitude, type
   shiftMag = [0 for i in range(len(lens))]
   shiftType = [0 for i in range(len(lens))]
   for i in range(len(lens)):
@@ -283,107 +337,68 @@ def shift(refFreq,compFreq,lens,words,sort=True):
     return shiftMag,shiftType,sumTypes
 
 def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile):
+  # shiftHtml(scoreList,wordList,refFreq,compFreq,outFile)
+  # 
+  # the most insane-o piece of code here (lots of file copying,
+  # writing vectors into html files, etc)
+  #
+  # accepts a score list, a word list, two frequency files
+  # and the name of an HTML file to generate
+  #
+  # ** will make the HTML file, and a directory called static
+  # that hosts a bunch of .js, .css that is useful
+  
   if not os.path.exists('static'):
     os.mkdir('static')
 
-  ## write out the template
-  f = codecs.open('static/'+outFile.split('.')[0]+'-data.js','w','utf8')
-  # f.write('function initializePlot() { loadCsv(); }\n\n')
-
-  ## dump the data
-  # f.write('function loadCsv() {\n')
-  f.write('lens = [')
-  for score in scoreList:
-    f.write(str(score)+',')
-  f.write('];\n\n')
-  f.write('words = [')
-  for word in wordList:
-    f.write('"'+str(word)+'",')
-  f.write('];\n\n')
-  f.write('refFraw = [')
-  for freq in refFreq:
-    f.write('{0:.0f},'.format(freq))
-  f.write('];\n\n')
-  f.write('compFraw = [')
-  for freq in compFreq:
-    f.write('{0:.0f},'.format(freq))
-  f.write('];\n\n')
+  outFileShort = outFile.split('.')[0]
+    
+  # write out the template
+  f = codecs.open('static/'+outFileShort+'-data.js','w','utf8')
+  f.write('lens = ['+','.join(map(lambda x: '{0:.0f}'.format(x),scoreList))+'];\n\n')
+  f.write('words = ['+','.join(map(lambda x: '{0}'.format(x),wordList))+'];\n\n')
+  f.write('refFraw = ['+','.join(map(lambda x: '{0:.0f}'.format(x),refFreq))+'];\n\n')
+  f.write('compFraw = ['+','.join(map(lambda x: '{0:.0f}'.format(x),compFreq))+'];\n\n')
   f.close()
   
-  ## dump out a static shift view page
-  f = codecs.open(outFile,'w','utf8')  
-  f.write('<html>\n')
-  f.write('<head>\n')
-  f.write('<title>Simple Shift Plot</title>\n')
+  # dump out a static shift view page
+  template = '''<html>
+<head>
+<title>Simple Shift Plot</title>
+<link href="static/hedotools.shift.css" rel="stylesheet">
+</head>
+<body>
 
-  f.write('  <style>\n')
-  f.write('    body {\n')
-  f.write('      font-family: Verdana,Arial,sans-serif;\n')
-  f.write('    }\n')
-  f.write('\n')
-  f.write('    h4 {\n')
-  f.write('    font-size: .8em;\n')
-  f.write('    margin: 60px 0 5px 0;\n')
-  f.write('    }\n')
-  f.write('\n')
-  f.write('    h5 {\n')
-  f.write('    font-size: .8em;\n')
-  f.write('    margin: 10px 0 5px 0;\n')
-  f.write('    }\n')
-  f.write('\n')
-  f.write('    body {\n')
-  f.write('    min-width: 650px;\n')
-  f.write('    }\n')
-  f.write('\n')
-  f.write('    #caption01 {\n')
-  f.write('      width: 500px;\n')
-  f.write('    }\n')
-  f.write('\n')
-  f.write('    #figure01 {\n')
-  f.write('      width: 600px;\n')
-  f.write('    }\n')
-  f.write('\n')
-  f.write('    .domain {\n')
-  f.write('      fill: none;\n')
-  f.write('      stroke: black;\n')
-  f.write('      stroke-width: 2;\n')
-  f.write('     }\n')
-  f.write('\n')
-  f.write('  </style>\n')
-  f.write('<link href="static/hedotools.shift.css" rel="stylesheet">\n')
-  f.write('</head>\n')
-  f.write('<body>\n')
-  f.write('\n')
-  f.write('<div id="header"></div>\n')
-  f.write('<center>\n')
-  # f.write('<div id="lens01" class="figure"></div>\n')
-  # f.write('\n')
-  # f.write('<br>\n')
-  # f.write('\n')
-  f.write('<p>Click on the graph and drag up to reveal additional words.</p>\n')
-  f.write('\n')
-  f.write('<br>\n')
-  f.write('\n')
-  f.write('<div id="figure01" class="figure"></div>\n')
-  f.write('\n')
-  f.write('</center>\n')
-  f.write('\n')
-  f.write('<div id="footer"></div>\n')
-  f.write('\n')
-  f.write('<script src="static/d3.andy.js" charset="utf-8"></script>\n')
-  f.write('<script src="static/jquery-1.11.0.min.js" charset="utf-8"></script>\n')
-  f.write('<script src="static/urllib.js" charset="utf-8"></script>\n')
-  f.write('<script src="static/hedotools.init.js" charset="utf-8"></script>\n')
-  f.write('<script src="static/hedotools.shifter.js" charset="utf-8"></script>\n')
-  f.write('<script src="static/'+outFile.split('.')[0]+'-data.js" charset="utf-8"></script>\n')
-  f.write('<script src="static/example-on-load.js" charset="utf-8"></script>\n')
-  f.write('\n')
-  f.write('</body>\n')
-  f.write('</html>\n')
+<div id="header"></div>
+<center>
+
+<div id="lens01" class="figure"></div>
+<br>
+<p>Click on the graph and drag up to reveal additional words.</p>
+
+<br>
+
+<div id="figure01" class="figure"></div>
+
+</center>
+
+<div id="footer"></div>
+
+<script src="static/d3.andy.js" charset="utf-8"></script>
+<script src="static/jquery-1.11.0.min.js" charset="utf-8"></script>
+<script src="static/urllib.js" charset="utf-8"></script>
+<script src="static/hedotools.init.js" charset="utf-8"></script>
+<script src="static/hedotools.shifter.js" charset="utf-8"></script>
+<script src="static/'+{0}+'-data.js" charset="utf-8"></script>
+<script src="static/example-on-load.js" charset="utf-8"></script>
+
+</body>
+</html>'''
+  f = codecs.open(outFile,'w','utf8')
+  f.write(template.format(outFileShort))
   f.close()
 
-
-  
+  print('copying over static files')
   # for staticfile in ['d3.v3.min.js','plotShift.js','shift.js','example-on-load.js']:
   for staticfile in ['d3.andy.js','jquery-1.11.0.min.js','urllib.js','hedotools.init.js','hedotools.shifter.js','example-on-load.js','hedotools.shift.css']:
     if not os.path.isfile('static/'+staticfile):
@@ -396,120 +411,8 @@ def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile):
         fileName += '/' + pathp    
       shutil.copy(fileName,'static/'+staticfile)
 
-def shiftHtmlSelf(scoreList,wordList,compFreq,outFile):
-  if not os.path.exists('static'):
-    os.mkdir('static')
-
-  ## write out the template
-  f = codecs.open('static/'+outFile.split('.')[0]+'-data.js','w','utf8')
-  # f.write('function initializePlot() { loadCsv(); }\n\n')
-
-  ## dump the data
-  # f.write('function loadCsv() {\n')
-  f.write('lens = [')
-  for score in scoreList:
-    f.write(str(score)+',')
-  f.write('];\n\n')
-  f.write('words = [')
-  for word in wordList:
-    f.write('"'+str(word)+'",')
-  f.write('];\n\n')
-  f.write('compFraw = [')
-  for freq in compFreq:
-    f.write('{0:.0f},'.format(freq))
-  f.write('];\n\n')
-  f.close()
-  
-  ## dump out a static shift view page
-  f = codecs.open(outFile,'w','utf8')  
-  f.write('<html>\n')
-  f.write('<head>\n')
-  f.write('<title>Simple Shift Plot</title>\n')
-
-  f.write('  <style>\n')
-  f.write('    body {\n')
-  f.write('      font-family: Verdana,Arial,sans-serif;\n')
-  f.write('    }\n')
-  f.write('\n')
-  f.write('    h4 {\n')
-  f.write('    font-size: .8em;\n')
-  f.write('    margin: 60px 0 5px 0;\n')
-  f.write('    }\n')
-  f.write('\n')
-  f.write('    h5 {\n')
-  f.write('    font-size: .8em;\n')
-  f.write('    margin: 10px 0 5px 0;\n')
-  f.write('    }\n')
-  f.write('\n')
-  f.write('    body {\n')
-  f.write('    min-width: 650px;\n')
-  f.write('    }\n')
-  f.write('\n')
-  f.write('    #caption01 {\n')
-  f.write('      width: 500px;\n')
-  f.write('    }\n')
-  f.write('\n')
-  f.write('    #figure01 {\n')
-  f.write('      width: 600px;\n')
-  f.write('    }\n')
-  f.write('\n')
-  f.write('    .domain {\n')
-  f.write('      fill: none;\n')
-  f.write('      stroke: black;\n')
-  f.write('      stroke-width: 2;\n')
-  f.write('     }\n')
-  f.write('\n')
-  f.write('  </style>\n')
-  f.write('<link href="static/hedotools.shift.css" rel="stylesheet">\n')
-  f.write('</head>\n')
-  f.write('<body>\n')
-  f.write('\n')
-  f.write('<div id="header"></div>\n')
-  f.write('<center>\n')
-  # f.write('<div id="lens01" class="figure"></div>\n')
-  # f.write('\n')
-  # f.write('<br>\n')
-  # f.write('\n')
-  f.write('<p>Click on the graph and drag up to reveal additional words.</p>\n')
-  f.write('\n')
-  f.write('<br>\n')
-  f.write('\n')
-  f.write('<div id="figure01" class="figure"></div>\n')
-  f.write('\n')
-  f.write('</center>\n')
-  f.write('\n')
-  f.write('<div id="footer"></div>\n')
-  f.write('\n')
-  f.write('<script src="static/d3.andy.js" charset="utf-8"></script>\n')
-  f.write('<script src="static/jquery-1.11.0.min.js" charset="utf-8"></script>\n')
-  f.write('<script src="static/urllib.js" charset="utf-8"></script>\n')
-  f.write('<script src="static/hedotools.init.js" charset="utf-8"></script>\n')
-  f.write('<script src="static/hedotools.shifter.js" charset="utf-8"></script>\n')
-  f.write('<script src="static/'+outFile.split('.')[0]+'-data.js" charset="utf-8"></script>\n')
-  f.write('<script src="static/example-on-load-self.js" charset="utf-8"></script>\n')
-  f.write('\n')
-  f.write('</body>\n')
-  f.write('</html>\n')
-  f.close()
-
-
-  
-  # for staticfile in ['d3.v3.min.js','plotShift.js','shift.js','example-on-load.js']:
-  for staticfile in ['d3.andy.js','jquery-1.11.0.min.js','urllib.js','hedotools.init.js','hedotools.shifter.js','example-on-load-self.js','hedotools.shift.css']:
-    if not os.path.isfile('static/'+staticfile):
-      import shutil
-      relpath = os.path.abspath(__file__).split('/')[1:-1]
-      relpath.append('static')
-      relpath.append(staticfile)
-      fileName = ''
-      for pathp in relpath:
-        fileName += '/' + pathp    
-      shutil.copy(fileName,'static/'+staticfile)
-
-  # shutil.copy(outFile,'static/template.html')
-
 if __name__ == '__main__':
-  ## run from standard in
+  # run from standard in
   import fileinput
   labMT = emotionFileReader(0.0)
   happsList = [emotion(line,labMT) for line in fileinput.input()]
