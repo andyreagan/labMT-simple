@@ -1,0 +1,72 @@
+\begin{theindex}
+\def\bigletter#1{{\Large\sffamily#1}\nopagebreak\vspace{1mm}}
+
+  \bigletter A
+  \item allEmotions() (in module labMTsimple.storyLab), \hyperpage{12}
+
+  \indexspace
+  \bigletter B
+  \item bootstrapify() (labMTsimple.speedy.sentiDict method), \hyperpage{11}
+
+  \indexspace
+  \bigletter E
+  \item emotion() (in module labMTsimple.storyLab), \hyperpage{12}
+  \item emotionFileReader() (in module labMTsimple.storyLab), \hyperpage{12}
+  \item emotionFileReaderRaw() (in module labMTsimple.storyLab), \hyperpage{12}
+  \item emotionV() (in module labMTsimple.storyLab), \hyperpage{12}
+
+  \indexspace
+  \bigletter F
+  \item folders (labMTsimple.speedy.sentiDict attribute), \hyperpage{11}
+
+  \indexspace
+  \bigletter L
+  \item labMTsimple (module), \hyperpage{12}
+  \item labMTsimple.speedy (module), \hyperpage{11}
+  \item labMTsimple.storyLab (module), \hyperpage{12}
+  \item loadDict() (labMTsimple.speedy.sentiDict method), \hyperpage{11}
+
+  \indexspace
+  \bigletter M
+  \item makeDaTrie() (labMTsimple.speedy.sentiDict method), \hyperpage{11}
+  \item makeListsFromDict() (labMTsimple.speedy.sentiDict method), \hyperpage{11}
+  \item makeMarisaTrie() (labMTsimple.speedy.sentiDict method), \hyperpage{11}
+  \item matcherTrieBool() (labMTsimple.speedy.sentiDict method), \hyperpage{11}
+  \item matcherTrieDa() (labMTsimple.speedy.sentiDict method), \hyperpage{11}
+  \item matcherTrieDict() (labMTsimple.speedy.sentiDict method), \hyperpage{11}
+  \item matcherTrieMarisa() (labMTsimple.speedy.sentiDict method), \hyperpage{11}
+
+  \indexspace
+  \bigletter O
+  \item openWithPath() (labMTsimple.speedy.sentiDict method), \hyperpage{11}
+
+  \indexspace
+  \bigletter P
+  \item plothapps() (in module labMTsimple.storyLab), \hyperpage{12}
+
+  \indexspace
+  \bigletter S
+  \item scoreTrieDa() (labMTsimple.speedy.sentiDict method), \hyperpage{11}
+  \item scoreTrieDict() (labMTsimple.speedy.sentiDict method), \hyperpage{11}
+  \item scoreTrieMarisa() (labMTsimple.speedy.sentiDict method), \hyperpage{11}
+  \item sentiDict (class in labMTsimple.speedy), \hyperpage{11}
+  \item shift() (in module labMTsimple.storyLab), \hyperpage{12}
+  \item shiftHtml() (in module labMTsimple.storyLab), \hyperpage{12}
+  \item shiftHtmlSelf() (in module labMTsimple.storyLab), \hyperpage{12}
+  \item stopper() (in module labMTsimple.storyLab), \hyperpage{12}
+
+  \indexspace
+  \bigletter T
+  \item titles (labMTsimple.speedy.sentiDict attribute), \hyperpage{11}
+
+  \indexspace
+  \bigletter U
+  \item u() (in module labMTsimple.speedy), \hyperpage{11}
+
+  \indexspace
+  \bigletter W
+  \item wordVecifyTrieDa() (labMTsimple.speedy.sentiDict method), \hyperpage{11}
+  \item wordVecifyTrieDict() (labMTsimple.speedy.sentiDict method), \hyperpage{11}
+  \item wordVecifyTrieMarisa() (labMTsimple.speedy.sentiDict method), \hyperpage{11}
+
+\end{theindex}

@@ -132,8 +132,300 @@
 Contents:
 
 
+\chapter{Getting Started}
+\label{getting-started:welcome-to-labmt-simple-s-documentation}\label{getting-started:getting-started}\label{getting-started::doc}
+TL;DR
+a simple labMT usage script
+
+
+\section{Usage}
+\label{getting-started:usage}
+This script uses the language assessment by Mechanical Turk (labMT) word list to score the happiness of a corpus. The labMT word list was created by combining the 5000 words most frequently appearing in four sources: Twitter, the New York Times, Google Books, and music lyrics, and then scoring the words for sentiment on Amazon's Mechanical Turk. The list is described in detail in the publication Dodds' et al. 2011, PLOS ONE, ``Temporal Patterns of Happiness and Information in a Global-Scale Social Network: Hedonometrics and Twitter.''
+
+Given two corpora, the script ``storylab.py'' creates a word-shift graph illustrating the words most responsible for the difference in happiness between the two corpora. The corpora should be large (e.g. at least 10,000 words) in order for the difference to be meaningful, as this is a bag-of-words approach. As an example, a random collection of English tweets from both Saturday January 18 2014 and Tuesday January 21 2014 are included in the ``example'' directory. They can be compared by moving to the test directory, using the command
+\begin{alltt}
+python example.py example-shift.html
+\end{alltt}
+
+and opening the file \code{example-shift.html} in a web browser. For an explanation of the resulting plot, please visit
+
+http://www.hedonometer.org/shifts.html
+
+
+\section{Installation}
+\label{getting-started:installation}
+Cloning the github directly is recommended, i.e.
+\begin{alltt}
+git clone https://github.com/andyreagan/labMT-simple.git
+\end{alltt}
+
+and then installing locally using
+\begin{alltt}
+python setup.py install
+\end{alltt}
+
+This repository can also be installed using pip
+\begin{alltt}
+pip install labMTsimple
+\end{alltt}
+
+in which case you can download the tests from github and run them, if desired.
+
+
+\section{Running tests}
+\label{getting-started:running-tests}
+Tests are based on nose2, \code{pip install nose2}, and can be run by executing
+\begin{alltt}
+nose2
+\end{alltt}
+
+in the root directory of this repository.
+
+This will compare the two days in test/data and print test.html which shifts them, allowing for a changable lens.
+
+
+\section{Building these docs}
+\label{getting-started:building-these-docs}
+Go into the docs directory (activate local \code{virtualenv} first), and do the following:
+\begin{alltt}
+sphinx-apidoc -o . ../labMTsimple
+make html
+make latexpdf
+erm
+git add *
+git commit -am ``new docs, probably should just add a pre-commit hook''{}`{}`{}`
+\end{alltt}
+
+
+\chapter{Detailed Examples}
+\label{detailed-example::doc}\label{detailed-example:detailed-examples}
+
+\section{Preparing texts}
+\label{detailed-example:preparing-texts}
+
+\section{Loading dictionaries}
+\label{detailed-example:loading-dictionaries}
+
+\chapter{Making Wordshifts}
+\label{wordshifts::doc}\label{wordshifts:making-wordshifts}
+
+\section{More Installation}
+\label{wordshifts:more-installation}
+
+\section{Example}
+\label{wordshifts:example}
+
+\chapter{Advanced Usage}
+\label{advanced::doc}\label{advanced:advanced-usage}
+
+\section{About Tries}
+\label{advanced:about-tries}
+
+\section{Advanced Parsing}
+\label{advanced:advanced-parsing}
+
+\chapter{labMTsimple}
+\label{modules::doc}\label{modules:labmtsimple}
+
+\section{labMTsimple package}
+\label{labMTsimple:labmtsimple-package}\label{labMTsimple::doc}
+
+\subsection{Submodules}
+\label{labMTsimple:submodules}
+
+\subsection{labMTsimple.speedy module}
+\label{labMTsimple:labmtsimple-speedy-module}\label{labMTsimple:module-labMTsimple.speedy}\index{labMTsimple.speedy (module)}\index{sentiDict (class in labMTsimple.speedy)}
+
+\begin{fulllineitems}
+\phantomsection\label{labMTsimple:labMTsimple.speedy.sentiDict}\pysiglinewithargsret{\strong{class }\code{labMTsimple.speedy.}\bfcode{sentiDict}}{\emph{corpus}, \emph{datastructure='dict'}, \emph{bootstrap=False}, \emph{stopVal=0.0}, \emph{bananas=False}, \emph{loadFromFile=False}}{}~\index{bootstrapify() (labMTsimple.speedy.sentiDict method)}
+
+\begin{fulllineitems}
+\phantomsection\label{labMTsimple:labMTsimple.speedy.sentiDict.bootstrapify}\pysiglinewithargsret{\bfcode{bootstrapify}}{}{}
+\end{fulllineitems}
+
+\index{folders (labMTsimple.speedy.sentiDict attribute)}
+
+\begin{fulllineitems}
+\phantomsection\label{labMTsimple:labMTsimple.speedy.sentiDict.folders}\pysigline{\bfcode{folders}\strong{ = (`labMT', `ANEW', `LIWC', `MPQA-lexicon', `liu-lexicon', `Warriner')}}
+\end{fulllineitems}
+
+\index{loadDict() (labMTsimple.speedy.sentiDict method)}
+
+\begin{fulllineitems}
+\phantomsection\label{labMTsimple:labMTsimple.speedy.sentiDict.loadDict}\pysiglinewithargsret{\bfcode{loadDict}}{\emph{bananas}}{}
+\end{fulllineitems}
+
+\index{makeDaTrie() (labMTsimple.speedy.sentiDict method)}
+
+\begin{fulllineitems}
+\phantomsection\label{labMTsimple:labMTsimple.speedy.sentiDict.makeDaTrie}\pysiglinewithargsret{\bfcode{makeDaTrie}}{}{}
+\end{fulllineitems}
+
+\index{makeListsFromDict() (labMTsimple.speedy.sentiDict method)}
+
+\begin{fulllineitems}
+\phantomsection\label{labMTsimple:labMTsimple.speedy.sentiDict.makeListsFromDict}\pysiglinewithargsret{\bfcode{makeListsFromDict}}{\emph{userdict}}{}
+\end{fulllineitems}
+
+\index{makeMarisaTrie() (labMTsimple.speedy.sentiDict method)}
+
+\begin{fulllineitems}
+\phantomsection\label{labMTsimple:labMTsimple.speedy.sentiDict.makeMarisaTrie}\pysiglinewithargsret{\bfcode{makeMarisaTrie}}{}{}
+\end{fulllineitems}
+
+\index{matcherTrieBool() (labMTsimple.speedy.sentiDict method)}
+
+\begin{fulllineitems}
+\phantomsection\label{labMTsimple:labMTsimple.speedy.sentiDict.matcherTrieBool}\pysiglinewithargsret{\bfcode{matcherTrieBool}}{\emph{word}}{}
+matcherTrieBool(word) just checks if a word is in the list
+
+\end{fulllineitems}
+
+\index{matcherTrieDa() (labMTsimple.speedy.sentiDict method)}
+
+\begin{fulllineitems}
+\phantomsection\label{labMTsimple:labMTsimple.speedy.sentiDict.matcherTrieDa}\pysiglinewithargsret{\bfcode{matcherTrieDa}}{\emph{word}, \emph{wordVec}, \emph{count}}{}
+\end{fulllineitems}
+
+\index{matcherTrieDict() (labMTsimple.speedy.sentiDict method)}
+
+\begin{fulllineitems}
+\phantomsection\label{labMTsimple:labMTsimple.speedy.sentiDict.matcherTrieDict}\pysiglinewithargsret{\bfcode{matcherTrieDict}}{\emph{word}, \emph{wordVec}, \emph{count}}{}
+\end{fulllineitems}
+
+\index{matcherTrieMarisa() (labMTsimple.speedy.sentiDict method)}
+
+\begin{fulllineitems}
+\phantomsection\label{labMTsimple:labMTsimple.speedy.sentiDict.matcherTrieMarisa}\pysiglinewithargsret{\bfcode{matcherTrieMarisa}}{\emph{word}, \emph{wordVec}, \emph{count}}{}
+\end{fulllineitems}
+
+\index{openWithPath() (labMTsimple.speedy.sentiDict method)}
+
+\begin{fulllineitems}
+\phantomsection\label{labMTsimple:labMTsimple.speedy.sentiDict.openWithPath}\pysiglinewithargsret{\bfcode{openWithPath}}{\emph{filename}, \emph{mode}}{}
+\end{fulllineitems}
+
+\index{scoreTrieDa() (labMTsimple.speedy.sentiDict method)}
+
+\begin{fulllineitems}
+\phantomsection\label{labMTsimple:labMTsimple.speedy.sentiDict.scoreTrieDa}\pysiglinewithargsret{\bfcode{scoreTrieDa}}{\emph{wordDict}}{}
+\end{fulllineitems}
+
+\index{scoreTrieDict() (labMTsimple.speedy.sentiDict method)}
+
+\begin{fulllineitems}
+\phantomsection\label{labMTsimple:labMTsimple.speedy.sentiDict.scoreTrieDict}\pysiglinewithargsret{\bfcode{scoreTrieDict}}{\emph{wordDict}}{}
+\end{fulllineitems}
+
+\index{scoreTrieMarisa() (labMTsimple.speedy.sentiDict method)}
+
+\begin{fulllineitems}
+\phantomsection\label{labMTsimple:labMTsimple.speedy.sentiDict.scoreTrieMarisa}\pysiglinewithargsret{\bfcode{scoreTrieMarisa}}{\emph{wordDict}}{}
+\end{fulllineitems}
+
+\index{titles (labMTsimple.speedy.sentiDict attribute)}
+
+\begin{fulllineitems}
+\phantomsection\label{labMTsimple:labMTsimple.speedy.sentiDict.titles}\pysigline{\bfcode{titles}\strong{ = {[}'LabMT', `ANEW', `LIWC', `MPQA', `Liu', `Warriner'{]}}}
+\end{fulllineitems}
+
+\index{wordVecifyTrieDa() (labMTsimple.speedy.sentiDict method)}
+
+\begin{fulllineitems}
+\phantomsection\label{labMTsimple:labMTsimple.speedy.sentiDict.wordVecifyTrieDa}\pysiglinewithargsret{\bfcode{wordVecifyTrieDa}}{\emph{wordDict}}{}
+\end{fulllineitems}
+
+\index{wordVecifyTrieDict() (labMTsimple.speedy.sentiDict method)}
+
+\begin{fulllineitems}
+\phantomsection\label{labMTsimple:labMTsimple.speedy.sentiDict.wordVecifyTrieDict}\pysiglinewithargsret{\bfcode{wordVecifyTrieDict}}{\emph{wordDict}}{}
+\end{fulllineitems}
+
+\index{wordVecifyTrieMarisa() (labMTsimple.speedy.sentiDict method)}
+
+\begin{fulllineitems}
+\phantomsection\label{labMTsimple:labMTsimple.speedy.sentiDict.wordVecifyTrieMarisa}\pysiglinewithargsret{\bfcode{wordVecifyTrieMarisa}}{\emph{wordDict}}{}
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
+\index{u() (in module labMTsimple.speedy)}
+
+\begin{fulllineitems}
+\phantomsection\label{labMTsimple:labMTsimple.speedy.u}\pysiglinewithargsret{\code{labMTsimple.speedy.}\bfcode{u}}{\emph{x}}{}
+\end{fulllineitems}
+
+
+
+\subsection{labMTsimple.storyLab module}
+\label{labMTsimple:module-labMTsimple.storyLab}\label{labMTsimple:labmtsimple-storylab-module}\index{labMTsimple.storyLab (module)}\index{allEmotions() (in module labMTsimple.storyLab)}
+
+\begin{fulllineitems}
+\phantomsection\label{labMTsimple:labMTsimple.storyLab.allEmotions}\pysiglinewithargsret{\code{labMTsimple.storyLab.}\bfcode{allEmotions}}{\emph{tmpStr}, \emph{*allDicts}}{}
+\end{fulllineitems}
+
+\index{emotion() (in module labMTsimple.storyLab)}
+
+\begin{fulllineitems}
+\phantomsection\label{labMTsimple:labMTsimple.storyLab.emotion}\pysiglinewithargsret{\code{labMTsimple.storyLab.}\bfcode{emotion}}{\emph{tmpStr}, \emph{someDict}, \emph{scoreIndex=1}, \emph{shift=False}, \emph{happsList={[}{]}}}{}
+\end{fulllineitems}
+
+\index{emotionFileReader() (in module labMTsimple.storyLab)}
+
+\begin{fulllineitems}
+\phantomsection\label{labMTsimple:labMTsimple.storyLab.emotionFileReader}\pysiglinewithargsret{\code{labMTsimple.storyLab.}\bfcode{emotionFileReader}}{\emph{stopval=1.0}, \emph{lang='english'}, \emph{min=1.0}, \emph{max=9.0}, \emph{returnVector=False}}{}
+\end{fulllineitems}
+
+\index{emotionFileReaderRaw() (in module labMTsimple.storyLab)}
+
+\begin{fulllineitems}
+\phantomsection\label{labMTsimple:labMTsimple.storyLab.emotionFileReaderRaw}\pysiglinewithargsret{\code{labMTsimple.storyLab.}\bfcode{emotionFileReaderRaw}}{\emph{stopval=1.0}, \emph{fileName=u'labMT1raw.txt'}, \emph{min=1.0}, \emph{max=9.0}, \emph{returnVector=False}}{}
+\end{fulllineitems}
+
+\index{emotionV() (in module labMTsimple.storyLab)}
+
+\begin{fulllineitems}
+\phantomsection\label{labMTsimple:labMTsimple.storyLab.emotionV}\pysiglinewithargsret{\code{labMTsimple.storyLab.}\bfcode{emotionV}}{\emph{frequencyVec}, \emph{scoreVec}}{}
+\end{fulllineitems}
+
+\index{plothapps() (in module labMTsimple.storyLab)}
+
+\begin{fulllineitems}
+\phantomsection\label{labMTsimple:labMTsimple.storyLab.plothapps}\pysiglinewithargsret{\code{labMTsimple.storyLab.}\bfcode{plothapps}}{\emph{happsTimeSeries}, \emph{picname}}{}
+\end{fulllineitems}
+
+\index{shift() (in module labMTsimple.storyLab)}
+
+\begin{fulllineitems}
+\phantomsection\label{labMTsimple:labMTsimple.storyLab.shift}\pysiglinewithargsret{\code{labMTsimple.storyLab.}\bfcode{shift}}{\emph{refFreq}, \emph{compFreq}, \emph{lens}, \emph{words}, \emph{sort=True}}{}
+\end{fulllineitems}
+
+\index{shiftHtml() (in module labMTsimple.storyLab)}
+
+\begin{fulllineitems}
+\phantomsection\label{labMTsimple:labMTsimple.storyLab.shiftHtml}\pysiglinewithargsret{\code{labMTsimple.storyLab.}\bfcode{shiftHtml}}{\emph{scoreList}, \emph{wordList}, \emph{refFreq}, \emph{compFreq}, \emph{outFile}}{}
+\end{fulllineitems}
+
+\index{shiftHtmlSelf() (in module labMTsimple.storyLab)}
+
+\begin{fulllineitems}
+\phantomsection\label{labMTsimple:labMTsimple.storyLab.shiftHtmlSelf}\pysiglinewithargsret{\code{labMTsimple.storyLab.}\bfcode{shiftHtmlSelf}}{\emph{scoreList}, \emph{wordList}, \emph{compFreq}, \emph{outFile}}{}
+\end{fulllineitems}
+
+\index{stopper() (in module labMTsimple.storyLab)}
+
+\begin{fulllineitems}
+\phantomsection\label{labMTsimple:labMTsimple.storyLab.stopper}\pysiglinewithargsret{\code{labMTsimple.storyLab.}\bfcode{stopper}}{\emph{tmpVec}, \emph{labMTvector}, \emph{labMTwords}, \emph{stopVal=1.0}, \emph{ignore={[}{]}}}{}
+\end{fulllineitems}
+
+
+
+\subsection{Module contents}
+\label{labMTsimple:module-contents}\label{labMTsimple:module-labMTsimple}\index{labMTsimple (module)}
+
 \chapter{Indices and tables}
-\label{index:welcome-to-labmt-simple-s-documentation}\label{index:indices-and-tables}\begin{itemize}
+\label{index:indices-and-tables}\begin{itemize}
 \item {} 
 \DUspan{xref,std,std-ref}{genindex}
 
@@ -146,6 +438,14 @@ Contents:
 \end{itemize}
 
 
+\renewcommand{\indexname}{Python Module Index}
+\begin{theindex}
+\def\bigletter#1{{\Large\sffamily#1}\nopagebreak\vspace{1mm}}
+\bigletter{l}
+\item {\texttt{labMTsimple}}, \pageref{labMTsimple:module-labMTsimple}
+\item {\texttt{labMTsimple.speedy}}, \pageref{labMTsimple:module-labMTsimple.speedy}
+\item {\texttt{labMTsimple.storyLab}}, \pageref{labMTsimple:module-labMTsimple.storyLab}
+\end{theindex}
 
 \renewcommand{\indexname}{Index}
 \printindex

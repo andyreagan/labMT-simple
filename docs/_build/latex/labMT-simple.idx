@@ -1,0 +1,33 @@
+\indexentry{labMTsimple.speedy (module)|hyperpage}{11}
+\indexentry{sentiDict (class in labMTsimple.speedy)|hyperpage}{11}
+\indexentry{bootstrapify() (labMTsimple.speedy.sentiDict method)|hyperpage}{11}
+\indexentry{folders (labMTsimple.speedy.sentiDict attribute)|hyperpage}{11}
+\indexentry{loadDict() (labMTsimple.speedy.sentiDict method)|hyperpage}{11}
+\indexentry{makeDaTrie() (labMTsimple.speedy.sentiDict method)|hyperpage}{11}
+\indexentry{makeListsFromDict() (labMTsimple.speedy.sentiDict method)|hyperpage}{11}
+\indexentry{makeMarisaTrie() (labMTsimple.speedy.sentiDict method)|hyperpage}{11}
+\indexentry{matcherTrieBool() (labMTsimple.speedy.sentiDict method)|hyperpage}{11}
+\indexentry{matcherTrieDa() (labMTsimple.speedy.sentiDict method)|hyperpage}{11}
+\indexentry{matcherTrieDict() (labMTsimple.speedy.sentiDict method)|hyperpage}{11}
+\indexentry{matcherTrieMarisa() (labMTsimple.speedy.sentiDict method)|hyperpage}{11}
+\indexentry{openWithPath() (labMTsimple.speedy.sentiDict method)|hyperpage}{11}
+\indexentry{scoreTrieDa() (labMTsimple.speedy.sentiDict method)|hyperpage}{11}
+\indexentry{scoreTrieDict() (labMTsimple.speedy.sentiDict method)|hyperpage}{11}
+\indexentry{scoreTrieMarisa() (labMTsimple.speedy.sentiDict method)|hyperpage}{11}
+\indexentry{titles (labMTsimple.speedy.sentiDict attribute)|hyperpage}{11}
+\indexentry{wordVecifyTrieDa() (labMTsimple.speedy.sentiDict method)|hyperpage}{11}
+\indexentry{wordVecifyTrieDict() (labMTsimple.speedy.sentiDict method)|hyperpage}{11}
+\indexentry{wordVecifyTrieMarisa() (labMTsimple.speedy.sentiDict method)|hyperpage}{11}
+\indexentry{u() (in module labMTsimple.speedy)|hyperpage}{11}
+\indexentry{labMTsimple.storyLab (module)|hyperpage}{12}
+\indexentry{allEmotions() (in module labMTsimple.storyLab)|hyperpage}{12}
+\indexentry{emotion() (in module labMTsimple.storyLab)|hyperpage}{12}
+\indexentry{emotionFileReader() (in module labMTsimple.storyLab)|hyperpage}{12}
+\indexentry{emotionFileReaderRaw() (in module labMTsimple.storyLab)|hyperpage}{12}
+\indexentry{emotionV() (in module labMTsimple.storyLab)|hyperpage}{12}
+\indexentry{plothapps() (in module labMTsimple.storyLab)|hyperpage}{12}
+\indexentry{shift() (in module labMTsimple.storyLab)|hyperpage}{12}
+\indexentry{shiftHtml() (in module labMTsimple.storyLab)|hyperpage}{12}
+\indexentry{shiftHtmlSelf() (in module labMTsimple.storyLab)|hyperpage}{12}
+\indexentry{stopper() (in module labMTsimple.storyLab)|hyperpage}{12}
+\indexentry{labMTsimple (module)|hyperpage}{12}

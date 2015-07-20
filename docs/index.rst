@@ -11,6 +11,11 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   getting-started
+   detailed-example
+   wordshifts
+   advanced
+   modules
 
 
 Indices and tables

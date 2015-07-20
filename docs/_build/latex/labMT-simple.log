@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.5.25)  20 JUL 2015 10:08
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.5.25)  20 JUL 2015 10:56
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -936,39 +936,141 @@ LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <14.4> not available
 (Font)              Font shape `T1/ptm/b/n' tried instead on input line 135.
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <24.88> not available
 (Font)              Font shape `T1/ptm/b/n' tried instead on input line 135.
-LaTeX Font Info:    Try loading font information for TS1+ptm on input line 137.
+LaTeX Font Info:    Try loading font information for T1+pcr on input line 146.
+(/usr/local/texlive/2014/texmf-dist/tex/latex/psnfss/t1pcr.fd
+File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
+) [3]
+LaTeX Font Info:    Try loading font information for TS1+pcr on input line 196.
+
+
+(/usr/local/texlive/2014/texmf-dist/tex/latex/psnfss/ts1pcr.fd
+File: ts1pcr.fd 2001/06/04 font definitions for TS1/pcr.
+) [4]
+Chapter 2.
+[5
+
+] [6
+
+]
+Chapter 3.
+[7] [8
+
+]
+Chapter 4.
+[9] [10
+
+]
+Chapter 5.
+LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <12> not available
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 233.
+LaTeX Font Info:    Font shape `T1/pcr/bx/n' in size <10> not available
+(Font)              Font shape `T1/pcr/b/n' tried instead on input line 240.
+[11]
+Underfull \hbox (badness 10000) in paragraph at lines 383--383
+[]\T1/ptm/m/it/10 stopval=1.0\T1/ptm/m/n/10 , \T1/ptm/m/it/10 file-Name=u'labMT
+1raw.txt'\T1/ptm/m/n/10 ,
+ []
+
+[12]
+Chapter 6.
+LaTeX Font Info:    Try loading font information for TS1+ptm on input line 429.
 
 (/usr/local/texlive/2014/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-)
-(./labMT-simple.ind)
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 152.
- [3]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 152.
+) [13
+
+] [14
+
+]
+[15
+
+
+] (./labMT-simple.ind [16
+
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 15--16
+[]\T1/ptm/m/n/10 emotionFileReaderRaw() (in mod-ule labMT-sim-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 32--33
+[]\T1/ptm/m/n/10 makeListsFromDict() (labMT-sim-ple.speedy.sentiDict
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 33--34
+[]\T1/ptm/m/n/10 makeMarisaTrie() (labMT-sim-ple.speedy.sentiDict
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 34--35
+[]\T1/ptm/m/n/10 matcherTrieBool() (labMT-sim-ple.speedy.sentiDict
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 35--36
+[]\T1/ptm/m/n/10 matcherTrieDa() (labMT-sim-ple.speedy.sentiDict
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 36--37
+[]\T1/ptm/m/n/10 matcherTrieDict() (labMT-sim-ple.speedy.sentiDict
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 37--38
+[]\T1/ptm/m/n/10 matcherTrieMarisa() (labMT-sim-ple.speedy.sentiDict
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 51--52
+[]\T1/ptm/m/n/10 scoreTrieMarisa() (labMT-sim-ple.speedy.sentiDict
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 68--69
+[]\T1/ptm/m/n/10 wordVecifyTrieDa() (labMT-sim-ple.speedy.sentiDict
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 69--70
+[]\T1/ptm/m/n/10 wordVecifyTrieDict() (labMT-sim-ple.speedy.sentiDict
+ []
+
+[17
+
+])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 452.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 452.
  (./labMT-simple.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 152.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 152.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 452.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 452.
 Package rerunfilecheck Info: File `labMT-simple.out' has not changed.
-(rerunfilecheck)             Checksum: 5E06C21BA6849DEE166C18CC332EB8AA;53.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 152.
+(rerunfilecheck)             Checksum: E9DE14E9EA163ECDA88423915CE30F65;1070.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 452.
  ) 
 Here is how much of TeX's memory you used:
- 9076 strings out of 493117
- 126893 string characters out of 6135433
- 223874 words of memory out of 5000000
- 12299 multiletter control sequences out of 15000+600000
- 46126 words of font info for 50 fonts, out of 8000000 for 9000
+ 9319 strings out of 493117
+ 131587 string characters out of 6135433
+ 233803 words of memory out of 5000000
+ 12446 multiletter control sequences out of 15000+600000
+ 58251 words of font info for 64 fonts, out of 8000000 for 9000
  1142 hyphenation exceptions out of 8191
- 36i,11n,45p,254b,380s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 36i,11n,45p,559b,459s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2014/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
-exlive/2014/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/
-2014/texmf-dist/fonts/type1/urw/helvetic/uhvbo8a.pfb></usr/local/texlive/2014/t
-exmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2014/texmf-dist/
-fonts/type1/urw/times/utmr8a.pfb>
-Output written on labMT-simple.pdf (7 pages, 45637 bytes).
+exlive/2014/texmf-dist/fonts/type1/urw/courier/ucrb8a.pfb></usr/local/texlive/2
+014/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2014/texm
+f-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2014/texmf-dist/
+fonts/type1/urw/helvetic/uhvbo8a.pfb></usr/local/texlive/2014/texmf-dist/fonts/
+type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/u
+rw/times/utmb8a.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/urw/times/u
+tmr8a.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/urw/times/utmri8a.pfb
+>
+Output written on labMT-simple.pdf (21 pages, 115877 bytes).
 PDF statistics:
- 71 PDF objects out of 1000 (max. 8388607)
- 52 compressed objects within 1 object stream
- 11 named destinations out of 1000 (max. 500000)
- 29 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 321 PDF objects out of 1000 (max. 8388607)
+ 282 compressed objects within 3 object streams
+ 77 named destinations out of 1000 (max. 500000)
+ 173 words of extra memory for PDF output out of 10000 (max. 10000000)
 
