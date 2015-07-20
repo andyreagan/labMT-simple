@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.5.25)  20 JUL 2015 16:07
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.5.25)  20 JUL 2015 16:39
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -990,9 +990,9 @@ you can check out the ex-am-ple in
  []
 
 
-Overfull \hbox (28.245pt too wide) in paragraph at lines 329--329
-[]\T1/pcr/m/n/10 /usr/local/bin/phantomjs phantom-crowbar.js example-002.html s
-hiftsvg wordshift.svg[] 
+Overfull \hbox (34.245pt too wide) in paragraph at lines 329--329
+[]\T1/pcr/m/n/10 /usr/local/bin/phantomjs js/shift-crowbar.js example-002.html 
+shiftsvg wordshift.svg[] 
  []
 
 
@@ -1115,7 +1115,7 @@ type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/u
 rw/times/utmb8a.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/urw/times/u
 tmr8a.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/urw/times/utmri8a.pfb
 >
-Output written on labMT-simple.pdf (21 pages, 125469 bytes).
+Output written on labMT-simple.pdf (21 pages, 125482 bytes).
 PDF statistics:
  347 PDF objects out of 1000 (max. 8388607)
  307 compressed objects within 4 object streams

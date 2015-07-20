@@ -205,10 +205,10 @@ python example-002.py
 </pre>
 <p>You can open the html file to see the shift in any browser, with your choice of local webserver.
 Python&#8217;s SimpleHTTPServer works fine, and I&#8217;ve found that the node based http-server is a bit more stable.</p>
-<p>To take out the svg, go ahead and use the <code class="docutils literal"><span class="pre">phantom-crowbar.js</span></code> file provided in the example directory.
+<p>To take out the svg, go ahead and use the <code class="docutils literal"><span class="pre">phantom-crowbar.js</span></code> file copied to the <code class="docutils literal"><span class="pre">example/static</span></code> directory.
 Running it looks like this, for me:</p>
 <pre class="literal-block">
-/usr/local/bin/phantomjs phantom-crowbar.js example-002.html shiftsvg wordshift.svg
+/usr/local/bin/phantomjs js/shift-crowbar.js example-002.html shiftsvg wordshift.svg
 </pre>
 <p>Using inkscape or librsvg on my computer look like this:</p>
 <pre class="literal-block">

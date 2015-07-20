@@ -323,10 +323,10 @@ python example-002.py
 You can open the html file to see the shift in any browser, with your choice of local webserver.
 Python's SimpleHTTPServer works fine, and I've found that the node based http-server is a bit more stable.
 
-To take out the svg, go ahead and use the \code{phantom-crowbar.js} file provided in the example directory.
+To take out the svg, go ahead and use the \code{phantom-crowbar.js} file copied to the \code{example/static} directory.
 Running it looks like this, for me:
 \begin{alltt}
-/usr/local/bin/phantomjs phantom-crowbar.js example-002.html shiftsvg wordshift.svg
+/usr/local/bin/phantomjs js/shift-crowbar.js example-002.html shiftsvg wordshift.svg
 \end{alltt}
 
 Using inkscape or librsvg on my computer look like this:

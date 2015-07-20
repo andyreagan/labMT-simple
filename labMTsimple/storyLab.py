@@ -400,7 +400,7 @@ def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile):
 
   print('copying over static files')
   # for staticfile in ['d3.v3.min.js','plotShift.js','shift.js','example-on-load.js']:
-  for staticfile in ['d3.andy.js','jquery-1.11.0.min.js','urllib.js','hedotools.init.js','hedotools.shifter.js','example-on-load.js','hedotools.shift.css']:
+  for staticfile in ['d3.andy.js','jquery-1.11.0.min.js','urllib.js','hedotools.init.js','hedotools.shifter.js','example-on-load.js','hedotools.shift.css','shift-crowbar.js']:
     if not os.path.isfile('static/'+staticfile):
       import shutil
       relpath = os.path.abspath(__file__).split('/')[1:-1]
