@@ -1,81 +1,88 @@
+# note: nose2 will run all functions that begin with test
+
 from labMTsimple.storyLab import *
+from labMTsimple.speedy import *
 import subprocess
+import codecs
+
+TOL = 1e-3
 
 def test_b():
     assert 'b' == 'b'
 
-def setup_test(lang):
-    labMT,labMTvector,labMTwordList = emotionFileReader(stopval = 0.0, fileName ='labMT2'+lang+'.txt',returnVector=True)
-    import codecs
-    f = codecs.open("data/18.01.14.txt","r","utf8")
-    ref = f.read()
-    f.close()
-    f = codecs.open("data/21.01.14.txt","r","utf8")
-    comp = f.read()
-    f.close()
-    return [labMT,labMTvector,labMTwordList,ref,comp]
+def test_labMT_english():
+    # load the basics
+    lang = "english"
+    labMT, labMTvector, labMTwordList = emotionFileReader(stopval = 0.0, lang=lang, returnVector=True)
 
-def do_test_stopwords(dataobject):
-    happs,freqList = emotion(dataobject[3],dataobject[0],shift=True,happsList=dataobject[1])
-    happsComp,freqListComp = emotion(dataobject[4],dataobject[0],shift=True,happsList=dataobject[1])
-
-    stoppedVec = stopper(freqList,dataobject[1],dataobject[2],stopVal=1.0)
-    stoppedVecComp = stopper(freqListComp,dataobject[1],dataobject[2],stopVal=1.0)
-
-    happs2 = emotionV(stoppedVec,dataobject[1])
+    # make sure the words got loaded in correctly in the dictionary
+    assert labMT["test"][1] == '4.06'
+    # make sure the vector is aligned
+    index = int(labMT["test"][0])-1
+    assert labMTwordList[index] == 'test'
+    assert labMTvector[index] == 4.06
     
-    return [happs,freqList,happs2,stoppedVec,stoppedVecComp]
+    f = codecs.open("examples/data/18.01.14.txt", "r", "utf8")
+    ref_text_raw = f.read()
+    f.close()
+    f = codecs.open("examples/data/21.01.14.txt", "r", "utf8")
+    comp_text_raw = f.read()
+    f.close()
 
-def do_test_shift(dataobject,stopword_output,outputfile):
-    print "making shift html"
-    shiftHtml(dataobject[1],dataobject[2],stopword_output[3],stopword_output[4],outputfile)
+    ref_happs, ref_freq = emotion(ref_text_raw, labMT, shift=True, happsList=labMTvector)
+    comp_happs, comp_freq = emotion(comp_text_raw, labMT, shift=True, happsList=labMTvector)
 
-def make_test_assertions(test_output,fname):    
-    TOL = 1e-10
+    ref_freq_stopped = stopper(ref_freq, labMTvector, labMTwordList, stopVal=1.0)
+    # make sure that it blocked "the" and "nigger"
+    index = int(labMT["the"][0])-1
+    assert ref_freq_stopped[index] == 0    
+    index = int(labMT["nigger"][0])-1
+    assert ref_freq_stopped[index] == 0
 
+    ref_freq_stopped = stopper(ref_freq, labMTvector, labMTwordList, stopVal=1.0, ignore=["laughter"])
+    # make sure that it blocked "the" and "nigger" still
+    index = int(labMT["the"][0])-1
+    assert ref_freq_stopped[index] == 0    
+    index = int(labMT["nigger"][0])-1
+    assert ref_freq_stopped[index] == 0
+    # also check that it now blocked laughter    
+    index = int(labMT["laughter"][0])-1
+    assert ref_freq_stopped[index] == 0
+
+    ref_freq_stopped = stopper(ref_freq, labMTvector, labMTwordList, stopVal=1.0)
+    
+    comp_freq_stopped = stopper(comp_freq, labMTvector, labMTwordList, stopVal=1.0)
+
+    ref_happs_from_vector = emotionV(ref_freq, labMTvector)
+    # make sure this is the same as from emotion
+    print(ref_happs_from_vector)
+    print(ref_happs)
+    assert abs(ref_happs_from_vector - ref_happs) < TOL
+    
+    ref_happs_stopped = emotionV(ref_freq_stopped, labMTvector)
+        
     # without stop words
-    assert abs(test_output[0] - 5.51733944613) < TOL
-    assert test_output[1][5000] == 409
-    print "passed without stop words"
+    assert abs(ref_happs - 5.51733944613) < TOL
+    assert ref_freq[5000] == 409
 
     # with stop words
-    assert abs(test_output[2] - 6.01346892642) < TOL
-    assert test_output[3][5000] == 0
-    print "passed with stop words"
+    assert abs(ref_happs_stopped - 6.01346892642) < TOL
+    assert ref_freq_stopped[5000] == 0
 
-def cleanup_after_test(fname):
-    # there are two options here
-    # 1) clean everything up (uncomment second block) if the pdf can't be made
-    # 2) leave all the files (comment everything)
+    outFile = "test-rsvg.html"
+    shiftPDF(labMTvector, labMTwordList, ref_freq, comp_freq, outFile)
+    
+    # also make the inkscape version
+    shiftHtml(labMTvector, labMTwordList, ref_freq, comp_freq, "test-inkscape.html")
+    generateSVG("test-inkscape.html")
+    generatePDF("test-inkscape.svg",program="inkscape")
+    subprocess.call("open test-inkscape.pdf",shell=True)    
+    
+    sortedMag,sortedWords,sortedType,sumTypes = shift(ref_freq, comp_freq, labMTvector, labMTwordList)
 
-    try:
-        print "this will definitely only work for me"
-        subprocess.check_output("phantomjs /Users/andyreagan/work/2014/2014-09d3-crowbar-chrome-automation/phantom-crowbar.js /Users/andyreagan/work/2014/labMTsimple/test.html shiftsvg test.svg",shell=True)
-        subprocess.check_output("inkscape -f test.svg -A test.pdf",shell=True)
-        # subprocess.check_output("\\rm "+fname,shell=True)
-        # subprocess.check_output("\\rm test.svg",shell=True)
-        # subprocess.check_output("\\rm -r static",shell=True)
-        print "check test.pdf for the shift"
-    except:
-        print "didn't work, of course"
-        print "don't cleanup yet to check the files"
-        print "the static directory, and test.html are left to inspect"
-        # subprocess.check_output("\\rm "+fname,shell=True)
-        # subprocess.check_output("\\rm example-data.js",shell=True)
-        # subprocess.check_output("\\rm -r static",shell=True)        
-
-
-def test_labMT_english():
-   dataobject = setup_test("english")
-   try:
-      test_output = do_test_stopwords(dataobject)
-      fname = "test.html"
-      do_test_shift(dataobject,test_output,fname)
-      make_test_assertions(test_output,fname)
-   finally:
-      cleanup_after_test(fname)    
-
-
-
-
+    assert sortedMag[0] < 0
+    assert sortedWords[0] == "love"
+    
+    shiftMag,shiftType,sumTypes = shift(ref_freq, comp_freq, labMTvector, labMTwordList, sort=False)
+    
 

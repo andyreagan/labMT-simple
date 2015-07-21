@@ -46,6 +46,8 @@ import os
 import re
 import codecs
 import copy
+import subprocess
+from jinja2 import Template
 
 def emotionFileReader(stopval=1.0,lang="english",min=1.0,max=9.0,returnVector=False):
   """Load the dictionary of sentiment words.
@@ -112,50 +114,6 @@ def emotionFileReader(stopval=1.0,lang="english",min=1.0,max=9.0,returnVector=Fa
     return tmpDict,tmpList,wordList
   else:
     return tmpDict
-
-def emotionFileReaderRaw(stopval=1.0,fileName=u'labMT1raw.txt',min=1.0,max=9.0,returnVector=False):
-  """Idea here was originally to use the individual word scores to sample from for each word, and generate a more statistically sound standard deviation. Never finished because the raw file that I was playing with was incomplete."""
-  
-  try:
-    f = codecs.open(fileName,'r','utf8')
-  except IOError:
-    relpath = os.path.abspath(__file__).split('/')[1:-1]
-    relpath.append('data')
-    relpath.append('labMT1raw.txt')
-    fileName = ''
-    for pathp in relpath:
-      fileName += '/' + pathp
-    f = codecs.open(fileName,'r','utf8')
-
-  tmpDict = dict()
-
-  while f:
-    word = f.readline()
-    tmpDict[word] = []
-    for i in range(10):
-      tmpDict[word].append(map(int,f.readline().split(u'\t'))[1])
-  f.close()
-  
-  # remove words
-  stopWords = []
-
-  for word in tmpDict:
-    # start the index at 0
-    if labMT1flag:
-      tmpDict[word][0] = int(tmpDict[word][0])-1
-    if abs(float(tmpDict[word][scoreIndex])-5.0) < stopval:
-      stopWords.append(word)
-    else:
-      if float(tmpDict[word][scoreIndex]) < min:
-        stopWords.append(word)
-      else:
-        if float(tmpDict[word][scoreIndex]) > max:
-          stopWords.append(word)
-  
-  for word in stopWords:
-    del tmpDict[word]
-
-  return tmpDict
 
 def emotion(tmpStr,someDict,scoreIndex=1,shift=False,happsList=[]):
   """Take a string and the happiness dictionary, and rate the string.
@@ -247,13 +205,6 @@ def emotionV(frequencyVec,scoreVec):
   else:
     return -1
 
-def allEmotions(tmpStr,*allDicts):
-  """Compute scores from a list of dicts and return a list of scores."""
-  emotionList = []
-  for tmpDict in allDicts:
-    emotionList.append(emotion(tmpStr,tmpDict))
-  return emotionList
-
 def shift(refFreq,compFreq,lens,words,sort=True):
   """Compute a shift, and return the results.
   
@@ -318,7 +269,7 @@ def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile):
   f.close()
   
   # dump out a static shift view page
-  template = '''<html>
+  template = Template('''<html>
 <head>
 <title>Simple Shift Plot</title>
 <link href="static/hedotools.shift.css" rel="stylesheet">
@@ -345,13 +296,13 @@ def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile):
 <script src="static/urllib.js" charset="utf-8"></script>
 <script src="static/hedotools.init.js" charset="utf-8"></script>
 <script src="static/hedotools.shifter.js" charset="utf-8"></script>
-<script src="static/{0}-data.js" charset="utf-8"></script>
+<script src="static/{{ outFileShort }}-data.js" charset="utf-8"></script>
 <script src="static/example-on-load.js" charset="utf-8"></script>
 
 </body>
-</html>'''
+</html>''')
   f = codecs.open(outFile,'w','utf8')
-  f.write(template.format(outFileShort))
+  f.write(template.render(outFileShort=outFileShort))
   f.close()
 
   print('copying over static files')
@@ -399,7 +350,7 @@ def shiftPDF(scoreList,wordList,refFreq,compFreq,outFile):
   `outfile` should probably end in .html, and this will make a file that ends in .svg,.eps,and .pdf in addition to html file, in making the wordshift."""
   
   shiftHtml(scoreList,wordList,refFreq,compFreq,outFile)
-  svgfile = generateSVG(htmlfile)
+  svgfile = generateSVG(outFile)
   pdffile = generatePDF(svgfile)
   command = "open {0}".format(pdffile)
   status = subprocess.check_output(command,shell=True)

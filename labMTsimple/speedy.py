@@ -22,7 +22,7 @@ else:
         """Python 2/3 agnostic unicode function"""        
         return x
 # import matplotlib.pyplot as plt
-import numpy as np
+from numpy import zeros
 # from json import loads
 # import csv
 # import datetime
@@ -313,7 +313,7 @@ class sentiDict:
         
         INPUTS:\n
         -wordDict is our favorite hash table of word and count."""
-        wordVec = np.zeros(len(self.data[0])+len(self.data[1]))
+        wordVec = zeros(len(self.data[0])+len(self.data[1]))
         for word,count in wordDict.items():
             if word in self.data[0]:
                 wordVec[self.data[0][word][1]] += count
@@ -329,7 +329,7 @@ class sentiDict:
         
         INPUTS:\n
         -wordDict is our favorite hash table of word and count."""
-        wordVec = np.zeros(len(self.data[0])+len(self.data[1]))
+        wordVec = zeros(len(self.data[0])+len(self.data[1]))
         for word,count in wordDict.items():
             if word in self.data[0]:
                 wordVec[self.data[0].get(word)[0][1]] += count
@@ -345,7 +345,7 @@ class sentiDict:
         
         INPUTS:\n
         -wordDict is our favorite hash table of word and count."""
-        wordVec = np.zeros(len(self.data))
+        wordVec = zeros(len(self.data))
         for word,count in wordDict.items():
             if word in self.data:
                 wordVec[self.data[word][1]] += count

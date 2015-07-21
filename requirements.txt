@@ -1,11 +1,2 @@
-datrie
-ipython
-marisa-trie
-matplotlib
-nose
-numpy
-recommonmark
-scipy
-six
-Sphinx
-virtualenv
+pip Sphinx
+ numpy matplotlib datrie marisa_trie
