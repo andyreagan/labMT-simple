@@ -125,27 +125,39 @@ class sentiDict:
             for line in f:
                 l = line.rstrip().split("\t")
                 word = l[0]
-                if '125' in l:
-                    if '126' in l:
-                        score = 1
+                if word not in LIWC:
+                    # affect word
+                    if '125' in l:
+                        # posititive
+                        if '126' in l:
+                            score = 1
+                            if word in LIWC:
+                                print(word)
+                            LIWC[word] = (score,i)
+                            i+=1
+                        # negative
+                        elif '127' in l:
+                            score = -1
+                            LIWC[word] = (score,i)
+                            i+=1
+                    # get the words that are "function" words (1)
+                    # specifically not getting them with emotion
+                    # if the bananas is false
+                    elif self.stopVal == 0.0 and '1' in l and not bananas:
+                        score = 0
+                        if word in LIWC:
+                            print(word)                    
                         LIWC[word] = (score,i)
                         i+=1
-                    elif '127' in l:
-                        score = -1
+                    # but if bananas, put them neutral regardless of affect!
+                    elif self.stopVal == 0.0 and '1' in l and bananas:
+                        score = 0
+                        if word in LIWC:
+                            print(word)
                         LIWC[word] = (score,i)
                         i+=1
-                # get the words that are "function" words
-                # specifically not getting them with emotion
-                # if the bananas is false
-                elif self.stopVal == 0.0 and '1' in l and not bananas:
-                    score = 0
-                    LIWC[word] = (score,i)
-                    i+=1
-                # but if bananas, put them neutral regardless of affect!
-                if self.stopVal == 0.0 and '1' in l and bananas:
-                    score = 0
-                    LIWC[word] = (score,i)
-                    i+=1
+                else:
+                    print("already in LIWC: {0}".format(word))
             f.close()
             return LIWC
             
@@ -156,19 +168,26 @@ class sentiDict:
             emotions = ["negative","neutral","positive"]
             f = self.openWithPath("data/MPQA-lexicon/subjectivity_clues_hltemnlp05/subjclueslen1-HLTEMNLP05.tff","r")
             i = 0
+            num_duplicates = 0
             for line in f:
                 l = [x.split("=")[1] for x in line.rstrip().split(" ")]
+
+                if (l[4]=="y"):
+                    l[2] += '*'
+                
                 if l[5] == 'both':
                     l[5] = "neutral"
                 # check that no words are different polarity when duplicated
+                # and if they are, delete, set to neutral
                 if l[2] in MPQA:
-                    if not MPQA[l[2]] == scores[emotions.index(l[5])]:
+                    if not MPQA[l[2]][0] == scores[emotions.index(l[5])]:
+                        print("{0} has emotion {1} and {2}".format(l[2],MPQA[l[2]][0],scores[emotions.index(l[5])]))
+                        num_duplicates += 1
                         l[5] = "neutral"
-                        del MPQA[l[2]]
-                if (l[4]=="y"):
-                    l[2] += '*'
-                MPQA[l[2]] = (scores[emotions.index(l[5])],i)
-                i+=1
+                        MPQA[l[2]] = (0,MPQA[l[2]][1])
+                else:
+                    MPQA[l[2]] = (scores[emotions.index(l[5])],i)
+                    i+=1
             f.close()
             stopWords = []
             if self.stopVal > 0.0:
@@ -177,26 +196,29 @@ class sentiDict:
                         stopWords.append(word)
                 for word in stopWords:
                     del MPQA[word]
+            print("MPQA duplicates: {0}".format(num_duplicates))
             return MPQA
             
-        if self.corpus == 'Liu':        
+        if self.corpus == 'Liu':
             liu = dict()
-            # f = self.openWithPath("liu-lexicon/negative-words-clean.txt","r",'utf-8')
-            # f = self.openWithPath("liu-lexicon/negative-words-clean.txt","r")
-            f = self.openWithPath("data/liu-lexicon/negative-words-clean.txt","r")
+            f = self.openWithPath("data/liu-lexicon/negative-words.txt","r")
             i=0
             for line in f:
                 l = line.rstrip()
-                liu[l] = (-1,i)
-                i+=1
+                if l in liu:
+                    print(l)
+                else:
+                    liu[l] = (-1,i)
+                    i+=1
             f.close()
-            # f = self.openWithPath("liu-lexicon/positive-words-clean.txt","r",'utf-8')
-            # f = self.openWithPath("liu-lexicon/positive-words-clean.txt","r")
-            f = self.openWithPath("data/liu-lexicon/positive-words-clean.txt","r")
+            f = self.openWithPath("data/liu-lexicon/positive-words.txt","r")
             for line in f:
                 l = line.rstrip()
-                liu[l] = (1,i)
-                i+=1
+                if l in liu:
+                    print(l)
+                else:                
+                    liu[l] = (1,i)
+                    i+=1
             f.close()
             return liu
         if self.corpus == 'PANAS-X':
@@ -216,15 +238,15 @@ class sentiDict:
             oldcorpus = self.corpus
             # go get the stem sets to extend
             self.corpus = 'LIWC'
-            tmpdict = self.loadDict()
+            self.data = self.loadDict()
             # make lists from it
-            self.makeListsFromDict(tmpdict)
+            self.makeListsFromDict()
             # create the trie
             LIWCtrie = self.makeMarisaTrie()
             self.corpus = 'MPQA'
-            tmpdict = self.loadDict()
+            self.data = self.loadDict()
             # make lists from it
-            self.makeListsFromDict(tmpdict)
+            self.makeListsFromDict()
             # create the trie
             MPQAtrie = self.makeMarisaTrie()
             self.corpus = oldcorpus
@@ -236,29 +258,33 @@ class sentiDict:
             # check agreement on everything
             # add stems, then add fixed (if not in stems)
 
-    def makeListsFromDict(self,userdict):
+    data = dict()
+    """Declare this globally."""
+    
+    def makeListsFromDict(self):
         """Make lists from a dict, used internally."""
         tmpfixedwords = []
         tmpfixedscores = []
         tmpstemwords = []
         tmpstemscores = []
-        for key,score in userdict.items():
-            if key[-1] == '*':
-                tmpstemwords.append(key.replace('*',''))
+        for key,score in self.data.items():
+            if key[-1] == "*" and not key[-2] == "*":
+                tmpstemwords.append(key.replace("*",""))
                 tmpstemscores.append(score[0])
             else:
                 tmpfixedwords.append(key)
                 tmpfixedscores.append(score[0])
-        # keep the original sort in this case
         if self.corpus in ['LabMT','ANEW']:
-            stemindexer = sorted(range(len(tmpstemscores)), key=lambda k: tmpstemscores[k], reverse=True)
-            # the stem indexer doesn't matter...
-            # fixedindexer = sorted(range(len(tmpfixedscores)), key=lambda k: tmpfixedscores[k], reverse=True)
-            # this doesn't actually make a new sort!
-            # FIXXXXXX
-            # fixedindexer = [userdict[word][1] for word in userdict]
-            fixedindexer = sorted(range(len(tmpfixedwords)), key=lambda k: userdict[tmpfixedwords[k]][1])
+            # keep the original sort in this case
+            stemindexer = []
+            fixedindexer = sorted(range(len(tmpfixedwords)), key=lambda k: self.data[tmpfixedwords[k]][1])
+        elif self.corpus in ['Warriner']:
+            # sort alphabetically
+            # (sorting by happiness is ambiguous sometimes)
+            stemindexer = []
+            fixedindexer = sorted(range(len(tmpfixedscores)), key=lambda k: tmpfixedwords[k])
         else:
+            # sort alphabetically
             stemindexer = sorted(range(len(tmpstemscores)), key=lambda k: tmpstemwords[k])
             fixedindexer = sorted(range(len(tmpfixedscores)), key=lambda k: tmpfixedwords[k])
         # sort them
@@ -267,16 +293,27 @@ class sentiDict:
         self.fixedwords = [tmpfixedwords[i] for i in fixedindexer]
         self.fixedscores = [tmpfixedscores[i] for i in fixedindexer]
 
-    def makeMarisaTrie(self):
+        # now, go reset the dict with these new orders
+        for i,word in enumerate(self.fixedwords):
+            self.data[word] = (self.data[word][0],i)
+        for i,word in enumerate(self.stemwords):
+            if word in self.data:
+                self.data[word] = (self.data[word][0],i)
+            else:
+                self.data[word+"*"] = (self.data[word+"*"][0],i)
+
+                
+    def makeMarisaTrie(self,save_flag=False):
         """Turn a dictionary into a marisa_trie."""
         fmt = "fH"
         fixedtrie = marisa_trie.RecordTrie(fmt,zip(map(u,self.fixedwords),zip(self.fixedscores,range(len(self.fixedscores)))))
-        stemtrie = marisa_trie.RecordTrie(fmt,zip(map(u,self.stemwords),zip(self.stemscores,range(len(self.stemscores)))))
-        fixedtrie.save('{0}/{1:.2f}-fixed.marisa'.format(self.folders[self.cindex],self.stopVal))
-        stemtrie.save('{0}/{1:.2f}-stem.marisa'.format(self.folders[self.cindex],self.stopVal))
+        stemtrie = marisa_trie.RecordTrie(fmt,zip(map(u,self.stemwords),zip(self.stemscores,range(len(self.stemscores),len(self.stemscores)+len(self.stemscores)))))
+        if save_flag:
+            fixedtrie.save('{0}/{1:.2f}-fixed.marisa'.format(self.folders[self.cindex],self.stopVal))
+            stemtrie.save('{0}/{1:.2f}-stem.marisa'.format(self.folders[self.cindex],self.stopVal))
         return (fixedtrie,stemtrie)
 
-    def makeDaTrie(self):
+    def makeDaTrie(self,save_flag=False):
         """Turn a dictionary into a da_trie."""        
         # the word parse
         # charset = string.ascii_letters+'@#\'&]*-/[=;]'
@@ -290,10 +327,11 @@ class sentiDict:
             fixedtrie[u(word)] = (self.fixedscores[i],i)
         for i,word in zip(range(len(self.stemwords)),self.stemwords):
             stemtrie[u(word)] = (self.stemscores[i],i)
-        fixedtrie.save('{0}/{1:.2f}-fixed.da'.format(self.folders[self.cindex],self.stopVal))
-        stemtrie.save('{0}/{1:.2f}-stem.da'.format(self.folders[self.cindex],self.stopVal))
-        return (fixedtrie,stemtrie)
 
+        if save_flag:
+            fixedtrie.save('{0}/{1:.2f}-fixed.da'.format(self.folders[self.cindex],self.stopVal))
+            stemtrie.save('{0}/{1:.2f}-stem.da'.format(self.folders[self.cindex],self.stopVal))
+        return (fixedtrie,stemtrie)
 
     def matcherTrieBool(self,word):
         """MatcherTrieBool(word) just checks if a word is in the list.
@@ -424,20 +462,21 @@ class sentiDict:
         elif len(self.data[1].prefixes(word)) > 0:
             wordVec[self.data[1].prefix_items(word)[0][1]] += count
 
-    def __init__(self,corpus,datastructure='dict',bootstrap=False,stopVal=0.0,bananas=False,loadFromFile=False):
+    def __init__(self,corpus,datastructure='dict',bootstrap=False,stopVal=0.0,bananas=False,loadFromFile=False,saveFile=False):
         """Instantiate the class."""
         self.corpus = corpus
         self.cindex = self.titles.index(self.corpus)
         self.stopVal = stopVal
-        if not isdir('{0}'.format(self.folders[self.cindex])):
-            mkdir('{0}'.format(self.folders[self.cindex]))
+        if saveFile:
+            if not isdir('{0}'.format(self.folders[self.cindex])):
+                mkdir('{0}'.format(self.folders[self.cindex]))
         if datastructure == 'dict':
             self.data = self.loadDict(bananas)
             if bootstrap:
                 self.bootstrapify()
-            self.makeListsFromDict(self.data)
-            self.matcherTrie = self.matcherTrieDict
-            self.scoreTrie = self.scoreTrieDict
+            self.makeListsFromDict()
+            self.matcher = self.matcherTrieDict
+            self.score = self.scoreTrieDict
             self.wordVecify = self.wordVecifyTrieDict
             
         if datastructure == 'marisatrie':
@@ -448,9 +487,9 @@ class sentiDict:
                 self.data[1].load('{0}/{1:.2f}-stem.marisa'.format(self.folders[self.cindex],stopVal))
             else:
                 # load up the dict
-                tmpdict = self.loadDict(bananas)
+                self.data = self.loadDict(bananas)
                 # make lists from it
-                self.makeListsFromDict(tmpdict)
+                self.makeListsFromDict()
                 # create the trie
                 self.data = self.makeMarisaTrie()
 
@@ -459,14 +498,14 @@ class sentiDict:
             self.wordVecify = self.wordVecifyTrieMarisa
 
         if datastructure == 'datrie':
-            print('note that datrie often seg faults')
+            # print('note that datrie often seg faults')
             if isfile('{0}/{1:.2f}-fixed.da'.format(self.folders[self.cindex],stopVal)) and loadFromFile:
                 self.data = (datrie.Trie.load('{0}/{1:.2f}-fixed.da'.format(self.folders[self.cindex],stopVal)),datrie.Trie.load('{0}/{1:.2f}-stem.da'.format(self.folders[self.cindex],stopVal)),)
             else:
                 # load up the dict
-                tmpdict = self.loadDict(bananas)
+                self.data = self.loadDict(bananas)
                 # make lists from it
-                self.makeListsFromDict(tmpdict)
+                self.makeListsFromDict()
                 # create the trie
                 self.data = self.makeDaTrie()
 

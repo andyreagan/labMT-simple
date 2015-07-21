@@ -7,10 +7,11 @@ import codecs
 
 TOL = 1e-3
 
-def test_b():
-    assert 'b' == 'b'
+def test_storyLab_labMT_english():
+    """Test as much of storyLab as possible.
 
-def test_labMT_english():
+    Basically an extended example."""
+    
     # load the basics
     lang = "english"
     labMT, labMTvector, labMTwordList = emotionFileReader(stopval = 0.0, lang=lang, returnVector=True)
@@ -86,3 +87,65 @@ def test_labMT_english():
     shiftMag,shiftType,sumTypes = shift(ref_freq, comp_freq, labMTvector, labMTwordList, sort=False)
     
 
+def my_test_speedy(dictionary,test_dict,prefix=False):
+    """Speedy test."""
+
+    # lang = "english"
+    # dictionary = "LabMT"
+    print("loading {0}".format(dictionary))
+    
+    my_senti_dict = sentiDict(dictionary,datastructure="dict")
+    dict_score = my_senti_dict.score(test_dict)
+    dict_word_vec = my_senti_dict.wordVecify(test_dict)
+    
+    my_senti_marisa = sentiDict(dictionary,datastructure="marisatrie")
+    marisa_score = my_senti_marisa.score(test_dict)
+    marisa_word_vec = my_senti_marisa.wordVecify(test_dict)
+
+    # this will actually seg fault....
+    # my_senti_da = sentiDict(dictionary,datastructure="datrie")
+    # da_score = my_senti_da.score(test_dict)
+    # da_word_vec = my_senti_da.wordVecify(test_dict)
+
+    print(dict_score)
+    print(marisa_score)
+    if not prefix:
+        assert abs(dict_score-marisa_score) < TOL
+        diff = dict_word_vec - marisa_word_vec
+        print(dict_word_vec,marisa_word_vec)
+        print(my_senti_dict.fixedwords[0])
+        print(my_senti_marisa.fixedwords[0])
+        print(len(my_senti_dict.stemwords))
+        print(len(my_senti_marisa.stemwords))
+        assert (dict_word_vec == marisa_word_vec).all()
+    else:
+        assert len(dict_word_vec) == len(marisa_word_vec)
+        print(dict_word_vec,marisa_word_vec)
+        print(my_senti_dict.fixedwords[0])
+        print(my_senti_marisa.fixedwords[0])
+        print(my_senti_dict.stemwords[0])
+        print(my_senti_marisa.stemwords[0])
+
+
+def test_speedy_all():
+    """Test all of the speedy dictionaries on scoring some dict of words."""
+    
+    # generate a word dict to test
+    f = codecs.open("examples/data/18.01.14.txt", "r", "utf8")
+    ref_text_raw = f.read()
+    f.close()
+    test_dict = dict()
+    replaceStrings = ['---','--','\'\'']
+    for replaceString in replaceStrings:
+        ref_text_raw = ref_text_raw.replace(replaceString,' ')
+    words = [x.lower() for x in re.findall(r"[\w\@\#\'\&\]\*\-\/\[\=\;]+",ref_text_raw,flags=re.UNICODE)]
+    for word in words:
+        if word in test_dict:
+            test_dict[word] += 1
+        else:
+            test_dict[word] = 1
+    
+    titles = ['LabMT','ANEW','LIWC','MPQA','Liu','Warriner',]
+    prefixes = [False,False,True,True,False,False,]
+    for title,prefix_bool in zip(titles,prefixes):
+        my_test_speedy(title,test_dict,prefix=prefix_bool)
