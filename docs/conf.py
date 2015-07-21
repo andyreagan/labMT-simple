@@ -371,12 +371,13 @@ source_parsers = {
 
 source_suffix = ['.rst', '.md']
 
-from unittest.mock import MagicMock
-
-class Mock(MagicMock):
-    @classmethod
-    def __getattr__(cls, name):
+if sys.version > '3':
+    from unittest.mock import MagicMock
+    
+    class Mock(MagicMock):
+        @classmethod
+        def __getattr__(cls, name):
             return Mock()
-
-MOCK_MODULES = ['pygtk', 'gtk', 'gobject', 'argparse', 'numpy', 'pandas','marisa_trie','datrie']
-sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
+    
+    MOCK_MODULES = ['pygtk', 'gtk', 'gobject', 'argparse', 'numpy', 'pandas','marisa_trie','datrie']
+    sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)

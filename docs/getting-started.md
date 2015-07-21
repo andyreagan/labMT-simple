@@ -70,10 +70,15 @@ Building these docs
 -------------------
 
 Go into the docs directory (activate local `virtualenv` first), and do the following:
-```\rm -rf _build/*
-sphinx-apidoc -o . ../labMTsimple
+```
+\rm -rf _build/*
 make html
 make latexpdf
-erm
-git add *
-git commit -am "new docs, probably should just add a pre-commit hook"```
+git add -f *
+git commit -am "new docs, probably should just add a pre-commit hook"
+```
+
+Note that these docs will build locally in python 2 because the dependencies exist.
+With python 3 available, these dependencies will be mocked (and this is set for the online readthedocs site).
+
+(`sphinx-apidoc -o . ../labMTsimple` was run once.)

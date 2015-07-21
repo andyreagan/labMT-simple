@@ -198,13 +198,16 @@ except NameError:
 <span id="building-these-docs"></span><h2>Building these docs<a class="headerlink" href="#building-these-docs" title="Permalink to this headline">¶</a></h2>
 <p>Go into the docs directory (activate local <code class="docutils literal"><span class="pre">virtualenv</span></code> first), and do the following:</p>
 <pre class="literal-block">
-sphinx-apidoc -o . ../labMTsimple
+\rm -rf _build/*
 make html
 make latexpdf
 erm
 git add *
-git commit -am &quot;new docs, probably should just add a pre-commit hook&quot;```
+git commit -am &quot;new docs, probably should just add a pre-commit hook&quot;
 </pre>
+<p>Note that these docs will build locally in python 2 because the dependencies exist.
+With python 3 available, these dependencies will be mocked (and this is set for the online readthedocs site).</p>
+<p>(<code class="docutils literal"><span class="pre">sphinx-apidoc</span> <span class="pre">-o</span> <span class="pre">.</span> <span class="pre">../labMTsimple</span></code> was run once.)</p>
 </div>
 </div>
 

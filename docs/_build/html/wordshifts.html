@@ -223,7 +223,7 @@ epstopdf wordshift-rsvg.eps
 <div class="section" id="full-automation">
 <span id="full-automation"></span><h2>Full Automation<a class="headerlink" href="#full-automation" title="Permalink to this headline">¶</a></h2>
 <p>I&#8217;ve wrapped up all of this into what is potentially the most backwards way to generate figure imaginable.
-The <code class="docutils literal"><span class="pre">shiftPDF</span></code> function operates the same way as the <code class="docutils literal"><span class="pre">shiftHTML</span></code>, but uses the headless web server to render the d3 graphic, then exectues a piece of injected JS to save a local SVG, and uses command line image manipulation libraries to massage it into a PDF.</p>
+The <code class="docutils literal"><span class="pre">shiftPDF()</span></code> function operates the same way as the <code class="docutils literal"><span class="pre">shiftHTML()</span></code>, but uses the headless web server to render the d3 graphic, then exectues a piece of injected JS to save a local SVG, and uses command line image manipulation libraries to massage it into a PDF.</p>
 <p>On my macbook, this works, but your mileage will most certainly vary.</p>
 </div>
 </div>
