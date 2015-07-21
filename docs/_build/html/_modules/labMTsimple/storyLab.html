@@ -90,6 +90,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../wordshifts.html#installing-rsvg">Installing rsvg</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../wordshifts.html#installing-labmtsimple">Installing labMTsimple</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../wordshifts.html#making-your-first-shift">Making your first shift</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../wordshifts.html#full-automation">Full Automation</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../advanced.html">Advanced Usage</a><ul>
@@ -195,9 +196,11 @@
 <span class="kn">import</span> <span class="nn">copy</span>
 
 <div class="viewcode-block" id="emotionFileReader"><a class="viewcode-back" href="../../labMTsimple.html#labMTsimple.storyLab.emotionFileReader">[docs]</a><span class="k">def</span> <span class="nf">emotionFileReader</span><span class="p">(</span><span class="n">stopval</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span><span class="n">lang</span><span class="o">=</span><span class="s">&quot;english&quot;</span><span class="p">,</span><span class="nb">min</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span><span class="nb">max</span><span class="o">=</span><span class="mf">9.0</span><span class="p">,</span><span class="n">returnVector</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
-  <span class="c">## stopval is our lens, \Delta h</span>
-  <span class="c">## read the labMT dataset into a dict with this lens</span>
-  <span class="c">## must be tab-deliminated</span>
+  <span class="sd">&quot;&quot;&quot;Load the dictionary of sentiment words.</span>
+<span class="sd">  </span>
+<span class="sd">  Stopval is our lens, $\Delta _h$, read the labMT dataset into a dict with this lens (must be tab-deliminated).</span>
+
+<span class="sd">  With returnVector = True, returns tmpDict,tmpList,wordList. Otherwise, just the dictionary.&quot;&quot;&quot;</span>
 
   <span class="n">labMT1flag</span> <span class="o">=</span> <span class="bp">False</span>
   <span class="n">scoreIndex</span> <span class="o">=</span> <span class="mi">1</span> <span class="c"># second value</span>
@@ -223,11 +226,11 @@
 
   <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
   
-  <span class="c">## remove words</span>
+  <span class="c"># remove words</span>
   <span class="n">stopWords</span> <span class="o">=</span> <span class="p">[]</span>
 
   <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">tmpDict</span><span class="p">:</span>
-    <span class="c">## start the index at 0</span>
+    <span class="c"># start the index at 0</span>
     <span class="k">if</span> <span class="n">labMT1flag</span><span class="p">:</span>
       <span class="n">tmpDict</span><span class="p">[</span><span class="n">word</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">tmpDict</span><span class="p">[</span><span class="n">word</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span>
     <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">tmpDict</span><span class="p">[</span><span class="n">word</span><span class="p">][</span><span class="n">scoreIndex</span><span class="p">])</span><span class="o">-</span><span class="mf">5.0</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">stopval</span><span class="p">:</span>
@@ -242,12 +245,12 @@
   <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">stopWords</span><span class="p">:</span>
     <span class="k">del</span> <span class="n">tmpDict</span><span class="p">[</span><span class="n">word</span><span class="p">]</span>
 
-  <span class="c">## build vector of all scores</span>
+  <span class="c"># build vector of all scores</span>
   <span class="n">f</span> <span class="o">=</span> <span class="n">codecs</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">fileName</span><span class="p">,</span><span class="s">&#39;r&#39;</span><span class="p">,</span><span class="s">&#39;utf8&#39;</span><span class="p">)</span>
   <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
   <span class="n">tmpList</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">u&#39;</span><span class="se">\t</span><span class="s">&#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">])</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">]</span>
   <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-  <span class="c">## build vector of all words</span>
+  <span class="c"># build vector of all words</span>
   <span class="n">f</span> <span class="o">=</span> <span class="n">codecs</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">fileName</span><span class="p">,</span><span class="s">&#39;r&#39;</span><span class="p">,</span><span class="s">&#39;utf8&#39;</span><span class="p">)</span>
   <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
   <span class="n">wordList</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">u&#39;</span><span class="se">\t</span><span class="s">&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">]</span>
@@ -259,7 +262,8 @@
     <span class="k">return</span> <span class="n">tmpDict</span>
 </div>
 <div class="viewcode-block" id="emotionFileReaderRaw"><a class="viewcode-back" href="../../labMTsimple.html#labMTsimple.storyLab.emotionFileReaderRaw">[docs]</a><span class="k">def</span> <span class="nf">emotionFileReaderRaw</span><span class="p">(</span><span class="n">stopval</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span><span class="n">fileName</span><span class="o">=</span><span class="s">u&#39;labMT1raw.txt&#39;</span><span class="p">,</span><span class="nb">min</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span><span class="nb">max</span><span class="o">=</span><span class="mf">9.0</span><span class="p">,</span><span class="n">returnVector</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
-
+  <span class="sd">&quot;&quot;&quot;Idea here was originally to use the individual word scores to sample from for each word, and generate a more statistically sound standard deviation. Never finished because the raw file that I was playing with was incomplete.&quot;&quot;&quot;</span>
+  
   <span class="k">try</span><span class="p">:</span>
     <span class="n">f</span> <span class="o">=</span> <span class="n">codecs</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">fileName</span><span class="p">,</span><span class="s">&#39;r&#39;</span><span class="p">,</span><span class="s">&#39;utf8&#39;</span><span class="p">)</span>
   <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
@@ -280,11 +284,11 @@
       <span class="n">tmpDict</span><span class="p">[</span><span class="n">word</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span><span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">u&#39;</span><span class="se">\t</span><span class="s">&#39;</span><span class="p">))[</span><span class="mi">1</span><span class="p">])</span>
   <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
   
-  <span class="c">## remove words</span>
+  <span class="c"># remove words</span>
   <span class="n">stopWords</span> <span class="o">=</span> <span class="p">[]</span>
 
   <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">tmpDict</span><span class="p">:</span>
-    <span class="c">## start the index at 0</span>
+    <span class="c"># start the index at 0</span>
     <span class="k">if</span> <span class="n">labMT1flag</span><span class="p">:</span>
       <span class="n">tmpDict</span><span class="p">[</span><span class="n">word</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">tmpDict</span><span class="p">[</span><span class="n">word</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span>
     <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">tmpDict</span><span class="p">[</span><span class="n">word</span><span class="p">][</span><span class="n">scoreIndex</span><span class="p">])</span><span class="o">-</span><span class="mf">5.0</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">stopval</span><span class="p">:</span>
@@ -302,6 +306,9 @@
   <span class="k">return</span> <span class="n">tmpDict</span>
 </div>
 <div class="viewcode-block" id="emotion"><a class="viewcode-back" href="../../labMTsimple.html#labMTsimple.storyLab.emotion">[docs]</a><span class="k">def</span> <span class="nf">emotion</span><span class="p">(</span><span class="n">tmpStr</span><span class="p">,</span><span class="n">someDict</span><span class="p">,</span><span class="n">scoreIndex</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">shift</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">happsList</span><span class="o">=</span><span class="p">[]):</span>
+  <span class="sd">&quot;&quot;&quot;Take a string and the happiness dictionary, and rate the string.</span>
+
+<span class="sd">  If shift=True, will return a vector (also then needs the happsList).&quot;&quot;&quot;</span>
   <span class="n">scoreList</span> <span class="o">=</span> <span class="p">[]</span>
   <span class="c"># make a frequency vector</span>
   <span class="k">if</span> <span class="n">shift</span><span class="p">:</span>
@@ -321,6 +328,12 @@
   <span class="c">#         for i in range(len(re.findall(&#39;[^\w]+&#39;,word))):</span>
   <span class="c">#             charset.add(re.findall(&#39;[^\w]+&#39;,word)[i])</span>
 
+  <span class="c"># this new replace isn&#39;t the exact same as the original parse</span>
+  <span class="c"># but it&#39;s closer to the one that MITRE developed, and I think</span>
+  <span class="c"># that it is an improvement</span>
+  <span class="n">replaceStrings</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;---&#39;</span><span class="p">,</span><span class="s">&#39;--&#39;</span><span class="p">,</span><span class="s">&#39;</span><span class="se">\&#39;\&#39;</span><span class="s">&#39;</span><span class="p">]</span>
+  <span class="k">for</span> <span class="n">replaceString</span> <span class="ow">in</span> <span class="n">replaceStrings</span><span class="p">:</span>
+        <span class="n">tmpStr</span> <span class="o">=</span> <span class="n">tmpStr</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">replaceString</span><span class="p">,</span><span class="s">&#39; &#39;</span><span class="p">)</span>
   <span class="n">words</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">r&quot;[\w\@\#\&#39;\&amp;\]\*\-\/\[\=\;]+&quot;</span><span class="p">,</span><span class="n">tmpStr</span><span class="p">,</span><span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">UNICODE</span><span class="p">)]</span>
 
   <span class="c"># only use the if shifting</span>
@@ -334,10 +347,10 @@
       <span class="k">if</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">someDict</span><span class="p">:</span>
         <span class="n">scoreList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">someDict</span><span class="p">[</span><span class="n">word</span><span class="p">][</span><span class="n">scoreIndex</span><span class="p">]))</span>
 
-  <span class="c">## with numpy (and mean in the namespace)</span>
-  <span class="c">## happs = mean(scoreList)</span>
+  <span class="c"># with numpy (and mean in the namespace)</span>
+  <span class="c"># happs = mean(scoreList)</span>
   
-  <span class="c">## without numpy</span>
+  <span class="c"># without numpy</span>
   <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">scoreList</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
     <span class="n">happs</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">scoreList</span><span class="p">)</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">scoreList</span><span class="p">))</span>
   <span class="k">else</span><span class="p">:</span>
@@ -349,6 +362,12 @@
     <span class="k">return</span> <span class="n">happs</span>
 </div>
 <div class="viewcode-block" id="stopper"><a class="viewcode-back" href="../../labMTsimple.html#labMTsimple.storyLab.stopper">[docs]</a><span class="k">def</span> <span class="nf">stopper</span><span class="p">(</span><span class="n">tmpVec</span><span class="p">,</span><span class="n">labMTvector</span><span class="p">,</span><span class="n">labMTwords</span><span class="p">,</span><span class="n">stopVal</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span><span class="n">ignore</span><span class="o">=</span><span class="p">[]):</span>
+  <span class="sd">&quot;&quot;&quot;Take a frequency vector, and 0 out the stop words.</span>
+<span class="sd">  </span>
+<span class="sd">  Will always remove the nig* words.</span>
+<span class="sd">  </span>
+<span class="sd">  Return the 0&#39;ed vector.&quot;&quot;&quot;</span>
+
   <span class="n">ignoreWords</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;nigga&quot;</span><span class="p">,</span><span class="s">&quot;nigger&quot;</span><span class="p">,</span><span class="s">&quot;niggaz&quot;</span><span class="p">,</span><span class="s">&quot;niggas&quot;</span><span class="p">];</span>
   <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">ignore</span><span class="p">:</span>
     <span class="n">ignoreWords</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
@@ -362,6 +381,10 @@
   <span class="k">return</span> <span class="n">newVec</span>
 </div>
 <div class="viewcode-block" id="emotionV"><a class="viewcode-back" href="../../labMTsimple.html#labMTsimple.storyLab.emotionV">[docs]</a><span class="k">def</span> <span class="nf">emotionV</span><span class="p">(</span><span class="n">frequencyVec</span><span class="p">,</span><span class="n">scoreVec</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Given the frequency vector and the score vector, compute the happs.</span>
+<span class="sd">  </span>
+<span class="sd">  Doesn&#39;t use numpy, but equivalent to `np.dot(freq,happs)/np.sum(freq)`.&quot;&quot;&quot;</span>
+  
   <span class="n">tmpSum</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">frequencyVec</span><span class="p">)</span>
   <span class="k">if</span> <span class="n">tmpSum</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
     <span class="n">happs</span> <span class="o">=</span> <span class="mf">0.0</span>
@@ -373,38 +396,26 @@
     <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
 </div>
 <div class="viewcode-block" id="allEmotions"><a class="viewcode-back" href="../../labMTsimple.html#labMTsimple.storyLab.allEmotions">[docs]</a><span class="k">def</span> <span class="nf">allEmotions</span><span class="p">(</span><span class="n">tmpStr</span><span class="p">,</span><span class="o">*</span><span class="n">allDicts</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Compute scores from a list of dicts and return a list of scores.&quot;&quot;&quot;</span>
   <span class="n">emotionList</span> <span class="o">=</span> <span class="p">[]</span>
   <span class="k">for</span> <span class="n">tmpDict</span> <span class="ow">in</span> <span class="n">allDicts</span><span class="p">:</span>
     <span class="n">emotionList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">emotion</span><span class="p">(</span><span class="n">tmpStr</span><span class="p">,</span><span class="n">tmpDict</span><span class="p">))</span>
   <span class="k">return</span> <span class="n">emotionList</span>
 </div>
-<div class="viewcode-block" id="plothapps"><a class="viewcode-back" href="../../labMTsimple.html#labMTsimple.storyLab.plothapps">[docs]</a><span class="k">def</span> <span class="nf">plothapps</span><span class="p">(</span><span class="n">happsTimeSeries</span><span class="p">,</span><span class="n">picname</span><span class="p">):</span>
-  <span class="c">## uses matplotlib</span>
-  <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
-
-  <span class="c">## create a figure, fig is now a matplotlib.figure.Figure instance</span>
-  <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
-
-  <span class="c">## plot the time series</span>
-  <span class="n">ax1</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span><span class="p">([</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.7</span><span class="p">,</span><span class="mf">0.7</span><span class="p">])</span> <span class="c">##  [left, bottom, width, height]</span>
-  <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">happs</span><span class="p">)),</span><span class="n">happsTimeSeries</span><span class="p">)</span>
-  <span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">&#39;Time&#39;</span><span class="p">)</span>
-  <span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s">&#39;Happs&#39;</span><span class="p">)</span>
-  <span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">&#39;Happiness over time&#39;</span><span class="p">)</span>
-
-  <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">picname</span><span class="p">)</span>
-  <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
-</div>
 <div class="viewcode-block" id="shift"><a class="viewcode-back" href="../../labMTsimple.html#labMTsimple.storyLab.shift">[docs]</a><span class="k">def</span> <span class="nf">shift</span><span class="p">(</span><span class="n">refFreq</span><span class="p">,</span><span class="n">compFreq</span><span class="p">,</span><span class="n">lens</span><span class="p">,</span><span class="n">words</span><span class="p">,</span><span class="n">sort</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
-  <span class="c">## normalize frequencies</span>
+  <span class="sd">&quot;&quot;&quot;Compute a shift, and return the results.</span>
+<span class="sd">  </span>
+<span class="sd">  If sort=True, will return the three sorted lists, and sumTypes. Else, just the two shift lists, and sumTypes (words don&#39;t need to be sorted).&quot;&quot;&quot;</span>
+  
+  <span class="c"># normalize frequencies</span>
   <span class="n">Nref</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">refFreq</span><span class="p">))</span>
   <span class="n">Ncomp</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">compFreq</span><span class="p">))</span>
   <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">refFreq</span><span class="p">)):</span>
     <span class="n">refFreq</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">refFreq</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">/</span><span class="n">Nref</span>
     <span class="n">compFreq</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">compFreq</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">/</span><span class="n">Ncomp</span>
-  <span class="c">## compute the reference happiness</span>
+  <span class="c"># compute the reference happiness</span>
   <span class="n">refH</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">refFreq</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">lens</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lens</span><span class="p">))])</span>
-  <span class="c">## determine shift magnitude, type</span>
+  <span class="c"># determine shift magnitude, type</span>
   <span class="n">shiftMag</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lens</span><span class="p">))]</span>
   <span class="n">shiftType</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lens</span><span class="p">))]</span>
   <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lens</span><span class="p">)):</span>
@@ -430,109 +441,70 @@
     <span class="k">return</span> <span class="n">shiftMag</span><span class="p">,</span><span class="n">shiftType</span><span class="p">,</span><span class="n">sumTypes</span>
 </div>
 <div class="viewcode-block" id="shiftHtml"><a class="viewcode-back" href="../../labMTsimple.html#labMTsimple.storyLab.shiftHtml">[docs]</a><span class="k">def</span> <span class="nf">shiftHtml</span><span class="p">(</span><span class="n">scoreList</span><span class="p">,</span><span class="n">wordList</span><span class="p">,</span><span class="n">refFreq</span><span class="p">,</span><span class="n">compFreq</span><span class="p">,</span><span class="n">outFile</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Make an interactive shift for exploring and sharing.</span>
+
+<span class="sd">  The most insane-o piece of code here (lots of file copying,</span>
+<span class="sd">  writing vectors into html files, etc).</span>
+<span class="sd">  </span>
+<span class="sd">  Accepts a score list, a word list, two frequency files </span>
+<span class="sd">  and the name of an HTML file to generate</span>
+<span class="sd">  </span>
+<span class="sd">  ** will make the HTML file, and a directory called static</span>
+<span class="sd">  that hosts a bunch of .js, .css that is useful.&quot;&quot;&quot;</span>
+  
   <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s">&#39;static&#39;</span><span class="p">):</span>
     <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="s">&#39;static&#39;</span><span class="p">)</span>
 
-  <span class="c">## write out the template</span>
-  <span class="n">f</span> <span class="o">=</span> <span class="n">codecs</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s">&#39;static/&#39;</span><span class="o">+</span><span class="n">outFile</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s">&#39;-data.js&#39;</span><span class="p">,</span><span class="s">&#39;w&#39;</span><span class="p">,</span><span class="s">&#39;utf8&#39;</span><span class="p">)</span>
-  <span class="c"># f.write(&#39;function initializePlot() { loadCsv(); }\n\n&#39;)</span>
-
-  <span class="c">## dump the data</span>
-  <span class="c"># f.write(&#39;function loadCsv() {\n&#39;)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;lens = [&#39;</span><span class="p">)</span>
-  <span class="k">for</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">scoreList</span><span class="p">:</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">score</span><span class="p">)</span><span class="o">+</span><span class="s">&#39;,&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;];</span><span class="se">\n\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;words = [&#39;</span><span class="p">)</span>
-  <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">wordList</span><span class="p">:</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&quot;&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">word</span><span class="p">)</span><span class="o">+</span><span class="s">&#39;&quot;,&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;];</span><span class="se">\n\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;refFraw = [&#39;</span><span class="p">)</span>
-  <span class="k">for</span> <span class="n">freq</span> <span class="ow">in</span> <span class="n">refFreq</span><span class="p">:</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;{0:.0f},&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">freq</span><span class="p">))</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;];</span><span class="se">\n\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;compFraw = [&#39;</span><span class="p">)</span>
-  <span class="k">for</span> <span class="n">freq</span> <span class="ow">in</span> <span class="n">compFreq</span><span class="p">:</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;{0:.0f},&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">freq</span><span class="p">))</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;];</span><span class="se">\n\n</span><span class="s">&#39;</span><span class="p">)</span>
+  <span class="n">outFileShort</span> <span class="o">=</span> <span class="n">outFile</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    
+  <span class="c"># write out the template</span>
+  <span class="n">f</span> <span class="o">=</span> <span class="n">codecs</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s">&#39;static/&#39;</span><span class="o">+</span><span class="n">outFileShort</span><span class="o">+</span><span class="s">&#39;-data.js&#39;</span><span class="p">,</span><span class="s">&#39;w&#39;</span><span class="p">,</span><span class="s">&#39;utf8&#39;</span><span class="p">)</span>
+  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;lens = [&#39;</span><span class="o">+</span><span class="s">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s">&#39;{0:.0f}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="n">scoreList</span><span class="p">))</span><span class="o">+</span><span class="s">&#39;];</span><span class="se">\n\n</span><span class="s">&#39;</span><span class="p">)</span>
+  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;words = [&#39;</span><span class="o">+</span><span class="s">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s">&#39;&quot;{0}&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="n">wordList</span><span class="p">))</span><span class="o">+</span><span class="s">&#39;];</span><span class="se">\n\n</span><span class="s">&#39;</span><span class="p">)</span>
+  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;refFraw = [&#39;</span><span class="o">+</span><span class="s">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s">&#39;{0:.0f}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="n">refFreq</span><span class="p">))</span><span class="o">+</span><span class="s">&#39;];</span><span class="se">\n\n</span><span class="s">&#39;</span><span class="p">)</span>
+  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;compFraw = [&#39;</span><span class="o">+</span><span class="s">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s">&#39;{0:.0f}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="n">compFreq</span><span class="p">))</span><span class="o">+</span><span class="s">&#39;];</span><span class="se">\n\n</span><span class="s">&#39;</span><span class="p">)</span>
   <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
   
-  <span class="c">## dump out a static shift view page</span>
-  <span class="n">f</span> <span class="o">=</span> <span class="n">codecs</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">outFile</span><span class="p">,</span><span class="s">&#39;w&#39;</span><span class="p">,</span><span class="s">&#39;utf8&#39;</span><span class="p">)</span>  
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;html&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;head&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;title&gt;Simple Shift Plot&lt;/title&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+  <span class="c"># dump out a static shift view page</span>
+  <span class="n">template</span> <span class="o">=</span> <span class="s">&#39;&#39;&#39;&lt;html&gt;</span>
+<span class="s">&lt;head&gt;</span>
+<span class="s">&lt;title&gt;Simple Shift Plot&lt;/title&gt;</span>
+<span class="s">&lt;link href=&quot;static/hedotools.shift.css&quot; rel=&quot;stylesheet&quot;&gt;</span>
+<span class="s">&lt;/head&gt;</span>
+<span class="s">&lt;body&gt;</span>
 
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;  &lt;style&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;    body {</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;      font-family: Verdana,Arial,sans-serif;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;    }</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;    h4 {</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;    font-size: .8em;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;    margin: 60px 0 5px 0;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;    }</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;    h5 {</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;    font-size: .8em;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;    margin: 10px 0 5px 0;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;    }</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;    body {</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;    min-width: 650px;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;    }</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;    #caption01 {</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;      width: 500px;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;    }</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;    #figure01 {</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;      width: 600px;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;    }</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;    .domain {</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;      fill: none;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;      stroke: black;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;      stroke-width: 2;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;     }</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;  &lt;/style&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;link href=&quot;static/hedotools.shift.css&quot; rel=&quot;stylesheet&quot;&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;/head&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;body&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;div id=&quot;header&quot;&gt;&lt;/div&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;center&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="c"># f.write(&#39;&lt;div id=&quot;lens01&quot; class=&quot;figure&quot;&gt;&lt;/div&gt;\n&#39;)</span>
-  <span class="c"># f.write(&#39;\n&#39;)</span>
-  <span class="c"># f.write(&#39;&lt;br&gt;\n&#39;)</span>
-  <span class="c"># f.write(&#39;\n&#39;)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;p&gt;Click on the graph and drag up to reveal additional words.&lt;/p&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;br&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;div id=&quot;figure01&quot; class=&quot;figure&quot;&gt;&lt;/div&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;/center&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;div id=&quot;footer&quot;&gt;&lt;/div&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;script src=&quot;static/d3.andy.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;script src=&quot;static/jquery-1.11.0.min.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;script src=&quot;static/urllib.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;script src=&quot;static/hedotools.init.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;script src=&quot;static/hedotools.shifter.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;script src=&quot;static/&#39;</span><span class="o">+</span><span class="n">outFile</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s">&#39;-data.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;script src=&quot;static/example-on-load.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;/body&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;/html&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+<span class="s">&lt;div id=&quot;header&quot;&gt;&lt;/div&gt;</span>
+<span class="s">&lt;center&gt;</span>
+
+<span class="s">&lt;div id=&quot;lens01&quot; class=&quot;figure&quot;&gt;&lt;/div&gt;</span>
+<span class="s">&lt;br&gt;</span>
+<span class="s">&lt;p&gt;Click on the graph and drag up to reveal additional words.&lt;/p&gt;</span>
+
+<span class="s">&lt;br&gt;</span>
+
+<span class="s">&lt;div id=&quot;figure01&quot; class=&quot;figure&quot;&gt;&lt;/div&gt;</span>
+
+<span class="s">&lt;/center&gt;</span>
+
+<span class="s">&lt;div id=&quot;footer&quot;&gt;&lt;/div&gt;</span>
+
+<span class="s">&lt;script src=&quot;static/d3.andy.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;</span>
+<span class="s">&lt;script src=&quot;static/jquery-1.11.0.min.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;</span>
+<span class="s">&lt;script src=&quot;static/urllib.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;</span>
+<span class="s">&lt;script src=&quot;static/hedotools.init.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;</span>
+<span class="s">&lt;script src=&quot;static/hedotools.shifter.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;</span>
+<span class="s">&lt;script src=&quot;static/{0}-data.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;</span>
+<span class="s">&lt;script src=&quot;static/example-on-load.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;</span>
+
+<span class="s">&lt;/body&gt;</span>
+<span class="s">&lt;/html&gt;&#39;&#39;&#39;</span>
+  <span class="n">f</span> <span class="o">=</span> <span class="n">codecs</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">outFile</span><span class="p">,</span><span class="s">&#39;w&#39;</span><span class="p">,</span><span class="s">&#39;utf8&#39;</span><span class="p">)</span>
+  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">outFileShort</span><span class="p">))</span>
   <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
-
-  
+  <span class="k">print</span><span class="p">(</span><span class="s">&#39;copying over static files&#39;</span><span class="p">)</span>
   <span class="c"># for staticfile in [&#39;d3.v3.min.js&#39;,&#39;plotShift.js&#39;,&#39;shift.js&#39;,&#39;example-on-load.js&#39;]:</span>
-  <span class="k">for</span> <span class="n">staticfile</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;d3.andy.js&#39;</span><span class="p">,</span><span class="s">&#39;jquery-1.11.0.min.js&#39;</span><span class="p">,</span><span class="s">&#39;urllib.js&#39;</span><span class="p">,</span><span class="s">&#39;hedotools.init.js&#39;</span><span class="p">,</span><span class="s">&#39;hedotools.shifter.js&#39;</span><span class="p">,</span><span class="s">&#39;example-on-load.js&#39;</span><span class="p">,</span><span class="s">&#39;hedotools.shift.css&#39;</span><span class="p">]:</span>
+  <span class="k">for</span> <span class="n">staticfile</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;d3.andy.js&#39;</span><span class="p">,</span><span class="s">&#39;jquery-1.11.0.min.js&#39;</span><span class="p">,</span><span class="s">&#39;urllib.js&#39;</span><span class="p">,</span><span class="s">&#39;hedotools.init.js&#39;</span><span class="p">,</span><span class="s">&#39;hedotools.shifter.js&#39;</span><span class="p">,</span><span class="s">&#39;example-on-load.js&#39;</span><span class="p">,</span><span class="s">&#39;hedotools.shift.css&#39;</span><span class="p">,</span><span class="s">&#39;shift-crowbar.js&#39;</span><span class="p">]:</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s">&#39;static/&#39;</span><span class="o">+</span><span class="n">staticfile</span><span class="p">):</span>
       <span class="kn">import</span> <span class="nn">shutil</span>
       <span class="n">relpath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
@@ -540,123 +512,48 @@
       <span class="n">relpath</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">staticfile</span><span class="p">)</span>
       <span class="n">fileName</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
       <span class="k">for</span> <span class="n">pathp</span> <span class="ow">in</span> <span class="n">relpath</span><span class="p">:</span>
-        <span class="n">fileName</span> <span class="o">+=</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="n">pathp</span>    
+        <span class="n">fileName</span> <span class="o">+=</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="n">pathp</span>
       <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">fileName</span><span class="p">,</span><span class="s">&#39;static/&#39;</span><span class="o">+</span><span class="n">staticfile</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="shiftHtmlSelf"><a class="viewcode-back" href="../../labMTsimple.html#labMTsimple.storyLab.shiftHtmlSelf">[docs]</a><span class="k">def</span> <span class="nf">shiftHtmlSelf</span><span class="p">(</span><span class="n">scoreList</span><span class="p">,</span><span class="n">wordList</span><span class="p">,</span><span class="n">compFreq</span><span class="p">,</span><span class="n">outFile</span><span class="p">):</span>
-  <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s">&#39;static&#39;</span><span class="p">):</span>
-    <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="s">&#39;static&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="generateSVG"><a class="viewcode-back" href="../../labMTsimple.html#labMTsimple.storyLab.generateSVG">[docs]</a><span class="k">def</span> <span class="nf">generateSVG</span><span class="p">(</span><span class="n">htmlfile</span><span class="p">,</span><span class="n">output</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Use phantomjs and the local crowbar to make the svg file.&quot;&quot;&quot;</span>
 
-  <span class="c">## write out the template</span>
-  <span class="n">f</span> <span class="o">=</span> <span class="n">codecs</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s">&#39;static/&#39;</span><span class="o">+</span><span class="n">outFile</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s">&#39;-data.js&#39;</span><span class="p">,</span><span class="s">&#39;w&#39;</span><span class="p">,</span><span class="s">&#39;utf8&#39;</span><span class="p">)</span>
-  <span class="c"># f.write(&#39;function initializePlot() { loadCsv(); }\n\n&#39;)</span>
+  <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">output</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">htmlfile</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&quot;.html&quot;</span><span class="p">,</span><span class="s">&quot;.svg&quot;</span><span class="p">)</span>
+  <span class="kn">import</span> <span class="nn">subprocess</span>  
+  <span class="n">status</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">(</span><span class="s">&quot;phantomjs static/shift-crowbar.js {0} shiftsvg {1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">htmlfile</span><span class="p">,</span><span class="n">output</span><span class="p">),</span><span class="n">shell</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
-  <span class="c">## dump the data</span>
-  <span class="c"># f.write(&#39;function loadCsv() {\n&#39;)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;lens = [&#39;</span><span class="p">)</span>
-  <span class="k">for</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">scoreList</span><span class="p">:</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">score</span><span class="p">)</span><span class="o">+</span><span class="s">&#39;,&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;];</span><span class="se">\n\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;words = [&#39;</span><span class="p">)</span>
-  <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">wordList</span><span class="p">:</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&quot;&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">word</span><span class="p">)</span><span class="o">+</span><span class="s">&#39;&quot;,&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;];</span><span class="se">\n\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;compFraw = [&#39;</span><span class="p">)</span>
-  <span class="k">for</span> <span class="n">freq</span> <span class="ow">in</span> <span class="n">compFreq</span><span class="p">:</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;{0:.0f},&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">freq</span><span class="p">))</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;];</span><span class="se">\n\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-  
-  <span class="c">## dump out a static shift view page</span>
-  <span class="n">f</span> <span class="o">=</span> <span class="n">codecs</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">outFile</span><span class="p">,</span><span class="s">&#39;w&#39;</span><span class="p">,</span><span class="s">&#39;utf8&#39;</span><span class="p">)</span>  
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;html&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;head&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;title&gt;Simple Shift Plot&lt;/title&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;  &lt;style&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;    body {</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;      font-family: Verdana,Arial,sans-serif;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;    }</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;    h4 {</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;    font-size: .8em;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;    margin: 60px 0 5px 0;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;    }</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;    h5 {</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;    font-size: .8em;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;    margin: 10px 0 5px 0;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;    }</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;    body {</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;    min-width: 650px;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;    }</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;    #caption01 {</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;      width: 500px;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;    }</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;    #figure01 {</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;      width: 600px;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;    }</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;    .domain {</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;      fill: none;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;      stroke: black;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;      stroke-width: 2;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;     }</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;  &lt;/style&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;link href=&quot;static/hedotools.shift.css&quot; rel=&quot;stylesheet&quot;&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;/head&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;body&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;div id=&quot;header&quot;&gt;&lt;/div&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;center&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="c"># f.write(&#39;&lt;div id=&quot;lens01&quot; class=&quot;figure&quot;&gt;&lt;/div&gt;\n&#39;)</span>
-  <span class="c"># f.write(&#39;\n&#39;)</span>
-  <span class="c"># f.write(&#39;&lt;br&gt;\n&#39;)</span>
-  <span class="c"># f.write(&#39;\n&#39;)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;p&gt;Click on the graph and drag up to reveal additional words.&lt;/p&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;br&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;div id=&quot;figure01&quot; class=&quot;figure&quot;&gt;&lt;/div&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;/center&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;div id=&quot;footer&quot;&gt;&lt;/div&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;script src=&quot;static/d3.andy.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;script src=&quot;static/jquery-1.11.0.min.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;script src=&quot;static/urllib.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;script src=&quot;static/hedotools.init.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;script src=&quot;static/hedotools.shifter.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;script src=&quot;static/&#39;</span><span class="o">+</span><span class="n">outFile</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s">&#39;-data.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;script src=&quot;static/example-on-load-self.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;/body&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;/html&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-  <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-
-
-  
-  <span class="c"># for staticfile in [&#39;d3.v3.min.js&#39;,&#39;plotShift.js&#39;,&#39;shift.js&#39;,&#39;example-on-load.js&#39;]:</span>
-  <span class="k">for</span> <span class="n">staticfile</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;d3.andy.js&#39;</span><span class="p">,</span><span class="s">&#39;jquery-1.11.0.min.js&#39;</span><span class="p">,</span><span class="s">&#39;urllib.js&#39;</span><span class="p">,</span><span class="s">&#39;hedotools.init.js&#39;</span><span class="p">,</span><span class="s">&#39;hedotools.shifter.js&#39;</span><span class="p">,</span><span class="s">&#39;example-on-load-self.js&#39;</span><span class="p">,</span><span class="s">&#39;hedotools.shift.css&#39;</span><span class="p">]:</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s">&#39;static/&#39;</span><span class="o">+</span><span class="n">staticfile</span><span class="p">):</span>
-      <span class="kn">import</span> <span class="nn">shutil</span>
-      <span class="n">relpath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-      <span class="n">relpath</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;static&#39;</span><span class="p">)</span>
-      <span class="n">relpath</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">staticfile</span><span class="p">)</span>
-      <span class="n">fileName</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
-      <span class="k">for</span> <span class="n">pathp</span> <span class="ow">in</span> <span class="n">relpath</span><span class="p">:</span>
-        <span class="n">fileName</span> <span class="o">+=</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="n">pathp</span>    
-      <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">fileName</span><span class="p">,</span><span class="s">&#39;static/&#39;</span><span class="o">+</span><span class="n">staticfile</span><span class="p">)</span>
-
-  <span class="c"># shutil.copy(outFile,&#39;static/template.html&#39;)</span>
+  <span class="k">return</span> <span class="n">output</span>
 </div>
+<div class="viewcode-block" id="generatePDF"><a class="viewcode-back" href="../../labMTsimple.html#labMTsimple.storyLab.generatePDF">[docs]</a><span class="k">def</span> <span class="nf">generatePDF</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="n">program</span><span class="o">=</span><span class="s">&quot;rsvg&quot;</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Use rsvg or inkscape to make a PDF from the SVG.&quot;&quot;&quot;</span>
+  
+  <span class="n">output</span> <span class="o">=</span> <span class="n">filename</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&quot;.svg&quot;</span><span class="p">,</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+  <span class="kn">import</span> <span class="nn">subprocess</span>
+  <span class="k">if</span> <span class="n">program</span> <span class="o">==</span> <span class="s">&quot;rsvg&quot;</span><span class="p">:</span>
+    <span class="n">command</span> <span class="o">=</span> <span class="s">&quot;rsvg-convert --format=eps {0} &gt; {1}.eps&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="n">output</span><span class="p">)</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">(</span><span class="n">command</span><span class="p">,</span><span class="n">shell</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">command</span> <span class="o">=</span> <span class="s">&quot;epstopdf {0}.eps&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">(</span><span class="n">command</span><span class="p">,</span><span class="n">shell</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s">&#39;{0}.pdf&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+  <span class="k">elif</span> <span class="n">program</span> <span class="o">==</span> <span class="s">&quot;inkscape&quot;</span><span class="p">:</span>
+    <span class="n">command</span> <span class="o">=</span> <span class="s">&quot;/Applications/Inkscape.app/Contents/Resources/bin/inkscape -f $(pwd)/{0} -A $(pwd)/{1}.pdf&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="n">output</span><span class="p">)</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">(</span><span class="n">command</span><span class="p">,</span><span class="n">shell</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s">&#39;{0}.pdf&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="shiftPDF"><a class="viewcode-back" href="../../labMTsimple.html#labMTsimple.storyLab.shiftPDF">[docs]</a><span class="k">def</span> <span class="nf">shiftPDF</span><span class="p">(</span><span class="n">scoreList</span><span class="p">,</span><span class="n">wordList</span><span class="p">,</span><span class="n">refFreq</span><span class="p">,</span><span class="n">compFreq</span><span class="p">,</span><span class="n">outFile</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Generate a PDF wordshift directly from frequency files!</span>
+
+<span class="sd">  `outfile` should probably end in .html, and this will make a file that ends in .svg,.eps,and .pdf in addition to html file, in making the wordshift.&quot;&quot;&quot;</span>
+  
+  <span class="n">shiftHtml</span><span class="p">(</span><span class="n">scoreList</span><span class="p">,</span><span class="n">wordList</span><span class="p">,</span><span class="n">refFreq</span><span class="p">,</span><span class="n">compFreq</span><span class="p">,</span><span class="n">outFile</span><span class="p">)</span>
+  <span class="n">svgfile</span> <span class="o">=</span> <span class="n">generateSVG</span><span class="p">(</span><span class="n">htmlfile</span><span class="p">)</span>
+  <span class="n">pdffile</span> <span class="o">=</span> <span class="n">generatePDF</span><span class="p">(</span><span class="n">svgfile</span><span class="p">)</span>
+  <span class="n">command</span> <span class="o">=</span> <span class="s">&quot;open {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pdffile</span><span class="p">)</span>
+  <span class="n">status</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">(</span><span class="n">command</span><span class="p">,</span><span class="n">shell</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+  </div>
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
-  <span class="c">## run from standard in</span>
+  <span class="c"># run from standard in</span>
   <span class="kn">import</span> <span class="nn">fileinput</span>
   <span class="n">labMT</span> <span class="o">=</span> <span class="n">emotionFileReader</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
   <span class="n">happsList</span> <span class="o">=</span> <span class="p">[</span><span class="n">emotion</span><span class="p">(</span><span class="n">line</span><span class="p">,</span><span class="n">labMT</span><span class="p">)</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fileinput</span><span class="o">.</span><span class="n">input</span><span class="p">()]</span>

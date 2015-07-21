@@ -91,6 +91,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#installing-rsvg">Installing rsvg</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#installing-labmtsimple">Installing labMTsimple</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#making-your-first-shift">Making your first shift</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#full-automation">Full Automation</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="advanced.html">Advanced Usage</a><ul>
@@ -218,6 +219,12 @@ rsvg-convert --format=eps worshift.svg &gt; wordshift-rsvg.eps
 epstopdf wordshift-rsvg.eps
 </pre>
 <p>And again, feel free to tweet suggestions at <a class="reference external" href="https://twitter.com/andyreagan">&#64;andyreagan</a>, and submit pull requests to the <a class="reference external" href="https://github.com/andyreagan/labMT-simple">source code</a>!</p>
+</div>
+<div class="section" id="full-automation">
+<span id="full-automation"></span><h2>Full Automation<a class="headerlink" href="#full-automation" title="Permalink to this headline">¶</a></h2>
+<p>I&#8217;ve wrapped up all of this into what is potentially the most backwards way to generate figure imaginable.
+The <code class="docutils literal"><span class="pre">shiftPDF</span></code> function operates the same way as the <code class="docutils literal"><span class="pre">shiftHTML</span></code>, but uses the headless web server to render the d3 graphic, then exectues a piece of injected JS to save a local SVG, and uses command line image manipulation libraries to massage it into a PDF.</p>
+<p>On my macbook, this works, but your mileage will most certainly vary.</p>
 </div>
 </div>
 

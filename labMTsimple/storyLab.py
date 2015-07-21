@@ -48,14 +48,11 @@ import codecs
 import copy
 
 def emotionFileReader(stopval=1.0,lang="english",min=1.0,max=9.0,returnVector=False):
-  # emotionFileReader(stopval=1.0,lang="english",min=1.0,max=9.0,returnVector=False)
-  # 
-  # stopval is our lens, \Delta h
-  # read the labMT dataset into a dict with this lens
-  # must be tab-deliminated
-  #
-  # with returnVector = True, returns tmpDict,tmpList,wordList
-  # otherwise, just the dictionary
+  """Load the dictionary of sentiment words.
+  
+  Stopval is our lens, $\Delta _h$, read the labMT dataset into a dict with this lens (must be tab-deliminated).
+
+  With returnVector = True, returns tmpDict,tmpList,wordList. Otherwise, just the dictionary."""
 
   labMT1flag = False
   scoreIndex = 1 # second value
@@ -117,11 +114,7 @@ def emotionFileReader(stopval=1.0,lang="english",min=1.0,max=9.0,returnVector=Fa
     return tmpDict
 
 def emotionFileReaderRaw(stopval=1.0,fileName=u'labMT1raw.txt',min=1.0,max=9.0,returnVector=False):
-  # emotionFileReaderRaw(stopval=1.0,fileName=u'labMT1raw.txt',min=1.0,max=9.0,returnVector=False)
-  #
-  # idea here was originally to use the individual word scores to
-  # sample from for each word, and generate a more statistically sound
-  # standard deviation
+  """Idea here was originally to use the individual word scores to sample from for each word, and generate a more statistically sound standard deviation. Never finished because the raw file that I was playing with was incomplete."""
   
   try:
     f = codecs.open(fileName,'r','utf8')
@@ -165,11 +158,9 @@ def emotionFileReaderRaw(stopval=1.0,fileName=u'labMT1raw.txt',min=1.0,max=9.0,r
   return tmpDict
 
 def emotion(tmpStr,someDict,scoreIndex=1,shift=False,happsList=[]):
-  # emotion(tmpStr,someDict,scoreIndex=1,shift=False,happsList=[])
-  #
-  # take a string and the happiness dictionary, and rate the string
-  # if shift=True, will return a vector (also then needs the happsList)
-  
+  """Take a string and the happiness dictionary, and rate the string.
+
+  If shift=True, will return a vector (also then needs the happsList)."""
   scoreList = []
   # make a frequency vector
   if shift:
@@ -223,13 +214,12 @@ def emotion(tmpStr,someDict,scoreIndex=1,shift=False,happsList=[]):
     return happs
 
 def stopper(tmpVec,labMTvector,labMTwords,stopVal=1.0,ignore=[]):
-  # stopper(tmpVec,labMTvector,labMTwords,stopVal=1.0,ignore=[])
-  #
-  # take a frequency vector, and 0 out the stop words
-  # will always remove the nig* words
-  #
-  # return the 0'ed vector
+  """Take a frequency vector, and 0 out the stop words.
   
+  Will always remove the nig* words.
+  
+  Return the 0'ed vector."""
+
   ignoreWords = ["nigga","nigger","niggaz","niggas"];
   for word in ignore:
     ignoreWords.append(word)
@@ -243,12 +233,9 @@ def stopper(tmpVec,labMTvector,labMTwords,stopVal=1.0,ignore=[]):
   return newVec
 
 def emotionV(frequencyVec,scoreVec):
-  # emotionV(frequencyVec,scoreVec)
-  #
-  # given the frequency vector and the score vector, compute the happs
-  # doesn't use numpy
-  #
-  # but equivalent to np.dot(freq,happs)/np.sum(freq)
+  """Given the frequency vector and the score vector, compute the happs.
+  
+  Doesn't use numpy, but equivalent to `np.dot(freq,happs)/np.sum(freq)`."""
   
   tmpSum = sum(frequencyVec)
   if tmpSum > 0:
@@ -261,25 +248,16 @@ def emotionV(frequencyVec,scoreVec):
     return -1
 
 def allEmotions(tmpStr,*allDicts):
-  # allEmotions(tmpStr,*allDicts)
-  #
-  # compute scores from a list of dicts
-  # and return a list of scores
-  
+  """Compute scores from a list of dicts and return a list of scores."""
   emotionList = []
   for tmpDict in allDicts:
     emotionList.append(emotion(tmpStr,tmpDict))
   return emotionList
 
 def shift(refFreq,compFreq,lens,words,sort=True):
-  # shift(refFreq,compFreq,lens,words,sort=True)
-  #
-  # compute a shift, and return the results
-  # if sort=True
-  # will return the three sorted lists, and sumTypes
-  # else
-  # just the two shift lists, and sumTypes
-  # (words don't need to be sorted)
+  """Compute a shift, and return the results.
+  
+  If sort=True, will return the three sorted lists, and sumTypes. Else, just the two shift lists, and sumTypes (words don't need to be sorted)."""
   
   # normalize frequencies
   Nref = float(sum(refFreq))
@@ -315,16 +293,16 @@ def shift(refFreq,compFreq,lens,words,sort=True):
     return shiftMag,shiftType,sumTypes
 
 def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile):
-  # shiftHtml(scoreList,wordList,refFreq,compFreq,outFile)
-  # 
-  # the most insane-o piece of code here (lots of file copying,
-  # writing vectors into html files, etc)
-  #
-  # accepts a score list, a word list, two frequency files
-  # and the name of an HTML file to generate
-  #
-  # ** will make the HTML file, and a directory called static
-  # that hosts a bunch of .js, .css that is useful
+  """Make an interactive shift for exploring and sharing.
+
+  The most insane-o piece of code here (lots of file copying,
+  writing vectors into html files, etc).
+  
+  Accepts a score list, a word list, two frequency files 
+  and the name of an HTML file to generate
+  
+  ** will make the HTML file, and a directory called static
+  that hosts a bunch of .js, .css that is useful."""
   
   if not os.path.exists('static'):
     os.mkdir('static')
@@ -390,9 +368,7 @@ def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile):
       shutil.copy(fileName,'static/'+staticfile)
 
 def generateSVG(htmlfile,output=""):
-  # generateSVG(htmlfile,output="")
-  #
-  # use phantomjs and the local crowbar to make the svg file
+  """Use phantomjs and the local crowbar to make the svg file."""
 
   if len(output) == 0:
     output = htmlfile.replace(".html",".svg")
@@ -402,9 +378,7 @@ def generateSVG(htmlfile,output=""):
   return output
 
 def generatePDF(filename,program="rsvg"):
-  # generatePDF(filename,program="rsvg")
-  #
-  # use rsvg or inkscape to make a PDF from the SVG
+  """Use rsvg or inkscape to make a PDF from the SVG."""
   
   output = filename.replace(".svg","")
   import subprocess
@@ -420,12 +394,9 @@ def generatePDF(filename,program="rsvg"):
     return '{0}.pdf'.format(output)
 
 def shiftPDF(scoreList,wordList,refFreq,compFreq,outFile):
-  # shiftPDF(scoreList,wordList,refFreq,compFreq,outFile)
-  #
-  # generate a PDF wordshift directly from frequency files!
-  # outfile should probably end in .html
-  # and this will make a file that ends in .svg,.eps,and .pdf
-  # in addition to html file, in making the wordshift
+  """Generate a PDF wordshift directly from frequency files!
+
+  `outfile` should probably end in .html, and this will make a file that ends in .svg,.eps,and .pdf in addition to html file, in making the wordshift."""
   
   shiftHtml(scoreList,wordList,refFreq,compFreq,outFile)
   svgfile = generateSVG(htmlfile)

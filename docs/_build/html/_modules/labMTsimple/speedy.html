@@ -90,6 +90,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../wordshifts.html#installing-rsvg">Installing rsvg</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../wordshifts.html#installing-labmtsimple">Installing labMTsimple</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../wordshifts.html#making-your-first-shift">Making your first shift</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../wordshifts.html#full-automation">Full Automation</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../advanced.html">Advanced Usage</a><ul>
@@ -162,9 +163,11 @@
 <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version</span> <span class="o">&lt;</span> <span class="s">&#39;3&#39;</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">codecs</span>
     <span class="k">def</span> <span class="nf">u</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Python 2/3 agnostic unicode function&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">codecs</span><span class="o">.</span><span class="n">unicode_escape_decode</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 <span class="k">else</span><span class="p">:</span>
 <div class="viewcode-block" id="u"><a class="viewcode-back" href="../../labMTsimple.html#labMTsimple.speedy.u">[docs]</a>    <span class="k">def</span> <span class="nf">u</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Python 2/3 agnostic unicode function&quot;&quot;&quot;</span>        
         <span class="k">return</span> <span class="n">x</span>
 <span class="c"># import matplotlib.pyplot as plt</span></div>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
@@ -179,15 +182,15 @@
 <span class="kn">import</span> <span class="nn">datrie</span>
 <span class="c"># import string</span>
 
-
-<span class="c"># define an abstract class to score them all</span>
 <div class="viewcode-block" id="sentiDict"><a class="viewcode-back" href="../../labMTsimple.html#labMTsimple.speedy.sentiDict">[docs]</a><span class="k">class</span> <span class="nc">sentiDict</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;An abstract class to score them all.&quot;&quot;&quot;</span>
     
     <span class="c"># these are the global lists</span>
     <span class="n">folders</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;labMT&#39;</span><span class="p">,</span><span class="s">&#39;ANEW&#39;</span><span class="p">,</span><span class="s">&#39;LIWC&#39;</span><span class="p">,</span><span class="s">&#39;MPQA-lexicon&#39;</span><span class="p">,</span><span class="s">&#39;liu-lexicon&#39;</span><span class="p">,</span><span class="s">&#39;Warriner&#39;</span><span class="p">,)</span>
     <span class="n">titles</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;LabMT&#39;</span><span class="p">,</span><span class="s">&#39;ANEW&#39;</span><span class="p">,</span><span class="s">&#39;LIWC&#39;</span><span class="p">,</span><span class="s">&#39;MPQA&#39;</span><span class="p">,</span><span class="s">&#39;Liu&#39;</span><span class="p">,</span><span class="s">&#39;Warriner&#39;</span><span class="p">,]</span>
 
 <div class="viewcode-block" id="sentiDict.openWithPath"><a class="viewcode-back" href="../../labMTsimple.html#labMTsimple.speedy.sentiDict.openWithPath">[docs]</a>    <span class="k">def</span> <span class="nf">openWithPath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">filename</span><span class="p">,</span><span class="n">mode</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Helper function for searching for files.&quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">f</span> <span class="o">=</span> <span class="n">codecs</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="n">mode</span><span class="p">,</span><span class="s">&#39;utf8&#39;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">f</span>
@@ -200,11 +203,9 @@
             <span class="k">return</span> <span class="n">f</span>
         <span class="k">except</span><span class="p">:</span>
             <span class="k">raise</span><span class="p">(</span><span class="s">&#39;could not open the needed file&#39;</span><span class="p">)</span>
-
-
-    <span class="c"># load the corpus into a dictionary</span>
-    <span class="c"># straight from the origin corpus file</span></div>
+</div>
 <div class="viewcode-block" id="sentiDict.loadDict"><a class="viewcode-back" href="../../labMTsimple.html#labMTsimple.speedy.sentiDict.loadDict">[docs]</a>    <span class="k">def</span> <span class="nf">loadDict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">bananas</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Load the corpus into a dictionary, straight from the origin corpus file.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">corpus</span> <span class="o">==</span> <span class="s">&#39;LabMT&#39;</span><span class="p">:</span>
             <span class="c"># cheat on this one</span>
             <span class="c"># LabMT = emotionFileReader(stopval=self.stopVal,fileName=&#39;labMT2english.txt&#39;)</span>
@@ -358,6 +359,7 @@
             <span class="k">return</span> <span class="n">PANAS</span>
 </div>
 <div class="viewcode-block" id="sentiDict.bootstrapify"><a class="viewcode-back" href="../../labMTsimple.html#labMTsimple.speedy.sentiDict.bootstrapify">[docs]</a>    <span class="k">def</span> <span class="nf">bootstrapify</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Extend the lists without stems to include stems.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">corpus</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;LabMT&#39;</span><span class="p">,</span><span class="s">&#39;ANEW&#39;</span><span class="p">]:</span>
             <span class="n">oldcorpus</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">corpus</span>
             <span class="c"># go get the stem sets to extend</span>
@@ -383,6 +385,7 @@
             <span class="c"># add stems, then add fixed (if not in stems)</span>
 </div>
 <div class="viewcode-block" id="sentiDict.makeListsFromDict"><a class="viewcode-back" href="../../labMTsimple.html#labMTsimple.speedy.sentiDict.makeListsFromDict">[docs]</a>    <span class="k">def</span> <span class="nf">makeListsFromDict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">userdict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Make lists from a dict, used internally.&quot;&quot;&quot;</span>
         <span class="n">tmpfixedwords</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">tmpfixedscores</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">tmpstemwords</span> <span class="o">=</span> <span class="p">[]</span>
@@ -413,6 +416,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">fixedscores</span> <span class="o">=</span> <span class="p">[</span><span class="n">tmpfixedscores</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">fixedindexer</span><span class="p">]</span>
 </div>
 <div class="viewcode-block" id="sentiDict.makeMarisaTrie"><a class="viewcode-back" href="../../labMTsimple.html#labMTsimple.speedy.sentiDict.makeMarisaTrie">[docs]</a>    <span class="k">def</span> <span class="nf">makeMarisaTrie</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Turn a dictionary into a marisa_trie.&quot;&quot;&quot;</span>
         <span class="n">fmt</span> <span class="o">=</span> <span class="s">&quot;fH&quot;</span>
         <span class="n">fixedtrie</span> <span class="o">=</span> <span class="n">marisa_trie</span><span class="o">.</span><span class="n">RecordTrie</span><span class="p">(</span><span class="n">fmt</span><span class="p">,</span><span class="nb">zip</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">fixedwords</span><span class="p">),</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fixedscores</span><span class="p">,</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fixedscores</span><span class="p">)))))</span>
         <span class="n">stemtrie</span> <span class="o">=</span> <span class="n">marisa_trie</span><span class="o">.</span><span class="n">RecordTrie</span><span class="p">(</span><span class="n">fmt</span><span class="p">,</span><span class="nb">zip</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">stemwords</span><span class="p">),</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stemscores</span><span class="p">,</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stemscores</span><span class="p">)))))</span>
@@ -421,6 +425,7 @@
         <span class="k">return</span> <span class="p">(</span><span class="n">fixedtrie</span><span class="p">,</span><span class="n">stemtrie</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="sentiDict.makeDaTrie"><a class="viewcode-back" href="../../labMTsimple.html#labMTsimple.speedy.sentiDict.makeDaTrie">[docs]</a>    <span class="k">def</span> <span class="nf">makeDaTrie</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Turn a dictionary into a da_trie.&quot;&quot;&quot;</span>        
         <span class="c"># the word parse</span>
         <span class="c"># charset = string.ascii_letters+&#39;@#\&#39;&amp;]*-/[=;]&#39;</span>
         <span class="c"># all of labMT</span>
@@ -437,20 +442,25 @@
         <span class="n">stemtrie</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s">&#39;{0}/{1:.2f}-stem.da&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">folders</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">cindex</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">stopVal</span><span class="p">))</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">fixedtrie</span><span class="p">,</span><span class="n">stemtrie</span><span class="p">)</span>
 
-    <span class="c"># works for both trie types</span>
-    <span class="c"># only one needed to make the plots</span>
-    <span class="c"># only use this for coverage, so don&#39;t even worry about</span>
-    <span class="c"># using with a dict</span></div>
+</div>
 <div class="viewcode-block" id="sentiDict.matcherTrieBool"><a class="viewcode-back" href="../../labMTsimple.html#labMTsimple.speedy.sentiDict.matcherTrieBool">[docs]</a>    <span class="k">def</span> <span class="nf">matcherTrieBool</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">word</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;matcherTrieBool(word) just checks if a word is in the list&#39;&#39;&#39;</span>
+        <span class="sd">&quot;&quot;&quot;MatcherTrieBool(word) just checks if a word is in the list.</span>
+
+<span class="sd">        Works for both trie types.</span>
+
+<span class="sd">        Only one needed to make the plots.</span>
+
+<span class="sd">        Only use this for coverage, so don&#39;t even worry about using with a dict.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">word</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
             <span class="k">return</span> <span class="mi">1</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">prefixes</span><span class="p">(</span><span class="n">word</span><span class="p">))</span>
 </div>
 <div class="viewcode-block" id="sentiDict.wordVecifyTrieDa"><a class="viewcode-back" href="../../labMTsimple.html#labMTsimple.speedy.sentiDict.wordVecifyTrieDa">[docs]</a>    <span class="k">def</span> <span class="nf">wordVecifyTrieDa</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">wordDict</span><span class="p">):</span>
-        <span class="c"># INPUTS</span>
-        <span class="c"># wordDict is our favorite hash table of word and count</span>
+        <span class="sd">&quot;&quot;&quot;Make a word vec from word dict using da_trie backend.</span>
+<span class="sd">        </span>
+<span class="sd">        INPUTS:\n</span>
+<span class="sd">        -wordDict is our favorite hash table of word and count.&quot;&quot;&quot;</span>
         <span class="n">wordVec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
         <span class="k">for</span> <span class="n">word</span><span class="p">,</span><span class="n">count</span> <span class="ow">in</span> <span class="n">wordDict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">word</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
@@ -463,8 +473,10 @@
         <span class="k">return</span> <span class="n">wordVec</span>
 </div>
 <div class="viewcode-block" id="sentiDict.wordVecifyTrieMarisa"><a class="viewcode-back" href="../../labMTsimple.html#labMTsimple.speedy.sentiDict.wordVecifyTrieMarisa">[docs]</a>    <span class="k">def</span> <span class="nf">wordVecifyTrieMarisa</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">wordDict</span><span class="p">):</span>
-        <span class="c"># INPUTS</span>
-        <span class="c"># wordDict is our favorite hash table of word and count</span>
+        <span class="sd">&quot;&quot;&quot;Make a word vec from word dict using marisa_trie backend.</span>
+<span class="sd">        </span>
+<span class="sd">        INPUTS:\n</span>
+<span class="sd">        -wordDict is our favorite hash table of word and count.&quot;&quot;&quot;</span>
         <span class="n">wordVec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
         <span class="k">for</span> <span class="n">word</span><span class="p">,</span><span class="n">count</span> <span class="ow">in</span> <span class="n">wordDict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">word</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
@@ -477,8 +489,10 @@
         <span class="k">return</span> <span class="n">wordVec</span>
 </div>
 <div class="viewcode-block" id="sentiDict.wordVecifyTrieDict"><a class="viewcode-back" href="../../labMTsimple.html#labMTsimple.speedy.sentiDict.wordVecifyTrieDict">[docs]</a>    <span class="k">def</span> <span class="nf">wordVecifyTrieDict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">wordDict</span><span class="p">):</span>
-        <span class="c"># INPUTS</span>
-        <span class="c"># wordDict is our favorite hash table of word and count</span>
+        <span class="sd">&quot;&quot;&quot;Make a word vec from word dict using dict backend.</span>
+<span class="sd">        </span>
+<span class="sd">        INPUTS:\n</span>
+<span class="sd">        -wordDict is our favorite hash table of word and count.&quot;&quot;&quot;</span>
         <span class="n">wordVec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">word</span><span class="p">,</span><span class="n">count</span> <span class="ow">in</span> <span class="n">wordDict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">word</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
@@ -486,8 +500,10 @@
         <span class="k">return</span> <span class="n">wordVec</span>
     </div>
 <div class="viewcode-block" id="sentiDict.scoreTrieMarisa"><a class="viewcode-back" href="../../labMTsimple.html#labMTsimple.speedy.sentiDict.scoreTrieMarisa">[docs]</a>    <span class="k">def</span> <span class="nf">scoreTrieMarisa</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">wordDict</span><span class="p">):</span>
-        <span class="c"># INPUTS</span>
-        <span class="c"># wordDict is a favorite hash table of word and count</span>
+        <span class="sd">&quot;&quot;&quot;Score a wordDict using the marisa_trie backend.</span>
+
+<span class="sd">        INPUTS:\n</span>
+<span class="sd">        -wordDict is a favorite hash table of word and count.&quot;&quot;&quot;</span>
         <span class="n">totalcount</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">totalscore</span> <span class="o">=</span> <span class="mf">0.0</span>
         <span class="k">for</span> <span class="n">word</span><span class="p">,</span><span class="n">count</span> <span class="ow">in</span> <span class="n">wordDict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -500,8 +516,10 @@
         <span class="k">return</span> <span class="n">totalscore</span><span class="o">/</span><span class="n">totalcount</span>
 </div>
 <div class="viewcode-block" id="sentiDict.scoreTrieDa"><a class="viewcode-back" href="../../labMTsimple.html#labMTsimple.speedy.sentiDict.scoreTrieDa">[docs]</a>    <span class="k">def</span> <span class="nf">scoreTrieDa</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">wordDict</span><span class="p">):</span>
-        <span class="c"># INPUTS</span>
-        <span class="c"># wordDict is a favorite hash table of word and count</span>
+        <span class="sd">&quot;&quot;&quot;Score a wordDict using the da_trie backend.</span>
+<span class="sd">        </span>
+<span class="sd">        INPUTS:\n</span>
+<span class="sd">        -wordDict is a favorite hash table of word and count.&quot;&quot;&quot;</span>
         <span class="n">totalcount</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">totalscore</span> <span class="o">=</span> <span class="mf">0.0</span>
         <span class="k">for</span> <span class="n">word</span><span class="p">,</span><span class="n">count</span> <span class="ow">in</span> <span class="n">wordDict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -514,8 +532,10 @@
         <span class="k">return</span> <span class="n">totalscore</span><span class="o">/</span><span class="n">totalcount</span>
 </div>
 <div class="viewcode-block" id="sentiDict.scoreTrieDict"><a class="viewcode-back" href="../../labMTsimple.html#labMTsimple.speedy.sentiDict.scoreTrieDict">[docs]</a>    <span class="k">def</span> <span class="nf">scoreTrieDict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">wordDict</span><span class="p">):</span>
-        <span class="c"># INPUTS</span>
-        <span class="c"># wordDict is a favorite hash table of word and count</span>
+        <span class="sd">&quot;&quot;&quot;Score a wordDict using the dict backend.</span>
+<span class="sd">        </span>
+<span class="sd">        INPUTS:\n</span>
+<span class="sd">        -wordDict is a favorite hash table of word and count.&quot;&quot;&quot;</span>
         <span class="n">totalcount</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">totalscore</span> <span class="o">=</span> <span class="mf">0.0</span>
         <span class="k">for</span> <span class="n">word</span><span class="p">,</span><span class="n">count</span> <span class="ow">in</span> <span class="n">wordDict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -528,6 +548,7 @@
             <span class="k">return</span> <span class="mf">0.0</span>
 </div>
 <div class="viewcode-block" id="sentiDict.matcherTrieMarisa"><a class="viewcode-back" href="../../labMTsimple.html#labMTsimple.speedy.sentiDict.matcherTrieMarisa">[docs]</a>    <span class="k">def</span> <span class="nf">matcherTrieMarisa</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">word</span><span class="p">,</span><span class="n">wordVec</span><span class="p">,</span><span class="n">count</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Not sure what this one does.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">word</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
             <span class="n">wordVec</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">word</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span> <span class="o">+=</span> <span class="n">count</span>
         <span class="c"># this strictly assumes that the keys in the stem set</span>
@@ -537,10 +558,12 @@
             <span class="n">wordVec</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">prefixes</span><span class="p">(</span><span class="n">word</span><span class="p">)[</span><span class="mi">0</span><span class="p">])[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span> <span class="o">+=</span> <span class="n">count</span>
 </div>
 <div class="viewcode-block" id="sentiDict.matcherTrieDict"><a class="viewcode-back" href="../../labMTsimple.html#labMTsimple.speedy.sentiDict.matcherTrieDict">[docs]</a>    <span class="k">def</span> <span class="nf">matcherTrieDict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">word</span><span class="p">,</span><span class="n">wordVec</span><span class="p">,</span><span class="n">count</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Not sure what this one does.&quot;&quot;&quot;</span>        
         <span class="k">if</span> <span class="n">word</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
             <span class="n">wordVec</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">word</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span> <span class="o">+=</span> <span class="n">count</span>
 </div>
 <div class="viewcode-block" id="sentiDict.matcherTrieDa"><a class="viewcode-back" href="../../labMTsimple.html#labMTsimple.speedy.sentiDict.matcherTrieDa">[docs]</a>    <span class="k">def</span> <span class="nf">matcherTrieDa</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">word</span><span class="p">,</span><span class="n">wordVec</span><span class="p">,</span><span class="n">count</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Not sure what this one does.&quot;&quot;&quot;</span>        
         <span class="k">if</span> <span class="n">word</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
             <span class="n">wordVec</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">word</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span> <span class="o">+=</span> <span class="n">count</span>
         <span class="c"># this strictly assumes that the keys in the stem set</span>
@@ -548,9 +571,9 @@
         <span class="c"># also they&#39;ll match anything after the word, not just [a-z&#39;]</span>
         <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">prefixes</span><span class="p">(</span><span class="n">word</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">wordVec</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">prefix_items</span><span class="p">(</span><span class="n">word</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span> <span class="o">+=</span> <span class="n">count</span>
-
-    <span class="c"># all going to be for english</span></div>
+</div>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">corpus</span><span class="p">,</span><span class="n">datastructure</span><span class="o">=</span><span class="s">&#39;dict&#39;</span><span class="p">,</span><span class="n">bootstrap</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">stopVal</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span><span class="n">bananas</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">loadFromFile</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Instantiate the class.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">corpus</span> <span class="o">=</span> <span class="n">corpus</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cindex</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">titles</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">corpus</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stopVal</span> <span class="o">=</span> <span class="n">stopVal</span>

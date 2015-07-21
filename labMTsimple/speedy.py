@@ -15,9 +15,11 @@ import sys
 if sys.version < '3':
     import codecs
     def u(x):
+        """Python 2/3 agnostic unicode function"""
         return codecs.unicode_escape_decode(x)[0]
 else:
     def u(x):
+        """Python 2/3 agnostic unicode function"""        
         return x
 # import matplotlib.pyplot as plt
 import numpy as np
@@ -32,15 +34,15 @@ import marisa_trie
 import datrie
 # import string
 
-
-# define an abstract class to score them all
 class sentiDict:
+    """An abstract class to score them all."""
     
     # these are the global lists
     folders = ('labMT','ANEW','LIWC','MPQA-lexicon','liu-lexicon','Warriner',)
     titles = ['LabMT','ANEW','LIWC','MPQA','Liu','Warriner',]
 
     def openWithPath(self,filename,mode):
+        """Helper function for searching for files."""
         try:
             f = codecs.open(filename,mode,'utf8')
             return f
@@ -54,10 +56,8 @@ class sentiDict:
         except:
             raise('could not open the needed file')
 
-
-    # load the corpus into a dictionary
-    # straight from the origin corpus file
     def loadDict(self,bananas):
+        """Load the corpus into a dictionary, straight from the origin corpus file."""
         if self.corpus == 'LabMT':
             # cheat on this one
             # LabMT = emotionFileReader(stopval=self.stopVal,fileName='labMT2english.txt')
@@ -211,6 +211,7 @@ class sentiDict:
             return PANAS
 
     def bootstrapify(self):
+        """Extend the lists without stems to include stems."""
         if self.corpus in ['LabMT','ANEW']:
             oldcorpus = self.corpus
             # go get the stem sets to extend
@@ -236,6 +237,7 @@ class sentiDict:
             # add stems, then add fixed (if not in stems)
 
     def makeListsFromDict(self,userdict):
+        """Make lists from a dict, used internally."""
         tmpfixedwords = []
         tmpfixedscores = []
         tmpstemwords = []
@@ -266,6 +268,7 @@ class sentiDict:
         self.fixedscores = [tmpfixedscores[i] for i in fixedindexer]
 
     def makeMarisaTrie(self):
+        """Turn a dictionary into a marisa_trie."""
         fmt = "fH"
         fixedtrie = marisa_trie.RecordTrie(fmt,zip(map(u,self.fixedwords),zip(self.fixedscores,range(len(self.fixedscores)))))
         stemtrie = marisa_trie.RecordTrie(fmt,zip(map(u,self.stemwords),zip(self.stemscores,range(len(self.stemscores)))))
@@ -274,6 +277,7 @@ class sentiDict:
         return (fixedtrie,stemtrie)
 
     def makeDaTrie(self):
+        """Turn a dictionary into a da_trie."""        
         # the word parse
         # charset = string.ascii_letters+'@#\'&]*-/[=;]'
         # all of labMT
@@ -292,19 +296,23 @@ class sentiDict:
 
 
     def matcherTrieBool(self,word):
-    # works for both trie types
-    # only one needed to make the plots
-    # only use this for coverage, so don't even worry about
-    # using with a dict        
-        '''matcherTrieBool(word) just checks if a word is in the list'''
+        """MatcherTrieBool(word) just checks if a word is in the list.
+
+        Works for both trie types.
+
+        Only one needed to make the plots.
+
+        Only use this for coverage, so don't even worry about using with a dict."""
         if word in self.data[0]:
             return 1
         else:
             return len(self.data[1].prefixes(word))
 
     def wordVecifyTrieDa(self,wordDict):
-        # INPUTS
-        # wordDict is our favorite hash table of word and count
+        """Make a word vec from word dict using da_trie backend.
+        
+        INPUTS:\n
+        -wordDict is our favorite hash table of word and count."""
         wordVec = np.zeros(len(self.data[0])+len(self.data[1]))
         for word,count in wordDict.items():
             if word in self.data[0]:
@@ -317,8 +325,10 @@ class sentiDict:
         return wordVec
 
     def wordVecifyTrieMarisa(self,wordDict):
-        # INPUTS
-        # wordDict is our favorite hash table of word and count
+        """Make a word vec from word dict using marisa_trie backend.
+        
+        INPUTS:\n
+        -wordDict is our favorite hash table of word and count."""
         wordVec = np.zeros(len(self.data[0])+len(self.data[1]))
         for word,count in wordDict.items():
             if word in self.data[0]:
@@ -331,8 +341,10 @@ class sentiDict:
         return wordVec
 
     def wordVecifyTrieDict(self,wordDict):
-        # INPUTS
-        # wordDict is our favorite hash table of word and count
+        """Make a word vec from word dict using dict backend.
+        
+        INPUTS:\n
+        -wordDict is our favorite hash table of word and count."""
         wordVec = np.zeros(len(self.data))
         for word,count in wordDict.items():
             if word in self.data:
@@ -340,8 +352,10 @@ class sentiDict:
         return wordVec
     
     def scoreTrieMarisa(self,wordDict):
-        # INPUTS
-        # wordDict is a favorite hash table of word and count
+        """Score a wordDict using the marisa_trie backend.
+
+        INPUTS:\n
+        -wordDict is a favorite hash table of word and count."""
         totalcount = 0
         totalscore = 0.0
         for word,count in wordDict.items():
@@ -354,8 +368,10 @@ class sentiDict:
         return totalscore/totalcount
 
     def scoreTrieDa(self,wordDict):
-        # INPUTS
-        # wordDict is a favorite hash table of word and count
+        """Score a wordDict using the da_trie backend.
+        
+        INPUTS:\n
+        -wordDict is a favorite hash table of word and count."""
         totalcount = 0
         totalscore = 0.0
         for word,count in wordDict.items():
@@ -368,8 +384,10 @@ class sentiDict:
         return totalscore/totalcount
 
     def scoreTrieDict(self,wordDict):
-        # INPUTS
-        # wordDict is a favorite hash table of word and count
+        """Score a wordDict using the dict backend.
+        
+        INPUTS:\n
+        -wordDict is a favorite hash table of word and count."""
         totalcount = 0
         totalscore = 0.0
         for word,count in wordDict.items():
@@ -382,6 +400,7 @@ class sentiDict:
             return 0.0
 
     def matcherTrieMarisa(self,word,wordVec,count):
+        """Not sure what this one does."""
         if word in self.data[0]:
             wordVec[self.data[0].get(word)[0][1]] += count
         # this strictly assumes that the keys in the stem set
@@ -391,10 +410,12 @@ class sentiDict:
             wordVec[self.data[1].get(self.data[1].prefixes(word)[0])[0][1]] += count
 
     def matcherTrieDict(self,word,wordVec,count):
+        """Not sure what this one does."""        
         if word in self.data:
             wordVec[self.data[word][1]] += count
 
     def matcherTrieDa(self,word,wordVec,count):
+        """Not sure what this one does."""        
         if word in self.data[0]:
             wordVec[self.data[0][word][1]] += count
         # this strictly assumes that the keys in the stem set
@@ -403,8 +424,8 @@ class sentiDict:
         elif len(self.data[1].prefixes(word)) > 0:
             wordVec[self.data[1].prefix_items(word)[0][1]] += count
 
-    # all going to be for english
     def __init__(self,corpus,datastructure='dict',bootstrap=False,stopVal=0.0,bananas=False,loadFromFile=False):
+        """Instantiate the class."""
         self.corpus = corpus
         self.cindex = self.titles.index(self.corpus)
         self.stopVal = stopVal

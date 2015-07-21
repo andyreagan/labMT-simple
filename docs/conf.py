@@ -22,7 +22,7 @@ import shlex
 #sys.path.insert(0, os.path.abspath('.'))
 
 # use "sphinx-apidoc -o . ../labMTsimple" instead of the following
-# sys.path.append('/Users/andyreagan/work/2014/03-labMTsimple/labMTsimple')
+sys.path.append('/Users/andyreagan/work/2014/03-labMTsimple/')
 
 # -- General configuration ------------------------------------------------
 
