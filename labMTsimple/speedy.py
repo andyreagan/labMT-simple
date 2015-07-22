@@ -181,9 +181,8 @@ class sentiDict:
                 # and if they are, delete, set to neutral
                 if l[2] in MPQA:
                     if not MPQA[l[2]][0] == scores[emotions.index(l[5])]:
-                        print("{0} has emotion {1} and {2}".format(l[2],MPQA[l[2]][0],scores[emotions.index(l[5])]))
+                        # print("{0} has emotion {1} and {2}".format(l[2],MPQA[l[2]][0],scores[emotions.index(l[5])]))
                         num_duplicates += 1
-                        l[5] = "neutral"
                         MPQA[l[2]] = (0,MPQA[l[2]][1])
                 else:
                     MPQA[l[2]] = (scores[emotions.index(l[5])],i)
@@ -292,7 +291,7 @@ class sentiDict:
         self.stemscores = [tmpstemscores[i] for i in stemindexer]
         self.fixedwords = [tmpfixedwords[i] for i in fixedindexer]
         self.fixedscores = [tmpfixedscores[i] for i in fixedindexer]
-
+        
         # now, go reset the dict with these new orders
         for i,word in enumerate(self.fixedwords):
             self.data[word] = (self.data[word][0],i)
@@ -302,36 +301,39 @@ class sentiDict:
             else:
                 self.data[word+"*"] = (self.data[word+"*"][0],i)
 
+        # build the full vectors
+        self.wordlist = self.fixedwords + [word+"*" for word in self.stemwords]
+        self.scorelist = self.fixedscores + self.stemscores
                 
     def makeMarisaTrie(self,save_flag=False):
         """Turn a dictionary into a marisa_trie."""
         fmt = "fH"
         fixedtrie = marisa_trie.RecordTrie(fmt,zip(map(u,self.fixedwords),zip(self.fixedscores,range(len(self.fixedscores)))))
-        stemtrie = marisa_trie.RecordTrie(fmt,zip(map(u,self.stemwords),zip(self.stemscores,range(len(self.stemscores),len(self.stemscores)+len(self.stemscores)))))
+        stemtrie = marisa_trie.RecordTrie(fmt,zip(map(u,self.stemwords),zip(self.stemscores,range(len(self.fixedscores),len(self.fixedscores)+len(self.stemscores)))))
         if save_flag:
             fixedtrie.save('{0}/{1:.2f}-fixed.marisa'.format(self.folders[self.cindex],self.stopVal))
             stemtrie.save('{0}/{1:.2f}-stem.marisa'.format(self.folders[self.cindex],self.stopVal))
         return (fixedtrie,stemtrie)
 
-    def makeDaTrie(self,save_flag=False):
-        """Turn a dictionary into a da_trie."""        
-        # the word parse
-        # charset = string.ascii_letters+'@#\'&]*-/[=;]'
-        # all of labMT
-        charset = "raingwtsyelofud'pcmhbkz1-vxq8j970&2=@3#[]46/_;5*"
-        # all of all of the sets
-        charset = u"raingwtsyelofud'pcmhbkz1-vxq8j970&2=@3#[]46/_;5*FALSEICUB+"
-        fixedtrie = datrie.Trie(charset)
-        stemtrie = datrie.Trie(charset)
-        for i,word in zip(range(len(self.fixedwords)),self.fixedwords):
-            fixedtrie[u(word)] = (self.fixedscores[i],i)
-        for i,word in zip(range(len(self.stemwords)),self.stemwords):
-            stemtrie[u(word)] = (self.stemscores[i],i)
+    # def makeDaTrie(self,save_flag=False):
+    #     """Turn a dictionary into a da_trie."""        
+    #     # the word parse
+    #     # charset = string.ascii_letters+'@#\'&]*-/[=;]'
+    #     # all of labMT
+    #     charset = "raingwtsyelofud'pcmhbkz1-vxq8j970&2=@3#[]46/_;5*"
+    #     # all of all of the sets
+    #     charset = u"raingwtsyelofud'pcmhbkz1-vxq8j970&2=@3#[]46/_;5*FALSEICUB+"
+    #     fixedtrie = datrie.Trie(charset)
+    #     stemtrie = datrie.Trie(charset)
+    #     for i,word in zip(range(len(self.fixedwords)),self.fixedwords):
+    #         fixedtrie[u(word)] = (self.fixedscores[i],i)
+    #     for i,word in zip(range(len(self.stemwords)),self.stemwords):
+    #         stemtrie[u(word)] = (self.stemscores[i],i)
 
-        if save_flag:
-            fixedtrie.save('{0}/{1:.2f}-fixed.da'.format(self.folders[self.cindex],self.stopVal))
-            stemtrie.save('{0}/{1:.2f}-stem.da'.format(self.folders[self.cindex],self.stopVal))
-        return (fixedtrie,stemtrie)
+    #     if save_flag:
+    #         fixedtrie.save('{0}/{1:.2f}-fixed.da'.format(self.folders[self.cindex],self.stopVal))
+    #         stemtrie.save('{0}/{1:.2f}-stem.da'.format(self.folders[self.cindex],self.stopVal))
+    #     return (fixedtrie,stemtrie)
 
     def matcherTrieBool(self,word):
         """MatcherTrieBool(word) just checks if a word is in the list.
@@ -346,21 +348,21 @@ class sentiDict:
         else:
             return len(self.data[1].prefixes(word))
 
-    def wordVecifyTrieDa(self,wordDict):
-        """Make a word vec from word dict using da_trie backend.
+    # def wordVecifyTrieDa(self,wordDict):
+    #     """Make a word vec from word dict using da_trie backend.
         
-        INPUTS:\n
-        -wordDict is our favorite hash table of word and count."""
-        wordVec = zeros(len(self.data[0])+len(self.data[1]))
-        for word,count in wordDict.items():
-            if word in self.data[0]:
-                wordVec[self.data[0][word][1]] += count
-            # this strictly assumes that the keys in the stem set
-            # are non-overlapping!
-            # also they'll match anything after the word, not just [a-z']
-            elif len(self.data[1].prefixes(word)) > 0:
-                wordVec[self.data[1].prefix_items(word)[0][1]] += count
-        return wordVec
+    #     INPUTS:\n
+    #     -wordDict is our favorite hash table of word and count."""
+    #     wordVec = zeros(len(self.data[0])+len(self.data[1]))
+    #     for word,count in wordDict.items():
+    #         if word in self.data[0]:
+    #             wordVec[self.data[0][word][1]] += count
+    #         # this strictly assumes that the keys in the stem set
+    #         # are non-overlapping!
+    #         # also they'll match anything after the word, not just [a-z']
+    #         elif len(self.data[1].prefixes(word)) > 0:
+    #             wordVec[self.data[1].prefix_items(word)[0][1]] += count
+    #     return wordVec
 
     def wordVecifyTrieMarisa(self,wordDict):
         """Make a word vec from word dict using marisa_trie backend.
@@ -405,21 +407,21 @@ class sentiDict:
                 totalscore += count*self.data[1].get(self.data[1].prefixes(word)[0])[0][0]
         return totalscore/totalcount
 
-    def scoreTrieDa(self,wordDict):
-        """Score a wordDict using the da_trie backend.
+    # def scoreTrieDa(self,wordDict):
+    #     """Score a wordDict using the da_trie backend.
         
-        INPUTS:\n
-        -wordDict is a favorite hash table of word and count."""
-        totalcount = 0
-        totalscore = 0.0
-        for word,count in wordDict.items():
-            if word in self.data[0]:
-                totalcount += count
-                totalscore += count*self.data[0][word][0]
-            elif (len(self.data[1].prefixes(word)) > 0):
-                totalcount += count
-                totalscore += count*self.data[1].prefix_items(word)[0][1][0]
-        return totalscore/totalcount
+    #     INPUTS:\n
+    #     -wordDict is a favorite hash table of word and count."""
+    #     totalcount = 0
+    #     totalscore = 0.0
+    #     for word,count in wordDict.items():
+    #         if word in self.data[0]:
+    #             totalcount += count
+    #             totalscore += count*self.data[0][word][0]
+    #         elif (len(self.data[1].prefixes(word)) > 0):
+    #             totalcount += count
+    #             totalscore += count*self.data[1].prefix_items(word)[0][1][0]
+    #     return totalscore/totalcount
 
     def scoreTrieDict(self,wordDict):
         """Score a wordDict using the dict backend.
@@ -452,15 +454,15 @@ class sentiDict:
         if word in self.data:
             wordVec[self.data[word][1]] += count
 
-    def matcherTrieDa(self,word,wordVec,count):
-        """Not sure what this one does."""        
-        if word in self.data[0]:
-            wordVec[self.data[0][word][1]] += count
-        # this strictly assumes that the keys in the stem set
-        # are non-overlapping!
-        # also they'll match anything after the word, not just [a-z']
-        elif len(self.data[1].prefixes(word)) > 0:
-            wordVec[self.data[1].prefix_items(word)[0][1]] += count
+    # def matcherTrieDa(self,word,wordVec,count):
+    #     """Not sure what this one does."""        
+    #     if word in self.data[0]:
+    #         wordVec[self.data[0][word][1]] += count
+    #     # this strictly assumes that the keys in the stem set
+    #     # are non-overlapping!
+    #     # also they'll match anything after the word, not just [a-z']
+    #     elif len(self.data[1].prefixes(word)) > 0:
+    #         wordVec[self.data[1].prefix_items(word)[0][1]] += count
 
     def __init__(self,corpus,datastructure='dict',bootstrap=False,stopVal=0.0,bananas=False,loadFromFile=False,saveFile=False):
         """Instantiate the class."""
@@ -497,18 +499,18 @@ class sentiDict:
             self.score = self.scoreTrieMarisa
             self.wordVecify = self.wordVecifyTrieMarisa
 
-        if datastructure == 'datrie':
-            # print('note that datrie often seg faults')
-            if isfile('{0}/{1:.2f}-fixed.da'.format(self.folders[self.cindex],stopVal)) and loadFromFile:
-                self.data = (datrie.Trie.load('{0}/{1:.2f}-fixed.da'.format(self.folders[self.cindex],stopVal)),datrie.Trie.load('{0}/{1:.2f}-stem.da'.format(self.folders[self.cindex],stopVal)),)
-            else:
-                # load up the dict
-                self.data = self.loadDict(bananas)
-                # make lists from it
-                self.makeListsFromDict()
-                # create the trie
-                self.data = self.makeDaTrie()
+        # if datastructure == 'datrie':
+        #     # print('note that datrie often seg faults')
+        #     if isfile('{0}/{1:.2f}-fixed.da'.format(self.folders[self.cindex],stopVal)) and loadFromFile:
+        #         self.data = (datrie.Trie.load('{0}/{1:.2f}-fixed.da'.format(self.folders[self.cindex],stopVal)),datrie.Trie.load('{0}/{1:.2f}-stem.da'.format(self.folders[self.cindex],stopVal)),)
+        #     else:
+        #         # load up the dict
+        #         self.data = self.loadDict(bananas)
+        #         # make lists from it
+        #         self.makeListsFromDict()
+        #         # create the trie
+        #         self.data = self.makeDaTrie()
 
-            self.matcher = self.matcherTrieDa
-            self.score = self.scoreTrieDa
-            self.wordVecify = self.wordVecifyTrieDa
+        #     self.matcher = self.matcherTrieDa
+        #     self.score = self.scoreTrieDa
+        #     self.wordVecify = self.wordVecifyTrieDa

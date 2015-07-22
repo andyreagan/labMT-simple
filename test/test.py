@@ -126,12 +126,52 @@ def my_test_speedy(dictionary,test_dict,prefix=False):
         print(my_senti_dict.stemwords[0])
         print(my_senti_marisa.stemwords[0])
 
+    # check that they all match happy
+    if my_senti_marisa.matcherTrieBool("happy"):
+        print("happy is in the list")
+    else:
+        print("happy is *NOT* in the list")
 
-def test_speedy_all():
-    """Test all of the speedy dictionaries on scoring some dict of words."""
+    # let's find the index of the word happy in each
+    # this is really a word-by-word test, because
+    # of the stem matching
+    word = u"happy"
+    happy_dict = {word: 1}
+    happy_vec = my_senti_marisa.wordVecify(happy_dict)
+    assert sum(happy_vec) == 1
+    index = list(happy_vec).index(1)
+    print("index of the happy match: {0}".format(index))
+    # 3,30,222,2221,2818,5614    
+    print("length of fixed words: {0}".format(len(my_senti_marisa.fixedwords)))
+
+    word = u"abide"
+    print("checking on {0}".format(word))
+    happy_dict = {word: 1}
+    happy_vec = my_senti_marisa.wordVecify(happy_dict)
+    if my_senti_marisa.matcherTrieBool(word):
+        my_index = list(happy_vec).index(1)
+        print(my_index)
+        print(marisa_word_vec[my_index])
     
+    print("count in test text: {0}".format(marisa_word_vec[index]))
+    print(test_dict["happy"])
+    print(test_dict["happyy"])
+    print(test_dict["happyyy"])
+
+    # checked that no dictionaries match anything beyond happy in the stems
+    # so, they must match it fixed
+    # => check it right against the straight count
+    assert test_dict["happy"] == marisa_word_vec[index]
+
+    if index > len(my_senti_marisa.fixedwords):
+        print("matched by a stem")
+        print(my_senti_marisa.stemwords[index-len(my_senti_marisa.fixedwords)])
+    else:
+        print("matched by a fixed word")
+        print(my_senti_marisa.fixedwords[index])
+def open_codecs_dictify(file):
     # generate a word dict to test
-    f = codecs.open("examples/data/18.01.14.txt", "r", "utf8")
+    f = codecs.open(file, "r", "utf8")
     ref_text_raw = f.read()
     f.close()
     test_dict = dict()
@@ -143,9 +183,29 @@ def test_speedy_all():
         if word in test_dict:
             test_dict[word] += 1
         else:
-            test_dict[word] = 1
+            test_dict[word] = 1        
+    return test_dict
+
+def test_speedy_all():
+    """Test all of the speedy dictionaries on scoring some dict of words."""
     
+    test_dict = open_codecs_dictify("examples/data/18.01.14.txt")
+    ref_dict = test_dict
+    comp_dict = open_codecs_dictify("examples/data/21.01.14.txt")
+
+    # this test the loading for each
     titles = ['LabMT','ANEW','LIWC','MPQA','Liu','Warriner',]
     prefixes = [False,False,True,True,False,False,]
     for title,prefix_bool in zip(titles,prefixes):
         my_test_speedy(title,test_dict,prefix=prefix_bool)
+
+        # build it out here
+        my_senti_marisa = sentiDict(title,datastructure="marisatrie")
+        ref_word_vec = my_senti_marisa.wordVecify(ref_dict)        
+        comp_word_vec = my_senti_marisa.wordVecify(comp_dict)
+        shiftPDF(my_senti_marisa.scorelist, my_senti_marisa.wordlist, ref_word_vec, comp_word_vec, "test-shift-{0}.html".format(title))
+
+def cleanup():
+    subprocess.call("\\rm -r test.* test-* static",shell=True)
+
+
