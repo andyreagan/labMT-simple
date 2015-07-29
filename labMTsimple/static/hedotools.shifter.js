@@ -47,13 +47,6 @@ hedotools.shifter = function()
 	return hedotools.shifter;
     }
 
-    var split_top_strings = true;
-    var _split_top_strings = function(_) {
-	if (!arguments.length) return split_top_strings;	
-	split_top_strings = _;
-	return hedotools.shifter;
-    }
-
     var show_x_axis_bool = false;
     var show_x_axis = function(_) {
 	if (!arguments.length) return show_x_axis_bool;
@@ -233,12 +226,7 @@ hedotools.shifter = function()
 	return hedotools.shifter;
     }
 
-    var numBoldLines = 1;
-    var setTextBold = function(_) {
-	if (!arguments.length) return numBoldLines;
-	numBoldLines = _;
-	return hedotools.shifter;
-    }
+
 
     var reset = true;
     var _reset = function(_) {
@@ -273,6 +261,38 @@ hedotools.shifter = function()
 	return hedotools.shifter;
     }
 
+    // ******************************************************************************** //
+    // all of this stuff deals with setting the top text                                //
+    // which has become the most haphazard part so far                                  //
+    // -AR 2015-07-28                                                                   //
+    //
+    // right now, we can just set the text ourselves completely, or have it set
+    // automatically
+
+    // have control over:
+    // -number of bold lines (top N lines, default 1)
+    // -each line's size
+    // -each line's color (which, doesn't seem to have an effect)
+    // -whether custom text is split or not
+    
+    // this variable controls whether the top strings are checked for length
+    // and split, if necessary
+    // - only used if compatison text is set explicitly
+    var split_top_strings = true;
+    var _split_top_strings = function(_) {
+	if (!arguments.length) return split_top_strings;	
+	split_top_strings = _;
+	return hedotools.shifter;
+    }
+
+    var numBoldLines = 1;
+    var setTextBold = function(_) {
+	if (!arguments.length) return numBoldLines;
+	numBoldLines = _;
+	return hedotools.shifter;
+    }    
+
+    // only support up to 5 lines....
     var colorArray = ["#202020","#D8D8D8","#D8D8D8","#D8D8D8","#D8D8D8"];
     var topFontSizeArray = [14,12,12,12,12];
     
@@ -296,6 +316,9 @@ hedotools.shifter = function()
 	return hedotools.shifter;
     }
 
+    // end of the top text stuff                                                        //
+    // ******************************************************************************** //
+    
     var numwordstoplot = 200;
 
     var refF;

@@ -59,7 +59,9 @@ def test_storyLab_labMT_english():
     print(ref_happs_from_vector)
     print(ref_happs)
     assert abs(ref_happs_from_vector - ref_happs) < TOL
-    
+
+    comp_happs_stopped = emotionV(comp_freq_stopped, labMTvector)
+
     ref_happs_stopped = emotionV(ref_freq_stopped, labMTvector)
         
     # without stop words
@@ -70,14 +72,24 @@ def test_storyLab_labMT_english():
     assert abs(ref_happs_stopped - 6.01346892642) < TOL
     assert ref_freq_stopped[5000] == 0
 
+    print("-"*80)
+    print(ref_happs)
+    print(ref_happs_stopped)
+    print(comp_happs)
+    print(comp_happs_stopped)
+    print("-"*80)    
+
     outFile = "test-rsvg.html"
-    shiftPDF(labMTvector, labMTwordList, ref_freq, comp_freq, outFile)
+    shiftPDF(labMTvector, labMTwordList, ref_freq, comp_freq, outFile, open_pdf=True)
+
+    outFile = "test-rsvg-stopped.html"    
+    shiftPDF(labMTvector, labMTwordList, ref_freq_stopped, comp_freq_stopped, outFile, open_pdf=True)
     
     # also make the inkscape version
     shiftHtml(labMTvector, labMTwordList, ref_freq, comp_freq, "test-inkscape.html")
     generateSVG("test-inkscape.html")
     generatePDF("test-inkscape.svg",program="inkscape")
-    subprocess.call("open test-inkscape.pdf",shell=True)    
+    # subprocess.call("open test-inkscape.pdf",shell=True)    
     
     sortedMag,sortedWords,sortedType,sumTypes = shift(ref_freq, comp_freq, labMTvector, labMTwordList)
 
@@ -188,7 +200,7 @@ def open_codecs_dictify(file):
 
 def test_speedy_all():
     """Test all of the speedy dictionaries on scoring some dict of words."""
-    
+
     test_dict = open_codecs_dictify("examples/data/18.01.14.txt")
     ref_dict = test_dict
     comp_dict = open_codecs_dictify("examples/data/21.01.14.txt")
@@ -196,16 +208,21 @@ def test_speedy_all():
     # this test the loading for each
     titles = ['LabMT','ANEW','LIWC','MPQA','Liu','Warriner',]
     prefixes = [False,False,True,True,False,False,]
+    stopVal = 1.0
     for title,prefix_bool in zip(titles,prefixes):
         my_test_speedy(title,test_dict,prefix=prefix_bool)
 
         # build it out here
         my_senti_marisa = sentiDict(title,datastructure="marisatrie")
-        ref_word_vec = my_senti_marisa.wordVecify(ref_dict)        
+        ref_word_vec = my_senti_marisa.wordVecify(ref_dict)
+        ref_word_vec_stopped = my_senti_marisa.stopper(ref_word_vec,stopVal=stopVal)
         comp_word_vec = my_senti_marisa.wordVecify(comp_dict)
-        shiftPDF(my_senti_marisa.scorelist, my_senti_marisa.wordlist, ref_word_vec, comp_word_vec, "test-shift-{0}.html".format(title))
+        comp_word_vec_stopped = my_senti_marisa.stopper(comp_word_vec,stopVal=stopVal)        
+        shiftPDF(my_senti_marisa.scorelist, my_senti_marisa.wordlist, ref_word_vec_stopped, comp_word_vec_stopped, "test-shift-{0}.html".format(title),corpus=my_senti_marisa.corpus)
 
+    shiftPDF(my_senti_marisa.scorelist, my_senti_marisa.wordlist, ref_word_vec, comp_word_vec, "test-shift-titles.html".format(title),customTitle=True,title="Insert title here",ref_name="bananas",comp_name="apples")
+    
 def cleanup():
-    subprocess.call("\\rm -r test.* test-* static",shell=True)
+    subprocess.call("\\rm -r test-* static",shell=True)
 
 

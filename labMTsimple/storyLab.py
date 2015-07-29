@@ -243,7 +243,7 @@ def shift(refFreq,compFreq,lens,words,sort=True):
   else:
     return shiftMag,shiftType,sumTypes
 
-def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile):
+def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile,corpus="LabMT",advanced=False,customTitle=False,title="",ref_name="",comp_name="",ref_name_happs="",comp_name_happs=""):
   """Make an interactive shift for exploring and sharing.
 
   The most insane-o piece of code here (lots of file copying,
@@ -254,6 +254,9 @@ def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile):
   
   ** will make the HTML file, and a directory called static
   that hosts a bunch of .js, .css that is useful."""
+
+  if not customTitle:
+    title = "Example shift using {0}".format(corpus)
   
   if not os.path.exists('static'):
     os.mkdir('static')
@@ -261,17 +264,10 @@ def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile):
   outFileShort = outFile.split('.')[0]
     
   # write out the template
-  lens_string = ','.join(map(lambda x: '{0:.0f}'.format(x),scoreList))
+  lens_string = ','.join(map(lambda x: '{0:.2f}'.format(x),scoreList))
   words_string = ','.join(map(lambda x: '"{0}"'.format(x),wordList))
   refFreq_string = ','.join(map(lambda x: '{0:.0f}'.format(x),refFreq))
   compFreq_string = ','.join(map(lambda x: '{0:.0f}'.format(x),compFreq))
-  
-  # f = codecs.open('static/'+outFileShort+'-data.js','w','utf8')
-  # f.write('lens = ['+lens_string+'];\n\n')
-  # f.write('words = ['+words_string+'];\n\n')
-  # f.write('refF = ['+refFreq_string+'];\n\n')
-  # f.write('compF = ['+compFreq_string+'];\n\n')
-  # f.close()
   
   # dump out a static shift view page
   template = Template('''<html>
@@ -302,17 +298,43 @@ def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile):
 <script src="static/hedotools.init.js" charset="utf-8"></script>
 <script src="static/hedotools.shifter.js" charset="utf-8"></script>
 <script type="text/javascript">
-    lens = [{{ lens }}];
-    words = [{{ words }}];
-    refF = [{{ refF }}];
-    compF = [{{ compF }}];
+    var lens = [{{ lens }}];
+    var words = [{{ words }}];
+    var refF = [{{ refF }}];
+    var compF = [{{ compF }}];
 
     hedotools.shifter._refF(refF);
     hedotools.shifter._compF(compF);
     hedotools.shifter._lens(lens);
     hedotools.shifter._words(words);
+
+    // do the shifting
     hedotools.shifter.shifter();
     hedotools.shifter.setWidth(400);
+
+    // don't use the default title
+    // set own title
+    // but leave all of the default sizes and labels
+  
+    // extract these:
+    var compH = hedotools.shifter._compH();
+    var refH = hedotools.shifter._refH();
+    // from the code inside the shifter:
+    if (compH >= refH) {
+        var happysad = "happier";
+    }
+    else { 
+        var happysad = "less happy";
+	}
+
+    // also from inside the shifter:
+    // var comparisonText = splitstring(["Reference happiness: "+refH.toFixed(2),"Comparison happiness: "+compH.toFixed(2),"Why comparison is "+happysad+" than reference:"],boxwidth-10-logowidth,'14px arial');
+    // our adaptation:
+    var comparisonText = ["{{ title }}","{{ ref_name_happs }} happiness: "+refH.toFixed(2),"{{ comp_name_happs }} happiness: "+compH.toFixed(2),"Why {{ comp_name }} is "+happysad+" than {{ ref_name }}:"];
+    // set it:
+    hedotools.shifter.setText(comparisonText);
+
+
     hedotools.shifter.setfigure(d3.select('#figure01'));
     hedotools.shifter.plot();
 </script>
@@ -322,7 +344,9 @@ def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile):
   f = codecs.open(outFile,'w','utf8')
   f.write(template.render(outFileShort=outFileShort,
                           lens=lens_string, words=words_string,
-                          refF=refFreq_string, compF=compFreq_string))
+                          refF=refFreq_string, compF=compFreq_string,
+                          title=title, ref_name=ref_name, comp_name=comp_name,
+                          ref_name_happs=ref_name_happs, comp_name_happs=comp_name_happs))
   f.close()
 
   # print('copying over static files')
@@ -367,12 +391,26 @@ def generatePDF(filename,program="rsvg",make_png=True):
     status = subprocess.check_output(command,shell=True)
     return '{0}.pdf'.format(output)
 
-def shiftPDF(scoreList,wordList,refFreq,compFreq,outFile,open_pdf=False,make_png_too=True):
+def shiftPDF(scoreList,wordList,refFreq,compFreq,outFile,open_pdf=False,make_png_too=True,corpus="LabMT",advanced=False,customTitle=False,title="",ref_name="reference",comp_name="comparison",ref_name_happs="",comp_name_happs=""):
   """Generate a PDF wordshift directly from frequency files!
 
-  `outfile` should probably end in .html, and this will make a file that ends in .svg,.eps,and .pdf in addition to html file, in making the wordshift."""
-  
-  shiftHtml(scoreList,wordList,refFreq,compFreq,outFile)
+  `outfile` should probably end in .html, and this will make a file that ends in .svg,.eps,and .pdf in addition to html file, in making the wordshift.
+
+  If a custom title is given, this goes in the first line.
+  Make sure, in this case, that customTitle=True.
+
+  Will always use the names in ref_name, and comp_name for the reference, comparison
+  labels.
+  Unless a _happs version of each is given, they will be .capitalized()
+  to go on the "Referece happiness: ..." line.
+  """
+
+  if len(ref_name_happs) == 0:
+    ref_name_happs = ref_name.capitalize()
+  if len(comp_name_happs) == 0:
+    comp_name_happs = comp_name.capitalize()
+    
+  shiftHtml(scoreList,wordList,refFreq,compFreq,outFile,corpus=corpus,advanced=advanced,customTitle=customTitle,title=title,ref_name=ref_name,comp_name=comp_name,ref_name_happs=ref_name_happs,comp_name_happs=comp_name_happs)
   svgfile = generateSVG(outFile)
   pdffile = generatePDF(svgfile,make_png=make_png_too)
   if open_pdf:

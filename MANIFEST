@@ -27,11 +27,10 @@ labMTsimple/data/liu-lexicon/negative-words-clean.txt
 labMTsimple/data/liu-lexicon/positive-words-clean.txt
 labMTsimple/data/warriner/BRM-emot-submit.csv
 labMTsimple/static/d3.andy.js
-labMTsimple/static/example-on-load-self.js
-labMTsimple/static/example-on-load.js
 labMTsimple/static/hedotools.init.js
 labMTsimple/static/hedotools.shift.css
 labMTsimple/static/hedotools.shifter.js
 labMTsimple/static/jquery-1.11.0.min.js
+labMTsimple/static/shift-crowbar.js
 labMTsimple/static/urllib.js
 test/test.py
