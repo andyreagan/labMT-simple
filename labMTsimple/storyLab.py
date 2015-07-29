@@ -261,12 +261,17 @@ def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile):
   outFileShort = outFile.split('.')[0]
     
   # write out the template
-  f = codecs.open('static/'+outFileShort+'-data.js','w','utf8')
-  f.write('lens = ['+','.join(map(lambda x: '{0:.0f}'.format(x),scoreList))+'];\n\n')
-  f.write('words = ['+','.join(map(lambda x: '"{0}"'.format(x),wordList))+'];\n\n')
-  f.write('refFraw = ['+','.join(map(lambda x: '{0:.0f}'.format(x),refFreq))+'];\n\n')
-  f.write('compFraw = ['+','.join(map(lambda x: '{0:.0f}'.format(x),compFreq))+'];\n\n')
-  f.close()
+  lens_string = ','.join(map(lambda x: '{0:.0f}'.format(x),scoreList))
+  words_string = ','.join(map(lambda x: '"{0}"'.format(x),wordList))
+  refFreq_string = ','.join(map(lambda x: '{0:.0f}'.format(x),refFreq))
+  compFreq_string = ','.join(map(lambda x: '{0:.0f}'.format(x),compFreq))
+  
+  # f = codecs.open('static/'+outFileShort+'-data.js','w','utf8')
+  # f.write('lens = ['+lens_string+'];\n\n')
+  # f.write('words = ['+words_string+'];\n\n')
+  # f.write('refF = ['+refFreq_string+'];\n\n')
+  # f.write('compF = ['+compFreq_string+'];\n\n')
+  # f.close()
   
   # dump out a static shift view page
   template = Template('''<html>
@@ -296,18 +301,33 @@ def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile):
 <script src="static/urllib.js" charset="utf-8"></script>
 <script src="static/hedotools.init.js" charset="utf-8"></script>
 <script src="static/hedotools.shifter.js" charset="utf-8"></script>
-<script src="static/{{ outFileShort }}-data.js" charset="utf-8"></script>
-<script src="static/example-on-load.js" charset="utf-8"></script>
+<script type="text/javascript">
+    lens = [{{ lens }}];
+    words = [{{ words }}];
+    refF = [{{ refF }}];
+    compF = [{{ compF }}];
+
+    hedotools.shifter._refF(refF);
+    hedotools.shifter._compF(compF);
+    hedotools.shifter._lens(lens);
+    hedotools.shifter._words(words);
+    hedotools.shifter.shifter();
+    hedotools.shifter.setWidth(400);
+    hedotools.shifter.setfigure(d3.select('#figure01'));
+    hedotools.shifter.plot();
+</script>
 
 </body>
 </html>''')
   f = codecs.open(outFile,'w','utf8')
-  f.write(template.render(outFileShort=outFileShort))
+  f.write(template.render(outFileShort=outFileShort,
+                          lens=lens_string, words=words_string,
+                          refF=refFreq_string, compF=compFreq_string))
   f.close()
 
-  print('copying over static files')
+  # print('copying over static files')
   # for staticfile in ['d3.v3.min.js','plotShift.js','shift.js','example-on-load.js']:
-  for staticfile in ['d3.andy.js','jquery-1.11.0.min.js','urllib.js','hedotools.init.js','hedotools.shifter.js','example-on-load.js','hedotools.shift.css','shift-crowbar.js']:
+  for staticfile in ['d3.andy.js','jquery-1.11.0.min.js','urllib.js','hedotools.init.js','hedotools.shifter.js','hedotools.shift.css','shift-crowbar.js']:
     if not os.path.isfile('static/'+staticfile):
       import shutil
       relpath = os.path.abspath(__file__).split('/')[1:-1]
