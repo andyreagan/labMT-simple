@@ -22,7 +22,7 @@ else:
         """Python 2/3 agnostic unicode function"""        
         return x
 # import matplotlib.pyplot as plt
-from numpy import zeros
+from numpy import zeros,array
 # from json import loads
 # import csv
 # import datetime
@@ -39,7 +39,8 @@ class sentiDict:
     
     # these are the global lists
     folders = ('labMT','ANEW','LIWC','MPQA-lexicon','liu-lexicon','Warriner',)
-    titles = ['LabMT','ANEW','LIWC','MPQA','Liu','Warriner',]
+    titles = ['LabMT','ANEW','LIWC','MPQA','Liu','Warriner', ]
+    centers = [5.0, 5.0, 0.0, 0.0, 0.0, 5.0, ]
 
     def openWithPath(self,filename,mode):
         """Helper function for searching for files."""
@@ -73,7 +74,7 @@ class sentiDict:
             f.close()
             stopWords = []
             for word in LabMT:
-                if abs(LabMT[word][0]-5.0) < self.stopVal:
+                if abs(LabMT[word][0]-self.centers[self.cindex]) < self.stopVal:
                     stopWords.append(word)
             for word in stopWords:
                 del LabMT[word]
@@ -91,7 +92,7 @@ class sentiDict:
             # stop the thing too
             stopWords = []
             for word in ANEW:
-                if abs(ANEW[word][0]-5.0) < self.stopVal:
+                if abs(ANEW[word][0]-self.centers[self.cindex]) < self.stopVal:
                     stopWords.append(word)
             for word in stopWords:
                 del ANEW[word]
@@ -107,7 +108,7 @@ class sentiDict:
             f.close()
             stopWords = []
             for word in warriner:
-                if abs(warriner[word][0]-5.0) < self.stopVal:
+                if abs(warriner[word][0]-self.centers[self.cindex]) < self.stopVal:
                     stopWords.append(word)
             for word in stopWords:
                 del warriner[word]
@@ -303,7 +304,7 @@ class sentiDict:
 
         # build the full vectors
         self.wordlist = self.fixedwords + [word+"*" for word in self.stemwords]
-        self.scorelist = self.fixedscores + self.stemscores
+        self.scorelist = array(self.fixedscores + self.stemscores)
                 
     def makeMarisaTrie(self,save_flag=False):
         """Turn a dictionary into a marisa_trie."""
@@ -337,16 +338,41 @@ class sentiDict:
 
     def matcherTrieBool(self,word):
         """MatcherTrieBool(word) just checks if a word is in the list.
+        Returns 0 or 1.
 
         Works for both trie types.
-
         Only one needed to make the plots.
-
         Only use this for coverage, so don't even worry about using with a dict."""
         if word in self.data[0]:
             return 1
         else:
             return len(self.data[1].prefixes(word))
+
+    def matcherDictBool(self,word):
+        """MatcherTrieDict(word) just checks if a word is in the dict."""
+        return (word in self.data)
+
+    def stopper(self,tmpVec,stopVal=1.0,ignore=[]):
+        """Take a frequency vector, and 0 out the stop words.
+  
+        Will always remove the nig* words.
+  
+        Return the 0'ed vector."""
+
+        center = self.centers[self.cindex]
+        
+        ignoreWords = {u"nigga": 1, u"nigger": 1, u"niggaz": 1, u"niggas": 1}
+        for word in ignore:
+            ignoreWords[u(word)] = 1
+            
+        newVec = tmpVec
+
+        newVec[abs(self.scorelist-center) < stopVal] = 0
+        
+        ignore_vector = self.wordVecify(ignoreWords)
+        newVec[ignore_vector > 0] = 0
+
+        return newVec
 
     # def wordVecifyTrieDa(self,wordDict):
     #     """Make a word vec from word dict using da_trie backend.
@@ -478,6 +504,7 @@ class sentiDict:
                 self.bootstrapify()
             self.makeListsFromDict()
             self.matcher = self.matcherTrieDict
+            self.matcherBool = self.matcherDictBool
             self.score = self.scoreTrieDict
             self.wordVecify = self.wordVecifyTrieDict
             
@@ -496,6 +523,7 @@ class sentiDict:
                 self.data = self.makeMarisaTrie()
 
             self.matcher = self.matcherTrieMarisa
+            self.matcherBool = self.matcherDictBool            
             self.score = self.scoreTrieMarisa
             self.wordVecify = self.wordVecifyTrieMarisa
 

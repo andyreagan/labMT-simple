@@ -171,7 +171,7 @@ def emotion(tmpStr,someDict,scoreIndex=1,shift=False,happsList=[]):
   else:
     return happs
 
-def stopper(tmpVec,labMTvector,labMTwords,stopVal=1.0,ignore=[]):
+def stopper(tmpVec,score_list,word_list,stopVal=1.0,ignore=[],center=5.0):
   """Take a frequency vector, and 0 out the stop words.
   
   Will always remove the nig* words.
@@ -182,10 +182,10 @@ def stopper(tmpVec,labMTvector,labMTwords,stopVal=1.0,ignore=[]):
   for word in ignore:
     ignoreWords.append(word)
   newVec = copy.copy(tmpVec)
-  for i in range(len(labMTvector)):
-    if abs(labMTvector[i]-5.0) < stopVal:
+  for i in range(len(score_list)):
+    if abs(score_list[i]-center) < stopVal:
       newVec[i] = 0
-    if labMTwords[i] in ignoreWords:
+    if word_list[i] in ignoreWords:
       newVec[i] = 0
 
   return newVec
@@ -328,7 +328,7 @@ def generateSVG(htmlfile,output=""):
 
   return output
 
-def generatePDF(filename,program="rsvg"):
+def generatePDF(filename,program="rsvg",make_png=True):
   """Use rsvg or inkscape to make a PDF from the SVG."""
   
   output = filename.replace(".svg","")
@@ -337,23 +337,27 @@ def generatePDF(filename,program="rsvg"):
     command = "rsvg-convert --format=eps {0} > {1}.eps".format(filename,output)
     status = subprocess.check_output(command,shell=True)
     command = "epstopdf {0}.eps".format(output)
-    status = subprocess.check_output(command,shell=True)
+    status = subprocess.check_output(command,shell=True)    
+    if make_png:
+      command = "rsvg-convert --format=png {0} > {1}.png".format(filename,output)
+      status = subprocess.check_output(command,shell=True)
     return '{0}.pdf'.format(output)
   elif program == "inkscape":
     command = "/Applications/Inkscape.app/Contents/Resources/bin/inkscape -f $(pwd)/{0} -A $(pwd)/{1}.pdf".format(filename,output)
     status = subprocess.check_output(command,shell=True)
     return '{0}.pdf'.format(output)
 
-def shiftPDF(scoreList,wordList,refFreq,compFreq,outFile):
+def shiftPDF(scoreList,wordList,refFreq,compFreq,outFile,open_pdf=False,make_png_too=True):
   """Generate a PDF wordshift directly from frequency files!
 
   `outfile` should probably end in .html, and this will make a file that ends in .svg,.eps,and .pdf in addition to html file, in making the wordshift."""
   
   shiftHtml(scoreList,wordList,refFreq,compFreq,outFile)
   svgfile = generateSVG(outFile)
-  pdffile = generatePDF(svgfile)
-  command = "open {0}".format(pdffile)
-  status = subprocess.check_output(command,shell=True)
+  pdffile = generatePDF(svgfile,make_png=make_png_too)
+  if open_pdf:
+    command = "open {0}".format(pdffile)
+    status = subprocess.check_output(command,shell=True)
   
 if __name__ == '__main__':
   # run from standard in
