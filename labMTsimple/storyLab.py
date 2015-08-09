@@ -243,6 +243,117 @@ def shift(refFreq,compFreq,lens,words,sort=True):
   else:
     return shiftMag,shiftType,sumTypes
 
+def shiftHtmlDual(scoreList,wordList,refFreq,compFreq,lenscomp,outFile,corpus="LabMT",advanced=False,customTitle=False,title="",ref_name="",comp_name="",ref_name_happs="",comp_name_happs=""):
+  """Make an interactive shift for exploring and sharing.
+
+  The most insane-o piece of code here (lots of file copying,
+  writing vectors into html files, etc).
+  
+  Accepts a score list, a word list, two frequency files 
+  and the name of an HTML file to generate
+  
+  ** will make the HTML file, and a directory called static
+  that hosts a bunch of .js, .css that is useful."""
+
+  if not customTitle:
+    title = "Example shift using {0}".format(corpus)
+  
+  if not os.path.exists('static'):
+    os.mkdir('static')
+
+  outFileShort = outFile.split('.')[0]
+    
+  # write out the template
+  lens_string = ','.join(map(lambda x: '{0:.2f}'.format(x),scoreList))
+  lenscomp_string = ','.join(map(lambda x: '{0:.2f}'.format(x),lenscomp))  
+  words_string = ','.join(map(lambda x: '"{0}"'.format(x),wordList))
+  refFreq_string = ','.join(map(lambda x: '{0:.0f}'.format(x),refFreq))
+  compFreq_string = ','.join(map(lambda x: '{0:.0f}'.format(x),compFreq))
+  
+  # dump out a static shift view page
+  template = Template('''<html>
+<head>
+<title>Simple Shift Plot</title>
+<link href="static/hedotools.shift.css" rel="stylesheet">
+</head>
+<body>
+
+<div id="header"></div>
+<center>
+
+<div id="lens01" class="figure"></div>
+<br>
+<p>Click on the graph and drag up to reveal additional words.</p>
+
+<br>
+
+<div id="figure01" class="figure"></div>
+
+</center>
+
+<div id="footer"></div>
+
+<script src="static/d3.andy.js" charset="utf-8"></script>
+<script src="static/jquery-1.11.0.min.js" charset="utf-8"></script>
+<script src="static/urllib.js" charset="utf-8"></script>
+<script src="static/hedotools.init.js" charset="utf-8"></script>
+<script src="static/hedotools.shifter.js" charset="utf-8"></script>
+<script type="text/javascript">
+    var lens = [{{ lens }}];
+    var lenscomp = [{{ lenscomp }}];
+    var words = [{{ words }}];
+    var refF = [{{ refF }}];
+    var compF = [{{ compF }}];
+
+    hedotools.shifter._refF(refF);
+    hedotools.shifter._compF(compF);
+    hedotools.shifter._lens(lens);
+    hedotools.shifter._complens(lenscomp);
+    hedotools.shifter._words(words);
+
+    // do the shifting
+    hedotools.shifter.dualShifter();
+    hedotools.shifter.setWidth(400);
+
+    // don't use the default title
+    // set own title
+    // but leave all of the default sizes and labels
+  
+    // extract these:
+    var compH = hedotools.shifter._compH();
+    var refH = hedotools.shifter._refH();
+    // from the code inside the shifter:
+    if (compH >= refH) {
+        var happysad = "happier";
+    }
+    else { 
+        var happysad = "less happy";
+	}
+
+    // also from inside the shifter:
+    // var comparisonText = splitstring(["Reference happiness: "+refH.toFixed(2),"Comparison happiness: "+compH.toFixed(2),"Why comparison is "+happysad+" than reference:"],boxwidth-10-logowidth,'14px arial');
+    // our adaptation:
+    var comparisonText = ["{{ title }}","{{ ref_name_happs }} happiness: "+refH.toFixed(2),"{{ comp_name_happs }} happiness: "+compH.toFixed(2),"Why {{ comp_name }} is "+happysad+" than {{ ref_name }}:"];
+    // set it:
+    hedotools.shifter.setText(comparisonText);
+
+
+    hedotools.shifter.setfigure(d3.select('#figure01'));
+    hedotools.shifter.plot();
+</script>
+
+</body>
+</html>''')
+  f = codecs.open(outFile,'w','utf8')
+  f.write(template.render(outFileShort=outFileShort,
+                          lens=lens_string, words=words_string,
+                          refF=refFreq_string, compF=compFreq_string,
+                          lenscomp=lenscomp_string,
+                          title=title, ref_name=ref_name, comp_name=comp_name,
+                          ref_name_happs=ref_name_happs, comp_name_happs=comp_name_happs))
+  f.close()
+  copy_static_files()  
+
 def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile,corpus="LabMT",advanced=False,customTitle=False,title="",ref_name="",comp_name="",ref_name_happs="",comp_name_happs=""):
   """Make an interactive shift for exploring and sharing.
 
@@ -348,7 +459,9 @@ def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile,corpus="LabMT",advance
                           title=title, ref_name=ref_name, comp_name=comp_name,
                           ref_name_happs=ref_name_happs, comp_name_happs=comp_name_happs))
   f.close()
+  copy_static_files()
 
+def copy_static_files():
   # print('copying over static files')
   # for staticfile in ['d3.v3.min.js','plotShift.js','shift.js','example-on-load.js']:
   for staticfile in ['d3.andy.js','jquery-1.11.0.min.js','urllib.js','hedotools.init.js','hedotools.shifter.js','hedotools.shift.css','shift-crowbar.js']:

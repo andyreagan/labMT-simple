@@ -324,6 +324,7 @@ hedotools.shifter = function()
     var refF;
     var compF;
     var lens;
+    var complens;    
     var stoprange = [4,6];
     var words;
     var words_en;
@@ -353,6 +354,12 @@ hedotools.shifter = function()
 	if (!arguments.length) return lens;
 	lens = _;
 	loadsremaining--;
+	return hedotools.shifter;
+    }
+
+    var _complens = function(_) {
+	if (!arguments.length) return complens;
+	complens = _;
 	return hedotools.shifter;
     }
 
@@ -515,7 +522,7 @@ hedotools.shifter = function()
     var selfShifter = function() {
 	/* shift one frequency vectors, against itself
 
-	   uses self.compF
+	   uses self.refF
 
 	   -assume it has been zero-ed for stop words
 	   -lens is of full length
@@ -525,30 +532,33 @@ hedotools.shifter = function()
 	*/
 
 	//normalize frequencies
-	var Ncomp = 0.0;
-	var lensLength = d3.min([compF.length,words.length,lens.length])
+	var Nref = 0.0;
+	var lensLength = d3.min([refF.length,words.length,lens.length])
 	for (var i=0; i<lensLength; i++) {
-            Ncomp += parseFloat(compF[i]);
+            Nref += parseFloat(refF[i]);
 	}
 
-	// compute comparison happiness
-	compH = 0.0;
+	// refute refarison happiness
+	refH = 0.0;
 	for (var i=0; i<lensLength; i++) {
-            compH += compF[i]*parseFloat(lens[i]);
+            refH += refF[i]*parseFloat(lens[i]);
 	}
-	compH = compH/Ncomp;
-	refH = compH;
+	refH = refH/Nref;
+	compH = 0.000;
 
 	// do the shifting
-	var shiftMag = Array(lensLength);
-	var shiftType = Array(lensLength);
+	shiftMag = Array(lensLength);
+	shiftType = Array(lensLength);
 	var freqDiff = 0.0;
 	for (var i=0; i<lensLength; i++) {
-	    freqDiff = compF[i]/Ncomp;
-            shiftMag[i] = (parseFloat(lens[i])-compH)*freqDiff;
+	    freqDiff = refF[i]/Nref;
+            shiftMag[i] = (parseFloat(lens[i])-refH)*freqDiff;
+	    // this does just the weighted distribution
+	    // (for LabMT, everything is positive)
+            // shiftMag[i] = (parseFloat(lens[i]))*freqDiff;
 	    if (freqDiff > 0) { shiftType[i] = 2; }
 	    else { shiftType[i] = 0}
-	    if (parseFloat(lens[i]) > compH) { shiftType[i] += 1;}
+	    if (parseFloat(lens[i]) > refH) { shiftType[i] += 1;}
 	}
 
 	// +2 for frequency up
@@ -600,6 +610,21 @@ hedotools.shifter = function()
 	return hedotools.shifter;	
     }
 
+    var shiftMag;
+    var shiftType;
+
+    var _shiftMag = function(_) {
+	if (!arguments.length) return shiftMag;
+	shiftMag = _;
+	return hedotools.shifter;
+    }
+
+    var _shiftType = function(_) {
+	if (!arguments.length) return shiftType;
+	shiftType = _;
+	return hedotools.shifter;
+    }
+    
     var shifter = function() {
 	/* shift two frequency vectors
 	   -assume they've been zero-ed for stop words
@@ -612,7 +637,7 @@ hedotools.shifter = function()
 	//normalize frequencies
 	var Nref = 0.0;
 	var Ncomp = 0.0;
-	var lensLength = d3.min([refF.length,compF.length,words.length,lens.length])
+	var lensLength = d3.min([refF.length,compF.length,words.length,lens.length]);
 	for (var i=0; i<lensLength; i++) {
             Nref += parseFloat(refF[i]);
             Ncomp += parseFloat(compF[i]);
@@ -628,6 +653,7 @@ hedotools.shifter = function()
 	for (var i=0; i<lensLength; i++) {
             refH += refF[i]*parseFloat(lens[i]);
 	}
+	// normalize at the end to minimize floating point errors
 	refH = refH/Nref;
 	// console.log(refH);
 
@@ -647,8 +673,8 @@ hedotools.shifter = function()
 	compH = compH/Ncomp;
 
 	// do the shifting
-	var shiftMag = Array(lensLength);
-	var shiftType = Array(lensLength);
+	shiftMag = Array(lensLength);
+	shiftType = Array(lensLength);
 	var freqDiff = 0.0;
 	for (var i=0; i<lensLength; i++) {
 	    freqDiff = compF[i]/Ncomp-refF[i]/Nref;
@@ -737,6 +763,137 @@ hedotools.shifter = function()
 	// allow chaining here too
 	return hedotools.shifter;
     }
+
+    var dualShifter = function() {
+	/* shift two frequency vectors
+	   -assume they've been zero-ed for stop words
+	   -lens is of full length
+	   -words is a list of utf8 strings
+
+	   return an object with the sorted quantities for plotting the shift
+	*/
+
+	//normalize frequencies
+	var Nref = 0.0;
+	var Ncomp = 0.0;
+	var lensLength = d3.min([refF.length,compF.length,words.length,lens.length]);
+	for (var i=0; i<lensLength; i++) {
+            Nref += parseFloat(refF[i]);
+            Ncomp += parseFloat(compF[i]);
+	}
+
+	// for (var i=0; i<refF.length; i++) {
+	//     refF[i] = parseFloat(refF[i])/Nref;
+	//     compF[i] = parseFloat(compF[i])/Ncomp;
+	// }
+	
+	// compute reference happiness
+	refH = 0.0;
+	for (var i=0; i<lensLength; i++) {
+            refH += refF[i]*parseFloat(lens[i]);
+	}
+	// normalize at the end to minimize floating point errors
+	refH = refH/Nref;
+	// console.log(refH);
+
+	// compute reference variance
+	// var refV = 0.0;
+	// for (var i=0; i<refF.length; i++) {
+	//     refV += refF[i]*Math.pow(parseFloat(lens[i])-refH,2);
+	// }
+	// refV = refV/Nref; 
+	// // console.log(refV);
+
+	// compute comparison happiness
+	compH = 0.0;
+	for (var i=0; i<lensLength; i++) {
+            compH += compF[i]*parseFloat(complens[i]);
+	}
+	compH = compH/Ncomp;
+
+	// do the shifting
+	shiftMag = Array(lensLength);
+	shiftType = Array(lensLength);
+	var freqDiff = 0.0;
+	for (var i=0; i<lensLength; i++) {
+            // shiftMag[i] = (parseFloat(complens[i])-compH)*compF[i]/Ncomp - (parseFloat(lens[i])-refH)*refF[i]/Nref;
+            shiftMag[i] = parseFloat(complens[i])*compF[i]/Ncomp - parseFloat(lens[i])*refF[i]/Nref;	    
+	    if (compF[i]/Ncomp > refF[i]/Nref) { shiftType[i] = 2; }
+	    else { shiftType[i] = 0}
+	    // if (parseFloat(complens[i])-compH > parseFloat(lens[i])-refH) { shiftType[i] += 1;}
+	    // this means the word is in the reference, but not comparison
+	    if (refF[i] > 0 && compF[i] == 0) {
+		// compare the happiness to ref avg
+		if (parseFloat(lens[i]) > refH) { shiftType[i] += 1;}
+	    }
+	    // this means the word is in the reference, but not comparison
+	    else if (refF[i] == 0 && compF[i] > 0) {
+		// compare the happiness to comp avg
+		if (parseFloat(complens[i]) > compH) { shiftType[i] += 1;}
+	    }
+	    // if it's in both, color by the difference
+	    else {
+		if (parseFloat(complens[i]) > parseFloat(lens[i])) { shiftType[i] += 1;}
+	    }
+	}
+
+	// +2 for frequency up
+	// +1 for happier
+	// => 
+	// 0 sad, down
+	// 1 happy, down
+	// 2 sad, up
+	// 3 happy, up
+
+	// do the sorting
+	var indices = Array(lensLength);
+	for (var i = 0; i < lensLength; i++) { indices[i] = i; }
+	indices.sort(function(a,b) { return Math.abs(shiftMag[a]) < Math.abs(shiftMag[b]) ? 1 : Math.abs(shiftMag[a]) > Math.abs(shiftMag[b]) ? -1 : 0; });
+
+	sortedMag = Array(numwordstoplot);
+	sortedType = Array(numwordstoplot);
+	sortedWords = Array(numwordstoplot);
+
+	for (var i = 0; i < numwordstoplot; i++) { 
+	    sortedMag[i] = shiftMag[indices[i]]; 
+	    sortedType[i] = shiftType[indices[i]]
+	    var tmpword = words[indices[i]];
+	    // add 1 to maxChars, because I'll add the ellipsis
+	    if (tmpword.length > maxChars+2) {
+		var shorterword = tmpword.slice(0,maxChars);
+		// check that the last char isn't a space (if it is, delete it)
+		if (shorterword[shorterword.length-1] === " ") {
+		    sortedWords[i] = shorterword.slice(0,shorterword.length-1)+"\u2026";
+		}
+		else {
+		    sortedWords[i] = shorterword+"\u2026";		    
+		}
+	    }
+	    else {
+		sortedWords[i] = tmpword;		
+	    }
+	}
+
+	if (distflag) {
+	    // declare some new variables
+	    sortedMagFull = Array(lensLength);
+	    sortedTypeFull = Array(lensLength);
+	    for (var i = 0; i < lensLength; i++) { 
+		sortedMagFull[i] = shiftMag[indices[i]]; 
+		sortedTypeFull[i] = shiftType[indices[i]]; 
+	    }
+	}
+
+	// compute the sum of contributions of different types
+	sumTypes = [0.0,0.0,0.0,0.0];
+	for (var i = 0; i < lensLength; i++)
+	{ 
+            sumTypes[shiftType[i]] += shiftMag[i];
+	}
+
+	// allow chaining here too
+	return hedotools.shifter;
+    }    
 
     var nbins = 100;
     var dist;
@@ -2225,6 +2382,7 @@ hedotools.shifter = function()
 		    _refF: _refF,
 		    _compF: _compF,
 		    _lens: _lens,
+		    _complens: _complens,
 		    _words: _words,
 		    _words_en: _words_en,
 		    // boatload more accessor functions
@@ -2239,6 +2397,9 @@ hedotools.shifter = function()
 		    setTextColors: setTextColors,
 		    setTopTextSizes: setTopTextSizes,
 		    _split_top_strings: _split_top_strings,
+		    _shiftMag: _shiftMag,
+		    _shiftType: _shiftType,
+		    dualShifter: dualShifter,
 		  }
     return opublic;
 }();
