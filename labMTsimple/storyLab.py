@@ -293,7 +293,7 @@ def shiftHtmlDual(scoreList,wordList,refFreq,compFreq,lenscomp,outFile,corpus="L
 
 <div id="footer"></div>
 
-<script src="static/d3.andy.js" charset="utf-8"></script>
+<script src="static/d3.js" charset="utf-8"></script>
 <script src="static/jquery-1.11.0.min.js" charset="utf-8"></script>
 <script src="static/urllib.js" charset="utf-8"></script>
 <script src="static/hedotools.init.js" charset="utf-8"></script>
@@ -375,7 +375,7 @@ def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile,corpus="LabMT",advance
   outFileShort = outFile.split('.')[0]
     
   # write out the template
-  lens_string = ','.join(map(lambda x: '{0:.2f}'.format(x),scoreList))
+  lens_string = ','.join(map(lambda x: '{0:.12f}'.format(x),scoreList))
   words_string = ','.join(map(lambda x: '"{0}"'.format(x),wordList))
   refFreq_string = ','.join(map(lambda x: '{0:.0f}'.format(x),refFreq))
   compFreq_string = ','.join(map(lambda x: '{0:.0f}'.format(x),compFreq))
@@ -403,7 +403,7 @@ def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile,corpus="LabMT",advance
 
 <div id="footer"></div>
 
-<script src="static/d3.andy.js" charset="utf-8"></script>
+<script src="static/d3.js" charset="utf-8"></script>
 <script src="static/jquery-1.11.0.min.js" charset="utf-8"></script>
 <script src="static/urllib.js" charset="utf-8"></script>
 <script src="static/hedotools.init.js" charset="utf-8"></script>
@@ -464,7 +464,7 @@ def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile,corpus="LabMT",advance
 def copy_static_files():
   # print('copying over static files')
   # for staticfile in ['d3.v3.min.js','plotShift.js','shift.js','example-on-load.js']:
-  for staticfile in ['d3.andy.js','jquery-1.11.0.min.js','urllib.js','hedotools.init.js','hedotools.shifter.js','hedotools.shift.css','shift-crowbar.js']:
+  for staticfile in ['d3.js','jquery-1.11.0.min.js','urllib.js','hedotools.init.js','hedotools.shifter.js','hedotools.shift.css','shift-crowbar.js']:
     if not os.path.isfile('static/'+staticfile):
       import shutil
       relpath = os.path.abspath(__file__).split('/')[1:-1]

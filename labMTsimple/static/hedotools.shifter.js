@@ -1103,6 +1103,12 @@ hedotools.shifter = function()
 	    .scaleExtent([1,1])
 	    .on("zoom",zoomed);
 
+	// drag = d3.behavior.drag()
+	//     // .y(y) // pass linear scale function
+	//     // .translate([10,10])
+	//     // .scaleExtent([1,1])
+	//     .on("drag",zoomed);
+
 	// create the axes themselves
 	axes = canvas
 	    // not using the "svg inside svg" approach again
@@ -1115,9 +1121,20 @@ hedotools.shifter = function()
 	    .attr("width", figwidth)
 	    .attr("height", figheight)
 	    .attr("class", "main");
-	
-	axes.call(zoom);
 
+	axes.call(zoom);
+	// axes.call(drag);
+
+	// don't need these
+	axes.on("wheel.zoom", null);
+	axes.on("mousewheel.zoom", null);
+	// can re-register them...
+	// axes.on("wheel",function(d) { console.log(d3.event); });
+	// axes.on("mousewheel",function(d) { console.log(d3.event); });
+	// now use them to translate (instead of zoom)
+	axes.on("wheel",function(d) { d3.event.preventDefault(); zoom.translate([0,zoom.translate()[1]+d3.event.wheelDeltaY/2]); zoom.event(axes); });
+	axes.on("mousewheel",function(d) { d3.event.preventDefault(); zoom.translate([0,zoom.translate()[1]+d3.event.wheelDeltaY/2]); zoom.event(axes); });
+	
 	// create the axes background
 	bgrect = axes.append("rect")
 	    .attr("x",0)
@@ -1667,6 +1684,11 @@ hedotools.shifter = function()
 	    .attr("transform", "rotate(-90.0," + (18) + "," + (figheight/2+60+toptextheight) + ")");
 
 	function zoomed() {
+	    // console.log(d3.event);
+	    if (d3.event.translate[1] > 0) {
+		zoom.translate([0,0]).scale(1);
+	    }
+	    
 	    // if we have zoomed in, we set the y values for each subselection
 	    // console.log(shiftTypeSelect);
 	    if (shiftTypeSelect) {
