@@ -352,7 +352,8 @@ def shiftHtmlDual(scoreList,wordList,refFreq,compFreq,lenscomp,outFile,corpus="L
                           title=title, ref_name=ref_name, comp_name=comp_name,
                           ref_name_happs=ref_name_happs, comp_name_happs=comp_name_happs))
   f.close()
-  copy_static_files()  
+  # copy_static_files()
+  link_static_files()
 
 def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile,corpus="LabMT",advanced=False,customTitle=False,title="",ref_name="",comp_name="",ref_name_happs="",comp_name_happs=""):
   """Make an interactive shift for exploring and sharing.
@@ -459,7 +460,8 @@ def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile,corpus="LabMT",advance
                           title=title, ref_name=ref_name, comp_name=comp_name,
                           ref_name_happs=ref_name_happs, comp_name_happs=comp_name_happs))
   f.close()
-  copy_static_files()
+  # copy_static_files()
+  link_static_files()
 
 def copy_static_files():
   # print('copying over static files')
@@ -474,6 +476,17 @@ def copy_static_files():
       for pathp in relpath:
         fileName += '/' + pathp
       shutil.copy(fileName,'static/'+staticfile)
+
+def link_static_files():
+  # print('copying over static files')
+  # for staticfile in ['d3.v3.min.js','plotShift.js','shift.js','example-on-load.js']:
+  for staticfile in ['d3.js','jquery-1.11.0.min.js','urllib.js','hedotools.init.js','hedotools.shifter.js','hedotools.shift.css','shift-crowbar.js']:
+    if not os.path.isfile('static/'+staticfile):
+      relpath = os.path.abspath(__file__).split('/')[1:-1]
+      relpath.append('static')
+      relpath.append(staticfile)
+      fileName = '/'+'/'.join(relpath)
+      subprocess.call("ln -s {0} {1}".format(fileName,'static/'+staticfile),shell=True)
 
 def generateSVG(htmlfile,output=""):
   """Use phantomjs and the local crowbar to make the svg file."""
