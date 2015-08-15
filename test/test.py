@@ -99,29 +99,22 @@ def test_storyLab_labMT_english():
     shiftMag,shiftType,sumTypes = shift(ref_freq, comp_freq, labMTvector, labMTwordList, sort=False)
     
 
-def my_test_speedy(dictionary,test_dict,prefix=False):
+def my_test_speedy(my_senti_dict,my_senti_marisa,test_dict):
     """Speedy test."""
 
     # lang = "english"
     # dictionary = "LabMT"
-    print("loading {0}".format(dictionary))
+    print("loading {0}".format(my_senti_dict.title))
     
-    my_senti_dict = sentiDict(dictionary,datastructure="dict")
     dict_score = my_senti_dict.score(test_dict)
     dict_word_vec = my_senti_dict.wordVecify(test_dict)
     
-    my_senti_marisa = sentiDict(dictionary,datastructure="marisatrie")
     marisa_score = my_senti_marisa.score(test_dict)
     marisa_word_vec = my_senti_marisa.wordVecify(test_dict)
 
-    # this will actually seg fault....
-    # my_senti_da = sentiDict(dictionary,datastructure="datrie")
-    # da_score = my_senti_da.score(test_dict)
-    # da_word_vec = my_senti_da.wordVecify(test_dict)
-
     print(dict_score)
     print(marisa_score)
-    if not prefix:
+    if not my_senti_dict.stems:
         assert abs(dict_score-marisa_score) < TOL
         diff = dict_word_vec - marisa_word_vec
         print(dict_word_vec,marisa_word_vec)
@@ -181,6 +174,7 @@ def my_test_speedy(dictionary,test_dict,prefix=False):
     else:
         print("matched by a fixed word")
         print(my_senti_marisa.fixedwords[index])
+        
 def open_codecs_dictify(file):
     # generate a word dict to test
     f = codecs.open(file, "r", "utf8")
@@ -206,21 +200,21 @@ def test_speedy_all():
     comp_dict = open_codecs_dictify("examples/data/21.01.14.txt")
 
     # this test the loading for each
-    titles = ['LabMT','ANEW','LIWC','MPQA','Liu','Warriner',]
-    prefixes = [False,False,True,True,False,False,]
+    senti_dicts = [LabMT(),ANEW(),LIWC(),MPQA(),Liu(),Warriner(),]
+    senti_marisas = [LabMT(datastructure="marisatrie"),ANEW(datastructure="marisatrie"),LIWC(datastructure="marisatrie"),MPQA(datastructure="marisatrie"),Liu(datastructure="marisatrie"),Warriner(datastructure="marisatrie"),]
     stopVal = 1.0
-    for title,prefix_bool in zip(titles,prefixes):
-        my_test_speedy(title,test_dict,prefix=prefix_bool)
+    for senti_dict,senti_marisa in zip(senti_dicts,senti_marisas):
+        
+        my_test_speedy(senti_dict,senti_marisa,test_dict)
 
         # build it out here
-        my_senti_marisa = sentiDict(title,datastructure="marisatrie")
-        ref_word_vec = my_senti_marisa.wordVecify(ref_dict)
-        ref_word_vec_stopped = my_senti_marisa.stopper(ref_word_vec,stopVal=stopVal)
-        comp_word_vec = my_senti_marisa.wordVecify(comp_dict)
-        comp_word_vec_stopped = my_senti_marisa.stopper(comp_word_vec,stopVal=stopVal)        
-        shiftPDF(my_senti_marisa.scorelist, my_senti_marisa.wordlist, ref_word_vec_stopped, comp_word_vec_stopped, "test-shift-{0}.html".format(title),corpus=my_senti_marisa.corpus)
+        ref_word_vec = senti_marisa.wordVecify(ref_dict)
+        ref_word_vec_stopped = senti_marisa.stopper(ref_word_vec,stopVal=stopVal)
+        comp_word_vec = senti_marisa.wordVecify(comp_dict)
+        comp_word_vec_stopped = senti_marisa.stopper(comp_word_vec,stopVal=stopVal)        
+        shiftPDF(senti_marisa.scorelist, senti_marisa.wordlist, ref_word_vec_stopped, comp_word_vec_stopped, "test-shift-{0}.html".format(senti_dict.title),corpus=senti_marisa.corpus)
 
-    shiftPDF(my_senti_marisa.scorelist, my_senti_marisa.wordlist, ref_word_vec, comp_word_vec, "test-shift-titles.html".format(title),customTitle=True,title="Insert title here",ref_name="bananas",comp_name="apples")
+    shiftPDF(senti_marisa.scorelist, senti_marisa.wordlist, ref_word_vec, comp_word_vec, "test-shift-titles.html".format(senti_dict.title),customTitle=True,title="Insert title here",ref_name="bananas",comp_name="apples")
     
 def cleanup():
     subprocess.call("\\rm -r test-* static",shell=True)

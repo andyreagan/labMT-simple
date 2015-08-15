@@ -36,8 +36,10 @@ page.open(address, function(status) {
 	    // get rid of the credit and button entirely
 	    d3.selectAll('g.resetbutton').remove();
 	    d3.selectAll('.credit').remove();
+	    
 	    // nice way
 	    // hedotools.shifter.resetbuttontoggle(false);
+	    
 	    // actually get the svg out, using a lot of the crowbar code
 	    var source = '';
 	    var doctype = '<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">';
