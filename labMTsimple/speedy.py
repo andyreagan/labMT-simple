@@ -252,6 +252,7 @@ class sentiDict(object):
     def __init__(self,datastructure='dict',bootstrap=False,stopVal=0.0,bananas=False,loadFromFile=False,saveFile=False):
         """Instantiate the class."""
         self.stopVal = stopVal
+        print("loading {0} {1} with stopVal={2}".format(self.title,datastructure,stopVal))
         if saveFile:
             if not isdir('{0}'.format(self.folder)):
                 mkdir('{0}'.format(self.folder))
@@ -443,7 +444,7 @@ class MPQA(sentiDict):
                     stopWords.append(word)
             for word in stopWords:
                 del MPQA[word]
-        print("MPQA duplicates: {0}".format(num_duplicates))
+        # print("MPQA duplicates: {0}".format(num_duplicates))
         return MPQA
 
 class Liu(sentiDict):
@@ -477,11 +478,11 @@ class Liu(sentiDict):
         f.close()
         return liu
 
-class Warriner(sentiDict):
+class WK(sentiDict):
     folder = 'warriner'
-    title = 'Warriner'
+    title = 'WK'
     center = 5.0
-    corpus = 'Warriner'
+    corpus = 'WK'
     stems = False
 
     def loadDict(self,bananas):
