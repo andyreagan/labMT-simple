@@ -200,8 +200,8 @@ def test_speedy_all():
     comp_dict = open_codecs_dictify("examples/data/21.01.14.txt")
 
     # this test the loading for each
-    senti_dicts = [LabMT(),ANEW(),LIWC(),MPQA(),Liu(),Warriner(),]
-    senti_marisas = [LabMT(datastructure="marisatrie"),ANEW(datastructure="marisatrie"),LIWC(datastructure="marisatrie"),MPQA(datastructure="marisatrie"),Liu(datastructure="marisatrie"),Warriner(datastructure="marisatrie"),]
+    senti_dicts = [LabMT(),ANEW(),LIWC(),MPQA(),Liu(),WK(),]
+    senti_marisas = [LabMT(datastructure="marisatrie"),ANEW(datastructure="marisatrie"),LIWC(datastructure="marisatrie"),MPQA(datastructure="marisatrie"),Liu(datastructure="marisatrie"),WK(datastructure="marisatrie"),]
     stopVal = 1.0
     for senti_dict,senti_marisa in zip(senti_dicts,senti_marisas):
         

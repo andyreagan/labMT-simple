@@ -40,6 +40,8 @@ import datrie
 class sentiDict(object):
     """An abstract class to score them all."""
 
+    # datastructure = ''
+    
     def openWithPath(self,filename,mode):
         """Helper function for searching for files."""
         try:
@@ -88,15 +90,25 @@ class sentiDict(object):
         """Make lists from a dict, used internally."""
         tmpfixedwords = []
         tmpfixedscores = []
+        # add something to store the additional info
+        # only captures a third entry, if it exists
+        tmpfixedother = []
+        
         tmpstemwords = []
         tmpstemscores = []
+        tmpstemother = []
+        
         for key,score in self.data.items():
             if key[-1] == "*" and not key[-2] == "*":
                 tmpstemwords.append(key.replace("*",""))
                 tmpstemscores.append(score[0])
+                if len(score) > 2:
+                    tmpstemother.append(score[2])
             else:
                 tmpfixedwords.append(key)
                 tmpfixedscores.append(score[0])
+                if len(score) > 2:
+                    tmpfixedother.append(score[2])
         if self.corpus in ['LabMT','ANEW']:
             # keep the original sort in this case
             stemindexer = []
@@ -113,12 +125,24 @@ class sentiDict(object):
         # sort them
         self.stemwords = [tmpstemwords[i] for i in stemindexer]
         self.stemscores = [tmpstemscores[i] for i in stemindexer]
+        if len(tmpstemother) > 0:
+            self.stemother = [tmpstemother[i] for i in stemindexer]
+        else:
+            self.stemother = tmpstemother            
         self.fixedwords = [tmpfixedwords[i] for i in fixedindexer]
         self.fixedscores = [tmpfixedscores[i] for i in fixedindexer]
-
+        if len(tmpfixedother) > 0:
+            self.fixedother = [tmpfixedother[i] for i in fixedindexer]
+        else: 
+            self.fixedother = tmpfixedother
         # now, go reset the dict with these new orders
         for i,word in enumerate(self.fixedwords):
-            self.data[word] = (self.data[word][0],i)
+            # will add back in just a third entry, if it had existed
+            # entires beyond that are destroyed
+            if len(self.fixedother) > 0:
+                self.data[word] = (self.data[word][0],i,self.data[word][2])
+            else:
+                self.data[word] = (self.data[word][0],i)
         for i,word in enumerate(self.stemwords):
             if word in self.data:
                 self.data[word] = (self.data[word][0],i)
@@ -252,6 +276,7 @@ class sentiDict(object):
     def __init__(self,datastructure='dict',bootstrap=False,stopVal=0.0,bananas=False,loadFromFile=False,saveFile=False):
         """Instantiate the class."""
         self.stopVal = stopVal
+        self.datastructure = datastructure
         print("loading {0} {1} with stopVal={2}".format(self.title,datastructure,stopVal))
         if saveFile:
             if not isdir('{0}'.format(self.folder)):
@@ -293,6 +318,7 @@ class LabMT(sentiDict):
     center = 5.0
     corpus = 'LabMT'
     stems = False
+    score_range = 'full'
 
     def loadDict(self,bananas):
         # don't cheat
@@ -311,6 +337,7 @@ class LabMT(sentiDict):
                 stopWords.append(word)
         for word in stopWords:
             del LabMT[word]
+        # print(LabMT["happy"])
         return LabMT
 
 class ANEW(sentiDict):
@@ -322,6 +349,7 @@ class ANEW(sentiDict):
     center = 5.0
     corpus = 'ANEW'
     stems = False
+    score_range = 'full'
 
     def loadDict(self,bananas):
         """Load the corpus into a dictionary, straight from the origin corpus file."""
@@ -352,7 +380,8 @@ class LIWC(sentiDict):
     center = 0.0
     corpus = 'LIWC'
     stems = True
-
+    score_range = 'integer'
+    
     def loadDict(self,bananas):
         """Load the corpus into a dictionary, straight from the origin corpus file."""
         # many (most) of these words are stems
@@ -409,7 +438,8 @@ class MPQA(sentiDict):
     center = 0.0
     corpus = 'MPQA'
     stems = True
-
+    score_range = 'integer'
+    
     def loadDict(self,bananas):
         """Load the corpus into a dictionary, straight from the origin corpus file."""
         MPQA = dict()
@@ -453,7 +483,8 @@ class Liu(sentiDict):
     center = 0.0
     corpus = 'Liu'
     stems = False
-
+    score_range = 'integer'
+    
     def loadDict(self,bananas):
         """Load the corpus into a dictionary, straight from the origin corpus file."""
         liu = dict()
@@ -484,7 +515,8 @@ class WK(sentiDict):
     center = 5.0
     corpus = 'WK'
     stems = False
-
+    score_range = 'full'
+    
     def loadDict(self,bananas):
         Warriner = dict()
         f = self.openWithPath("data/warriner/BRM-emot-submit.csv","r")
@@ -507,7 +539,8 @@ class PANASX(sentiDict):
     center = 0.0
     corpus = 'PANAS-X'
     stems = False
-
+    score_range = 'integer'
+    
     def loadDict(self,bananas):
         PANAS = dict()
         f = self.openWithPath("data/PANAS-X/affect.txt","r")
