@@ -7,7 +7,7 @@ setup(
     name = 'labMTsimple',
     packages = ['labMTsimple'],
     package_data={'labMTsimple': ['data/labMT/*.txt','data/PANAS-X/*.txt','data/warriner/*.csv','data/ANEW/all.csv','data/MPQA-lexicon/subjectivity_clues_hltemnlp05/*.tff','data/liu-lexicon/*-clean.txt','static/*.js','static/hedotools.shift.css']},
-    version = '2.7',
+    version = '2.8',
     description = 'Basic usage script for dictionary-based sentiment analysis. Intended use with labMT data',
     long_description = long_description,
     author = 'Andy Reagan',
