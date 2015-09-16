@@ -551,3 +551,247 @@ class PANASX(sentiDict):
             i+=1
         f.close()
         return PANAS
+
+class pattern(sentiDict):
+    folder = "pattern"
+    title = "Pattern"
+    corpus = "Pattern"
+    center = 0.0
+    stems = False
+    score_range = "integer"
+
+    def loadDict(self.bananas):
+        import xml.etree.ElementTree as etree
+        tree = etree.parse('data/{0}/en-sentiment.xml'.format(self.folder))
+        root = tree.getroot()
+        # look at some stuff:
+        # print(root)
+        # for child in root:
+        #     print(child)
+        #     print(child.tag)
+        #     print(child.form)
+        #     print(child.attrib['form'])
+            
+        # print(len(my_dict))
+        # print(root[0].attrib)
+        for i,child in enumerate(root):
+            my_dict[child.attrib['form']] = (i,float(child.attrib['polarity']))
+
+        # look at the words
+        # print(len(my_dict))
+        # my_dict['13th']
+        # pos_words = [word for word in my_dict if my_dict[word][1] > 0]
+        # print(len(pos_words))
+        # neg_words = [word for word in my_dict if my_dict[word][1] < 0]
+        # print(len(neg_words))
+        return my_dict
+
+def sentiWordNet(sentiDict):
+    folder = "sentiWordNet"
+    title = "SentiWordNet"
+    corpus = "SentiWordNet"
+    center = 0.0
+    stems = False
+    score_range = "full"
+
+    def loadDict(self.bananas):
+        f = open("data/{0}/SentiWordNet_3.0.0_20130122.txt".format(folder),"r")
+        f.readline()
+        my_dict = dict()
+        for line in f:
+            splitline = line.rstrip().split("\t")
+            words = map(lambda x: x[:-2],splitline[4].split(" "))
+            # print(words)
+            for word in words:
+                if word not in my_dict:
+                    my_dict[word] = splitline[2:4]
+                else:
+                    my_dict[word] = my_dict[word]+splitline[2:4]
+
+        i = 0
+        for word in my_dict:
+            pos_scores = map(float,my_dict[word][0::2])
+            neg_scores = map(float,my_dict[word][1::2])
+            my_dict[word] = (i,sum(pos_scores)/len(pos_scores),sum(neg_scores)/len(neg_scores))
+            i+=1
+            
+        # my_dict['deflagrate']
+        # len(my_dict)
+        # pos_words = [word for word in my_dict if my_dict[word][0] > my_dict[word][1]]
+        # len(pos_words)
+        # neg_words = [word for word in my_dict if my_dict[word][0] < my_dict[word][1]]
+        # len(neg_words)
+        # neutral_words = [word for word in my_dict if my_dict[word][0] == my_dict[word][1]]
+        # len(neutral_words)
+
+        return my_dict
+
+def AFINN(sentiDict):
+    folder = "AFINN"
+    title = "AFINN"
+    corpus = "AFINN"
+    center = 0.0
+    stems = False
+    score_range = "full"
+
+    def loadDict(self.bananas):
+        afinn = dict(map(lambda (k,v): (k,int(v)), 
+                             [ line.split(t) for line in open("data/AFINN/AFINN-111.txt") ]))
+        # pos_words = [word for word in afinn if afinn[word] > 0]
+        # neg_words = [word for word in afinn if afinn[word] < 0]
+        # neu_words = [word for word in afinn if afinn[word] == 0]
+
+        return afinn
+    
+def GI(sentiDict):
+    folder = "GI"
+    title = "General Inquirer"
+    corpus = "General Inquirer"
+    center = 0.0
+    stems = False
+    score_range = "integer"
+
+    def loadDict(self.bananas):
+        # coding: utf-8
+        f = open("inqtabs.txt","r")
+        header = f.readline().rstrip()
+        for line in f:
+            splitline = line.rstrip().split("\t")
+            word = splitline[0]
+            pos = splitline[2]
+            neg = splitline[3]
+            if len(pos) > 0:
+                my_dict[word] = 1
+            if len(neg) > 0:
+                my_dict[word] = -1
+                
+        my_dict = dict()
+        i = 0
+        for line in f:
+            splitline = line.rstrip().split("\t")
+            word = splitline[0]
+            pos = splitline[2]
+            neg = splitline[3]
+            if len(pos) > 0:
+                my_dict[word] = (i,1)
+                i+=1
+            elif len(neg) > 0:
+                print("oops, {0} is both pos and negative".format(word))
+                my_dict[word] = (i,-1)
+                i+=1
+            
+        # len(my_dict)
+        # pos_words = [word for word in my_dict if my_dict[word] > 0]
+        # neg_words = [word for word in my_dict if my_dict[word] < 0]
+        # len(pos_words)
+        # len(neg_words)
+
+        return my_dict
+
+def WDAL(sentiDict):
+    folder = "WDAL"
+    title = "Whissel's Dictionary of Affective Language"
+    corpus = "Whissel's Dictionary of Affective Language"
+    center = 1.5
+    stems = False
+    score_range = "full"
+
+    def loadDict(self.bananas):
+        f = open("words.txt","r")
+        my_dict = dict()
+        f.readline()
+        i = 0
+        for line in f:
+            a = line.rstrip().split(" ")
+            word = a[0]
+            pleasantness,activation,imagery = a[-3:]
+            my_dict[word] = (i,float(pleasantness))
+            i+=1
+            
+        # len(my_dict)
+        # pos_words = [word for word in my_dict if my_dict[word] > 1.5]
+        # print(len(pos_words))
+        # neg_words = [word for word in my_dict if my_dict[word] < 1.5]
+        # print(len(neg_words))
+        # neg_words = [word for word in my_dict if my_dict[word] <= 1.5]
+        # print(len(neg_words))
+        # neg_words = [word for word in my_dict if my_dict[word] < 1.5]
+        # neu_words = [word for word in my_dict if my_dict[word] == 1.5]
+        # print(len(neu_words))
+        # len(my_dict)
+
+        return my_dict
+
+
+
+def NRC(sentiDict):
+    folder = "NRC"
+    title = "NRC"
+    corpus = "NRC"
+    center = 0.0
+    stems = False
+    score_range = "full"
+
+    def loadDict(self.bananas):
+        i = 0
+        # coding: utf-8
+        f = open("Sentiment140-Lexicon-v0.1/unigrams-pmilexicon.txt","r")
+        unigrams = dict()
+        for line in f:
+            word,score,poscount,negcount = line.rstrip().split("\t")
+            if word not in unigrams:
+                unigrams[word] = (i,score)
+                i+=1
+            else:
+                print("complaining")
+        f.close()
+        
+        print("read in {0} unigrams".format(len(unigrams)))
+        
+        f = open("Sentiment140-Lexicon-v0.1/bigrams-pmilexicon.txt","r")
+        bigrams = dict()
+        for line in f:
+            word,score,poscount,negcount = line.rstrip().split("\t")
+            if word not in bigrams:
+                bigrams[word] = (i,score)
+                i+=1
+            else:
+                print("complaining")
+        f.close()
+
+        print("read in {0} bigrams".format(len(bigrams)))        
+        
+        f = open("Sentiment140-Lexicon-v0.1/pairs-pmilexicon.txt","r")
+        pairs = dict()
+        for line in f:
+            word,score,poscount,negcount = line.rstrip().split("\t")
+            if word not in pairs:
+                pairs[word] = score
+                i+=1
+            else:
+                print("complaining")            
+        f.close()
+
+        print("read in {0} pairs".format(len(pairs)))
+
+        print("length of all of them: {0}".format(len(pairs)+len(bigrams)+len(unigrams)))
+        
+        all = unigrams.copy()
+        all.update(bigrams)
+        all.update(pairs)
+        
+        # pos_words = [word for word in all if all[word] > 0]
+        # neg_words = [word for word in all if all[word] < 0]
+        # neu_words = [word for word in all if all[word] == 0]
+        # len(pos_words)
+        # len(neg_words)
+        # all['happy']
+        # pos_words = [word for word in all if float(all[word]) > 0]
+        # len(neg_words)
+        # len(pos_words)
+        # neg_words = [word for word in all if float(all[word]) < 0]
+        # neu_words = [word for word in all if float(all[word]) == 0]
+        # len(neg_words)
+        # len(neu_words)
+
+        return all
