@@ -80,10 +80,10 @@ def test_storyLab_labMT_english():
     print("-"*80)    
 
     outFile = "test-rsvg.html"
-    shiftPDF(labMTvector, labMTwordList, ref_freq, comp_freq, outFile, open_pdf=True)
+    shiftPDF(labMTvector, labMTwordList, ref_freq, comp_freq, outFile, open_pdf=False)
 
     outFile = "test-rsvg-stopped.html"    
-    shiftPDF(labMTvector, labMTwordList, ref_freq_stopped, comp_freq_stopped, outFile, open_pdf=True)
+    shiftPDF(labMTvector, labMTwordList, ref_freq_stopped, comp_freq_stopped, outFile, open_pdf=False)
     
     # also make the inkscape version
     shiftHtml(labMTvector, labMTwordList, ref_freq, comp_freq, "test-inkscape.html")
@@ -157,6 +157,7 @@ def my_test_speedy(my_senti_dict,my_senti_marisa,test_dict):
         my_index = list(happy_vec).index(1)
         print(my_index)
         print(marisa_word_vec[my_index])
+        print("the dude abides!")
     
     print("count in test text: {0}".format(marisa_word_vec[index]))
     print(test_dict["happy"])
@@ -195,8 +196,7 @@ def open_codecs_dictify(file):
 def test_speedy_all():
     """Test all of the speedy dictionaries on scoring some dict of words."""
 
-    test_dict = open_codecs_dictify("examples/data/18.01.14.txt")
-    ref_dict = test_dict
+    ref_dict = open_codecs_dictify("examples/data/18.01.14.txt")
     comp_dict = open_codecs_dictify("examples/data/21.01.14.txt")
 
     # this test the loading for each
@@ -205,7 +205,7 @@ def test_speedy_all():
     stopVal = 1.0
     for senti_dict,senti_marisa in zip(senti_dicts,senti_marisas):
         
-        my_test_speedy(senti_dict,senti_marisa,test_dict)
+        my_test_speedy(senti_dict,senti_marisa,ref_dict)
 
         # build it out here
         ref_word_vec = senti_marisa.wordVecify(ref_dict)
