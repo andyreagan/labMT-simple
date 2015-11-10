@@ -311,6 +311,8 @@ def shiftHtmlDual(scoreList,wordList,refFreq,compFreq,lenscomp,outFile,corpus="L
     hedotools.shifter._complens(lenscomp);
     hedotools.shifter._words(words);
 
+    // hedotools.shifter.plotdist(true);
+
     // do the shifting
     hedotools.shifter.dualShifter();
     hedotools.shifter.setWidth(400);
@@ -420,6 +422,8 @@ def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile,corpus="LabMT",advance
     hedotools.shifter._lens(lens);
     hedotools.shifter._words(words);
 
+    // hedotools.shifter.plotdist(true);
+
     // do the shifting
     hedotools.shifter.shifter();
     hedotools.shifter.setWidth(400);
@@ -442,10 +446,14 @@ def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile,corpus="LabMT",advance
     // also from inside the shifter:
     // var comparisonText = splitstring(["Reference happiness: "+refH.toFixed(2),"Comparison happiness: "+compH.toFixed(2),"Why comparison is "+happysad+" than reference:"],boxwidth-10-logowidth,'14px arial');
     // our adaptation:
-    var comparisonText = ["{{ title }}","{{ ref_name_happs }} happiness: "+refH.toFixed(2),"{{ comp_name_happs }} happiness: "+compH.toFixed(2),"Why {{ comp_name }} is "+happysad+" than {{ ref_name }}:"];
+    var comparisonText = ["{{ title }}","","{{ ref_name_happs }} happiness: "+refH.toFixed(2),"{{ comp_name_happs }} happiness: "+compH.toFixed(2),"Why {{ comp_name }} is "+happysad+" than {{ ref_name }}:"];
     // set it:
     hedotools.shifter.setText(comparisonText);
-
+    hedotools.shifter.setTextBold(0);
+    hedotools.shifter.setTopTextSizes([24,16,16,16,16]);
+    hedotools.shifter.setTextColors(["#D8D8D8","#D8D8D8","#D8D8D8","#D8D8D8","#D8D8D8",]);
+    hedotools.shifter.setFontSizes([16,10,22,11,8,8,13]);
+    // [bigshifttextsize,xaxisfontsize,xylabelfontsize,wordfontsize,distlabeltext,creditfontsize,resetfontsize];
 
     hedotools.shifter.setfigure(d3.select('#figure01'));
     hedotools.shifter.plot();
@@ -499,7 +507,15 @@ def generateSVG(htmlfile,output=""):
   return output
 
 def generatePDF(filename,program="rsvg",make_png=True):
-  """Use rsvg or inkscape to make a PDF from the SVG."""
+  """Use rsvg or inkscape to make a PDF from the SVG.
+
+  Of the ways that I know how to get the SVG out:
+  1. librsvg: rasterizes (though high def). recognizes serif/sans serif but not font
+  2. inkscape: no font recognition (via css). does do vector
+  3. phantomjs: rasterize.js does serif font w vector, but rasterized rectangles poorly
+  4. print to preview with chrome: works 100%, not scriptable.
+
+  """
   
   output = filename.replace(".svg","")
   import subprocess

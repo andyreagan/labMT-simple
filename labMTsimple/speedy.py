@@ -25,7 +25,7 @@ else:
         """Python 2/3 agnostic unicode function"""
         return x
 # import matplotlib.pyplot as plt
-from numpy import zeros,array,min,max
+from numpy import zeros,array,min,max,dot
 # from json import loads
 # import csv
 # import datetime
@@ -92,34 +92,21 @@ class sentiDict(object):
         """Make lists from a dict, used internally."""
         tmpfixedwords = []
         tmpfixedscores = []
-        # add something to store the additional info
-        # only captures a third entry, if it exists
-        tmpfixedother = []
         
         tmpstemwords = []
         tmpstemscores = []
-        tmpstemother = []
         
         for key,score in self.data.items():
             if key[-1] == "*" and not key[-2] == "*":
                 tmpstemwords.append(key.replace("*",""))
                 tmpstemscores.append(score[1])
-                if len(score) > 2:
-                    tmpstemother.append(score[2])
             else:
                 tmpfixedwords.append(key)
                 tmpfixedscores.append(score[1])
-                if len(score) > 2:
-                    tmpfixedother.append(score[2])
         if self.corpus in ['LabMT','ANEW']:
             # keep the original sort in this case
             stemindexer = []
             fixedindexer = sorted(range(len(tmpfixedwords)), key=lambda k: self.data[tmpfixedwords[k]][0])
-        elif self.corpus in ['Warriner']:
-            # sort alphabetically
-            # (sorting by happiness is ambiguous sometimes)
-            stemindexer = []
-            fixedindexer = sorted(range(len(tmpfixedscores)), key=lambda k: tmpfixedwords[k])
         else:
             # sort alphabetically
             stemindexer = sorted(range(len(tmpstemscores)), key=lambda k: tmpstemwords[k])
@@ -127,30 +114,19 @@ class sentiDict(object):
         # sort them
         self.stemwords = [tmpstemwords[i] for i in stemindexer]
         self.stemscores = [tmpstemscores[i] for i in stemindexer]
-        if len(tmpstemother) > 0:
-            self.stemother = [tmpstemother[i] for i in stemindexer]
-        else:
-            self.stemother = tmpstemother            
         self.fixedwords = [tmpfixedwords[i] for i in fixedindexer]
         self.fixedscores = [tmpfixedscores[i] for i in fixedindexer]
-        if len(tmpfixedother) > 0:
-            self.fixedother = [tmpfixedother[i] for i in fixedindexer]
-        else: 
-            self.fixedother = tmpfixedother
             
         # now, go reset the dict with these new orders
         for i,word in enumerate(self.fixedwords):
             # will add back in just a third entry, if it had existed
             # entires beyond that are destroyed
-            if len(self.fixedother) > 0:
-                self.data[word] = (i,self.data[word][1],self.data[word][2])
-            else:
-                self.data[word] = (i,self.data[word][1])
+            self.data[word] = tuple([i]+list(self.data[word][1:]))
         for i,word in enumerate(self.stemwords):
             if word in self.data:
-                self.data[word] = (i,self.data[word][1])
+                self.data[word] = tuple([i]+list(self.data[word][1:]))
             else:
-                self.data[word+"*"] = (i,self.data[word+"*"][1])
+                self.data[word+"*"] = tuple([i]+list(self.data[word+"*"][1:]))
                 
         # build the full vectors
         self.wordlist = self.fixedwords + [word+"*" for word in self.stemwords]
@@ -249,7 +225,10 @@ class sentiDict(object):
             elif (len(self.my_marisa[1].prefixes(word)) > 0):
                 totalcount += count
                 totalscore += count*self.my_marisa[1].get(self.my_marisa[1].prefixes(word)[0])[0][1]
-        return totalscore/totalcount
+        if totalcount > 0:
+            return totalscore/totalcount
+        else:
+            return self.center
 
     def scoreTrieDict(self,wordDict):
         """Score a wordDict using the dict backend.
@@ -286,7 +265,6 @@ class sentiDict(object):
         """Instantiate the class."""
         self.stopVal = stopVal
         self.datastructure = datastructure
-        print("loading {0} {1} with stopVal={2}".format(self.title,datastructure,stopVal))
         if saveFile:
             if not isdir('{0}'.format(self.folder)):
                 mkdir('{0}'.format(self.folder))
@@ -299,6 +277,7 @@ class sentiDict(object):
             self.matcherBool = self.matcherDictBool
             self.score = self.scoreTrieDict
             self.wordVecify = self.wordVecifyTrieDict
+            self.datastructure = "dict"
         if self.stems or datastructure=="marisatrie":
             if isfile('{0}/{1:.2f}-fixed.marisa'.format(self.folder,stopVal)) and loadFromFile:
                 self.my_marisa[0].load('{0}/{1:.2f}-fixed.marisa'.format(self.folder,stopVal))
@@ -315,6 +294,8 @@ class sentiDict(object):
             self.matcherBool = self.matcherDictBool
             self.score = self.scoreTrieMarisa
             self.wordVecify = self.wordVecifyTrieMarisa
+            self.datastructure = "marisatrie"
+        print("loading {0} with stopVal={1}, for {2} words".format(self.title,stopVal,len(self.data)))
 
 class LabMT(sentiDict):
     """LabMT class."""
@@ -364,14 +345,16 @@ class ANEW(sentiDict):
 
         
         ANEW = dict()
-        f = self.openWithPath("data/ANEW/all.csv","r")
-        f.readline()
+        f = self.openWithPath("data/ANEW/all-2.csv","r")
+        # f = self.openWithPath("data/ANEW/all.csv","r")
+        # f.readline()
         # Description,Word No.,Valence Mean,Valence SD,Arousal Mean,Arousal SD,Dominance Mean,Dominance SD,Word Frequency
         # ["Description","Word_No","Valence_Mean","Valence_SD","Arousal_Mean","Arousal_SD","Dominance_Mean","Dominance_SD","Word_Frequency",]
         # description,word_no,valence_mean,valence_sd,arousal_mean,arousal_sd,dominance_mean,dominance_sd,word_frequency
         i = 0
         for line in f:
-            description,word_no,valence_mean,valence_sd,arousal_mean,arousal_sd,dominance_mean,dominance_sd,word_frequency = line.rstrip().split(",")
+            # description,word_no,valence_mean,valence_sd,arousal_mean,arousal_sd,dominance_mean,dominance_sd,word_frequency = line.rstrip().split(",")
+            description,word_no,valence_mean,valence_sd,arousal_mean,arousal_sd,dominance_mean,dominance_sd,word_frequency = line.rstrip().split("\t")
             ANEW[description] = (i,float(valence_mean),float(valence_sd))
             i+=1
         f.close()
@@ -394,11 +377,12 @@ class LIWC(sentiDict):
     corpus = 'LIWC'
     stems = True
     score_range = 'integer'
+    word_types = dict()
     
     def loadDict(self,bananas):
         """Load the corpus into a dictionary, straight from the origin corpus file."""
         word_type_dict = dict()
-        f = open("labMTsimple/data/LIWC/LIWC2007_English100131_header.dic","r")
+        f = self.openWithPath("data/LIWC/LIWC2007_English100131_header.dic","r")
         # leave space for index, happs_score
         i = 2
         for line in f:
@@ -406,6 +390,7 @@ class LIWC(sentiDict):
             word_type_dict[int(key)] = (i,label)
             i+=1
         f.close()
+        self.word_types = word_type_dict.copy()
         
         LIWC = dict()
         # mostly just the raw data (just no header)
@@ -414,7 +399,11 @@ class LIWC(sentiDict):
         for line in f:
             l = line.rstrip().split("\t")
             word = l[0]
-            tags = list(map(int,l[1:]))
+            # print(l[1:])
+            if l[1] == "(02 134)125/464":
+                tags = [2,134,125,464]
+            else:
+                tags = list(map(int,l[1:]))
             if word not in LIWC:
                 LIWC[word] = [0 for j in range(len(word_type_dict)+2)]
                 LIWC[word][0] = i
@@ -452,8 +441,16 @@ class LIWC(sentiDict):
                 
                 i+=1
             else:
-                print("already in LIWC: {0}".format(word))
+                # print("already in LIWC: {0}".format(word))
+                pass
         f.close()
+        stopWords = []
+        if self.stopVal > 0.0:
+            for word in LIWC:
+                if LIWC[word][1] == 0.0:
+                    stopWords.append(word)
+            for word in stopWords:
+                del LIWC[word]
         return LIWC
 
 class MPQA(sentiDict):
@@ -526,7 +523,8 @@ class Liu(sentiDict):
         for line in f:
             l = line.rstrip()
             if l in liu:
-                print(l)
+                # print(l)
+                pass
             else:
                 liu[l] = (i,-1)
                 i+=1
@@ -535,7 +533,8 @@ class Liu(sentiDict):
         for line in f:
             l = line.rstrip()
             if l in liu:
-                print(l)
+                # print(l)
+                pass
             else:
                 liu[l] = (i,1)
                 i+=1
@@ -712,7 +711,7 @@ def GI(sentiDict):
                 my_dict[word] = (i,1)
                 i+=1
             elif len(neg) > 0:
-                print("oops, {0} is both pos and negative".format(word))
+                # print("oops, {0} is both pos and negative".format(word))
                 my_dict[word] = (i,-1)
                 i+=1
             
@@ -778,11 +777,11 @@ def NRC(sentiDict):
             if word not in unigrams:
                 unigrams[word] = (i,score)
                 i+=1
-            else:
-                print("complaining")
+            # else:
+            #     print("complaining")
         f.close()
         
-        print("read in {0} unigrams".format(len(unigrams)))
+        # print("read in {0} unigrams".format(len(unigrams)))
         
         f = open("Sentiment140-Lexicon-v0.1/bigrams-pmilexicon.txt","r")
         bigrams = dict()
@@ -791,11 +790,11 @@ def NRC(sentiDict):
             if word not in bigrams:
                 bigrams[word] = (i,score)
                 i+=1
-            else:
-                print("complaining")
+            # else:
+            #     print("complaining")
         f.close()
 
-        print("read in {0} bigrams".format(len(bigrams)))        
+        # print("read in {0} bigrams".format(len(bigrams)))        
         
         f = open("Sentiment140-Lexicon-v0.1/pairs-pmilexicon.txt","r")
         pairs = dict()
@@ -804,13 +803,13 @@ def NRC(sentiDict):
             if word not in pairs:
                 pairs[word] = score
                 i+=1
-            else:
-                print("complaining")            
+            # else:
+            #     print("complaining")            
         f.close()
 
-        print("read in {0} pairs".format(len(pairs)))
+        # print("read in {0} pairs".format(len(pairs)))
 
-        print("length of all of them: {0}".format(len(pairs)+len(bigrams)+len(unigrams)))
+        # print("length of all of them: {0}".format(len(pairs)+len(bigrams)+len(unigrams)))
         
         all = unigrams.copy()
         all.update(bigrams)
@@ -831,3 +830,10 @@ def NRC(sentiDict):
         # len(neu_words)
 
         return all
+
+class Sentence(object):
+    words = []
+    
+    def __init__():
+        pass
+    

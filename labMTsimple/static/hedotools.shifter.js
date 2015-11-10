@@ -6,7 +6,7 @@
 //
 // there are two options for having it compute the shift
 // calling the .shift() with four arguments does the trick
-// or calling .shifter() with no arguments also does it
+// or calling .shifter() with no arguments also does 
 // for the latter, need to have defined the variables beforehand
 // using the _lens, _words, etc accessors
 //
@@ -290,11 +290,12 @@ hedotools.shifter = function()
 	if (!arguments.length) return numBoldLines;
 	numBoldLines = _;
 	return hedotools.shifter;
-    }    
+    }
 
     // only support up to 5 lines....
     var colorArray = ["#202020","#D8D8D8","#D8D8D8","#D8D8D8","#D8D8D8"];
     var topFontSizeArray = [14,12,12,12,12];
+    // var topFontSizeArray = [20,16,16,16,16];
     
     var setTextColors = function(_) {
 	if (!arguments.length) return colorArray;
@@ -975,7 +976,25 @@ hedotools.shifter = function()
     var sepline;
     var zoom;
     var axes;
-    var bigshifttextsize;
+    // these are set explicitly on the elements
+    var bigshifttextsize = 16;
+    var xaxisfontsize = 10;
+    var xylabelfontsize = 20;
+    var wordfontsize = 10;
+    var distlabeltext = 8;
+    var creditfontsize = 8;
+    var resetfontsize  = 13;
+    var setFontSizes = function(_) {
+        if (!arguments.length) return [bigshifttextsize,xaxisfontsize,xylabelfontsize,wordfontsize,distlabeltext,creditfontsize,resetfontsize];
+        bigshifttextsize = _[0];
+        xaxisfontsize = _[1];
+        xylabelfontsize = _[2];
+        wordfontsize = _[3];
+        distlabeltext = _[4];
+        creditfontsize = _[5];
+        resetfontsize = _[6];
+	return hedotools.shifter;
+    }
     var typeClass = ["negdown","posdown","negup","posup"];
     var colorClass;
     var shiftrects;
@@ -1146,8 +1165,6 @@ hedotools.shifter = function()
 	    .attr("fill", "#FCFCFC")
 	    .attr("opacity","0.96");
 
-	bigshifttextsize = 13;
-
 	if (show_x_axis_bool) {
 	    // axes creation functions
 	    var create_xAxis = function() {
@@ -1162,7 +1179,7 @@ hedotools.shifter = function()
 
 	    canvas.append("g")
 		.attr("class", "x axis ")
-		.attr("font-size", "10.0px")
+		.attr("font-size", xaxisfontsize)
 		.attr("transform", "translate("+(axeslabelmargin.left)+"," + (yHeight+figheight) + ")")
 	    // .attr("transform", "translate(0," + (figheight) + ")")
 		.call(xAxis);
@@ -1327,7 +1344,7 @@ hedotools.shifter = function()
 	    .attr("y",function(d,i) { return (i+1)*17; })
 	    .attr("x",3)
 	    .attr("class",function(d,i) { return 'titletext '+intStr[i]; })
-	    .style({ 'font-family': 'Helvetica Neue',
+	    .style({ // 'font-family': 'Helvetica Neue',
 		     'font-size': function(d,i) { return topFontSizeArray[i]; },
 		     'line-height': '1.42857143',
 		     'color': function(d,i) { return colorArray[i]; },
@@ -1670,7 +1687,7 @@ hedotools.shifter = function()
 	    .attr("class","axes-text")
 	    .attr("x",axeslabelmargin.left+figcenter) // 350-20-10 for svg width,  
 	    .attr("y",boxheight-7)
-	    .attr("font-size", "18.0px")
+	    .attr("font-size", xylabelfontsize)
 	    .attr("fill", "#000000")
 	    .attr("style", "text-anchor: middle;");
 
@@ -1679,7 +1696,7 @@ hedotools.shifter = function()
 	    .attr("class","axes-text")
 	    .attr("x",18)
 	    .attr("y",figheight/2+60+toptextheight)
-	    .attr("font-size", "18.0px")
+	    .attr("font-size", xylabelfontsize)
 	    .attr("fill", "#000000")
 	    .attr("transform", "rotate(-90.0," + (18) + "," + (figheight/2+60+toptextheight) + ")");
 
@@ -1829,7 +1846,7 @@ hedotools.shifter = function()
 		    "y": distgrouph+2,
 		    "class": "nwordslabel",
 		    'fill': '#B8B8B8',
-		    'font-size': '8.0px',
+		    'font-size': distlabeltext,
 		    'text-anchor': 'start',
 		})
 		.text(nwords);
@@ -1840,7 +1857,7 @@ hedotools.shifter = function()
 		    "y": 2,
 		    "class": "zerolabel",
 		    'fill': '#B8B8B8',
-		    'font-size': '8.0px',
+		    'font-size': distlabeltext,
 		    'text-anchor': 'start',
 		})
 		.text("0");
@@ -1855,7 +1872,7 @@ hedotools.shifter = function()
 		   'fill': '#B8B8B8',
 		   'x': (figwidth-5),
 		   'y': function(d,i) { return figheight-15+i*10; },
-		   'font-size': '8.0px', })
+		   'font-size': creditfontsize, })
             .style({'text-anchor': 'end', })
 	    .text(function(d) { return d; });
 
@@ -1923,8 +1940,8 @@ hedotools.shifter = function()
 		.text("Reset")
 		.attr("x",6)
 		.attr("y",13)
-		.attr("font-size", "13.0px");
-
+		.attr("font-size", resetfontsize);
+            
 	    resetGroup.append("rect")
 		.attr("x",0)
 		.attr("y",0)
@@ -2106,7 +2123,7 @@ hedotools.shifter = function()
 	    .attr({ 'y': function(d,i) { return (i+1)*17; },
 		    'x': 3,
 		    'class': function(d,i) { return 'titletext '+intStr[i]; }, })
-	    .style({ 'font-family': 'Helvetica Neue',
+	    .style({ // 'font-family': 'Helvetica Neue',
 		     'font-size': function(d,i) { return topFontSizeArray[i]; },
 		     'line-height': '1.42857143',
 		     'color': function(d,i) { return colorArray[i]; },
@@ -2150,7 +2167,7 @@ hedotools.shifter = function()
 
 	    newwords.transition()
 		.attr("class", function(d,i) { return "shifttext "+intStr0[sortedType[i]]; })
-		.style({"text-anchor": function(d,i) { if (sortedMag[i] < 0) { return "end";} else { return "start";}}, "font-size": 11})
+		.style({"text-anchor": function(d,i) { if (sortedMag[i] < 0) { return "end";} else { return "start";}}, "font-size": wordfontsize})
 		.text(function(d,i) { return sortedWords[i]; })
 		.attr("x",function(d,i) { if (d>0) {return x(d)+2;} else {return x(d)-2; } } );
 	}
@@ -2167,7 +2184,7 @@ hedotools.shifter = function()
 
 	    newwords
 		.attr("class", function(d,i) { return "shifttext "+intStr0[sortedType[i]]; })
-		.style({"text-anchor": function(d,i) { if (sortedMag[i] < 0) { return "end";} else { return "start";}}, "font-size": 11})
+		.style({"text-anchor": function(d,i) { if (sortedMag[i] < 0) { return "end";} else { return "start";}}, "font-size": wordfontsize})
 		.text(function(d,i) { return sortedWords[i]; })
 		.attr("x",function(d,i) { if (d>0) {return x(d)+2;} else {return x(d)-2; } } );
 
@@ -2422,6 +2439,7 @@ hedotools.shifter = function()
 		    _shiftMag: _shiftMag,
 		    _shiftType: _shiftType,
 		    dualShifter: dualShifter,
+                    setFontSizes: setFontSizes,
 		  }
     return opublic;
 }();

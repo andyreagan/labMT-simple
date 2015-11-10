@@ -4,6 +4,11 @@ from labMTsimple.storyLab import *
 from labMTsimple.speedy import *
 import subprocess
 import codecs
+from json import loads
+
+# this has some useful functions
+sys.path.append("/Users/andyreagan/work/2015/08-kitchentabletools/")
+from dog.toys import *
 
 TOL = 1e-3
 
@@ -89,7 +94,7 @@ def test_storyLab_labMT_english():
     shiftHtml(labMTvector, labMTwordList, ref_freq, comp_freq, "test-inkscape.html")
     generateSVG("test-inkscape.html")
     generatePDF("test-inkscape.svg",program="inkscape")
-    # subprocess.call("open test-inkscape.pdf",shell=True)    
+    # subprocess.call("open test-inkscape.pdf",shell=True)
     
     sortedMag,sortedWords,sortedType,sumTypes = shift(ref_freq, comp_freq, labMTvector, labMTwordList)
 
@@ -177,7 +182,7 @@ def my_test_speedy(my_senti_dict,my_senti_marisa,test_dict):
         print(my_senti_marisa.fixedwords[index])
         
 def open_codecs_dictify(file):
-    # generate a word dict to test
+    '''Generate a word dict to test.'''
     f = codecs.open(file, "r", "utf8")
     ref_text_raw = f.read()
     f.close()
@@ -214,9 +219,132 @@ def test_speedy_all():
         comp_word_vec_stopped = senti_marisa.stopper(comp_word_vec,stopVal=stopVal)        
         shiftPDF(senti_marisa.scorelist, senti_marisa.wordlist, ref_word_vec_stopped, comp_word_vec_stopped, "test-shift-{0}.html".format(senti_dict.title),corpus=senti_marisa.corpus)
 
-    shiftPDF(senti_marisa.scorelist, senti_marisa.wordlist, ref_word_vec, comp_word_vec, "test-shift-titles.html".format(senti_dict.title),customTitle=True,title="Insert title here",ref_name="bananas",comp_name="apples")
+        shiftPDF(senti_marisa.scorelist, senti_marisa.wordlist, ref_word_vec, comp_word_vec, "test-shift-titles.html".format(senti_dict.title),customTitle=True,title="Insert title here",ref_name="bananas",comp_name="apples")
+
+    cleanup()
     
 def cleanup():
+    '''Remove all test files.'''
+    print("removing all test files generated...go comment the \"cleanup()\" call to keep them")
     subprocess.call("\\rm -r test-* static",shell=True)
 
+def test_LIWC_other_features():
+    """Test LIWC on scoring all word types from the set."""
+
+    # load up some words
+    ref_dict = open_codecs_dictify("examples/data/18.01.14.txt")
+    # ref_dict = {"i": 1,"am": 1,"happy":5}
+    ref_wordcount = sum([ref_dict[word] for word in ref_dict])
+    print("ref dict loaded, has {0} words".format(ref_wordcount))
+    
+    # initialize LIWC
+    my_LIWC = LIWC()
+
+    # make a word vector
+    my_word_vec = my_LIWC.wordVecify(ref_dict)
+    print("word vec made, has {0} length".format(len(my_word_vec)))
+    print(sum(my_word_vec))
+    print(my_word_vec)
+
+    happs = dot(my_word_vec,my_LIWC.scorelist)/sum(my_word_vec)
+    print("happs={0}".format(happs))
+
+    all_features = zeros(len(my_LIWC.data["happy"])-2)
+    for word in my_LIWC.data:
+        all_features += array(my_LIWC.data[word][2:])*my_word_vec[my_LIWC.data[word][0]]
+    # normalize by total number of words
+    all_features = all_features/ref_wordcount
+    print(all_features)
+    print("all features has length: {0}".format(len(all_features)))
+    print(all_features[47])
+
+    print(my_LIWC.word_types)
+    values = [my_LIWC.word_types[key] for key in my_LIWC.word_types]
+    values.sort(key=lambda k: k[0])
+
+    for value in values:
+        print("LIWC_{0}".format(value[1]))
+
+my_LIWC_stopped = LIWC(stopVal=0.5)
+my_LIWC = LIWC()
+my_LabMT = LabMT(stopVal=1.0)
+my_ANEW = ANEW(stopVal=1.0)
+def all_features(rawtext,uid,tweet_id,gram_id):
+    '''Return the feature vector for a given tweets.
+
+    Be careful about indexing!
+    Assuming here that we're taking in text of the tweet/gram'''
+
+    # create  simple list for the result
+    result = [0 for i in range(75)]
+    # the first field, tableID, is not included (leaving 75)
+    result[0] = tweet_id
+    result[1] = gram_id
+    result[2] = uid
+
+    words = listify(rawtext)
+    word_dict = dictify(words)
+    result[3] = len(words)
+
+    # load the classes that we need
+
+    # print(len(my_LIWC.data))
+    # print(len(my_LIWC.scorelist))
+    my_word_vec = my_LIWC_stopped.wordVecify(word_dict)
+    # print(len(my_word_vec))
+    # print(sum(my_word_vec))
+    happs = my_LIWC_stopped.score(word_dict)
+    # print(len(my_LIWC.data))
+    # print(len(my_LIWC.scorelist))
+    # print(happs)
+    result[4] = sum(my_word_vec)
+    result[5] = happs
+
+    my_word_vec = my_LabMT.wordVecify(word_dict)
+    happs = my_LabMT.score(word_dict)
+    # print(len(my_word_vec))
+    # print(sum(my_word_vec))
+    # print(happs)
+    result[6] = sum(my_word_vec)
+    result[7] = happs
+    my_word_vec = my_ANEW.wordVecify(word_dict)
+    happs = my_ANEW.score(word_dict)
+    # print(len(my_word_vec))
+    # print(sum(my_word_vec))
+    # print(result)
+    happsst[8] = sum(my_word_vec)
+    result[9] = happs
+
+    # make a word vector
+    my_word_vec = my_LIWC.wordVecify(word_dict)
+    all_features = zeros(len(my_LIWC.data["happy"])-2)
+    for word in my_LIWC.data:
+        all_features += array(my_LIWC.data[word][2:])*my_word_vec[my_LIWC.data[word][0]]
+    for i,score in enumerate(all_features):
+        result[10+i] = all_features[i]
+
+    return result
+    
+def test_all_features():
+    f = codecs.open("test/example-tweets.json" ,"r", "utf8")
+    i = 0
+    for line in f:
+        tweet = loads(line)
+        tweet_features = all_features(tweet['text'],tweet['user']['id'],tweet['id'],-1)
+        # print(tweet['text'])
+        # print(tweet_features)
+
+        # for regular testing, don't do them all...
+        if i>100:
+            break
+        
+        #endfor
+        
+    f.close()
+    
+    # f = open("example_grams.json" ,"r", "utf8")
+    # for line in f:
+    #     gram = loads(line)
+    #     gram_features = all_features(gram['text'],gram['user']['id'],-1,gram['id'])
+    # f.close()
 
