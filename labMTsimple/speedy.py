@@ -24,6 +24,7 @@ else:
     def u(x):
         """Python 2/3 agnostic unicode function"""
         return x
+
 # import matplotlib.pyplot as plt
 from numpy import zeros,array,min,max,dot
 # from json import loads
@@ -280,6 +281,7 @@ class sentiDict(object):
             self.datastructure = "dict"
         if self.stems or datastructure=="marisatrie":
             if isfile('{0}/{1:.2f}-fixed.marisa'.format(self.folder,stopVal)) and loadFromFile:
+                print("loading from cache")
                 self.my_marisa[0].load('{0}/{1:.2f}-fixed.marisa'.format(self.folder,stopVal))
                 self.my_marisa[1].load('{0}/{1:.2f}-stem.marisa'.format(self.folder,stopVal))
             else:
@@ -395,6 +397,7 @@ class LIWC(sentiDict):
         LIWC = dict()
         # mostly just the raw data (just no header)
         f = self.openWithPath("data/LIWC/LIWC2007_English100131_words.dic","r")
+        print("loading data/LIWC/LIWC2007_English100131_words.dic")
         i = 0
         for line in f:
             l = line.rstrip().split("\t")
@@ -451,6 +454,7 @@ class LIWC(sentiDict):
                     stopWords.append(word)
             for word in stopWords:
                 del LIWC[word]
+        # print LIWC["like"]
         return LIWC
 
 class MPQA(sentiDict):
@@ -490,11 +494,19 @@ class MPQA(sentiDict):
             # and if they are, delete, set to neutral
             if word in MPQA:
                 if not MPQA[word][1] == scores[emotions.index(priorpolarity)]:
-                    # print("{0} has emotion {1} and {2}".format(word,MPQA[word][0],scores[emotions.index(priorpolarity)]))
+                    # # print all of this to see the duplicate words
+                    # # when loading MPQA dictionary
+                    # print("{0} has emotion {1} and {2}".format(word,MPQA[word][1],scores[emotions.index(priorpolarity)]))
+                    # print(line.rstrip())
+                    # print(MPQA[word][-1])
+                    # print(" ")
                     num_duplicates += 1
-                    MPQA[word] = (MPQA[word][0],0)
+                    MPQA[word] = (MPQA[word][0],0,line.rstrip())
+                else:
+                    # print("word duplicate but same score")
+                    pass
             else:
-                MPQA[word] = (i,scores[emotions.index(priorpolarity)])
+                MPQA[word] = (i,scores[emotions.index(priorpolarity)],line.rstrip())
                 i+=1
         f.close()
         stopWords = []
@@ -622,7 +634,7 @@ class pattern(sentiDict):
         # print(len(neg_words))
         return my_dict
 
-def sentiWordNet(sentiDict):
+class sentiWordNet(sentiDict):
     folder = "sentiWordNet"
     title = "SentiWordNet"
     corpus = "SentiWordNet"
@@ -662,7 +674,7 @@ def sentiWordNet(sentiDict):
 
         return my_dict
 
-def AFINN(sentiDict):
+class AFINN(sentiDict):
     folder = "AFINN"
     title = "AFINN"
     corpus = "AFINN"
@@ -678,7 +690,7 @@ def AFINN(sentiDict):
 
         return afinn
     
-def GI(sentiDict):
+class GI(sentiDict):
     folder = "GI"
     title = "General Inquirer"
     corpus = "General Inquirer"
@@ -723,7 +735,7 @@ def GI(sentiDict):
 
         return my_dict
 
-def WDAL(sentiDict):
+class WDAL(sentiDict):
     folder = "WDAL"
     title = "Whissel's Dictionary of Affective Language"
     corpus = "Whissel's Dictionary of Affective Language"
@@ -759,7 +771,7 @@ def WDAL(sentiDict):
 
 
 
-def NRC(sentiDict):
+class NRC(sentiDict):
     folder = "NRC"
     title = "NRC"
     corpus = "NRC"
@@ -831,9 +843,9 @@ def NRC(sentiDict):
 
         return all
 
-class Sentence(object):
-    words = []
+# class Sentence(object):
+#     words = []
     
-    def __init__():
-        pass
+#     def __init__():
+#         pass
     

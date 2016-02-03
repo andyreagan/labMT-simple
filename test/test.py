@@ -34,7 +34,7 @@ def test_storyLab_labMT_english():
     f = codecs.open("examples/data/21.01.14.txt", "r", "utf8")
     comp_text_raw = f.read()
     f.close()
-
+    
     ref_happs, ref_freq = emotion(ref_text_raw, labMT, shift=True, happsList=labMTvector)
     comp_happs, comp_freq = emotion(comp_text_raw, labMT, shift=True, happsList=labMTvector)
 
