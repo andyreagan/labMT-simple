@@ -24,7 +24,6 @@ else:
     def u(x):
         """Python 2/3 agnostic unicode function"""
         return x
-
 # import matplotlib.pyplot as plt
 from numpy import zeros,array,min,max,dot
 # from json import loads
@@ -98,9 +97,14 @@ class sentiDict(object):
         tmpstemscores = []
         
         for key,score in self.data.items():
-            if key[-1] == "*" and not key[-2] == "*":
-                tmpstemwords.append(key.replace("*",""))
-                tmpstemscores.append(score[1])
+            if key[-1] == "*" and len(key) > 1:
+                if not key[-2] == "*":
+                    # tmpstemwords.append(key.replace("*",""))
+                    tmpstemwords.append(key[:-1])
+                    tmpstemscores.append(score[1])
+                else:
+                    tmpfixedwords.append(key)
+                    tmpfixedscores.append(score[1])
             else:
                 tmpfixedwords.append(key)
                 tmpfixedscores.append(score[1])
@@ -212,7 +216,7 @@ class sentiDict(object):
                 wordVec[self.data[word][0]] += count
         return wordVec
 
-    def scoreTrieMarisa(self,wordDict):
+    def scoreTrieMarisa(self,wordDict,idx=1):
         """Score a wordDict using the marisa_trie backend.
 
         INPUTS:\n
@@ -222,16 +226,16 @@ class sentiDict(object):
         for word,count in wordDict.items():
             if word in self.my_marisa[0]:
                 totalcount += count
-                totalscore += count*self.my_marisa[0].get(word)[0][1]
+                totalscore += count*self.my_marisa[0].get(word)[0][idx]
             elif (len(self.my_marisa[1].prefixes(word)) > 0):
                 totalcount += count
-                totalscore += count*self.my_marisa[1].get(self.my_marisa[1].prefixes(word)[0])[0][1]
+                totalscore += count*self.my_marisa[1].get(self.my_marisa[1].prefixes(word)[0])[0][idx]
         if totalcount > 0:
             return totalscore/totalcount
         else:
             return self.center
 
-    def scoreTrieDict(self,wordDict):
+    def scoreTrieDict(self,wordDict,idx=1):
         """Score a wordDict using the dict backend.
 
         INPUTS:\n
@@ -241,7 +245,7 @@ class sentiDict(object):
         for word,count in wordDict.items():
             if word in self.data:
                 totalcount += count
-                totalscore += count*self.data[word][1]
+                totalscore += count*self.data[word][idx]
         if totalcount > 0:
             return totalscore/totalcount
         else:
@@ -262,7 +266,15 @@ class sentiDict(object):
         if word in self.data:
             wordVec[self.data[word][0]] += count
 
-    def __init__(self,datastructure='dict',bootstrap=False,stopVal=0.0,bananas=False,loadFromFile=False,saveFile=False):
+    def stopData(self):
+        stopWords = []
+        for word in self.data:
+            if abs(self.data[word][1]-self.center) < self.stopVal:
+                stopWords.append(word)
+        for word in stopWords:
+            del self.data[word]
+
+    def __init__(self,datastructure='dict',bootstrap=False,stopVal=0.0,bananas=False,loadFromFile=False,saveFile=False,lang='english'):
         """Instantiate the class."""
         self.stopVal = stopVal
         self.datastructure = datastructure
@@ -270,7 +282,8 @@ class sentiDict(object):
             if not isdir('{0}'.format(self.folder)):
                 mkdir('{0}'.format(self.folder))
         if not self.stems and datastructure=="dict":
-            self.data = self.loadDict(bananas)
+            self.data = self.loadDict(bananas,lang)
+            self.stopData()
             if bootstrap:
                 self.bootstrapify()
             self.makeListsFromDict()
@@ -286,7 +299,8 @@ class sentiDict(object):
                 self.my_marisa[1].load('{0}/{1:.2f}-stem.marisa'.format(self.folder,stopVal))
             else:
                 # load up the dict
-                self.data = self.loadDict(bananas)
+                self.data = self.loadDict(bananas,lang)
+                self.stopData()
                 # make lists from it
                 self.makeListsFromDict()
                 # create the trie
@@ -300,7 +314,9 @@ class sentiDict(object):
         print("loading {0} with stopVal={1}, for {2} words".format(self.title,stopVal,len(self.data)))
 
 class LabMT(sentiDict):
-    """LabMT class."""
+    """LabMT class.
+    
+    Now takes the full name of the language."""
 
     folder = 'labMT'
     title = 'LabMT'
@@ -309,26 +325,23 @@ class LabMT(sentiDict):
     stems = False
     score_range = 'full'
 
-    def loadDict(self,bananas):
+    def loadDict(self,bananas,lang):
         # don't cheat
         LabMT = dict()
-        f = self.openWithPath("data/labMT/labMT2english.txt","r")
+        f = self.openWithPath("data/labMT/labMT2{}.txt".format(lang),"r")
         f.readline()
         # word    rank    happs   stddev  rank    rank    rank    rank
         i = 0
         for line in f:
             l = line.rstrip().split("\t")
-            word,overallrank,happs,stddev,rank1,rank2,rank3,rank4 = l
+            # this is for the english set
+            # word,overallrank,happs,stddev,rank1,rank2,rank3,rank4 = l
+            # for other langs, not the same
+            # we'll at least assume that the first four ar the same
+            word,overallrank,happs,stddev = l[:4]
             LabMT[word] = (i,float(happs),float(stddev))
             i+=1
         f.close()
-        stopWords = []
-        for word in LabMT:
-            if abs(LabMT[word][0]-self.center) < self.stopVal:
-                stopWords.append(word)
-        for word in stopWords:
-            del LabMT[word]
-        # print(LabMT["happy"])
         return LabMT
 
 class ANEW(sentiDict):
@@ -342,11 +355,10 @@ class ANEW(sentiDict):
     stems = False
     score_range = 'full'
 
-    def loadDict(self,bananas):
+    def loadDict(self,bananas,lang):
         """Load the corpus into a dictionary, straight from the origin corpus file."""
-
         
-        ANEW = dict()
+        ANEW_data = dict()
         f = self.openWithPath("data/ANEW/all-2.csv","r")
         # f = self.openWithPath("data/ANEW/all.csv","r")
         # f.readline()
@@ -357,17 +369,10 @@ class ANEW(sentiDict):
         for line in f:
             # description,word_no,valence_mean,valence_sd,arousal_mean,arousal_sd,dominance_mean,dominance_sd,word_frequency = line.rstrip().split(",")
             description,word_no,valence_mean,valence_sd,arousal_mean,arousal_sd,dominance_mean,dominance_sd,word_frequency = line.rstrip().split("\t")
-            ANEW[description] = (i,float(valence_mean),float(valence_sd))
+            ANEW_data[description] = (i,float(valence_mean),float(Valence_sd),float(arousal_mean),float(arousal_sd),float(dominance_mean),float(dominance_sd))
             i+=1
         f.close()
-        # stop the thing too
-        stopWords = []
-        for word in ANEW:
-            if abs(ANEW[word][0]-self.center) < self.stopVal:
-                stopWords.append(word)
-        for word in stopWords:
-            del ANEW[word]
-        return ANEW
+        return ANEW_data
 
 class LIWC(sentiDict):
     """LIWC class."""
@@ -381,7 +386,7 @@ class LIWC(sentiDict):
     score_range = 'integer'
     word_types = dict()
     
-    def loadDict(self,bananas):
+    def loadDict(self,bananas,lang):
         """Load the corpus into a dictionary, straight from the origin corpus file."""
         word_type_dict = dict()
         f = self.openWithPath("data/LIWC/LIWC2007_English100131_header.dic","r")
@@ -394,7 +399,7 @@ class LIWC(sentiDict):
         f.close()
         self.word_types = word_type_dict.copy()
         
-        LIWC = dict()
+        LIWC_data = dict()
         # mostly just the raw data (just no header)
         f = self.openWithPath("data/LIWC/LIWC2007_English100131_words.dic","r")
         print("loading data/LIWC/LIWC2007_English100131_words.dic")
@@ -407,21 +412,21 @@ class LIWC(sentiDict):
                 tags = [2,134,125,464]
             else:
                 tags = list(map(int,l[1:]))
-            if word not in LIWC:
-                LIWC[word] = [0 for j in range(len(word_type_dict)+2)]
-                LIWC[word][0] = i
+            if word not in LIWC_data:
+                LIWC_data[word] = [0 for j in range(len(word_type_dict)+2)]
+                LIWC_data[word][0] = i
                 # affect word
                 if 125 in tags:
                     # posititive
                     if 126 in tags:
                         score = 1
-                        LIWC[word][1] = score
+                        LIWC_data[word][1] = score
                     # negative
                     elif 127 in tags:
                         score = -1
-                        LIWC[word][1] = score
+                        LIWC_data[word][1] = score
                 for tag in tags:
-                    LIWC[word][word_type_dict[tag][0]] = 1
+                    LIWC_data[word][word_type_dict[tag][0]] = 1
                     
                 # SORT THIS MESS OUT LATER
                 # ...by adding all word types, the first score of 0
@@ -432,30 +437,22 @@ class LIWC(sentiDict):
                 # # if the bananas is false
                 # elif self.stopVal == 0.0 and 1 in l and not bananas:
                 #     score = 0
-                #     if word in LIWC:
+                #     if word in LIWC_data:
                 #         print(word)
-                #     LIWC[word][1] = score
+                #     LIWC_data[word][1] = score
                 # # but if bananas, put them neutral regardless of affect!
                 # elif self.stopVal == 0.0 and 1 in l and bananas:
                 #     score = 0
-                #     if word in LIWC:
+                #     if word in LIWC_data:
                 #         print(word)
-                #     LIWC[word] = (i,score)
+                #     LIWC_data[word] = (i,score)
                 
                 i+=1
             else:
-                # print("already in LIWC: {0}".format(word))
+                # print("already in LIWC_data: {0}".format(word))
                 pass
         f.close()
-        stopWords = []
-        if self.stopVal > 0.0:
-            for word in LIWC:
-                if LIWC[word][1] == 0.0:
-                    stopWords.append(word)
-            for word in stopWords:
-                del LIWC[word]
-        # print LIWC["like"]
-        return LIWC
+        return LIWC_data
 
 class MPQA(sentiDict):
     """MPQA class."""
@@ -467,7 +464,7 @@ class MPQA(sentiDict):
     stems = True
     score_range = 'integer'
     
-    def loadDict(self,bananas):
+    def loadDict(self,bananas,lang):
         """Load the corpus into a dictionary, straight from the origin corpus file."""
         MPQA = dict()
         scores = [-1,0,1]
@@ -509,13 +506,6 @@ class MPQA(sentiDict):
                 MPQA[word] = (i,scores[emotions.index(priorpolarity)],line.rstrip())
                 i+=1
         f.close()
-        stopWords = []
-        if self.stopVal > 0.0:
-            for word in MPQA:
-                if MPQA[word] == 0.0:
-                    stopWords.append(word)
-            for word in stopWords:
-                del MPQA[word]
         # print("MPQA duplicates: {0}".format(num_duplicates))
         return MPQA
 
@@ -527,7 +517,7 @@ class Liu(sentiDict):
     stems = False
     score_range = 'integer'
     
-    def loadDict(self,bananas):
+    def loadDict(self,bananas,lang):
         """Load the corpus into a dictionary, straight from the origin corpus file."""
         liu = dict()
         f = self.openWithPath("data/liu-lexicon/negative-words.txt","r")
@@ -561,7 +551,7 @@ class WK(sentiDict):
     stems = False
     score_range = 'full'
     
-    def loadDict(self,bananas):
+    def loadDict(self,bananas,lang):
         Warriner = dict()
         f = self.openWithPath("data/warriner/BRM-emot-submit.csv","r")
         f.readline()
@@ -572,12 +562,6 @@ class WK(sentiDict):
             i,word,v_mean_sum,v_sd_sum,v_rat_sum,a_mean_sum,a_sd_sum,a_rat_sum,d_mean_sum,d_sd_sum,d_rat_sum,v_mean_m,v_sd_m,v_rat_m,v_mean_f,v_sd_f,v_rat_f,a_mean_m,a_sd_m,a_rat_m,a_mean_f,a_sd_f,a_rat_f,d_mean_m,d_sd_m,d_rat_m,d_mean_f,d_sd_f,d_rat_f,v_mean_y,v_sd_y,v_rat_y,v_mean_o,v_sd_o,v_rat_o,a_mean_y,a_sd_y,a_rat_y,a_mean_o,a_sd_o,a_rat_o,d_mean_y,d_sd_y,d_rat_y,d_mean_o,d_sd_o,d_rat_o,v_mean_l,v_sd_l,v_rat_l,v_mean_h,v_sd_h,v_rat_h,a_mean_l,a_sd_l,a_rat_l,a_mean_h,a_sd_h,a_rat_h,d_mean_l,d_sd_l,d_rat_l,d_mean_h,d_sd_h,d_rat_h = l
             Warriner[word] = (int(i),float(v_mean_sum),float(v_sd_sum))
         f.close()
-        stopWords = []
-        for word in Warriner:
-            if abs(Warriner[word][0]-self.center) < self.stopVal:
-                stopWords.append(word)
-        for word in stopWords:
-            del Warriner[word]
         return Warriner
 
 class PANASX(sentiDict):
@@ -588,7 +572,7 @@ class PANASX(sentiDict):
     stems = False
     score_range = 'integer'
     
-    def loadDict(self,bananas):
+    def loadDict(self,bananas,lang):
         PANAS = dict()
         f = self.openWithPath("data/PANAS-X/affect.txt","r")
         i=0
@@ -608,9 +592,12 @@ class pattern(sentiDict):
     stems = False
     score_range = "integer"
 
-    def loadDict(self,bananas):
+    def loadDict(self,bananas,lang):
         import xml.etree.ElementTree as etree
-        tree = etree.parse('data/{0}/en-sentiment.xml'.format(self.folder))
+        relpath = abspath(__file__).split(u'/')[:-1]
+        relpath.append('data/{0}/en-sentiment.xml'.format(self.folder))
+        filename = '/'.join(relpath)
+        tree = etree.parse(filename)
         root = tree.getroot()
         # look at some stuff:
         # print(root)
@@ -619,11 +606,20 @@ class pattern(sentiDict):
         #     print(child.tag)
         #     print(child.form)
         #     print(child.attrib['form'])
+
+        my_dict = dict()
             
         # print(len(my_dict))
         # print(root[0].attrib)
         for i,child in enumerate(root):
-            my_dict[child.attrib['form']] = (i,float(child.attrib['polarity']))
+            if child.attrib['form'] in my_dict:
+                my_dict[child.attrib['form']][1].append(float(child.attrib['polarity']))
+            else:
+                my_dict[child.attrib['form']] = [i,[float(child.attrib['polarity'])]]
+
+        # since we are not detecting sense, take an average
+        for word in my_dict:
+            my_dict[word] = (my_dict[word][0],sum(my_dict[word][1])/len(my_dict[word][1]))
 
         # look at the words
         # print(len(my_dict))
@@ -642,8 +638,8 @@ class sentiWordNet(sentiDict):
     stems = False
     score_range = "full"
 
-    def loadDict(self,bananas):
-        f = open("data/{0}/SentiWordNet_3.0.0_20130122.txt".format(folder),"r")
+    def loadDict(self,bananas,lang):
+        f = self.openWithPath("data/{0}/SentiWordNet_3.0.0_20130122.txt".format(self.folder),"r")
         f.readline()
         my_dict = dict()
         for line in f:
@@ -658,8 +654,8 @@ class sentiWordNet(sentiDict):
 
         i = 0
         for word in my_dict:
-            pos_scores = map(float,my_dict[word][0::2])
-            neg_scores = map(float,my_dict[word][1::2])
+            pos_scores = list(map(float,my_dict[word][0::2]))
+            neg_scores = list(map(float,my_dict[word][1::2]))
             my_dict[word] = (i,sum(pos_scores)/len(pos_scores),sum(neg_scores)/len(neg_scores))
             i+=1
             
@@ -682,12 +678,21 @@ class AFINN(sentiDict):
     stems = False
     score_range = "full"
 
-    def loadDict(self,bananas):
-        afinn = dict([ (line.rstrip().split(t)[0],int(line.rstrip().split(t)[1])) for line in open("data/AFINN/AFINN-111.txt") ])
+
+    def loadDict(self,bananas,lang):
+        # afinn = dict(map(lambda x: (x[0],int(x[1])),
+        #              [ line.split("\t") for line in self.openWithPath("data/AFINN/AFINN/AFINN-111.txt","r") ]))
+        afinn = dict()
+        i = 0
+        for line in self.openWithPath("data/AFINN/AFINN/AFINN-111.txt","r"):
+            x = line.split("\t")
+            afinn[x[0]] = (i,int(x[1]))
+            i += 1
+        # afinn = dict([ (line.rstrip().split("\t")[0],int(line.rstrip().split("\t")[1])) for line in self.openWithPath("data/AFINN/AFINN/AFINN-111.txt","r") ])
         # pos_words = [word for word in afinn if afinn[word] > 0]
         # neg_words = [word for word in afinn if afinn[word] < 0]
         # neu_words = [word for word in afinn if afinn[word] == 0]
-
+        # print(afinn)
         return afinn
     
 class GI(sentiDict):
@@ -698,34 +703,45 @@ class GI(sentiDict):
     stems = False
     score_range = "integer"
 
-    def loadDict(self,bananas):
+    def loadDict(self,bananas,lang):
         # coding: utf-8
-        f = open("inqtabs.txt","r")
+        f = self.openWithPath("data/GI/inqtabs.txt","r")
         header = f.readline().rstrip()
-        for line in f:
-            splitline = line.rstrip().split("\t")
-            word = splitline[0]
-            pos = splitline[2]
-            neg = splitline[3]
-            if len(pos) > 0:
-                my_dict[word] = 1
-            if len(neg) > 0:
-                my_dict[word] = -1
+        # for line in f:
+        #     splitline = line.rstrip().split("\t")
+        #     word = splitline[0]
+        #     pos = splitline[2]
+        #     neg = splitline[3]
+        #     if len(pos) > 0:
+        #         my_dict[word] = 1
+        #     if len(neg) > 0:
+        #         my_dict[word] = -1
                 
         my_dict = dict()
         i = 0
         for line in f:
             splitline = line.rstrip().split("\t")
-            word = splitline[0]
+            word = splitline[0].lower()
+            if word[-1] in map(str,range(10)):
+                if word[-2] == "#":
+                    word = word[:-2]
             pos = splitline[2]
             neg = splitline[3]
-            if len(pos) > 0:
-                my_dict[word] = (i,1)
-                i+=1
-            elif len(neg) > 0:
-                # print("oops, {0} is both pos and negative".format(word))
-                my_dict[word] = (i,-1)
-                i+=1
+            if word in my_dict:
+                if (my_dict[word][1] == 1) and len(neg) > 0:
+                    print("oops, {0} is both pos and negative".format(word))
+                if (my_dict[word][1] == 0) and len(pos) > 0:
+                    print("oops, {0} is both pos and negative".format(word))
+            else:
+                if len(pos) > 0 and len(neg) > 0:
+                    print("oops, {0} is both pos and negative in a single entry".format(word))
+                elif len(pos) > 0 and len(neg) == 0:
+                    my_dict[word] = (i,1)
+                    i+=1
+                elif len(pos) == 0 and len(neg) > 0:
+                    # print("oops, {0} is both pos and negative".format(word))
+                    my_dict[word] = (i,-1)
+                    i+=1
             
         # len(my_dict)
         # pos_words = [word for word in my_dict if my_dict[word] > 0]
@@ -743,8 +759,8 @@ class WDAL(sentiDict):
     stems = False
     score_range = "full"
 
-    def loadDict(self,bananas):
-        f = open("words.txt","r")
+    def loadDict(self,bananas,lang):
+        f = self.openWithPath("data/WDAL/words.txt","r")
         my_dict = dict()
         f.readline()
         i = 0
@@ -779,73 +795,79 @@ class NRC(sentiDict):
     stems = False
     score_range = "full"
 
-    def loadDict(self,bananas):
+    def loadDict(self,bananas,lang):
         i = 0
         # coding: utf-8
-        f = open("Sentiment140-Lexicon-v0.1/unigrams-pmilexicon.txt","r")
+        f = self.openWithPath("data/NRC/Sentiment140-Lexicon-v0.1/unigrams-pmilexicon.txt","r")
         unigrams = dict()
         for line in f:
             word,score,poscount,negcount = line.rstrip().split("\t")
             if word not in unigrams:
-                unigrams[word] = (i,score)
+                unigrams[word] = (i,float(score))
                 i+=1
-            # else:
-            #     print("complaining")
+            else:
+                print("complaining")
         f.close()
         
         # print("read in {0} unigrams".format(len(unigrams)))
         
-        f = open("Sentiment140-Lexicon-v0.1/bigrams-pmilexicon.txt","r")
+        f = self.openWithPath("data/NRC/Sentiment140-Lexicon-v0.1/bigrams-pmilexicon.txt","r")
         bigrams = dict()
         for line in f:
             word,score,poscount,negcount = line.rstrip().split("\t")
             if word not in bigrams:
-                bigrams[word] = (i,score)
+                bigrams[word] = (i,float(score))
                 i+=1
-            # else:
-            #     print("complaining")
+            else:
+                print("complaining")
         f.close()
 
         # print("read in {0} bigrams".format(len(bigrams)))        
         
-        f = open("Sentiment140-Lexicon-v0.1/pairs-pmilexicon.txt","r")
+        f = self.openWithPath("data/NRC/Sentiment140-Lexicon-v0.1/pairs-pmilexicon.txt","r")
         pairs = dict()
         for line in f:
             word,score,poscount,negcount = line.rstrip().split("\t")
             if word not in pairs:
-                pairs[word] = score
+                pairs[word] = (i,float(score))
                 i+=1
-            # else:
-            #     print("complaining")            
+            else:
+                print("complaining")
         f.close()
 
         # print("read in {0} pairs".format(len(pairs)))
 
         # print("length of all of them: {0}".format(len(pairs)+len(bigrams)+len(unigrams)))
         
-        all = unigrams.copy()
-        all.update(bigrams)
-        all.update(pairs)
+        all_grans = unigrams.copy()
+        all_grans.update(bigrams)
+        all_grans.update(pairs)
         
-        # pos_words = [word for word in all if all[word] > 0]
-        # neg_words = [word for word in all if all[word] < 0]
-        # neu_words = [word for word in all if all[word] == 0]
+        # pos_words = [word for word in all_grans if all_grans[word] > 0]
+        # neg_words = [word for word in all_grans if all_grans[word] < 0]
+        # neu_words = [word for word in all_grans if all_grans[word] == 0]
         # len(pos_words)
         # len(neg_words)
-        # all['happy']
-        # pos_words = [word for word in all if float(all[word]) > 0]
+        # all_grans['happy']
+        # pos_words = [word for word in all_grans if float(all_grans[word]) > 0]
         # len(neg_words)
         # len(pos_words)
-        # neg_words = [word for word in all if float(all[word]) < 0]
-        # neu_words = [word for word in all if float(all[word]) == 0]
+        # neg_words = [word for word in all_grans if float(all_grans[word]) < 0]
+        # neu_words = [word for word in all_grans if float(all_grans[word]) == 0]
         # len(neg_words)
         # len(neu_words)
 
-        return all
+        # for word in all_grans:
+        #     if word == "":
+        #         print(word,all_grans[word])
+        #     if len(word) == 1:
+        #         print(word,all_grans[word])
 
-# class Sentence(object):
-#     words = []
+        return all_grans
+
+class Sentence(object):
+    words = []
     
-#     def __init__():
-#         pass
+    def __init__():
+        pass
     

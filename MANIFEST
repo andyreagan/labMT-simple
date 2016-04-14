@@ -3,6 +3,8 @@ README.txt
 setup.cfg
 setup.py
 labMTsimple/__init__.py
+labMTsimple/applescript.py
+labMTsimple/chrome-print.py
 labMTsimple/speedy.py
 labMTsimple/storyLab.py
 labMTsimple/data/ANEW/all.csv

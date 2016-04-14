@@ -7,8 +7,8 @@ import codecs
 from json import loads
 
 # this has some useful functions
-sys.path.append("/Users/andyreagan/work/2015/08-kitchentabletools/")
-from dog.toys import *
+sys.path.append("/Users/andyreagan/tools/python/kitchentable/")
+from dogtoys import *
 
 TOL = 1e-3
 
@@ -84,16 +84,16 @@ def test_storyLab_labMT_english():
     print(comp_happs_stopped)
     print("-"*80)    
 
-    outFile = "test-rsvg.html"
-    shiftPDF(labMTvector, labMTwordList, ref_freq, comp_freq, outFile, open_pdf=False)
+    outFile = "test.html"
+    shiftHtml(labMTvector, labMTwordList, ref_freq, comp_freq, outFile)
 
-    outFile = "test-rsvg-stopped.html"    
-    shiftPDF(labMTvector, labMTwordList, ref_freq_stopped, comp_freq_stopped, outFile, open_pdf=False)
+    outFile = "test-stopped.html"    
+    shiftHtml(labMTvector, labMTwordList, ref_freq_stopped, comp_freq_stopped, outFile)
     
-    # also make the inkscape version
-    shiftHtml(labMTvector, labMTwordList, ref_freq, comp_freq, "test-inkscape.html")
-    generateSVG("test-inkscape.html")
-    generatePDF("test-inkscape.svg",program="inkscape")
+    # # also make the inkscape version
+    # shiftHtml(labMTvector, labMTwordList, ref_freq, comp_freq, "test-inkscape.html")
+    # generateSVG("test-inkscape.html")
+    # generatePDF("test-inkscape.svg",program="inkscape")
     # subprocess.call("open test-inkscape.pdf",shell=True)
     
     sortedMag,sortedWords,sortedType,sumTypes = shift(ref_freq, comp_freq, labMTvector, labMTwordList)
@@ -137,7 +137,7 @@ def my_test_speedy(my_senti_dict,my_senti_marisa,test_dict):
         print(my_senti_marisa.stemwords[0])
 
     # check that they all match happy
-    if my_senti_marisa.matcherTrieBool("happy"):
+    if my_senti_marisa.matcherTrieBool(u"happy"):
         print("happy is in the list")
     else:
         print("happy is *NOT* in the list")
@@ -217,9 +217,9 @@ def test_speedy_all():
         ref_word_vec_stopped = senti_marisa.stopper(ref_word_vec,stopVal=stopVal)
         comp_word_vec = senti_marisa.wordVecify(comp_dict)
         comp_word_vec_stopped = senti_marisa.stopper(comp_word_vec,stopVal=stopVal)        
-        shiftPDF(senti_marisa.scorelist, senti_marisa.wordlist, ref_word_vec_stopped, comp_word_vec_stopped, "test-shift-{0}.html".format(senti_dict.title),corpus=senti_marisa.corpus)
+        shiftHtml(senti_marisa.scorelist, senti_marisa.wordlist, ref_word_vec_stopped, comp_word_vec_stopped, "test-shift-{0}.html".format(senti_dict.title),corpus=senti_marisa.corpus)
 
-        shiftPDF(senti_marisa.scorelist, senti_marisa.wordlist, ref_word_vec, comp_word_vec, "test-shift-titles.html".format(senti_dict.title),customTitle=True,title="Insert title here",ref_name="bananas",comp_name="apples")
+        shiftHtml(senti_marisa.scorelist, senti_marisa.wordlist, ref_word_vec, comp_word_vec, "test-shift-titles.html".format(senti_dict.title),customTitle=True,title="Insert title here",ref_name="bananas",comp_name="apples")
 
     cleanup()
     
@@ -289,6 +289,16 @@ def all_features(rawtext,uid,tweet_id,gram_id):
     # load the classes that we need
 
     # print(len(my_LIWC.data))
+
+
+
+
+
+
+
+
+
+
     # print(len(my_LIWC.scorelist))
     my_word_vec = my_LIWC_stopped.wordVecify(word_dict)
     # print(len(my_word_vec))
@@ -312,7 +322,7 @@ def all_features(rawtext,uid,tweet_id,gram_id):
     # print(len(my_word_vec))
     # print(sum(my_word_vec))
     # print(result)
-    happsst[8] = sum(my_word_vec)
+    result[8] = sum(my_word_vec)
     result[9] = happs
 
     # make a word vector

@@ -48,6 +48,7 @@ import codecs
 import copy
 import subprocess
 from jinja2 import Template
+from numpy import unique
 
 def emotionFileReader(stopval=1.0,lang="english",min=1.0,max=9.0,returnVector=False):
   """Load the dictionary of sentiment words.
@@ -190,6 +191,31 @@ def stopper(tmpVec,score_list,word_list,stopVal=1.0,ignore=[],center=5.0):
 
   return newVec
 
+def stopper_mat(tmpVec,score_list,word_list,stopVal=1.0,ignore=[],center=5.0):
+  """Take a frequency vector, and 0 out the stop words.
+  
+  A sparse-aware matrix stopper.
+  F-vecs are rows: [i,:]
+
+  Will always remove the nig* words.
+  
+  Return the 0'ed matrix, sparse."""
+
+  ignoreWords = ["nigga","nigger","niggaz","niggas"];
+  for word in ignore:
+    ignoreWords.append(word)
+  indices_to_ignore = []
+  for i in range(len(score_list)):
+    if abs(score_list[i]-center) < stopVal:
+      indices_to_ignore.append(i)
+    if word_list[i] in ignoreWords:
+      indices_to_ignore.append(i)
+  indices_to_ignore = unique(indices_to_ignore)
+
+  tmpVec[:,indices_to_ignore] = 0
+  
+  return tmpVec
+
 def emotionV(frequencyVec,scoreVec):
   """Given the frequency vector and the score vector, compute the happs.
   
@@ -243,7 +269,7 @@ def shift(refFreq,compFreq,lens,words,sort=True):
   else:
     return shiftMag,shiftType,sumTypes
 
-def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile,corpus="LabMT",advanced=False,customTitle=False,title="",ref_name="",comp_name="",ref_name_happs="",comp_name_happs="",isare=""):
+def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile,corpus="LabMT",advanced=False,customTitle=False,title="",ref_name="reference",comp_name="comparison",ref_name_happs="",comp_name_happs="",isare=""):
   """Make an interactive shift for exploring and sharing.
 
   The most insane-o piece of code here (lots of file copying,
