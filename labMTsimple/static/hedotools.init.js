@@ -62,7 +62,6 @@ function splitWidth(s,w) {
 }
 
 // look away
-var intStr = ["one","two","three","four"];
-var intStr0 = ["zero","one","two","three"];
-
+var intStr0 = ["zero","one","two","three","four","five","six","seven","eight","nine","then"];
+var intStr = intStr0.slice(1,100);
 

@@ -35,9 +35,10 @@ hedotools.shifter = function()
     // if (viz_type_use_URL) {
     // }
     var _viz_type_use_URL = function(_) {
+        var that = this;
 	if (!arguments.length) return viz_type_use_URL;
 	 viz_type_use_URL = _;
-	return hedotools.shifter;
+	return that;
     }            
 
     // set a special variable to make sure all necessary things
@@ -51,21 +52,23 @@ hedotools.shifter = function()
 
     var widthsetexplicitly = false;
     var setfigure = function(_) {
+        var that = this;
 	// console.log("setting figure");
 	figure = _;
 	if (!widthsetexplicitly) {
 	    grabwidth();
 	}
-	return hedotools.shifter;
+	return that;
     }
 
     var show_x_axis_bool = false;
     var show_x_axis = function(_) {
+        var that = this;
 	if (!arguments.length) return show_x_axis_bool;
 	show_x_axis_bool = _;
         // give a litter extra space for it
 	axeslabelmargin.bottom = axeslabelmargin.bottom + 10;
-	return hedotools.shifter;
+	return that;
     }
 
     var splitstring = function(_,w,f) {
@@ -74,7 +77,9 @@ hedotools.shifter = function()
 	// and a max width w (in pixels)
 	// 
 	// return the strings split into an array
-	var font = f || "12px Latex default";
+	var font = f || (topFontSizeArray[topFontSizeArray.length-1]+"px Latex default");
+        // console.log(w);
+        // console.log(f);
 	var splitar = [];
 	var newar;
 	for (var i=0; i<_.length; i++) {
@@ -173,11 +178,12 @@ hedotools.shifter = function()
 
     // pull the width, set the height fixed
     var setHeight = function(_) {
+        var that = this;
 	if (!arguments.length) return fullheight;
 	fullheight = _;
 	boxheight = fullheight-margin.top-margin.bottom;
 	figheight = boxheight - axeslabelmargin.top - axeslabelmargin.bottom;
-	return hedotools.shifter;
+	return that;
     }
 
     // will be set by setdata() or shift() functions
@@ -191,66 +197,80 @@ hedotools.shifter = function()
     var refH;
     var compH;
 
+    var _sortedMag = function(_) {
+        var that = this;
+	if (!arguments.length) return sortedMag;
+	sortedMag = _;
+	return that;
+    }
+    var _sortedType = function(_) {
+        var that = this;
+	if (!arguments.length) return sortedType;
+	sortedType = _;
+	return that;
+    }
+    var _sortedWords = function(_) {
+        var that = this;
+	if (!arguments.length) return sortedWords;
+	sortedWords = _;
+	return that;
+    }
+    var _sortedWordsRaw = function(_) {
+        var that = this;
+	if (!arguments.length) return sortedWordsRaw;
+	sortedWordsRaw = _;
+	return that;
+    }
+
     var xlabel_text = "Per word average happiness shift";
     var _xlabel_text = function(_) {
+        var that = this;
 	if (!arguments.length) return xlabel_text;
 	xlabel_text = _;
-	return hedotools.shifter;
+	return that;
     }
 
     var ylabel_text = "Word Rank";
     var _ylabel_text = function(_) {
+        var that = this;
 	if (!arguments.length) return ylabel_text;
 	ylabel_text = _;
-	return hedotools.shifter;
-    }
-
-    var _sortedMag = function(_) {
-	if (!arguments.length) return sortedMag;
-	sortedMag = _;
-	return hedotools.shifter;
-    }
-    var _sortedType = function(_) {
-	if (!arguments.length) return sortedType;
-	sortedType = _;
-	return hedotools.shifter;
-    }
-    var _sortedWords = function(_) {
-	if (!arguments.length) return sortedWords;
-	sortedWords = _;
-        sortedWordsRaw = _;
-	return hedotools.shifter;
-    }
-    var _sortedWordsEn = function(_) {
-	if (!arguments.length) return sortedWordsEn;
-	sortedWordsEn = _;
-        sortedWordsRaw = _;
-	return hedotools.shifter;
-    }
-    var _sumTypes = function(_) {
-	if (!arguments.length) return sumTypes;
-	sumTypes = _;
-	return hedotools.shifter;
+	return that;
     }
     var _refH = function(_) {
+        var that = this;
 	if (!arguments.length) return refH;
 	refH = _;
-	return hedotools.shifter;
+	return that;
     }
     var _compH = function(_) {
+        var that = this;
 	if (!arguments.length) return compH;
 	compH = _;
-	return hedotools.shifter;
+	return that;
     }
 
     var reset = true;
     var _reset = function(_) {
+        var that = this;
 	if (!arguments.length) return reset;
 	reset = _;
-	return hedotools.shifter;
+	return that;
+    }
+
+    var get_word_index = function(w) {
+        var ind = -1;
+        for (var i=0; i<words.length; i++) {
+            if (w === words[i]) {
+                ind = i;
+                break;
+            }
+        }
+        return ind;
     }
 
     var resetbuttontoggle = function(_) {
+        var that = this;
 	if (!arguments.length) return reset;
 	resetButton(_);
 	if (_) {
@@ -261,10 +281,11 @@ hedotools.shifter = function()
 	    figure.select("g.help").style("visibility","hidden");
 	    figure.selectAll("text.credit").style("visibility","hidden");	    
 	}
-	return hedotools.shifter;
+	return that;
     }
 
     var setdata = function(a,b,c,d,e,f) {
+        var that = this;
 	// console.log("setting data");
 	sortedMag = a;
 	sortedType = b;
@@ -274,7 +295,7 @@ hedotools.shifter = function()
 	refH = e;
 	compH = f;
 	loadsremaining = 0;
-	return hedotools.shifter;
+	return that;
     }
 
     // ******************************************************************************** //
@@ -296,41 +317,46 @@ hedotools.shifter = function()
     // - only used if compatison text is set explicitly
     var split_top_strings = true;
     var _split_top_strings = function(_) {
+        var that = this;
 	if (!arguments.length) return split_top_strings;	
 	split_top_strings = _;
-	return hedotools.shifter;
+	return that;
     }
 
     var numBoldLines = 1;
     var setTextBold = function(_) {
+        var that = this;
 	if (!arguments.length) return numBoldLines;
 	numBoldLines = _;
-	return hedotools.shifter;
+	return that;
     }
 
     // only support up to 5 lines....
     var colorArray = ["#202020","#D8D8D8","#D8D8D8","#D8D8D8","#D8D8D8"];
-    var topFontSizeArray = [14,12,12,12,12];
+    var topFontSizeArray = [16,12,12,12,12];
     // var topFontSizeArray = [20,16,16,16,16];
     
     var setTextColors = function(_) {
+        var that = this;
 	if (!arguments.length) return colorArray;
 	colorArray = _;
-	return hedotools.shifter;
+	return that;
     }
 
     var setTopTextSizes = function(_) {
+        var that = this;
 	if (!arguments.length) return topFontSizeArray;
 	topFontSizeArray = _;
-	return hedotools.shifter;
+	return that;
     }
 
     var comparisonText = [""];
 
     var setText = function(_) {
+        var that = this;
 	if (!arguments.length) return _;
 	comparisonText = _;
-	return hedotools.shifter;
+	return that;
     }
 
     // end of the top text stuff                                                        //
@@ -348,65 +374,77 @@ hedotools.shifter = function()
     var translate = false;
 
     var _stoprange = function(_) {
+        var that = this;
 	if (!arguments.length) return stoprange;
 	stoprange = _;
-	return hedotools.shifter;
+	return that;
     }
 
     var _refF = function(_) {
+        var that = this;
 	if (!arguments.length) return refF;
 	refF = _;
+        // what better place to check for this
+        // some datasets have less than 200 words
+        numwordstoplot = d3.min([refF.length,numwordstoplot])
 	loadsremaining--;
-	return hedotools.shifter;
+	return that;
     }
 
     var _compF = function(_) {
+        var that = this;
 	if (!arguments.length) return compF;
 	compF = _;
 	loadsremaining--;
-	return hedotools.shifter;
+	return that;
     }
 
     var _lens = function(_) {
+        var that = this;
 	if (!arguments.length) return lens;
 	lens = _;
 	loadsremaining--;
-	return hedotools.shifter;
+	return that;
     }
 
     var _complens = function(_) {
+        var that = this;
 	if (!arguments.length) return complens;
 	complens = _;
-	return hedotools.shifter;
+	return that;
     }
 
     var _words = function(_) {
+        var that = this;
 	if (!arguments.length) return words;
 	words = _;
 	loadsremaining--;
-	return hedotools.shifter;
+	return that;
     }
 
     var _words_en = function(_) {
+        var that = this;
 	if (!arguments.length) return words_en;
 	words_en = _;
 	translate = true;
-	return hedotools.shifter;
+	return that;
     }
 
     var ignoreWords = ["nigga","niggas","niggaz","nigger"];
 
     var ignore = function(_) {
+        var that = this;
 	if (!arguments.length) return ignoreWords;
 	// refresh the list each time
 	ignoreWords = ["nigga","niggas","niggaz","nigger"];
 	ignoreWords = ignoreWords.concat(_);
 	// console.log(_);
 	// console.log(ignoreWords);
-	return hedotools.shifter;
+	return that;
     }
 
     var stop = function() {
+        var that = this;
 	// first check if all the loads are done
 	// WARNING
 	// could not get this loop to stop!
@@ -430,7 +468,7 @@ hedotools.shifter = function()
 		compF[i] = 0;
 	    }
 	}
-	return hedotools.shifter;
+	return that;
     }
 
     // stop an individual vector
@@ -471,13 +509,13 @@ hedotools.shifter = function()
 	    // console.log(words);
 	    sortedWords = sortedWords.map(function(d,i) { 
 		if (sortedType[i] == 0) {
-		    return ((i+1)+". ").concat(d.concat("-\u2193"));
+		    return ((i+1)+". ").concat(d.concat("-\u2193")); // down // increase in happs
 		} 
 		else if (sortedType[i] == 1) {
-		    return ((i+1)+". ").concat(d.concat("+\u2193"));
+		    return ((i+1)+". ").concat(d.concat("+\u2193")); // decrease in happs
 		}
 		else if (sortedType[i] == 2) {
-		    return ((i+1)+". ").concat(d.concat("-\u2191"));
+		    return ((i+1)+". ").concat(d.concat("-\u2191")); // up
 		} else {
 		    return ((i+1)+". ").concat(d.concat("+\u2191"));
 		}
@@ -518,25 +556,28 @@ hedotools.shifter = function()
     }
 
     var shift = function(a,b,c,d) {
+        var that = this;
 	refF = a;
 	compF = b;
 	lens = c;
 	words = d;
 	loadsremaining = 0;
 	shifter();
-	return hedotools.shifter;
+	return that;
     }
     
     // var sortedMagFull;
     var sortedTypeFull;
     var distflag = false;
     var plotdist = function(_) {
+        var that = this;
 	if (!arguments.length) return distflag;
 	distflag = _;
-	return hedotools.shifter;
+	return that;
     }
 
     var selfShifter = function() {
+        var that = this;
 	/* shift one frequency vectors, against itself
 
 	   uses self.refF
@@ -624,25 +665,29 @@ hedotools.shifter = function()
 	    }   
 	}
 
-	return hedotools.shifter;	
+	return that;	
     }
 
     var shiftMag;
     var shiftType;
 
     var _shiftMag = function(_) {
+        var that = this;
 	if (!arguments.length) return shiftMag;
 	shiftMag = _;
-	return hedotools.shifter;
+	return that;
     }
 
     var _shiftType = function(_) {
+        var that = this;
 	if (!arguments.length) return shiftType;
 	shiftType = _;
-	return hedotools.shifter;
+	return that;
     }
     
     var shifter = function() {
+        // console.log("running the shifter");
+        var that = this;
 	/* shift two frequency vectors
 	   -assume they've been zero-ed for stop words
 	   -lens is of full length
@@ -718,6 +763,9 @@ hedotools.shifter = function()
 	sortedType = Array(numwordstoplot);
 	sortedWords = Array(numwordstoplot);
 
+        // console.log(numwordstoplot);
+        // console.log(indices);
+
 	for (var i = 0; i < numwordstoplot; i++) { 
 	    sortedMag[i] = shiftMag[indices[i]]; 
 	    sortedType[i] = shiftType[indices[i]]
@@ -734,7 +782,7 @@ hedotools.shifter = function()
 		}
 	    }
 	    else {
-		sortedWords[i] = tmpword;		
+		sortedWords[i] = tmpword;	
 	    }
 	}
 
@@ -777,11 +825,16 @@ hedotools.shifter = function()
 	//     compH: compH,
 	// };
 
+        sortedWordsRaw = sortedWords;
+        sortedWordsRawEn = sortedWordsEn;
+	concatter();
+
 	// allow chaining here too
-	return hedotools.shifter;
+	return that;
     }
 
     var dualShifter = function() {
+        var that = this;
 	/* shift two frequency vectors
 	   -assume they've been zero-ed for stop words
 	   -lens is of full length
@@ -909,7 +962,7 @@ hedotools.shifter = function()
 	}
 
 	// allow chaining here too
-	return hedotools.shifter;
+	return that;
     }    
 
     var nbins = 100;
@@ -918,6 +971,7 @@ hedotools.shifter = function()
     var ntypes = 4;
     var nwords;
     var computedistributions = function() {
+        var that = this;
 	// bin the distribution of words into a distribution
 	// and cumulative
 	// there are four types of contributions here (the way
@@ -975,7 +1029,7 @@ hedotools.shifter = function()
 	// console.log(dist);
 	// console.log(cdist);
 	// console.log(cdist[cdist.length-1]);
-	return hedotools.shifter;
+	return that;
     }
     
     // declare a boat load of private variables
@@ -995,14 +1049,16 @@ hedotools.shifter = function()
     // the inspector computed width of ∑+↓ rendering in latex default (cmr10)
     var sumTextWidth = 34.1562;
     // these are set explicitly on the elements
-    var bigshifttextsize = 16;
-    var xaxisfontsize = 10;
-    var xylabelfontsize = 20;
-    var wordfontsize = 10;
+    var bigshifttextsize = 12;
+    var xaxisfontsize = 12;
+    var xylabelfontsize = 16;
+    var wordfontsize = 12;
     var distlabeltext = 8;
     var creditfontsize = 8;
-    var resetfontsize  = 13;
+    var resetfontsize  = 12;
+    // [16,10,20,10,8,8,13];
     var setFontSizes = function(_) {
+        var that = this;
         if (!arguments.length) return [bigshifttextsize,xaxisfontsize,xylabelfontsize,wordfontsize,distlabeltext,creditfontsize,resetfontsize];
         bigshifttextsize = _[0];
         xaxisfontsize = _[1];
@@ -1011,7 +1067,7 @@ hedotools.shifter = function()
         distlabeltext = _[4];
         creditfontsize = _[5];
         resetfontsize = _[6];
-	return hedotools.shifter;
+	return that;
     }
     var typeClass = ["negdown","posdown","negup","posup"];
     var colorClass;
@@ -1028,6 +1084,7 @@ hedotools.shifter = function()
     var logowidth = 0;
 
     var drawlogo = function() {
+        var that = this;
 	logo = true;
 	var logosize = d3.min([toptextheight-10,80]);
 	logowidth = logosize+40; // add some extra space
@@ -1046,8 +1103,16 @@ hedotools.shifter = function()
 
     var xAxis;
     var distgroup;
+    var my_shift_id = "shiftsvg";
+    var _my_shift_id = function(_) {
+        var that = this;
+	if (!arguments.length) return my_shift_id;
+	my_shift_id = _;
+	return that;
+    }
 
     var plot = function() {
+        var that = this;
 	/* plot the shift
 
 	   -take a d3 selection, and draw the shift SVG on it
@@ -1068,13 +1133,13 @@ hedotools.shifter = function()
 	    }
 
 	    // console.log("generating text for wordshift");
-	    comparisonText = splitstring(["Reference happiness: "+refH.toFixed(2),"Comparison happiness: "+compH.toFixed(2),"Why comparison is "+happysad+" than reference:"],boxwidth-10-logowidth,"14px Latex default");
+	    comparisonText = splitstring(["Reference happiness: "+refH.toFixed(2),"Comparison happiness: "+compH.toFixed(2),"Why comparison is "+happysad+" than reference:"],boxwidth-10-logowidth);
 
 	    // console.log(comparisonText);
 	}
 	else {
 	    if ( split_top_strings ) {
-		comparisonText = splitstring(comparisonText,boxwidth-10-logowidth,"14px Latex default");
+		comparisonText = splitstring(comparisonText,boxwidth-10-logowidth);
 	    }
 	    // console.log(comparisonText);
 	}
@@ -1092,7 +1157,7 @@ hedotools.shifter = function()
 	// made a new svg
 	figure.selectAll("svg").remove();
 	canvas = figure.append("svg")
-	    .attr("id","shiftsvg")
+	    .attr("id",my_shift_id)
 	    .attr("width",function () { return boxwidth; })
 	    .attr("height",function () { return boxheight; });
 	
@@ -1117,11 +1182,7 @@ hedotools.shifter = function()
 	// console.log("appending to sorted words");
 	// console.log(sortedWords);
 
-        sortedWordsRaw = sortedWords;
-        if (translate) { sortedWordsEnRaw = sortedWordsEn; }
-	concatter();
-
-	maxWidth = d3.max(sortedWords.slice(0,5).map(function(d) { return d.width(wordfontsize + "px Latex default"); }));
+	maxWidth = d3.max(sortedWords.slice(0,7).map(function(d) { return d.width(wordfontsize + "px Latex default"); }));
 
 	// a little extra padding for the words
 	var xpadding = 10;
@@ -1205,7 +1266,7 @@ hedotools.shifter = function()
 	    // .attr("transform", "translate(0," + (figheight) + ")")
 		.call(xAxis);
 
-	    d3.selectAll(".tick line").style({"stroke":"black"});
+	    canvas.selectAll(".tick line").style({"stroke":"black"});
 	}
 
 
@@ -1248,6 +1309,7 @@ hedotools.shifter = function()
 		//     else { return x(d)}
 		// },
 		// "y": function(d,i) { return y(i+1); },
+                "id": function(d,i) { return "shiftrect"+i; },
                 "x": 0,
                 "y": 0,
                 "transform": function(d,i) {
@@ -1318,7 +1380,7 @@ hedotools.shifter = function()
             // ((d>0) ? 500 : -500)
             // ((d>0) ? figcenter : x(d))
 	    axes.selectAll("rect.shiftrect.zero").attr("transform",function(d,i) { return "translate("+((d>0) ? 500 : -500)+","+y(i+1)+")"; });
-            axes.selectAll("rect.shifttext.zero").attr("transform",function(d,i) { return "translate("+((d>0) ? 500 : -500)+","+(y(i+1)+iBarH)+")"; });
+            axes.selectAll("text.shifttext.zero").attr("transform",function(d,i) { return "translate("+((d>0) ? 500 : -500)+","+(y(i+1)+iBarH)+")"; });
 	    axes.selectAll("rect.shiftrect.one").attr("transform",function(d,i) { return "translate("+((d>0) ? 500 : -500)+","+y(i+1)+")"; });
 	    axes.selectAll("text.shifttext.one").attr("transform",function(d,i) { return "translate("+((d>0) ? 500 : -500)+","+(y(i+1)+iBarH)+")"; });
 	    axes.selectAll("rect.shiftrect.two").attr("transform",function(d,i) { return "translate("+((d>0) ? 500 : -500)+","+y(i+1)+")"; });
@@ -1410,7 +1472,13 @@ hedotools.shifter = function()
 		   })
 	    .text(function(d,i) { return d; });
 
-	bottombgrect = axes.append("rect").attr("x",3).attr("y",fullheight-axeslabelmargin.bottom-toptextheight).attr("width",figwidth-axeslabelmargin.left-5).attr("height",axeslabelmargin.bottom).attr("fill","white").style({"opacity": "1.0"});
+	bottombgrect = axes.append("rect")
+            .attr("x",3)
+            .attr("y",fullheight-axeslabelmargin.bottom-toptextheight)
+            .attr("width",figwidth-2)
+            .attr("height",axeslabelmargin.bottom)
+            .attr("fill","white")
+            .style({"opacity": "1.0"});
 
 	// draw the summary things
 	sepline = axes.append("line")
@@ -1578,6 +1646,7 @@ hedotools.shifter = function()
 	//.attr("y",function(d,i) { if (i<2) {return i*17+17;} else if ((sumTypes[3]+sumTypes[1])*(sumTypes[0]+sumTypes[2])<0) {return i*17+33; } else {return i*17+33; } })
 	// for only three days
             .attr({"class": "sumtextR",
+                   "id": function(d,i) { return "sumTextR"+i; },
 	           "y": function(d,i) { return i*17+17; },
                    "x": function(d,i) { return topScale(d)+5*d/Math.abs(d); },})
 	    .text(function(d,i) { if (i == 0) {return "\u2211+\u2191";} if (i==1) { return"\u2211-\u2193";} else { return "\u2211";} } );
@@ -1594,6 +1663,7 @@ hedotools.shifter = function()
 	    .append("rect")
 	    .attr({
 		"class": function(d,i) { return "sumrectL "+intStr0[i]+" "+typeClass[i]; },
+                "id": function(d,i) { return "sumTextL"+i; },
 		"x": function(d,i) { 
 		    if (i<2) { 
 			return topScale(d);
@@ -1742,25 +1812,25 @@ hedotools.shifter = function()
 
 	function zoomed() {
 	    // console.log(d3.event);
+
+            // this prevents scrolling in the wrong direction
 	    if (d3.event.translate[1] > 0) {
 		zoom.translate([0,0]).scale(1);
 	    }
 	    
 	    // if we have zoomed in, we set the y values for each subselection
-	    // console.log(shiftTypeSelect);
 	    if (shiftTypeSelect) {
 		for (var j=0; j<4; j++) {
 		    axes.selectAll("rect.shiftrect."+intStr0[j])
                         .attr("transform",function(d,i) {
-                            if (d>0) { return "translate("+(figcenter)+","+(y(i+1))+")"; } 
-		            else { return "translate("+(x(d))+","+(y(i+1))+")"; }
+                            return "translate("+(shiftType===j ? ((d>0) ? figcenter : x(d)) : ((d>0) ? 500 : -500))+","+(y(i+1))+")";
                         });
 		    axes.selectAll("text.shifttext."+intStr0[j])
                         .attr("transform",function(d,i) {
-                            if (d>0) { return "translate("+(x(d)+2)+","+(y(i+1)+iBarH)+")"; } 
-		            else { return "translate("+(x(d)-2)+","+(y(i+1)+iBarH)+")"; } });
-		}
-	    }
+                            return "translate("+(shiftType===j ? ((d>0) ? (x(d)+2) : (x(d)-2) ) : ((d>0) ? 500 : -500))+","+(y(i+1)+iBarH)+")";
+		        });
+                }
+            }
 	    else {
 		axes.selectAll("rect.shiftrect")
                     .attr("transform",function(d,i) {
@@ -1949,7 +2019,7 @@ hedotools.shifter = function()
 	    translateButton();
 	}
 
-	return hedotools.shifter;
+	return that;
 
     }; // hedotools.shifter.plot
 
@@ -2067,8 +2137,10 @@ hedotools.shifter = function()
     }; // translateButton
 
     var cloud = function() {
+        var that = this;
+        
         if (viz_type_decoder().cached === "table") {
-            console.log("removing table stuff");
+            // console.log("removing table stuff");
             newrank.remove();
             newfreq.remove();
             newtype.remove();
@@ -2078,7 +2150,7 @@ hedotools.shifter = function()
         
         // push the state the browser URL
         viz_type.varval("cloud");
-        console.log("making a cloud");
+        // console.log("making a cloud");
 
         // move all the stuff out of the way (table or wordshift)
         axes.selectAll("rect.shiftrect").transition().duration(1000).attr("x",1000);
@@ -2316,7 +2388,8 @@ hedotools.shifter = function()
             // console.log(t);
             return false;
         } // place()
-        return hedotools.shifter;
+        
+        return that;
     } // hedotools.shifter.cloud
 
     var newrank;
@@ -2326,9 +2399,11 @@ hedotools.shifter = function()
     var header;
 
     var table = function() {
+        var that = this;
+
         viz_type.varval("table");
 
-        console.log("making a table");
+        // console.log("making a table");
         
         var rankwidth = 20;
         var wordwidth = 70;
@@ -2336,10 +2411,10 @@ hedotools.shifter = function()
         var freqwidth = 25;
         var magwidth = 35;
         var totalwidth = rankwidth+wordwidth+typewidth+freqwidth+magwidth;
-        console.log("width of all the text stuff "+totalwidth);
+        // console.log("width of all the text stuff "+totalwidth);
         var barswidth = figwidth-totalwidth;
         var aligns = ["start","start","middle","middle","end","middle"];
-        console.log("width left "+barswidth);
+        // console.log("width left "+barswidth);
         xpadding = 10;
         var barcenter = totalwidth+barswidth/2;
         var width_offsets = [0,rankwidth,rankwidth+wordwidth,rankwidth+wordwidth+typewidth,rankwidth+wordwidth+typewidth+freqwidth+magwidth,barcenter];
@@ -2471,10 +2546,12 @@ hedotools.shifter = function()
 	    .scaleExtent([1,1])
 	    .on("zoom",zoomed);
         
-	return hedotools.shifter;
+	return that;
     } // hedotools.shifter.table()
 
     var replot = function() {
+        var that = this;
+
 	// apply new data to the bars, transition everything
 	// tricky to get the transition right
         var yHeight = (7+17*3+14+5-13); // 101
@@ -2484,7 +2561,7 @@ hedotools.shifter = function()
         sepline.transition().duration(1000).attr({"y1":barHeight,"y2":barHeight,});
 
         if (viz_type_decoder().cached === "table") {
-            console.log("removing table stuff");
+            // console.log("removing table stuff");
             newrank.remove();
             newfreq.remove();
             newtype.remove();
@@ -2493,7 +2570,7 @@ hedotools.shifter = function()
         }
 
         viz_type.varval("wordshift");
-        console.log("making a wordshift");
+        // console.log("making a wordshift");
 
 	// make sure to update this
 	if (comparisonText[0].length < 1) {
@@ -2514,10 +2591,6 @@ hedotools.shifter = function()
 	    }
 	    // console.log(comparisonText);
 	}
-
-        sortedWords = sortedWordsRaw;
-        if (translate) { sortedWords = sortedWordsRaw; }
-	concatter();
 
 	// could set a cap to make sure no 0"s
 	maxWidth = d3.max(sortedWords.slice(0,5).map(function(d) { return d.width(wordfontsize + "px Latex default"); }));
@@ -2631,6 +2704,9 @@ hedotools.shifter = function()
 
 	var newbars = axes.selectAll("rect.shiftrect").data(sortedMag);
 	var newwords = axes.selectAll("text.shifttext").data(sortedMag);
+        // console.log(sortedWords);
+        // console.log(sortedMag);
+        // console.log(compF);
 	
 	// if we haven't dont a subselection, apply with a transition
 	if (shiftseldecoder().current === "none" || shiftseldecoder().current.length === 0) {
@@ -2812,11 +2888,12 @@ hedotools.shifter = function()
 
 	newLtoptext.transition().duration(1500).attr("x",function(d,i) { return topScale(d)-5; });
 
-	return hedotools.shifter;
-	
+	return that;
     }; // hedotools.shifter.replot
 
     function resizeshift() {
+        var that = this;
+
 	// don't use this function...
 	// not sure why, but the updates don't always seem to work
 	// (need selections, can't pass variables that are local
@@ -2936,10 +3013,6 @@ hedotools.shifter = function()
 		    _words: _words,
 		    _words_en: _words_en,
 		    // boatload more accessor functions
-		    _sortedMag: _sortedMag,
-		    _sortedType: _sortedType,
-		    _sortedWords: _sortedWords,
-		    _sumTypes: _sumTypes,
 		    _refH: _refH,
 		    _compH: _compH,
 		    _xlabel_text: _xlabel_text,
@@ -2952,9 +3025,15 @@ hedotools.shifter = function()
 		    dualShifter: dualShifter,
                     setFontSizes: setFontSizes,
                     _viz_type_use_URL: _viz_type_use_URL,
+                    _my_shift_id: _my_shift_id,
+                    _sortedMag: _sortedMag,
+                    _sortedType: _sortedType,
+                    _sortedWords: _sortedWords,
+                    _sortedWordsRaw: _sortedWordsRaw,
+                    get_word_index: get_word_index,
 		  }
     return opublic;
-}();
+};
 
 function cloudSpriteSimple(my_canvas_context, d, size) {
     if (d.sprite) return;
@@ -3051,3 +3130,5 @@ function indexer2d(a,w,i,ip,j,jp) {
 
 // my_array = Array(10000);
 // for (var i=0; i<my_array.length; i++) { my_array[i] = i; }
+
+

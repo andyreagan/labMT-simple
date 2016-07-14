@@ -400,6 +400,151 @@ def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile,corpus="LabMT",advance
   # copy_static_files()
   link_static_files()
 
+
+def shiftHtmlPreshifted(scoreList,wordList,refFreq,compFreq,outFile,corpus="LabMT",advanced=False,customTitle=False,title="",ref_name="reference",comp_name="comparison",ref_name_happs="",comp_name_happs="",isare=""):
+  """Make an interactive shift for exploring and sharing.
+
+  The most insane-o piece of code here (lots of file copying,
+  writing vectors into html files, etc).
+  
+  Accepts a score list, a word list, two frequency files 
+  and the name of an HTML file to generate
+  
+  ** will make the HTML file, and a directory called static
+  that hosts a bunch of .js, .css that is useful."""
+
+  if len(ref_name_happs) == 0:
+    ref_name_happs = ref_name.capitalize()
+  if len(comp_name_happs) == 0:
+    comp_name_happs = comp_name.capitalize()
+
+  if not customTitle:
+    title = "Example shift using {0}".format(corpus)
+  
+  if not os.path.exists('static'):
+    os.mkdir('static')
+
+  sortedMag,sortedWords,sortedType,sumTypes = shift(refFreq,compFreq,scoreList,wordList,sort=True)
+
+  outFileShort = outFile.split('.')[0]
+    
+  # write out the template
+  sortedMag_string = ','.join(map(lambda x: '{0:.12f}'.format(x),sortedMag[:200]))
+  sortedWords_string = ','.join(map(lambda x: '"{0}"'.format(x),sortedWords[:200]))
+  sortedType_string = ','.join(map(lambda x: '{0:.0f}'.format(x),sortedType[:200]))
+  sumTypes_string = ','.join(map(lambda x: '{0:.3f}'.format(x),sumTypes))
+
+  # normalize frequencies
+  Nref = float(sum(refFreq))
+  Ncomp = float(sum(compFreq))
+  for i in range(len(refFreq)):
+    refFreq[i] = float(refFreq[i])/Nref
+    compFreq[i] = float(compFreq[i])/Ncomp
+  # compute the reference happiness
+  refH = "{0:.4}".format(sum([refFreq[i]*scoreList[i] for i in range(len(scoreList))]))
+  compH = "{0:.4}".format(sum([compFreq[i]*scoreList[i] for i in range(len(scoreList))]))
+  
+  # dump out a static shift view page
+  template = Template('''<html>
+<head>
+<title>Simple Shift Plot</title>
+<link href="static/hedotools.shift.css" rel="stylesheet">
+</head>
+<body>
+
+<div id="header"></div>
+<center>
+
+<div id="lens01" class="figure"></div>
+<br>
+<!-- <p>Click on the graph and drag up to reveal additional words.</p> -->
+
+<br>
+
+<div id="figure01" class="figure"></div>
+
+</center>
+
+<div id="footer"></div>
+
+<script src="static/d3.js" charset="utf-8"></script>
+<script src="static/jquery-1.11.0.min.js" charset="utf-8"></script>
+<script src="static/urllib.js" charset="utf-8"></script>
+<script src="static/hedotools.init.js" charset="utf-8"></script>
+<script src="static/hedotools.shifter.js" charset="utf-8"></script>
+<script type="text/javascript">
+    var sortedMag = [{{ sortedMag }}];
+    var sortedWords = [{{ sortedWords }}];
+    var sortedType = [{{ sortedType }}];
+    var sumTypes = [{{ sumTypes }}];
+    var refH = {{ refH }};
+    var compH = {{ compH }};
+
+    hedotools.shifter._sortedMag(sortedMag);
+    hedotools.shifter._sortedWords(sortedWords);
+	hedotools.shifter._sortedType(sortedType);
+	hedotools.shifter._sumTypes(sumTypes);
+
+    // hedotools.shifter.plotdist(true);
+
+    // do the shifting
+    // hedotools.shifter.shifter();
+    hedotools.shifter.setWidth(400);
+    // hedotools.shifter.setHeight(800);
+
+    // don't use the default title
+    // set own title
+    // but leave all of the default sizes and labels
+  
+    // extract these:
+    // from the code inside the shifter:
+    if (compH >= refH) {
+        var happysad = "happier";
+    }
+    else { 
+        var happysad = "less happy";
+	}
+
+    // also from inside the shifter:
+    // var comparisonText = splitstring(["Reference happiness: "+refH.toFixed(2),"Comparison happiness: "+compH.toFixed(2),"Why comparison is "+happysad+" than reference:"],boxwidth-10-logowidth,'14px arial');
+    // our adaptation:
+    var comparisonText = ["{{ title }}","","{{ ref_name_happs }} happiness: "+refH.toFixed(2),"{{ comp_name_happs }} happiness: "+compH.toFixed(2),"Why {{ comp_name }}{{ isare }}"+happysad+" than {{ ref_name }}:"];
+    // set it:
+    hedotools.shifter.setText(comparisonText);
+    hedotools.shifter.setTextBold(0);
+    hedotools.shifter.setTopTextSizes([24,16,16,16,16]);
+    hedotools.shifter.setTextColors(["#D8D8D8","#D8D8D8","#D8D8D8","#D8D8D8","#D8D8D8",]);
+    hedotools.shifter.setFontSizes([16,10,22,11,8,8,13]);
+    // [bigshifttextsize,xaxisfontsize,xylabelfontsize,wordfontsize,distlabeltext,creditfontsize,resetfontsize];
+
+    hedotools.shifter.setfigure(d3.select('#figure01'));
+    hedotools.shifter.plot();
+
+    // remove these right away....
+    d3.selectAll('g.resetbutton').remove();
+    d3.selectAll('.credit').remove();
+</script>
+
+</body>
+</html>''')
+
+  if isare == "":
+    isare = " is "
+    if list(comp_name)[-1] == "s":
+      isare = " are "
+  f = codecs.open(outFile,'w','utf8')
+  f.write(template.render(outFileShort=outFileShort,
+                          sortedMag=sortedMag_string, sortedWords=sortedWords_string,
+                          sortedType=sortedType_string, sumTypes=sumTypes_string,
+                          title=title, ref_name=ref_name, comp_name=comp_name,
+                          ref_name_happs=ref_name_happs, comp_name_happs=comp_name_happs,
+                          refH=refH,compH=compH,
+                          isare=isare))
+  f.close()
+  print("wrote shift to {}".format(outFile))
+  # copy_static_files()
+  link_static_files()
+
 def copy_static_files():
   # print('copying over static files')
   # for staticfile in ['d3.v3.min.js','plotShift.js','shift.js','example-on-load.js']:

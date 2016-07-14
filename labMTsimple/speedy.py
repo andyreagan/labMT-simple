@@ -59,24 +59,24 @@ class sentiDict(object):
 
     def bootstrapify(self):
         """Extend the lists without stems to include stems."""
-        if self.corpus in ['LabMT','ANEW']:
-            oldcorpus = self.corpus
+        if self.title in ['labMT','ANEW']:
+            oldcorpus = self.title
             # go get the stem sets to extend
-            self.corpus = 'LIWC'
+            self.title = 'LIWC'
             self.data = self.loadDict()
             # make lists from it
             self.makeListsFromDict()
             # create the trie
             LIWCtrie = self.makeMarisaTrie()
-            self.corpus = 'MPQA'
+            self.title = 'MPQA'
             self.data = self.loadDict()
             # make lists from it
             self.makeListsFromDict()
             # create the trie
             MPQAtrie = self.makeMarisaTrie()
-            self.corpus = oldcorpus
+            self.title = oldcorpus
 
-        if self.corpus not in ['LabMT','ANEW']:
+        if self.title not in ['labMT','ANEW']:
             pass
             # go get the other +/- 1 sets and add
             # only keep the ones that agree
@@ -108,7 +108,7 @@ class sentiDict(object):
             else:
                 tmpfixedwords.append(key)
                 tmpfixedscores.append(score[1])
-        if self.corpus in ['LabMT','ANEW']:
+        if self.title in ['labMT','ANEW']:
             # keep the original sort in this case
             stemindexer = []
             fixedindexer = sorted(range(len(tmpfixedwords)), key=lambda k: self.data[tmpfixedwords[k]][0])
@@ -311,24 +311,38 @@ class sentiDict(object):
             self.score = self.scoreTrieMarisa
             self.wordVecify = self.wordVecifyTrieMarisa
             self.datastructure = "marisatrie"
-        print("loading {0} with stopVal={1}, for {2} words".format(self.title,stopVal,len(self.data)))
+        # print("loading {0} with stopVal={1}, for {2} words".format(self.title,stopVal,len(self.data)))
 
 class LabMT(sentiDict):
     """LabMT class.
     
     Now takes the full name of the language."""
 
-    folder = 'labMT'
-    title = 'LabMT'
+    # the folder, of course
+    # same as the class, force upper case on first letter
+    folder = 'LabMT'
+    # short title
+    title = 'labMT'
+    # long title
+    title_long = 'language assessment by Mechanical Turk'
+    construction_note = "Survey: MT, 50 ratings"
+    license = "CC"
+    citation = """@article{dodds2015a,
+	Author = {Dodds, P. S. and Clark, E. M. and Desu, S. and Frank, M. R. and Reagan, A. J. and Williams, J. R. and Mitchell, L. and Harris, K. D. and Kloumann, I. M. and Bagrow, J. P. and Megerdoomian, K. and McMahon, M. T. and Tivnan, B. F. and Danforth, C. M.},
+	Journal = {PNAS},
+	Number = {8},
+	Pages = {2389--2394},
+	Title = {Human language reveals a universal positivity bias},
+	Volume = {112},
+	Year = {2015}}"""
     center = 5.0
-    corpus = 'LabMT'
     stems = False
-    score_range = 'full'
+    score_range_type = 'full'
 
     def loadDict(self,bananas,lang):
         # don't cheat
         LabMT = dict()
-        f = self.openWithPath("data/labMT/labMT2{}.txt".format(lang),"r")
+        f = self.openWithPath("data/LabMT/labMT2{}.txt".format(lang),"r")
         f.readline()
         # word    rank    happs   stddev  rank    rank    rank    rank
         i = 0
@@ -344,16 +358,33 @@ class LabMT(sentiDict):
         f.close()
         return LabMT
 
+    # n_fixed = 
+    # n_stems =
+    # n_words = n_fixed+n_stems
+    # score_range = 
+    # n_pos = 
+    # n_neg = 
+
 class ANEW(sentiDict):
     """ANEW class."""
 
     # these are the global lists
     folder = 'ANEW'
     title = 'ANEW'
+    title_long = 'Affective Norms of English Words'
+    construction_note = "Survey: FSU Psych 101"
+    license = "Free for research"
+    citation = """@techreport{bradley1999a,
+	Address = {Gainesville, FL},
+	Author = {Bradley, M. M. and Lang, P. J.},
+	Institution = {University of Florida},
+	Key = {psychology},
+	Title = {Affective norms for English words ({ANEW}): Stimuli, instruction manual and affective ratings},
+	Type = {Technical report C-1},
+	Year = {1999}}"""
     center = 5.0
-    corpus = 'ANEW'
     stems = False
-    score_range = 'full'
+    score_range_type = 'full'
 
     def loadDict(self,bananas,lang):
         """Load the corpus into a dictionary, straight from the origin corpus file."""
@@ -369,7 +400,7 @@ class ANEW(sentiDict):
         for line in f:
             # description,word_no,valence_mean,valence_sd,arousal_mean,arousal_sd,dominance_mean,dominance_sd,word_frequency = line.rstrip().split(",")
             description,word_no,valence_mean,valence_sd,arousal_mean,arousal_sd,dominance_mean,dominance_sd,word_frequency = line.rstrip().split("\t")
-            ANEW_data[description] = (i,float(valence_mean),float(Valence_sd),float(arousal_mean),float(arousal_sd),float(dominance_mean),float(dominance_sd))
+            ANEW_data[description] = (i,float(valence_mean),float(valence_sd),float(arousal_mean),float(arousal_sd),float(dominance_mean),float(dominance_sd))
             i+=1
         f.close()
         return ANEW_data
@@ -380,10 +411,19 @@ class LIWC(sentiDict):
     # these are the global lists
     folder = 'LIWC'
     title = 'LIWC'
+    title_long = 'Linguistic Inquiry and Word Count'
+    construction_note = "Manual"
+    license = "Paid, commercial"
+    citation = """@article{pennebaker2001a,
+	Author = {Pennebaker, James W and Francis, Martha E and Booth, Roger J},
+	Journal = {Mahway: Lawrence Erlbaum Associates},
+	Pages = {2001},
+	Title = {Linguistic inquiry and word count: {LIWC} 2001},
+	Volume = {71},
+	Year = {2001}}"""
     center = 0.0
-    corpus = 'LIWC'
     stems = True
-    score_range = 'integer'
+    score_range_type = 'integer'
     word_types = dict()
     
     def loadDict(self,bananas,lang):
@@ -457,19 +497,26 @@ class LIWC(sentiDict):
 class MPQA(sentiDict):
     """MPQA class."""
     # these are the global lists
-    folder = 'MPQA-lexicon'
+    folder = 'MPQA'
     title = 'MPQA'
+    title_long = "The Multi-Perspective Question Answering (MPQA) Subjectivity Dictionary"
+    construction_note = "Manual + ML"
+    license = "GNU GPL"
+    citation = """@article{wilson2005a,
+	Author = {Theresa Wilson and Janyce Wiebe and Paul Hoffmann},
+	Journal = {Proceedings of Human Language Technologies Conference/Conference on Empirical Methods in Natural Language Processing (HLT/EMNLP 2005)},
+	Title = {Recognizing Contextual Polarity in Phrase-Level Sentiment Analysis},
+	Year = {2005}}"""
     center = 0.0
-    corpus = 'MPQA'
     stems = True
-    score_range = 'integer'
+    score_range_type = 'integer'
     
     def loadDict(self,bananas,lang):
         """Load the corpus into a dictionary, straight from the origin corpus file."""
         MPQA = dict()
         scores = [-1,0,1]
         emotions = ["negative","neutral","positive"]
-        f = self.openWithPath("data/MPQA-lexicon/subjectivity_clues_hltemnlp05/subjclueslen1-HLTEMNLP05.tff","r")
+        f = self.openWithPath("data/MPQA/subjectivity_clues_hltemnlp05/subjclueslen1-HLTEMNLP05.tff","r")
         i = 0
         num_duplicates = 0
         for line in f:
@@ -510,17 +557,27 @@ class MPQA(sentiDict):
         return MPQA
 
 class Liu(sentiDict):
-    folder = 'liu-lexicon'
-    title = 'Liu'
+    folder = 'OL'
+    title = 'OL'
+    title_long = "Opinion Lexicon (Developed by Bing Liu)"
+    construction_note = "Dictionary propagation"
+    license = "Free"
+    citation = """@article{liu2010a,
+	Author = {Liu, Bing},
+	Journal = {Handbook of natural language processing},
+	Pages = {627--666},
+	Publisher = {Chapman \& Hall Goshen, CT},
+	Title = {Sentiment analysis and subjectivity},
+	Volume = {2},
+	Year = {2010}}"""
     center = 0.0
-    corpus = 'Liu'
     stems = False
-    score_range = 'integer'
+    score_range_type = 'integer'
     
     def loadDict(self,bananas,lang):
         """Load the corpus into a dictionary, straight from the origin corpus file."""
         liu = dict()
-        f = self.openWithPath("data/liu-lexicon/negative-words.txt","r")
+        f = self.openWithPath("data/OL/negative-words.txt","r")
         i=0
         for line in f:
             l = line.rstrip()
@@ -531,7 +588,7 @@ class Liu(sentiDict):
                 liu[l] = (i,-1)
                 i+=1
         f.close()
-        f = self.openWithPath("data/liu-lexicon/positive-words.txt","r")
+        f = self.openWithPath("data/OL/positive-words.txt","r")
         for line in f:
             l = line.rstrip()
             if l in liu:
@@ -544,16 +601,25 @@ class Liu(sentiDict):
         return liu
 
 class WK(sentiDict):
-    folder = 'warriner'
+    folder = 'WK'
     title = 'WK'
+    title_long = "Warriner and Kuperman rated words from SUBTLEX by Mechanical Turk"
+    construction_note = "Survey: MT, at least 14 ratings"
+    license = "CC"
+    citation = """@article{warriner2014a,
+	Author = {Warriner, Amy Beth and Kuperman, Victor},
+	Journal = {Cognition and Emotion},
+	Pages = {1--21},
+	Publisher = {Taylor \& Francis},
+	Title = {Affective biases in {E}nglish are bi-dimensional},
+	Year = {2014}}"""
     center = 5.0
-    corpus = 'WK'
     stems = False
-    score_range = 'full'
+    score_range_type = 'full'
     
     def loadDict(self,bananas,lang):
         Warriner = dict()
-        f = self.openWithPath("data/warriner/BRM-emot-submit.csv","r")
+        f = self.openWithPath("data/WK/BRM-emot-submit.csv","r")
         f.readline()
         # ,Word,V.Mean.Sum,V.SD.Sum,V.Rat.Sum,A.Mean.Sum,A.SD.Sum,A.Rat.Sum,D.Mean.Sum,D.SD.Sum,D.Rat.Sum,V.Mean.M,V.SD.M,V.Rat.M,V.Mean.F,V.SD.F,V.Rat.F,A.Mean.M,A.SD.M,A.Rat.M,A.Mean.F,A.SD.F,A.Rat.F,D.Mean.M,D.SD.M,D.Rat.M,D.Mean.F,D.SD.F,D.Rat.F,V.Mean.Y,V.SD.Y,V.Rat.Y,V.Mean.O,V.SD.O,V.Rat.O,A.Mean.Y,A.SD.Y,A.Rat.Y,A.Mean.O,A.SD.O,A.Rat.O,D.Mean.Y,D.SD.Y,D.Rat.Y,D.Mean.O,D.SD.O,D.Rat.O,V.Mean.L,V.SD.L,V.Rat.L,V.Mean.H,V.SD.H,V.Rat.H,A.Mean.L,A.SD.L,A.Rat.L,A.Mean.H,A.SD.H,A.Rat.H,D.Mean.L,D.SD.L,D.Rat.L,D.Mean.H,D.SD.H,D.Rat.H
         # i,word,v_mean_sum,v_sd_sum,v_rat_sum,a_mean_sum,a_sd_sum,a_rat_sum,d_mean_sum,d_sd_sum,d_rat_sum,v_mean_m,v_sd_m,v_rat_m,v_mean_f,v_sd_f,v_rat_f,a_mean_m,a_sd_m,a_rat_m,a_mean_f,a_sd_f,a_rat_f,d_mean_m,d_sd_m,d_rat_m,d_mean_f,d_sd_f,d_rat_f,v_mean_y,v_sd_y,v_rat_y,v_mean_o,v_sd_o,v_rat_o,a_mean_y,a_sd_y,a_rat_y,a_mean_o,a_sd_o,a_rat_o,d_mean_y,d_sd_y,d_rat_y,d_mean_o,d_sd_o,d_rat_o,v_mean_l,v_sd_l,v_rat_l,v_mean_h,v_sd_h,v_rat_h,a_mean_l,a_sd_l,a_rat_l,a_mean_h,a_sd_h,a_rat_h,d_mean_l,d_sd_l,d_rat_l,d_mean_h,d_sd_h,d_rat_h
@@ -567,10 +633,17 @@ class WK(sentiDict):
 class PANASX(sentiDict):
     folder = 'PANAS-X'
     title = 'PANAS-X'
+    title_long = "The Positive and Negative Affect Schedule —-- Expanded"
+    construction_note = "Manual"
+    license = "Copyrighted paper"
+    citation = """@jurthesis{watson1999panas,
+	Author = {Watson, David and Clark, Lee Anna},
+	School = {University of Iowa},
+	Title = {The {PANAS-X}: Manual for the positive and negative affect schedule-expanded form: Manual for the positive and negative affect schedule-expanded form},
+	Year = {1999}}"""
     center = 0.0
-    corpus = 'PANAS-X'
     stems = False
-    score_range = 'integer'
+    score_range_type = 'integer'
     
     def loadDict(self,bananas,lang):
         PANAS = dict()
@@ -584,13 +657,25 @@ class PANASX(sentiDict):
         f.close()
         return PANAS
 
-class pattern(sentiDict):
-    folder = "pattern"
+class Pattern(sentiDict):
+    folder = "Pattern"
     title = "Pattern"
-    corpus = "Pattern"
+    title_long = "Pattern 2.6 python library"
+    note = "A web mining module for the Python programming language"
+    construction_note = "Unspecified"
+    license = "BSD"
+    citation = """@article{de2012pattern,
+	Author = {De Smedt, Tom and Daelemans, Walter},
+	Journal = {The Journal of Machine Learning Research},
+	Number = {1},
+	Pages = {2063--2067},
+	Publisher = {JMLR. org},
+	Title = {Pattern for {P}ython},
+	Volume = {13},
+	Year = {2012}}"""
     center = 0.0
     stems = False
-    score_range = "integer"
+    score_range_type = "full"
 
     def loadDict(self,bananas,lang):
         import xml.etree.ElementTree as etree
@@ -630,13 +715,24 @@ class pattern(sentiDict):
         # print(len(neg_words))
         return my_dict
 
-class sentiWordNet(sentiDict):
-    folder = "sentiWordNet"
+class SentiWordNet(sentiDict):
+    folder = "WentiWordNet"
     title = "SentiWordNet"
-    corpus = "SentiWordNet"
+    title_long = "WordNet synsets each assigned three sentiment scores: positivity, negativity, and objectivity"
+    note = "WordNet synsets each assigned three sentiment scores: positivity, negativity, and objectivity"
+    construction_note = "Synset synonyms"
+    license = "CC BY-SA 3.0"
+    citation = """@inproceedings{baccianella2010sentiwordnet,
+    title={SentiWordNet 3.0: An Enhanced Lexical Resource for Sentiment Analysis and Opinion Mining.},
+	Author = {Baccianella, Stefano and Esuli, Andrea and Sebastiani, Fabrizio},
+	Booktitle = {LREC},
+	Pages = {2200--2204},
+	Title = {Senti{W}ord{N}et 3.0: An Enhanced Lexical Resource for Sentiment Analysis and Opinion Mining.},
+	Volume = {10},
+	Year = {2010}}"""
     center = 0.0
     stems = False
-    score_range = "full"
+    score_range_type = "full"
 
     def loadDict(self,bananas,lang):
         f = self.openWithPath("data/{0}/SentiWordNet_3.0.0_20130122.txt".format(self.folder),"r")
@@ -673,10 +769,22 @@ class sentiWordNet(sentiDict):
 class AFINN(sentiDict):
     folder = "AFINN"
     title = "AFINN"
-    corpus = "AFINN"
+    note = "Words manually rated -5 to 5 with impact scores by Finn Nielsen"
+    title_long = note
+    construction_note = "Manual"
+    license = "ODbL v1.0"
+    citation = """@inproceedings{nielsen2011new,
+	Author = {Nielsen, Finn {\AA}rup},
+	Booktitle = {CEUR Workshop Proceedings},
+	Editor = {Matthew Rowe and Milan Stankovic and Aba-Sah Dadzie and Mariann Hardey},
+	Month = {May},
+	Pages = {93-98},
+	Title = {A new {ANEW}: Evaluation of a word list for sentiment analysis in microblogs},
+	Volume = {Proceedings of the ESWC2011 Workshop on 'Making Sense of Microposts': Big things come in small packages 718},
+	Year = {2011}}"""
     center = 0.0
     stems = False
-    score_range = "full"
+    score_range_type = "full"
 
 
     def loadDict(self,bananas,lang):
@@ -697,11 +805,20 @@ class AFINN(sentiDict):
     
 class GI(sentiDict):
     folder = "GI"
-    title = "General Inquirer"
-    corpus = "General Inquirer"
+    title = "GI"
+    title_long = "General Inquirer"
+    note = "Database of words and manually created semantic and cognitive categories, including positive and negative connotations"
+    construction_note = "Harvard-IV-4"
+    license = "Unspecified"
+    citation = """@article{stone1966general,
+	Author = {Stone, Philip J and Dunphy, Dexter C and Smith, Marshall S},
+	Journal = {MIT Press},
+	Publisher = {MIT press},
+	Title = {The General Inquirer: A Computer Approach to Content Analysis.},
+	Year = {1966}}"""
     center = 0.0
     stems = False
-    score_range = "integer"
+    score_range_type = "integer"
 
     def loadDict(self,bananas,lang):
         # coding: utf-8
@@ -753,11 +870,23 @@ class GI(sentiDict):
 
 class WDAL(sentiDict):
     folder = "WDAL"
-    title = "Whissel's Dictionary of Affective Language"
-    corpus = "Whissel's Dictionary of Affective Language"
+    title = "WDAL"
+    title_long = "Whissel's Dictionary of Affective Language"
+    note = "About 9000 words rated in terms of their Pleasantness, Activation, and Imagery (concreteness)"
+    construction_note = "Survey: Columbia students"
+    license = "Unspecified"
+    citation = """@article{whissell1986dictionary,
+	Author = {Whissell, Cynthia and Fournier, Michael and Pelland, Ren{\'e} and Weir, Deborah and Makarec, Katherine},
+	Journal = {Perceptual and Motor Skills},
+	Number = {3},
+	Pages = {875--888},
+	Publisher = {Ammons Scientific},
+	Title = {A dictionary of affect in language: IV. Reliability, validity, and applications},
+	Volume = {62},
+	Year = {1986}}"""
     center = 1.5
     stems = False
-    score_range = "full"
+    score_range_type = "full"
 
     def loadDict(self,bananas,lang):
         f = self.openWithPath("data/WDAL/words.txt","r")
@@ -790,10 +919,20 @@ class WDAL(sentiDict):
 class NRC(sentiDict):
     folder = "NRC"
     title = "NRC"
-    corpus = "NRC"
+    title_long = "Created from the “sentiment140” corpus of tweets, using emoticons as positive and negative labels"
+    note = "Created from the “sentiment140” corpus of tweets, using emoticons as positive and negative labels"
+    construction_note = "PMI with emoticons"
+    license = "Free for research"
+    citation = """@inproceedings{MohammadKZ2013,
+	Address = {Atlanta, Georgia, USA},
+	Author = {Mohammad, Saif M. and Kiritchenko, Svetlana and Zhu, Xiaodan},
+	Booktitle = {Proceedings of the seventh international workshop on Semantic Evaluation Exercises (SemEval-2013)},
+	Month = {June},
+	Title = {NRC-Canada: Building the State-of-the-Art in Sentiment Analysis of Tweets},
+	Year = {2013}}"""
     center = 0.0
     stems = False
-    score_range = "full"
+    score_range_type = "full"
 
     def loadDict(self,bananas,lang):
         i = 0
@@ -865,9 +1004,108 @@ class NRC(sentiDict):
 
         return all_grans
 
-class Sentence(object):
-    words = []
+class SOCAL(sentiDict):
+    # https://www.aclweb.org/anthology/J/J11/J11-2001.pdf
+    citation="""@article{taboada2011lexicon,
+	Author = {Taboada, Maite and Brooke, Julian and Tofiloski, Milan and Voll, Kimberly and Stede, Manfred},
+	Date-Added = {2016-07-13 20:17:18 +0000},
+	Date-Modified = {2016-07-13 20:17:18 +0000},
+	Journal = {Computational linguistics},
+	Number = {2},
+	Pages = {267--307},
+	Publisher = {MIT Press},
+	Title = {Lexicon-based methods for sentiment analysis},
+	Volume = {37},
+	Year = {2011}}"""
+
+class SenticNet(sentiDict):
+    citation="""@article{cambria2016affective,
+	Author = {Cambria, Erik},
+	Date-Added = {2016-07-13 20:46:11 +0000},
+	Date-Modified = {2016-07-13 20:46:11 +0000},
+	Journal = {IEEE Intelligent Systems},
+	Number = {2},
+	Pages = {102--107},
+	Publisher = {IEEE},
+	Title = {Affective computing and sentiment analysis},
+	Volume = {31},
+	Year = {2016}}"""
+
+class Emoticons(sentiDict):
+    citation="""@inproceedings{gonccalves2013comparing,
+  title={Comparing and combining sentiment analysis methods},
+  author={Gon{\c{c}}alves, Pollyanna and Ara{\'u}jo, Matheus and Benevenuto, Fabr{\'\i}cio and Cha, Meeyoung},
+  booktitle={Proceedings of the first ACM conference on Online social networks},
+  pages={27--38},
+  year={2013},
+  organization={ACM}}"""
+
+class SASA(sentiDict):
+    citation="""@inproceedings{wang2012system,
+	Author = {Wang, Hao and Can, Dogan and Kazemzadeh, Abe and Bar, Fran{\c{c}}ois and Narayanan, Shrikanth},
+	Booktitle = {Proceedings of the ACL 2012 System Demonstrations},
+	Date-Added = {2016-07-13 20:32:04 +0000},
+	Date-Modified = {2016-07-13 20:32:04 +0000},
+	Organization = {Association for Computational Linguistics},
+	Pages = {115--120},
+	Title = {A system for real-time twitter sentiment analysis of 2012 us presidential election cycle},
+	Year = {2012}}"""
+
+class SentiStrength(sentiDict):
+    citation="""
+@article{thelwall2010sentiment,
+	Author = {Thelwall, Mike and Buckley, Kevan and Paltoglou, Georgios and Cai, Di and Kappas, Arvid},
+	Date-Added = {2016-07-13 20:51:52 +0000},
+	Date-Modified = {2016-07-13 20:51:52 +0000},
+	Journal = {Journal of the American Society for Information Science and Technology},
+	Number = {12},
+	Pages = {2544--2558},
+	Publisher = {Wiley Online Library},
+	Title = {Sentiment strength detection in short informal text},
+	Volume = {61},
+	Year = {2010}}"""
+
+class VADER(sentiDict):
+    citation="""@inproceedings{hutto2014vader,
+  title={Vader: A parsimonious rule-based model for sentiment analysis of social media text},
+  author={Hutto, Clayton J and Gilbert, Eric},
+  booktitle={Eighth International AAAI Conference on Weblogs and Social Media},
+  year={2014}}"""
+
+class WNAffect(sentiDict):
+    citation="""@inproceedings{strapparava2004wordnet,
+	Author = {Strapparava, Carlo and Valitutti, Alessandro and others},
+	Booktitle = {LREC},
+	Date-Added = {2016-07-13 21:38:33 +0000},
+	Date-Modified = {2016-07-13 21:38:33 +0000},
+	Pages = {1083--1086},
+	Title = {WordNet Affect: an Affective Extension of WordNet.},
+	Volume = {4},
+	Year = {2004}}"""
+
+class Umigon(sentiDict):
+    citation="""@inproceedings{levallois2013umigon,
+	Author = {Levallois, Clement},
+	Booktitle = {Second Joint Conference on Lexical and Computational Semantics (* SEM)},
+	Date-Added = {2016-07-13 21:41:50 +0000},
+	Date-Modified = {2016-07-13 21:41:50 +0000},
+	Pages = {414--417},
+	Title = {Umigon: sentiment analysis for tweets based on terms lists and heuristics},
+	Volume = {2},
+	Year = {2013}}"""
+
+class USent(sentiDict):
+    citation="""@inproceedings{pappas2013distinguishing,
+  title={Distinguishing the popularity between topics: A system for up-to-date opinion retrieval and mining in the web},
+  author={Pappas, Nikolaos and Katsimpras, Georgios and Stamatatos, Efstathios},
+  booktitle={International Conference on Intelligent Text Processing and Computational Linguistics},
+  pages={197--209},
+  year={2013},
+  organization={Springer}}"""
     
-    def __init__():
-        pass
+# class Sentence(object):
+#     words = []
+    
+#     def __init__():
+#         pass
     

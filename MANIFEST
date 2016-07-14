@@ -7,6 +7,7 @@ labMTsimple/applescript.py
 labMTsimple/chrome-print.py
 labMTsimple/speedy.py
 labMTsimple/storyLab.py
+labMTsimple/data/ANEW/all-2.csv
 labMTsimple/data/ANEW/all.csv
 labMTsimple/data/MPQA-lexicon/subjectivity_clues_hltemnlp05/subjclueslen1-HLTEMNLP05.tff
 labMTsimple/data/PANAS-X/affect.txt
