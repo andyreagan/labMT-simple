@@ -62,16 +62,13 @@ def emotionFileReader(stopval=1.0,lang="english",min=1.0,max=9.0,returnVector=Fa
 
     fileName = 'labMT/labMT2{0}.txt'.format(lang)
 
-    try:
-        f = codecs.open(fileName,'r','utf8')
-    except IOError:
-        relpath = os.path.abspath(__file__).split(u'/')[1:-1]
-        relpath.append('data')
-        relpath.append(fileName)
-        fileName = '/'+'/'.join(relpath)
-        f = codecs.open(fileName,'r','utf8')
-    except:
-        raise('could not open the needed file')
+  try:
+    f = codecs.open(fileName,'r','utf8')
+  except IOError:
+    fileName = os.path.join(os.path.dirname(__file__), 'data', fileName)
+    f = codecs.open(fileName,'r','utf8')
+  except:
+    raise('could not open the needed file')
 
     # skip the first line
     f.readline()
