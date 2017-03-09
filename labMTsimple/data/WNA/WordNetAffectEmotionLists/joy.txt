@@ -1,0 +1,227 @@
+n#05576115 worship adoration
+n#05574157 weakness
+n#05609617 warmheartedness warmth
+n#05596663 triumph
+n#05598269 togetherness
+n#05597153 titillation
+n#05615127 sympathy fellow_feeling
+n#05579029 softheartedness tenderness
+n#05609172 soft_spot
+n#05599598 smugness
+n#05598965 satisfaction
+n#05597617 rejoicing
+n#05609011 regard respect
+n#05608223 puppy_love calf_love crush infatuation
+n#05608917 protectiveness
+n#05599226 pride
+n#05573914 preference penchant predilection taste
+n#05609709 loyalty
+n#05609517 lovingness caring
+n#05607724 love
+n#05573285 liking
+n#05615380 kindheartedness
+n#05596218 joy joyousness joyfulness
+n#05614225 jollity joviality
+n#05597701 jocundity jocularity
+n#05616407 identification feeling_of_identity
+n#05597503 hilarity mirth mirthfulness glee gleefulness
+n#05576222 hero_worship
+n#05595732 happiness
+n#05569706 gusto relish zest zestfulness
+n#05575210 good_will goodwill
+n#05599822 gloat gloating glee schadenfreude
+n#05596105 gladness gladfulness gladsomeness
+n#05597371 gaiety merriment
+n#05599694 fulfillment fulfilment
+n#05574913 friendliness
+n#05573609 fondness fancy partiality
+n#05575676 favor favour
+n#05596527 exultation jubilance jubilancy jubilation
+n#05617136 exuberance
+n#05596742 exhilaration excitement
+n#05597250 euphoria
+n#05616611 enthusiasm
+n#05616285 empathy
+n#05596414 elation high_spirits
+n#05616745 eagerness avidity avidness keenness
+n#05608345 devotion devotedness
+n#05598833 contentment
+n#05578595 concern
+n#05599367 complacency complacence self-complacency self-satisfaction
+n#05616177 compatibility rapport
+n#05597982 comfortableness
+n#05598089 closeness intimacy
+n#05598350 cheerfulness blitheness
+n#05598666 carefreeness insouciance lightheartedness lightsomeness
+n#05573752 captivation enchantment enthrallment fascination
+n#05598559 buoyancy perkiness
+n#05575322 brotherhood
+n#05596018 bonheur
+n#05609295 benevolence
+n#05609411 beneficence
+n#05597799 belonging
+n#05596946 bang charge rush flush thrill kick
+n#05608793 attachment fond_regard
+n#05608042 ardor ardour
+n#05616909 ardor ardour elan zeal
+n#05575439 approval
+n#05608126 amorousness enamoredness
+n#05575110 amicability amicableness
+n#05608483 affection affectionateness fondness tenderness heart warmheartedness
+n#05575841 admiration esteem
+a#01735655 admirable
+a#00859179 admirable
+a#00813947 affectional affective emotive
+a#01195116 amicable
+a#01404786 amatory amorous romantic
+a#01404669 amative amorous
+a#00943914 approving approbative approbatory
+a#00019699 approved
+a#00220367 beneficent
+a#00207781 beneficed
+a#00220542 benefic
+a#00221152 benevolent good
+a#00287715 brotherly brotherlike fraternal
+a#00824085 beguiled captivated charmed delighted enthralled entranced
+a#01405004 captivated charmed
+a#00168250 bewitching captivating enchanting enthralling entrancing fascinating
+a#02340900 carefree unworried
+a#00351663 cheerful
+a#00351663 cheerful
+a#00420393 close
+a#00446819 comfortable
+a#00527965 compatible sympathetic
+a#00556568 complacent self-satisfied
+a#00556147 contented content
+a#00556743 content happy
+a#00486658 devoted
+a#00843026 avid great eager zealous
+a#01313944 elated gleeful joyful jubilant
+a#00670286 elated
+a#00874095 elating exhilarating
+a#02264046 empathic empathetic
+a#00873571 exciting
+a#00842521 enthusiastic
+a#00863650 euphoriant
+a#00863471 euphoric happy
+a#00670851 gladdened exhilarated
+a#00874095 elating exhilarating
+a#01302744 exhilarating stimulating
+a#02168904 ebullient exuberant high-spirited
+a#00670575 exultant exulting jubilant prideful rejoicing triumphal triumphant
+a#00943564 favorable favourable
+a#01404342 affectionate caring fond lovesome tender warm
+a#01195320 friendly
+a#01314056 gala gay festal festive merry
+a#01314288 gay jocund jolly jovial merry mirthful
+a#00353055 cheery gay sunny
+a#01308350 gladsome
+a#00352106 beaming glad
+a#00352106 beaming glad
+a#01098277 glad
+a#01308059 glad
+a#01308059 glad
+a#00863471 euphoric happy
+a#01308490 happy pleased
+a#01099314 happy
+a#01215015 hilarious screaming uproarious
+a#01215015 hilarious screaming uproarious
+a#01314288 gay jocund jolly jovial merry mirthful
+a#01314288 gay jocund jolly jovial merry mirthful
+a#01100759 joyful joyous
+a#01313944 elated gleeful joyful jubilant
+a#01310561 joyful
+a#01310561 joyful
+a#01319594 kindhearted
+a#01401011 likable likeable
+a#01403478 loving
+a#00670575 exultant exulting jubilant prideful rejoicing triumphal triumphant
+a#02329300 caring protective
+a#00670575 exultant exulting jubilant prideful rejoicing triumphal triumphant
+a#02002844 comforting cheering satisfying
+a#01944086 appreciated gratifying pleasing satisfying
+a#00557087 satisfied
+a#01999937 satiable satisfiable
+a#02001946 satisfactory
+a#00557191 smug self-satisfied
+a#01111155 softhearted soft-boiled
+a#01319150 charitable kindly sympathetic
+a#02263541 sympathetic
+a#00874850 titillating
+a#00872975 teased titillated
+a#00670575 exultant exulting jubilant prideful rejoicing triumphal triumphant
+a#02411442 warmhearted
+a#01940830 adoring worshipful
+v#01247189 admire look_up_to
+v#01206630 affect impress move strike
+v#00454501 approve
+v#01232387 capture enamour trance catch becharm enamor captivate beguile charm fascinate bewitch entrance enchant
+v#00582621 cheer inspire urge barrack urge_on exhort pep_up
+v#00582462 cheer
+v#01240173 cheer hearten recreate embolden
+v#00582840 cheer cheer_up chirk_up
+v#00582994 cheer cheer_up jolly_along jolly_up
+v#01238399 comfort soothe console solace
+v#01827420 concern interest occupy worry
+v#00812241 content
+v#01239476 content
+v#01236227 elate lift_up uplift pick_up intoxicate
+v#01236227 elate lift_up uplift pick_up intoxicate
+v#01236581 exhilarate thrill exalt
+v#00582048 exult rejoice triumph jubilate
+v#01237518 exult walk_on_air be_on_cloud_nine jump_for_joy
+v#00467945 favor favour
+v#01822979 satisfy fulfill fulfil live_up_to
+v#01237013 gladden
+v#01237403 gladden joy
+v#00467782 identify
+v#00580082 kid chaff jolly banter
+v#01237403 gladden joy
+v#01237680 rejoice joy
+v#01213391 like
+v#01213205 like
+v#01212004 love
+v#01247684 love enjoy
+v#01211759 love
+v#00598839 preen pride congratulate
+v#01244174 revel wallow rejoice triumph
+v#00582048 exult rejoice triumph jubilate
+v#01237680 rejoice joy
+v#01239189 satisfy gratify
+v#01239069 tickle titillate
+v#00582048 exult rejoice triumph jubilate
+v#01244174 revel wallow rejoice triumph
+r#00215267 admirably laudably praiseworthily commendable
+r#00257643 amicably
+r#00273738 beneficially
+r#00389425 benevolently
+r#00227177 cheerfully
+r#00227177 cheerfully
+r#00403897 near nigh close
+r#00150972 comfortably
+r#00282876 compatibly
+r#00197382 eagerly thirstily
+r#00188539 sympathetically empathetically with_sympathy with_empathy
+r#00185177 enthusiastically
+r#00319405 ebulliently exuberantly expansively
+r#00330011 exuberantly riotously
+r#00223740 exultantly exultingly
+r#00226872 favorably favourably
+r#00343284 gloatingly
+r#00048845 happily merrily mirthfully gayly blithely jubilantly with_happiness
+r#00178680 hilariously uproariously
+r#00178680 hilariously uproariously
+r#00342819 gleefully joyously joyfully
+r#00342819 gleefully joyously joyfully
+r#00225391 fondly lovingly
+r#00260705 adorably endearingly
+r#00186262 proudly with_pride
+r#00207812 protectively giving_protection offering_protection
+r#00179505 gratifyingly satisfyingly
+r#00014198 satisfactorily
+r#00188539 sympathetically empathetically with_sympathy with_empathy
+r#00191539 triumphantly
+n#05583536 suspense
+n#05583387 anticipation expectancy
+a#02290470 cliff-hanging suspenseful suspensive
+v#01231091 anticipate look_for look_to

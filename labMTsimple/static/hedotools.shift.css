@@ -29,3 +29,8 @@ text
     font-family: "Latex default",serif;
 }
 
+div.outwrapper {
+    background: #e6e0cc;
+    padding: 20px;
+}
+

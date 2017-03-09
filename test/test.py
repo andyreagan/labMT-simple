@@ -5,14 +5,15 @@ from labMTsimple.speedy import *
 import subprocess
 import codecs
 from json import loads
+from jinja2 import Template
 
 # this has some useful functions
-sys.path.append("/Users/andyreagan/tools/python/kitchentable/")
-from dogtoys import *
+sys.path.append("/Users/andyreagan/tools/python/")
+from kitchentable.dogtoys import *
 
 TOL = 1e-3
 
-def test_storyLab_labMT_english():
+def storyLab_labMT_english():
     """Test as much of storyLab as possible.
 
     Basically an extended example."""
@@ -102,9 +103,8 @@ def test_storyLab_labMT_english():
     assert sortedWords[0] == "love"
     
     shiftMag,shiftType,sumTypes = shift(ref_freq, comp_freq, labMTvector, labMTwordList, sort=False)
-    
 
-def my_test_speedy(my_senti_dict,my_senti_marisa,test_dict):
+def speedy_dict_marisa_test(my_senti_dict,my_senti_marisa,test_dict):
     """Speedy test."""
 
     # lang = "english"
@@ -113,7 +113,6 @@ def my_test_speedy(my_senti_dict,my_senti_marisa,test_dict):
     
     dict_score = my_senti_dict.score(test_dict)
     dict_word_vec = my_senti_dict.wordVecify(test_dict)
-    
     marisa_score = my_senti_marisa.score(test_dict)
     marisa_word_vec = my_senti_marisa.wordVecify(test_dict)
 
@@ -198,9 +197,7 @@ def open_codecs_dictify(file):
             test_dict[word] = 1        
     return test_dict
 
-def test_speedy_all():
-    """Test all of the speedy dictionaries on scoring some dict of words."""
-
+def speedy_dict_marisa_test_all():
     ref_dict = open_codecs_dictify("examples/data/18.01.14.txt")
     comp_dict = open_codecs_dictify("examples/data/21.01.14.txt")
 
@@ -221,6 +218,105 @@ def test_speedy_all():
 
         shiftHtml(senti_marisa.scorelist, senti_marisa.wordlist, ref_word_vec, comp_word_vec, "test-shift-titles.html".format(senti_dict.title),customTitle=True,title="Insert title here",ref_name="bananas",comp_name="apples")
 
+def load_26():
+    all_sentiment_dictionaries = [LabMT(),ANEW(),LIWC01(),LIWC07(),LIWC15(),MPQA(),OL(),WK(),PANASX(),Pattern(),SentiWordNet(),AFINN(),GI(),WDAL(),EmoLex(),Sent140Lex(),SOCAL(),SenticNet(),Emoticons(),SentiStrength(),VADER(),Umigon(),USent(),EmoSenticNet()]
+    # MaxDiff(),HashtagSent(),
+    # SASA(),WNA(),SANN()
+
+def write_table():
+    # all_sentiment_dictionaries = [LabMT(),ANEW(),LIWC07(),MPQA(),OL(),WK(),LIWC01(),LIWC15(),PANASX(),Pattern(),SentiWordNet(),AFINN(),GI(),WDAL(),EmoLex(),MaxDiff(),HashtagSent(),Sent140Lex(),SOCAL(),SenticNet(),Emoticons(),SentiStrength(),VADER(),Umigon(),USent(),EmoSenticNet()]
+    all_sentiment_dictionaries = [LabMT(),
+                                  ANEW(),
+                                  LIWC07(),
+                                  MPQA(),
+                                  OL(),
+                                  WK(),
+                                  LIWC01(),
+                                  LIWC15(),
+                                  PANASX(),
+                                  Pattern(),
+                                  SentiWordNet(),
+                                  AFINN(),
+                                  GI(),
+                                  WDAL(),
+                                  EmoLex(),
+                                  MaxDiff(),
+                                  HashtagSent(),
+                                  Sent140Lex(),
+                                  SOCAL(),
+                                  SenticNet(),
+                                  Emoticons(),
+                                  SentiStrength(),
+                                  VADER(),
+                                  Umigon(),
+                                  USent(),
+                                  EmoSenticNet()]
+
+    for sentiment_dictionary in all_sentiment_dictionaries:
+        sentiment_dictionary.computeStatistics(0.0)
+
+    table_template = Template(r'''{\scriptsize
+  \begin{tabular*}{\linewidth}{ l | l | l | l | l | l}
+  %% \begin{tabular*}{l}{ l | l | l | l | l | l | l | l | l | l}
+    \hline
+    Dictionary & \# Entries & Range & Construction & License & Ref.\\
+    \hline
+    \hline{% for sentiment_dictionary in all_sentiment_dictionaries %}{% if loop.index is equalto 7 %}
+    \hline{% endif %}
+    {{ sentiment_dictionary.title }} & {{ sentiment_dictionary.n_total | int }} & {{ sentiment_dictionary.score_range_str }} & {{ sentiment_dictionary.construction_note }} & {{ sentiment_dictionary.license }} & \cite{ {{- sentiment_dictionary.citation_key -}} }\\{% endfor %}
+\end{tabular*}}
+''')
+
+    f = open("maintable-automatic-short.tex","w")
+    f.write(table_template.render({"all_sentiment_dictionaries": all_sentiment_dictionaries}))
+    f.close()
+    
+    f = open("maintable-automatic.tex","w")
+    f.write(r"""  {\scriptsize
+  \begin{tabular*}{\linewidth}{ l | l | l | l | l | l | l | l | l | l}
+    \hline
+    Dictionary & \# Fixed & \# Stems & Total & Range & \# Pos & \# Neg & Construction & License & Ref.\\
+    \hline
+    \hline
+""")
+    
+    for i,sentiment_dictionary in enumerate(all_sentiment_dictionaries):
+        print(i+1,sentiment_dictionary.title)
+        if i==6:
+            f.write("\\hline\n")
+        f.write("    {0} & {1:.0f} & {2:.0f} & {3:.0f} & {4} & {5:.0f} & {6:.0f} & {7} & {8} & \\cite{{{9}}}\\\\\n".format(sentiment_dictionary.title,
+                                                            sentiment_dictionary.n_fixed,
+                                                            sentiment_dictionary.n_stem,
+                                                            sentiment_dictionary.n_total,
+                                                            sentiment_dictionary.score_range_str,
+                                                            sentiment_dictionary.n_pos,
+                                                            sentiment_dictionary.n_neg,
+                                                            sentiment_dictionary.construction_note,
+                                                            sentiment_dictionary.license,
+                                                            sentiment_dictionary.citation_key))
+    f.write("""  \end{tabular*}}
+""")
+    f.close()
+    
+    f = open("body-description.tex","w")
+    f.write(r"""\begin{description} \itemsep1pt \parskip1pt \parsep0pt
+""")
+    for i,sentiment_dictionary in enumerate(all_sentiment_dictionaries):
+        f.write("    \\item[{0}] --- {1} \\cite{{{2}}}.\n".format(sentiment_dictionary.title,
+                                                            sentiment_dictionary.note,
+                                                            sentiment_dictionary.citation_key))
+    f.write(r"""  \end{description}
+""")
+    f.close()
+    
+def test_speedy_all():
+    """Test all of the speedy dictionaries on scoring some dict of words."""
+    # speedy_dict_marisa_test_all()
+    # storyLab_labMT_english()
+    # LIWC_other_features()
+    load_26()
+    # write_table()
+
     cleanup()
     
 def cleanup():
@@ -228,7 +324,7 @@ def cleanup():
     print("removing all test files generated...go comment the \"cleanup()\" call to keep them")
     subprocess.call("\\rm -r test-* static",shell=True)
 
-def test_LIWC_other_features():
+def LIWC_other_features():
     """Test LIWC on scoring all word types from the set."""
 
     # load up some words
@@ -289,16 +385,6 @@ def all_features(rawtext,uid,tweet_id,gram_id):
     # load the classes that we need
 
     # print(len(my_LIWC.data))
-
-
-
-
-
-
-
-
-
-
     # print(len(my_LIWC.scorelist))
     my_word_vec = my_LIWC_stopped.wordVecify(word_dict)
     # print(len(my_word_vec))
@@ -335,7 +421,7 @@ def all_features(rawtext,uid,tweet_id,gram_id):
 
     return result
     
-def test_all_features():
+def all_features_test():
     f = codecs.open("test/example-tweets.json" ,"r", "utf8")
     i = 0
     for line in f:

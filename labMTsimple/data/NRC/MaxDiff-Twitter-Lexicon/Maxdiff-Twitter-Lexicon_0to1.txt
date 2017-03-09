@@ -1,0 +1,1515 @@
+loves	0.992
+#inspirational	0.992
+amazing	0.984
+#peaceful	0.984
+#greatness	0.977
+fantastic	0.969
+#happytweet	0.969
+#spectacular	0.961
+phenomenal	0.961
+#happy	0.953
+fabulous	0.953
+enjoyed	0.953
+awesomeness	0.953
+#thebest	0.945
+perfection	0.945
+#sweetheart	0.945
+congratulation	0.945
+#inspired	0.945
+woooohoooo	0.938
+love	0.938
+#gorgeous	0.938
+#love	0.938
+#outstanding	0.938
+#happiness	0.938
+gorgeous	0.938
+helpful	0.938
+#glorious	0.938
+liked	0.938
+loving	0.938
+#inspire	0.93
+#fantastic	0.93
+#sophisticated	0.93
+loved	0.93
+appriciate	0.93
+goodluck	0.922
+positive	0.922
+amazzing	0.922
+lovee	0.922
+#incredible	0.922
+#inspiration	0.922
+wonderful	0.922
+sensational	0.922
+#graceful	0.922
+magnificent	0.922
+#bravo	0.914
+marvelous	0.914
+#phenomenal	0.914
+lovely	0.914
+#optimistic	0.914
+#flawless	0.914
+#breathtaking	0.914
+yum	0.914
+beauty	0.914
+#inspiring	0.906
+relaxing	0.906
+encouragement	0.906
+yahooo	0.906
+congratulations	0.906
+luv	0.906
+yummm	0.906
+easy	0.906
+goooood	0.906
+superb	0.906
+#awesome	0.906
+thrilled	0.906
+#marryme	0.906
+#fab	0.906
+impressed	0.906
+#stunning	0.906
+best	0.906
+#goodsex	0.898
+#glamorous	0.898
+loveeee	0.898
+hilarious	0.898
+yummyy	0.898
+woohoo	0.898
+sunshine	0.898
+#goodvibes	0.898
+#sweet	0.898
+#relaxing	0.891
+#magical	0.891
+sweet	0.891
+thanking	0.891
+pleasant	0.891
+#majestic	0.891
+excellence	0.891
+#sohappy	0.883
+perfect	0.883
+pretty	0.883
+fun	0.883
+#prestige	0.883
+#glamour	0.883
+yaay	0.883
+inspiring	0.875
+#lovely	0.875
+yayyyy	0.875
+gooooood	0.875
+favorite	0.875
+elegant	0.875
+hi-5	0.875
+#happygirl	0.875
+cheer	0.875
+interesting	0.875
+priceless	0.875
+#talent	0.875
+enjoying	0.875
+birthday	0.867
+elegance	0.867
+hope	0.867
+smiles	0.867
+#kind	0.867
+awesome	0.867
+#encouraging	0.867
+laugh	0.867
+wow	0.867
+happy	0.867
+great	0.867
+exciting	0.867
+#socomfy	0.867
+#feelinggood	0.867
+approve	0.867
+cuteeee	0.859
+gracias	0.859
+#motivated	0.859
+nice	0.859
+xoxo	0.859
+gooood	0.859
+garden	0.859
+#angel	0.859
+#superfriends	0.859
+yeah	0.859
+appreciated	0.852
+yummy	0.852
+honored	0.852
+#faith	0.852
+#passion	0.852
+sweetest	0.852
+wooooo	0.852
+#partyon	0.852
+adorable	0.852
+pleased	0.852
+#smiles	0.844
+enjoy	0.844
+summer	0.844
+dazzling	0.844
+respect	0.844
+appreciate	0.844
+absolutely	0.844
+woot	0.844
+bday	0.844
+relaxed	0.844
+smile	0.844
+sunny	0.844
+beautiful	0.844
+congrats	0.844
+yayy	0.844
+smilin	0.844
+totally	0.844
+party	0.844
+gratitude	0.836
+w00t	0.836
+luck	0.836
+support	0.836
+faves	0.836
+woooo	0.836
+kudos	0.836
+;-)	0.836
+grin	0.836
+#dreamy	0.836
+yaaay	0.836
+smiling	0.836
+#refreshing	0.836
+vip	0.836
+play	0.836
+freshly	0.836
+coolest	0.836
+amusing	0.828
+lmao	0.828
+truth	0.828
+good	0.828
+excitedddd	0.828
+pleasure	0.828
+compliment	0.828
+goooodnight	0.828
+#partytime	0.828
+terrific	0.828
+lovin	0.828
+cant waitttt	0.828
+apreciate	0.828
+g'morning	0.828
+sunnny	0.828
+#talented	0.828
+#good'night	0.828
+apprecaite	0.828
+greetings	0.82
+glad	0.82
+family	0.82
+excited	0.82
+#lovelife	0.82
+care	0.82
+amused	0.82
+#poise	0.82
+#makeup	0.813
+won	0.813
+cooperation	0.813
+woho	0.813
+hehehehe	0.813
+fine	0.813
+nicely	0.813
+yeyy	0.813
+<33	0.813
+cheers	0.813
+funny	0.813
+stimulate	0.805
+#fitness	0.805
+hahaha	0.805
+sharing	0.805
+#fabulous'nis	0.805
+giggle	0.805
+no problemm	0.805
+thankyou	0.805
+fresh	0.805
+howdy	0.805
+afford	0.797
+inspired	0.797
+music	0.797
+weee	0.797
+yays	0.797
+kewl	0.797
+feelings	0.797
+stoked	0.797
+wedding	0.797
+child	0.789
+woo	0.789
+wish	0.789
+friends	0.789
+#rich	0.789
+better	0.789
+acoustic	0.789
+yessss	0.789
+thank	0.789
+birffday	0.789
+#confident	0.789
+#handsome	0.789
+yayyy	0.781
+safe	0.781
+cool	0.781
+fondly	0.781
+girl	0.781
+unique	0.781
+free	0.781
+rockin	0.773
+dad	0.773
+peace	0.773
+accept	0.773
+no probs	0.773
+thx	0.773
+lmaoo	0.773
+awards	0.773
+#relaxed	0.773
+teach	0.773
+no problems	0.773
+yeay	0.773
+#focused	0.766
+thanx	0.766
+share	0.766
+promote	0.766
+brightening	0.766
+heehee	0.766
+<3	0.766
+chillin	0.766
+hearty	0.766
+thankyouuu	0.766
+yey	0.766
+indeed	0.766
+coool	0.766
+clear-thinking	0.766
+satisfied	0.766
+eating	0.766
+entertaining	0.758
+yay	0.758
+#education	0.758
+mothers	0.758
+chocolate	0.758
+yumm	0.758
+cant w8	0.758
+wonder	0.758
+vote	0.758
+children	0.758
+home-cooked	0.758
+blush	0.758
+relieve	0.758
+#luxury	0.758
+clearly	0.758
+art	0.758
+cant waitt	0.758
+ready	0.758
+topmodel	0.75
+#relaxation	0.75
+#babealert	0.75
+yes	0.75
+:-)	0.75
+no homework	0.75
+moment	0.75
+interested	0.742
+flirt	0.742
+full	0.742
+pleasantly	0.742
+human	0.742
+hee	0.742
+:)	0.742
+#leadership	0.742
+can't waiiit	0.742
+catchy	0.742
+recommended	0.742
+not shabby	0.742
+giveaway	0.742
+welcome	0.742
+friend	0.742
+hehehe	0.742
+hahahaha	0.742
+weekend	0.742
+#entertainment	0.742
+endorsement	0.742
+dreams	0.734
+recommendation	0.734
+face	0.734
+cute	0.734
+g'nite	0.734
+recommend	0.734
+not trashy	0.734
+thanks	0.734
+well	0.734
+band	0.727
+aww	0.727
+don't mind	0.727
+hear	0.727
+mom	0.727
+humor	0.727
+get	0.727
+coooool	0.727
+#innovation	0.727
+#gotit	0.727
+whole	0.727
+certainty	0.727
+fans	0.719
+#stillhoping	0.719
+star	0.719
+songs	0.719
+thankies	0.719
+th*nks	0.719
+agree	0.719
+hun	0.719
+#everclear	0.719
+woke	0.719
+fan	0.719
+can't complain	0.719
+breeze	0.719
+g'night	0.719
+#littlethings	0.719
+let	0.711
+sure	0.711
+please	0.711
+lives	0.711
+#justwhatineed	0.711
+wine	0.711
+join	0.711
+assure	0.711
+goodnight	0.711
+:]	0.711
+refreshed	0.711
+wanted	0.711
+watching	0.703
+haha	0.703
+introduce	0.703
+(:	0.703
+new	0.703
+promoz	0.703
+absolute	0.703
+not boring	0.703
+keep	0.703
+breakfast	0.703
+surprises	0.695
+thnx	0.695
+no worrys	0.695
+think	0.695
+no rush	0.695
+endorsements	0.695
+not bad	0.695
+reading	0.695
+right	0.695
+innocent	0.695
+look	0.695
+got	0.695
+no problemo	0.695
+no damage	0.695
+awake	0.695
+twitterverse	0.695
+no hurry	0.695
+proper	0.695
+inventive	0.688
+no biggie	0.688
+anytime	0.688
+okay	0.688
+hahah	0.688
+visit	0.688
+can't waaait	0.688
+money	0.68
+relationship	0.68
+not complaining	0.68
+joke	0.68
+#rolemodel	0.68
+actually	0.68
+want	0.68
+home-based	0.68
+coffee	0.68
+#unique	0.68
+not sad	0.68
+lots	0.68
+unselfish	0.68
+getting	0.68
+expect	0.68
+smexy	0.68
+no problem	0.672
+whoo	0.672
+yep	0.672
+thinking	0.672
+striving	0.672
+#inaperfectworld	0.672
+playing	0.672
+tnx	0.672
+watchin	0.672
+:p	0.672
+#jan1st	0.672
+#celebrity	0.672
+afternoon	0.664
+recommends	0.664
+anyway	0.664
+uncomplaining	0.664
+reply	0.664
+bought	0.664
+top	0.664
+catch	0.664
+hasn't aged	0.664
+teehee	0.664
+hola	0.664
+give	0.664
+mother's	0.664
+tuned	0.656
+girls	0.656
+told	0.656
+ciao	0.656
+ha	0.656
+person	0.656
+alright	0.656
+cant wiat	0.656
+;)	0.656
+baby	0.656
+bed	0.656
+people	0.656
+nighty	0.648
+doesn't hurt	0.648
+no hassle	0.648
+honestly	0.648
+possibly	0.648
+tweet	0.648
+morning	0.648
+hey	0.648
+yup	0.648
+boutique	0.648
+grow	0.648
+looks	0.648
+ballerina	0.641
+tell	0.641
+omg	0.641
+message	0.641
+pics	0.641
+interview	0.641
+boogie	0.641
+nothing compares	0.641
+kids	0.641
+#brains	0.641
+add	0.641
+years	0.641
+no worries	0.641
+nothing beats	0.641
+not disappoint	0.641
+grown	0.641
+name	0.641
+#affirmation	0.633
+ooh	0.633
+wanna	0.633
+class	0.633
+finally	0.633
+bacon	0.633
+sort	0.633
+no mistakes	0.633
+beachbody	0.633
+fam	0.633
+thought	0.633
+meet	0.633
+immune	0.633
+stay	0.633
+tweeting	0.633
+watch	0.633
+not picky	0.633
+shout-out	0.633
+hot	0.633
+lunch	0.633
+no complaints	0.625
+link	0.625
+home	0.625
+sunset	0.625
+not lame	0.625
+met	0.625
+customer	0.625
+#smashing	0.625
+not confusing	0.625
+recommendations	0.625
+included	0.625
+lol	0.625
+idea	0.625
+deserve	0.625
+no negative	0.617
+couldn't resist	0.617
+peek	0.617
+nite	0.617
+nowadays	0.617
+eat	0.617
+nothing better	0.617
+expert	0.617
+making	0.617
+heheh	0.617
+photos	0.617
+not selfish	0.609
+wants	0.609
+apologize	0.609
+brothers	0.609
+haven't heard	0.609
+sleep	0.609
+guitar	0.609
+:')	0.609
+probably	0.609
+rich	0.609
+pic	0.609
+subscribe	0.602
+#tips	0.602
+#giveaway	0.602
+life	0.602
+continue	0.602
+call	0.602
+obviously	0.602
+#style	0.602
+chai	0.602
+re-tweets	0.602
+young	0.602
+can't wait	0.602
+excerpt	0.602
+evening	0.602
+catchya	0.602
+following	0.602
+school	0.602
+featured	0.594
+movie	0.594
+find	0.594
+not embarrassed	0.594
+np	0.594
+females	0.594
+food	0.594
+hehe	0.594
+muahahah	0.594
+rhymed	0.594
+question	0.594
+alrighty	0.594
+asked	0.594
+dinner	0.594
+see	0.594
+learn	0.594
+#student	0.594
+didn't crash	0.594
+read	0.594
+hair	0.594
+ok	0.594
+precede	0.594
+song	0.594
+followers	0.594
+feel	0.594
+#based	0.594
+don't worry	0.594
+found	0.594
+wit	0.594
+#whoops	0.594
+bbq	0.594
+lmfao	0.594
+female	0.594
+car	0.586
+early	0.586
+weather	0.586
+fly	0.586
+tweets	0.586
+saw	0.586
+breath	0.586
+discreet	0.586
+check	0.586
+#sassy	0.586
+went	0.586
+asking	0.586
+start	0.586
+oh	0.586
+way	0.586
+no doubt	0.586
+real	0.586
+night	0.578
+#indigenous	0.578
+busy	0.578
+#hardwork	0.578
+constantly	0.578
+seriously	0.578
+heya	0.578
+never hated	0.578
+text	0.578
+not alone	0.578
+updates	0.578
+self	0.578
+poem	0.578
+#skincare	0.578
+tea	0.578
+books	0.578
+try	0.578
+not obsessed	0.578
+pregnant	0.57
+remember	0.57
+can't refuse	0.57
+heh	0.57
+no prob	0.57
+bank	0.57
+course	0.57
+job	0.57
+decision	0.57
+gotta	0.57
+writing	0.57
+made	0.57
+guys	0.563
+not weird	0.563
+points	0.563
+villa	0.563
+attention	0.563
+boy	0.563
+not dissapoint	0.563
+gawjuss	0.563
+can't fall	0.563
+point	0.563
+can't beat	0.563
+push	0.563
+quote	0.563
+plan	0.563
+thing	0.563
+amount	0.563
+wash	0.563
+put	0.555
+house	0.555
+help	0.555
+cd	0.555
+#needcuddles	0.555
+no trouble	0.555
+hide	0.555
+bet	0.555
+ya	0.555
+man	0.555
+project	0.555
+looking	0.555
+rock	0.555
+live	0.555
+says	0.555
+week	0.555
+wait	0.555
+long	0.555
+laughable	0.555
+#buttrue	0.555
+#cosmetics	0.555
+video	0.555
+sometimes	0.547
+things	0.547
+mmmmmm	0.547
+seen	0.547
+everytime	0.547
+done	0.547
+shopping	0.547
+answer	0.547
+days	0.547
+little	0.547
+dude	0.547
+game	0.547
+calling	0.547
+serious	0.547
+saying	0.547
+no school	0.547
+never hurts	0.547
+tummy	0.547
+use	0.539
+no pressure	0.539
+waiting	0.539
+trying	0.539
+short	0.539
+not random	0.539
+doesn't mean	0.539
+apologies	0.539
+world	0.539
+xxx	0.539
+rise	0.539
+talk	0.539
+wear	0.539
+sign	0.539
+time	0.539
+thinks	0.531
+blog	0.531
+bit	0.531
+#middleclass	0.531
+grammar	0.531
+videos	0.531
+park	0.531
+room	0.531
+listening	0.531
+realize	0.531
+chat	0.531
+miss	0.531
+unhook	0.531
+no lie	0.531
+lot	0.531
+-_-	0.531
+make	0.531
+book	0.531
+defending	0.531
+moon	0.531
+not crazy	0.523
+no harm	0.523
+grammatical	0.523
+quotes	0.523
+mmm	0.523
+not confused	0.523
+refund	0.523
+remove	0.523
+heey	0.523
+phone	0.523
+haven't fallen	0.523
+show	0.523
+spelling	0.523
+not long	0.523
+year	0.523
+acting	0.523
+no offense	0.523
+introducing	0.516
+gonna	0.516
+haven't talked	0.516
+team	0.516
+needed	0.516
+kinda	0.516
+#nails	0.516
+feeling	0.516
+mouths	0.516
+grade	0.516
+dividends	0.516
+need	0.516
+:o	0.516
+#sortitout	0.508
+nearly	0.508
+post	0.508
+nonrandom	0.508
+don't talk	0.508
+heading	0.508
+feedback	0.508
+guess	0.508
+guy	0.508
+sounds	0.508
+come	0.508
+no matter	0.5
+-.-	0.5
+piece	0.5
+no mention	0.5
+stop	0.5
+big	0.5
+apology	0.5
+no rain	0.5
+working	0.5
+never smelt	0.5
+send	0.5
+mortar	0.5
+don't steal	0.5
+know	0.5
+coming	0.492
+never hit	0.492
+huh	0.492
+#rare	0.492
+teams	0.492
+behaviour	0.492
+pay	0.492
+say	0.492
+enough	0.492
+no hangover	0.492
+not perfection	0.492
+never tasted	0.492
+not planning	0.492
+go	0.492
+act	0.492
+wanting	0.492
+train	0.484
+work	0.484
+unsurprising	0.484
+used	0.484
+public	0.484
+posted	0.484
+no boundaries	0.484
+no idea	0.484
+#fierce	0.484
+rip	0.484
+#dontyouhate	0.484
+email	0.484
+apologise	0.484
+later	0.484
+replacement	0.477
+excuse	0.477
+texting	0.477
+#helpme	0.477
+times	0.477
+photo	0.477
+not looking	0.477
+don't actually	0.477
+give away	0.477
+gotcha	0.477
+no drama	0.477
+no thanks	0.477
+yo	0.477
+social	0.477
+no plans	0.477
+list	0.477
+ask	0.477
+dont overwork	0.477
+#forgiveme	0.477
+rain	0.477
+half	0.469
+shhh	0.469
+left	0.469
+comment	0.469
+take	0.469
+don't count	0.469
+can't stop	0.469
+:|	0.469
+using	0.469
+outta	0.469
+taxes	0.469
+needs	0.461
+ppl	0.461
+don't tell	0.461
+don't bite	0.461
+no lines	0.461
+doesn't dampen	0.461
+not drinking	0.461
+:d	0.461
+follow	0.461
+last	0.461
+timestamp	0.461
+can't pass	0.461
+hour	0.461
+mouth	0.461
+#noticemepls	0.461
+not hatin	0.461
+no wonder	0.461
+cause	0.453
+don't feel	0.453
+no competition	0.453
+#skin	0.453
+not gonna	0.453
+:s	0.453
+day	0.453
+story	0.453
+cough	0.453
+telling	0.453
+officiating	0.453
+age	0.453
+inexactly	0.453
+stuff	0.453
+refereeing	0.453
+throw	0.445
+no agenda	0.445
+tonight	0.445
+old	0.445
+no charger	0.445
+surrender	0.445
+#help	0.445
+not used	0.445
+unready	0.445
+don't look	0.438
+not surprising	0.438
+finished	0.438
+no mms	0.438
+maybe	0.438
+not necessarily	0.438
+whatever	0.438
+#growup	0.438
+won't let	0.438
+don't freak	0.438
+nothing personal	0.438
+#skint	0.438
+don't put	0.438
+website	0.438
+#everyonelikesitbutme	0.438
+whoever	0.438
+can't watch	0.438
+don't miss	0.43
+close	0.43
+don't spoil	0.43
+can't believe	0.43
+not making	0.43
+site	0.43
+haven't played	0.43
+don't pay	0.43
+works	0.43
+makes	0.43
+head	0.43
+not hook	0.43
+can't wrap	0.43
+don't sue	0.43
+adverts	0.43
+don't treat	0.422
+missed	0.422
+#boreoff	0.422
+:-d	0.422
+haven't seen	0.422
+not sure	0.422
+don't wash	0.422
+#selfmadesavagez	0.422
+hanging	0.422
+shut	0.422
+bored	0.422
+imported	0.422
+turnovers	0.422
+eh	0.414
+unsure	0.414
+not buying	0.414
+no lag	0.414
+d:	0.414
+smh	0.414
+explain	0.406
+don't notice	0.406
+#dontdoit	0.406
+don't try	0.406
+not allowed	0.406
+not true	0.406
+#nomoney	0.406
+no way	0.406
+misses	0.406
+fuzzball	0.406
+said	0.406
+low	0.406
+budget	0.406
+not coming	0.406
+can't find	0.406
+spreading	0.406
+don't know	0.398
+#needsleep	0.398
+can't help	0.398
+can't hardly	0.398
+don't panic	0.398
+ain't got	0.398
+unnecessarily	0.398
+don't forget	0.398
+beg	0.398
+can't make	0.398
+no excuse	0.398
+don't throw	0.398
+shareholder	0.398
+can't sing	0.391
+can't connect	0.391
+rough	0.391
+#rantover	0.391
+tired	0.391
+sell	0.391
+version	0.391
+wearing	0.391
+#tired	0.391
+don't call	0.391
+don't scare	0.391
+can't see	0.391
+unfollow	0.383
+can't say	0.383
+don't need	0.383
+defense	0.383
+#needalife	0.383
+#broke	0.383
+never sleeps	0.383
+can't read	0.383
+#fake	0.383
+don't understand	0.383
+can't open	0.383
+lonely	0.383
+#notfunny	0.383
+disbelieve	0.383
+#smh	0.375
+can't sleep	0.375
+didn't win	0.375
+#bethatway	0.375
+not saying	0.375
+can't pull	0.375
+don't wear	0.375
+ignore	0.375
+no ambition	0.375
+haven't tweeted	0.375
+#ffoe	0.375
+no avail	0.375
+impersonal	0.375
+don't give	0.375
+unfollowed	0.375
+nobody	0.375
+govt	0.375
+refrain	0.367
+offense	0.367
+business	0.367
+unwrap	0.367
+embarrassed	0.367
+don't text	0.367
+don't expect	0.367
+beat	0.367
+sadly	0.367
+ramblings	0.367
+;d	0.367
+no alarm	0.367
+never learn	0.367
+can't bare	0.367
+no longer	0.359
+jumpy	0.359
+missing	0.359
+not ready	0.359
+no type	0.359
+no response	0.359
+don't wanna	0.359
+#outofshape	0.359
+break	0.359
+drama	0.359
+can't date	0.359
+ugh	0.359
+#cold	0.359
+not feeling	0.359
+unfair	0.359
+can't keep	0.352
+):	0.352
+didn't get	0.352
+scary	0.352
+ew	0.352
+no reason	0.352
+can't tweet	0.352
+hours	0.352
+#nojob	0.344
+#studentproblems	0.344
+don't deserve	0.344
+#shocking	0.344
+didn't show	0.344
+don't care	0.344
+late	0.344
+don't listen	0.344
+#canthelpit	0.344
+can't go	0.336
+#ugh	0.336
+not paying	0.336
+black	0.336
+swear	0.336
+can't seem	0.336
+not setting	0.336
+#lost	0.336
+not familiar	0.336
+never knew	0.336
+#neveragain	0.336
+worried	0.336
+can't cook	0.336
+badly	0.336
+silence	0.336
+end	0.328
+ouch	0.328
+sorry	0.328
+argh	0.328
+no sympathy	0.328
+gone	0.328
+media	0.328
+don't drink	0.328
+don't answer	0.32
+embarrassing	0.32
+#notmyfault	0.32
+don't accept	0.32
+can't come	0.32
+not getting	0.32
+hang	0.32
+#majorturnoffs	0.32
+mediocrity	0.32
+#noexcuse	0.32
+#notwell	0.32
+not attainable	0.313
+no job	0.313
+imperfection	0.313
+don't think	0.313
+#pleasestop	0.313
+:/	0.313
+unfamiliar	0.313
+hurt	0.313
+boycott	0.313
+haven't decided	0.313
+#petpeeve	0.313
+can't buy	0.313
+not okay	0.313
+sacked	0.305
+#fat	0.305
+#getoverit	0.305
+unmade	0.305
+dematerialize	0.305
+#slacking	0.305
+fucking	0.305
+not impressing	0.305
+waste	0.305
+distrust	0.305
+not clean	0.305
+not worth	0.305
+never made	0.305
+never happen	0.305
+not cool	0.305
+bummer	0.305
+#cough	0.305
+empty	0.305
+bother	0.305
+not nice	0.305
+can't handle	0.297
+ass	0.297
+#myweakness	0.297
+#immature	0.297
+cancelled	0.297
+shocking	0.297
+can't deal	0.297
+smfh	0.297
+not recommend	0.289
+delay	0.289
+smelly	0.289
+can't take	0.289
+#itsnotokayto	0.289
+#grim	0.289
+don't follow	0.289
+#no	0.289
+#needajob	0.289
+disloyal	0.289
+don't love	0.289
+woeful	0.281
+excuses	0.281
+#gag	0.281
+ergh	0.281
+#wrong	0.281
+can't hack	0.281
+stunk	0.281
+no self	0.281
+not exactly	0.281
+#spoiled	0.281
+fake	0.273
+wrong	0.273
+unmoved	0.273
+lost	0.273
+worse	0.273
+#boring	0.273
+#needy	0.273
+sore	0.273
+ridiculous	0.273
+fever	0.273
+haven't moved	0.273
+:(	0.273
+#stop	0.273
+hard	0.273
+#classless	0.273
+#ridiculous	0.266
+#cry	0.266
+selfish	0.266
+#spew	0.266
+unfortunately	0.266
+spoiled	0.266
+fml	0.266
+can't remember	0.266
+#eurgh	0.266
+not working	0.266
+#mybad	0.258
+#nopoint	0.258
+forget	0.258
+#eww	0.258
+judging	0.258
+wasted	0.258
+don't act	0.258
+scare	0.258
+botch	0.258
+dislike	0.258
+can't teach	0.258
+not acceptable	0.258
+ignored	0.258
+#notsorry	0.258
+unattractive	0.258
+#cheap	0.258
+neurotic	0.25
+can't afford	0.25
+#mess	0.25
+can't bring	0.25
+disconnect	0.25
+#whatajoke	0.25
+never tried	0.25
+#unwanted	0.25
+prohibit	0.25
+fuckin	0.25
+ex	0.25
+not cute	0.25
+#annoyed	0.25
+=(	0.25
+cry	0.25
+#headache	0.25
+bad	0.25
+#grumpy	0.242
+leave	0.242
+shot	0.242
+#sorethroat	0.242
+scariest	0.242
+don't want	0.242
+#dumb	0.242
+dammit	0.242
+no money	0.242
+#bored	0.242
+#nogood	0.242
+scarred	0.234
+dumb	0.234
+not happy	0.234
+#thingsyoushouldntdo	0.234
+#ew	0.234
+#sorrynotsorry	0.234
+blatant	0.234
+malfunction	0.234
+unhappy	0.234
+#wtf	0.234
+#jobless	0.234
+not attractive	0.227
+not fair	0.227
+gag	0.227
+no fucking	0.227
+#oops	0.227
+poor	0.227
+not able	0.227
+#bum	0.227
+#feelingsorryformyself	0.227
+dick	0.227
+bummed	0.227
+losing	0.227
+#cringe	0.227
+heartbroken	0.219
+#norespect	0.219
+#confused	0.219
+immature	0.219
+#desperate	0.219
+#sick	0.219
+lose	0.219
+:'(	0.219
+#lostcause	0.219
+aint loyal	0.219
+disrespect	0.219
+nothing worse	0.219
+#juststop	0.219
+#cheat	0.219
+sad	0.219
+#slag	0.211
+unable	0.211
+dirty	0.211
+#unhappy	0.211
+desperate	0.211
+#disappointed	0.211
+#needmoney	0.211
+fuck	0.211
+#wimp	0.211
+#helpless	0.203
+sucking	0.203
+#rant	0.203
+#fail	0.203
+broke	0.203
+can't score	0.203
+doesn't work	0.203
+#mad	0.203
+#notgood	0.203
+cold	0.203
+awful	0.203
+awkward	0.203
+#pig	0.195
+crying	0.195
+#stressed	0.195
+no balls	0.195
+disapprove	0.195
+#hellno	0.195
+shameful	0.195
+ache	0.195
+#flu	0.195
+#coward	0.195
+cheating	0.188
+no morals	0.188
+ain't shit	0.188
+#unprofessional	0.188
+tacky	0.188
+#pitiful	0.188
+#goaway	0.188
+mad	0.188
+#liars	0.188
+offensive	0.188
+#pointless	0.188
+hurts	0.18
+dreadful	0.18
+cellulite	0.18
+hopeless	0.18
+#yuk	0.18
+#rude	0.18
+rude	0.18
+#weak	0.18
+gutted	0.18
+#feelshit	0.172
+fucked	0.172
+morons	0.172
+headache	0.172
+mess	0.172
+#fedup	0.172
+damn	0.172
+#lowlife	0.172
+#insidious	0.164
+#pissedoff	0.164
+#ungrateful	0.164
+ill	0.164
+#twofaced	0.164
+#pain	0.164
+bullying	0.164
+#feelsick	0.164
+#notgoodenough	0.164
+eww	0.164
+#lonely	0.164
+#sosad	0.164
+#nolife	0.164
+#letdown	0.164
+disappointed	0.156
+smartass	0.156
+can't cope	0.156
+failed	0.156
+lie	0.156
+#upset	0.156
+nasty	0.156
+can't eat	0.156
+mean	0.156
+#crying	0.156
+worthless	0.156
+#getalife	0.156
+#ashamed	0.156
+#poverty	0.148
+shootings	0.148
+#idiot	0.148
+no hope	0.148
+#tasteless	0.148
+terrible	0.148
+not good	0.148
+abysmal	0.148
+#smelly	0.148
+ruining	0.148
+no luck	0.148
+#yuck	0.148
+depressed	0.148
+liar	0.141
+broken	0.141
+scum	0.141
+cringe	0.141
+worst	0.141
+no fun	0.141
+#broken	0.141
+#heartbroken	0.141
+#wasteoftime	0.141
+#annoying	0.141
+sick	0.141
+banned	0.141
+fail	0.133
+#idiots	0.133
+#wasteofspace	0.133
+ignorant	0.133
+disgust	0.133
+fat	0.133
+#hateit	0.133
+embarrassment	0.133
+#stupid	0.133
+rotten	0.133
+#loser	0.133
+quit	0.133
+ewww	0.133
+hideous	0.125
+stinks	0.125
+#horror	0.125
+#repulsive	0.125
+#liar	0.125
+shit	0.125
+r.i.p.	0.125
+horrified	0.125
+#hideous	0.125
+#creepy	0.125
+#lazy	0.125
+#disrespectful	0.125
+victims	0.117
+no respect	0.117
+#shame	0.117
+#dissapointed	0.117
+depressing	0.117
+can't stand	0.117
+hell	0.117
+#grimey	0.117
+#vomit	0.117
+#scary	0.117
+upset	0.117
+#tramp	0.117
+#embarrassing	0.109
+#slut	0.109
+appalling	0.109
+cheat	0.109
+#hater	0.109
+bitch	0.109
+#justno	0.109
+disgusts	0.109
+#ignorant	0.109
+horrific	0.102
+useless	0.102
+filthy	0.102
+don't trust	0.102
+#gtfo	0.102
+horror	0.102
+#dirty	0.102
+sinister	0.102
+bastard	0.094
+#horrible	0.094
+#disgraceful	0.094
+disgrace	0.094
+hates	0.094
+revolting	0.094
+#gross	0.094
+#makesmesick	0.094
+foul	0.094
+#trash	0.094
+vile	0.094
+#hurt	0.094
+#disgrace	0.094
+#putrid	0.086
+#scum	0.086
+disrespectful	0.086
+#losers	0.086
+#ugly	0.086
+horrid	0.086
+#getagrip	0.086
+#frustrated	0.086
+#depressed	0.086
+ugly	0.086
+#cretin	0.086
+dying	0.078
+#nasty	0.078
+disgusting	0.078
+disgusted	0.078
+#scared	0.078
+#fuckoff	0.078
+#useless	0.078
+#die	0.07
+ewwww	0.07
+#sickening	0.07
+#disappointing	0.07
+#disgusting	0.07
+pathetic	0.07
+#hate	0.07
+#whore	0.07
+sleazy	0.07
+despair	0.07
+ashamed	0.063
+hate	0.063
+sucks	0.063
+#tramps	0.063
+#selfish	0.063
+#tragic	0.063
+#cruel	0.063
+hatred	0.063
+#dying	0.063
+#sucks	0.055
+horrendous	0.055
+#feellikeshit	0.055
+#theworst	0.055
+#horrendous	0.055
+horrible	0.055
+despise	0.055
+#ripoff	0.055
+#angry	0.055
+#disturbing	0.047
+tragedy	0.047
+disgraceful	0.047
+died	0.047
+#notokay	0.047
+#filth	0.047
+#dumbass	0.047
+reject	0.039
+killed	0.039
+unacceptable	0.039
+disturbing	0.039
+murdered	0.031
+#heartless	0.031
+#disgusted	0.031
+#poorly	0.031
+death	0.031
+#depressing	0.031
+#fuckup	0.031
+#pieceofshit	0.023
+#horrid	0.023
+#scumbag	0.016
+abuse	0.016
+#killyourself	0.016
+#failure	0.016
+kill	0.016
+#disappointment	0.008
+bitches	0.008

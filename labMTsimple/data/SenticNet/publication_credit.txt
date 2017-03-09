@@ -1,0 +1,7 @@
+Thank you for using SenticNet 3!
+
+Please acknowledge the authors by citing the following publication
+in any research work or presentation containing results obtained
+in whole or in part through the use of SenticNet 3:
+
+E. Cambria, D. Olsher, and D. Rajagopal. SenticNet 3: A Common and Common-Sense Knowledge Base for Cognition-Driven Sentiment Analysis. In: AAAI, pp. 1515-1521, Quebec City (2014)

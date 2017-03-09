@@ -1,0 +1,123 @@
+n#05600844 world-weariness Weltschmerz
+n#05600968 woe woefulness
+n#05604301 weight
+n#05601315 weepiness tearfulness
+n#05602279 sorrow regret ruefulness
+n#05601413 sorrow
+n#05603809 self-pity
+n#05599930 sadness unhappiness
+n#05602852 repentance penitence penance
+n#05602106 plaintiveness
+n#05604181 oppression oppressiveness
+n#05601957 mournfulness sorrowfulness ruthfulness
+n#05601051 misery
+n#05600345 melancholy
+n#05603196 joylessness
+n#05603715 helplessness
+n#05600637 heavyheartedness
+n#05602697 guilt guilty_conscience guilt_feelings guilt_trip
+n#05601776 grief heartache heartbreak brokenheartedness
+n#05600505 gloom gloominess somberness
+n#05601181 forlornness loneliness desolation
+n#05604748 dysphoria
+n#05603470 downheartedness low-spiritedness dispiritedness
+n#05602190 dolor dolour
+n#05600250 dolefulness
+n#05603932 despondency despondence heartsickness disconsolateness
+n#05603287 depression
+n#05603599 demoralization
+n#05602526 compunction remorse self-reproach
+n#05602960 cheerlessness uncheerfulness
+n#05604103 blue_devils
+n#05601647 attrition contrition contriteness
+a#01572491 contrite
+a#01681118 contrite remorseful rueful sorry
+a#00353542 cheerless uncheerful
+a#00353542 cheerless uncheerful
+a#00826026 demoralizing demoralising disheartening dispiriting
+a#01605795 demoralized discouraged disheartened
+a#00669611 blue depressed dispirited down downcast downhearted low low-spirited
+a#01309194 depressing depressive gloomy saddening
+a#01179135 despondent heartsick
+a#01309360 doleful mournful
+a#01309360 doleful mournful
+a#00669611 blue depressed dispirited down downcast downhearted low low-spirited
+a#00863871 dysphoric distressed unhappy
+a#01179297 forlorn
+a#00997111 desolate forlorn godforsaken lorn
+a#00353838 blue dark depressing disconsolate dismal dispiriting gloomy grim
+a#00669950 glum gloomy long-faced
+a#01309194 depressing depressive gloomy saddening
+a#00354187 dingy dismal drab drear dreary gloomy sorry
+a#01179526 gloomy grim
+a#00271194 glooming gloomy gloomful
+a#01312366 grievous heartbreaking heartrending
+a#01312366 grievous heartbreaking heartrending
+a#01311729 bereaved bereft grief-stricken grieving mourning sorrowing
+a#00157147 guilty hangdog shamefaced shamed
+a#01309535 heavyhearted
+a#01314685 joyless
+a#01314685 joyless
+a#01309603 melancholy melancholic
+a#01309603 melancholy melancholic
+a#01000655 hapless miserable misfortunate pathetic piteous pitiable pitiful poor wretched
+a#01102092 miserable suffering wretched
+a#01309360 doleful mournful
+a#01309360 doleful mournful
+a#01313142 mournful plaintive
+a#00751449 oppressive tyrannical tyrannous
+a#00828302 laden oppressed
+a#02464962 downtrodden oppressed persecuted
+a#01313142 mournful plaintive
+a#01680937 penitent repentant
+a#01313226 sad
+a#01101074 unhappy sad
+a#01101074 unhappy sad
+a#01308632 sad
+a#01308632 sad
+a#01311729 bereaved bereft grief-stricken grieving mourning sorrowing
+a#01310938 sorrowful
+a#01101631 bad sorry
+a#00472844 pitying sorry sorry_for
+a#01681118 contrite remorseful rueful sorry
+a#01102326 regretful sorry
+a#01312115 dolorous dolourous lachrymose tearful weeping
+a#02235465 deplorable execrable miserable woeful wretched
+a#01313374 woebegone woeful
+a#02314238 bored world-weary
+v#01225879 repent regret rue
+v#01238101 depress deject cast_down get_down dismay dispirit demoralize
+v#01238101 depress deject cast_down get_down dismay dispirit demoralize
+v#01226612 grieve aggrieve
+v#01226464 grieve sorrow
+v#01762305 persecute oppress harass
+v#01225879 repent regret rue
+v#01237116 sadden sad
+v#01226464 grieve sorrow
+v#01226464 grieve sorrow
+r#00214298 ruefully contritely remorsefully
+r#00227305 cheerlessly
+r#00227305 cheerlessly
+r#00296382 despairingly despondently
+r#00315910 dolefully sorrowfully
+r#00337887 forlornly
+r#00228716 gloomily
+r#00345753 grievously
+r#00345753 grievously
+r#00343022 joylessly
+r#00343022 joylessly
+r#00397497 miserably
+r#00397497 miserably
+r#00399172 mournfully
+r#00399172 mournfully
+r#00408211 oppressively
+r#00419566 plaintively
+r#00359722 penitently penitentially repentantly
+r#00090468 deplorably lamentably sadly woefully
+r#00399051 sadly
+r#00315910 dolefully sorrowfully
+r#00455379 sorrowfully
+r#00315910 dolefully sorrowfully
+r#00455379 sorrowfully
+r#00090468 deplorably lamentably sadly woefully
+r#00090468 deplorably lamentably sadly woefully

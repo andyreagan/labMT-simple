@@ -190,7 +190,7 @@ a_few	-0.3
 a_couple	-0.3
 a_couple_of	-0.3
 a_lot_of	0.3
-lots_of		0.3
+lots_of         0.3
 at_all	-0.5
 a_great_deal_of	0.5
 a_whole_lot_of	0.5

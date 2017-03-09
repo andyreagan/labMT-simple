@@ -1,0 +1,13 @@
+Friends & Family
+
+Rule: ((family* OR brother* OR sister* OR mother* OR father* OR son OR daughter OR wife OR
+husband OR hubby OR wifey) OR (friend* OR pal OR pals OR buddy))
+
+Money
+
+Rule: (money OR cash OR funds OR finance* OR salary OR salaries OR wage OR wages OR rich
+OR riches OR wealth OR wealthy OR rent OR bills OR pay OR paying OR paid)
+
+Work
+
+Rule: ((job OR work OR office OR boss OR manager OR director OR CMO OR CEO OR CFO))

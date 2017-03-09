@@ -1,0 +1,127 @@
+n#05588321 wrath
+n#05588822 umbrage offense
+n#05589637 pique temper irritation
+n#05588618 lividity
+n#05614716 irascibility short_temper spleen quick_temper
+n#05588725 infuriation enragement
+n#05588960 indignation outrage
+n#05589074 huffiness
+n#05590065 harassment torment
+n#05588413 fury rage madness
+n#05589778 frustration
+n#10337658 fit tantrum scene
+n#05588172 dudgeon high_dudgeon
+n#05605389 displeasure
+n#05589169 dander hackles
+n#05589301 bad_temper ill_temper
+n#05589430 annoyance chafe vexation
+n#05587878 anger choler ire
+n#05589957 aggravation exasperation
+a#00117684 aggravated provoked
+a#00117308 angry
+a#00117872 angered enraged furious infuriated maddened
+a#00092842 annoying bothersome galling irritating nettlesome pesky pestering pestiferous plaguy plaguey teasing vexatious vexing
+a#02336957 annoyed harassed harried pestered vexed
+a#01734180 annoyed irritated nettled peeved pissed riled roiled stung
+a#01737080 displeasing
+a#01733963 displeased
+a#00826169 frustrating
+a#00659470 baffled balked discouraged frustrated
+a#01737503 exasperating infuriating maddening vexing
+a#00117872 angered enraged furious infuriated maddened
+a#00118531 huffy mad sore
+a#00118752 indignant incensed outraged umbrageous
+a#01737503 exasperating infuriating maddening vexing
+a#00117872 angered enraged furious infuriated maddened
+a#00118303 choleric irascible
+a#00119146 livid
+a#00118752 indignant incensed outraged umbrageous
+a#00119459 wrathful wroth wrothful
+v#01242326 exacerbate exasperate aggravate
+v#01220411 anger see_red
+v#01219920 anger
+v#01221002 annoy rag get_to bother get_at irritate rile nark nettle gravel vex devil
+v#01239708 displease
+v#01229968 torment rag tantalize bedevil crucify dun frustrate
+v#01220279 outrage enfuriate infuriate exasperate incense
+v#01762305 persecute oppress harass
+v#01220279 outrage enfuriate infuriate exasperate incense
+v#01221816 pique offend
+r#00223640 angrily
+r#00312722 displeasingly
+r#00220692 furiously
+r#00353628 huffily
+r#00367200 indignantly
+r#00220692 furiously
+r#00387194 lividly
+r#00493548 wrathfully
+n#05611809 warpath
+n#05613522 vindictiveness vengefulness
+n#05612278 sulkiness huffishness
+n#05611927 resentment bitterness gall rancor rancour
+n#05610694 murderousness
+n#05610620 misopedia
+n#05610440 misoneism
+n#05610366 misology
+n#05610283 misogyny misogynism
+n#05610210 misogamy
+n#05610544 misocainea
+n#05610135 misanthropy
+n#05613388 malice maliciousness spite spitefulness venom
+n#05613127 malevolence malignity
+n#05613291 maleficence
+n#05612865 jealousy green-eyed_monster
+n#05610898 hostility enmity ill_will
+n#05612142 heartburning
+n#05609785 hate hatred
+n#05612377 grudge score grievance
+n#05612539 envy enviousness the_green-eyed_monster
+n#05610803 despisal despising
+n#05612765 covetousness
+n#05611281 class_feeling
+n#05611680 belligerence belligerency
+n#05611423 antagonism
+n#05611157 animosity animus bad_blood
+n#05611552 aggression aggressiveness
+n#05577810 abhorrence abomination detestation execration loathing odium
+a#01193636 aggressive belligerent
+a#00031053 avaricious covetous grabby grasping greedy prehensile
+a#00845237 covetous envious jealous
+a#00698764 enviable
+a#00845237 covetous envious jealous
+a#02023897 begrudging envious grudging
+a#01400194 hateful
+a#01024648 hostile
+a#01193200 hostile
+a#02345311 jealous green-eyed overjealous
+a#00845237 covetous envious jealous
+a#00220990 malefic malevolent malign evil
+a#00221675 malevolent malicious
+a#00221675 malevolent malicious
+a#01089513 misanthropic misanthropical
+a#02345625 misogynic
+a#00119743 resentful
+a#01089436 huffish sulky
+a#00222851 despiteful spiteful vindictive
+v#01211403 abhor loathe abominate execrate
+v#01246798 covet
+v#01211520 contemn despise scorn disdain
+v#01246666 envy begrudge
+v#01246968 envy
+v#01211054 stew grudge
+v#01211167 hate detest
+v#01857366 sulk pout brood
+v#01231478 sulk grizzle brood stew
+r#00238872 belligerently hostilely with_hostility
+r#00297720 enviously covetously jealously
+r#00297720 enviously covetously jealously
+r#00002940 enviably
+r#00348685 hatefully
+r#00238872 belligerently hostilely with_hostility
+r#00297720 enviously covetously jealously
+r#00378612 jealously
+r#00389554 malevolently
+r#00197662 maliciously
+r#00268673 amok amuck murderously
+r#00435658 resentfully
+r#00437488 revengefully vengefully vindictively

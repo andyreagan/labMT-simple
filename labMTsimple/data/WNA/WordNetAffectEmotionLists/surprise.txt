@@ -1,0 +1,28 @@
+n#05582577 wonder wonderment admiration
+n#05582875 surprise
+n#05583004 stupefaction
+n#05582729 awe
+n#05582358 astonishment amazement
+a#01230203 astonishing astounding staggering stupefying
+a#02248624 amazing astonishing
+a#02246844 amazed astonied astonished astounded stunned
+a#01943022 awed awestruck awestricken in_awe_of
+a#01940914 awed awful
+a#01230203 astonishing astounding staggering stupefying
+a#00195880 stupefying
+a#00405649 dazed stunned stupefied stupid
+a#02247311 dumbfounded dumfounded flabbergasted stupefied thunderstruck
+a#02248299 surprising
+a#02246531 surprised
+a#01617066 fantastic howling marvelous rattling terrific tremendous wonderful wondrous
+v#00491471 amaze astonish astound
+v#01214954 awe
+v#00183525 stun stupefy stupify
+v#00421500 perplex get puzzle mystify baffle beat bewilder flummox stupefy stupify nonplus gravel amaze dumbfound trounce
+v#01447978 besot stupefy stupify
+v#00491581 surprise
+v#00626227 wonder marvel
+r#00209555 amazingly surprisingly astonishingly
+r#00141302 surprisingly
+r#00466103 surprisedly
+r#00179150 wonderfully wondrous wondrously superbly toppingly marvellously terrifically marvelously

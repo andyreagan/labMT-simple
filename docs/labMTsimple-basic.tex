@@ -1,0 +1,235 @@
+\section{Getting Started}
+\label{getting-started:welcome-to-labmt-simple-s-documentation}\label{getting-started:getting-started}\label{getting-started::doc}
+TL;DR
+a simple labMT usage script
+
+
+\subsection{Usage}
+\label{getting-started:usage}
+This script uses the language assessment by Mechanical Turk (labMT) word list to score the happiness of a corpus. The labMT word list was created by combining the 5000 words most frequently appearing in four sources: Twitter, the New York Times, Google Books, and music lyrics, and then scoring the words for sentiment on Amazon's Mechanical Turk. The list is described in detail in the publication Dodds' et al. 2011, PLOS ONE, ``Temporal Patterns of Happiness and Information in a Global-Scale Social Network: Hedonometrics and Twitter.''
+
+Given two corpora, the script ``storylab.py'' creates a word-shift graph illustrating the words most responsible for the difference in happiness between the two corpora. The corpora should be large (e.g. at least 10,000 words) in order for the difference to be meaningful, as this is a bag-of-words approach. As an example, a random collection of English tweets from both Saturday January 18 2014 and Tuesday January 21 2014 are included in the ``example'' directory. They can be compared by moving to the test directory, using the command
+\begin{lstlisting}
+python example.py example-shift.html
+\end{lstlisting}
+
+and opening the file \lstinline{example-shift.html} in a web browser. For an explanation of the resulting plot, please visit
+
+\href{http://www.hedonometer.org/shifts.html}{http://www.hedonometer.org/shifts.html}
+
+
+\subsection{Installation}
+\label{getting-started:installation}
+Cloning the github directly is recommended, and then installing locally:
+\begin{lstlisting}
+git clone https://github.com/andyreagan/labMT-simple.git
+cd labMT-simple
+python setup.py install
+\end{lstlisting}
+
+This repository can also be installed using pip
+\begin{lstlisting}
+pip install labMTsimple
+\end{lstlisting}
+
+in which case you can download the tests from github and run them, if desired.
+
+
+\subsection{Running tests}
+\label{getting-started:running-tests}
+Tests are based on nose2, \lstinline{pip install nose2}, and can be run inside the by executing
+\begin{lstlisting}
+nose2
+\end{lstlisting}
+
+in the root directory of this repository.
+
+This will compare the two days in test/data and print test.html which shifts them, allowing for a changable lens.
+
+
+\subsection{Developing with labMT-simple locally}
+\label{getting-started:developing-with-labmt-simple-locally}
+I find it really useful to reload the library when testing it interactively:
+\begin{lstlisting}
+try:
+    reload
+except NameError:
+    \# Python 3
+    from importlib import reload
+\end{lstlisting}
+
+
+\subsection{Building these docs}
+\label{getting-started:building-these-docs}
+Go into the docs directory (activate local \lstinline{virtualenv} first), and do the following:
+\begin{lstlisting}
+\rm -rf _build/*
+make html
+make latexpdf
+git add -f *
+git commit -am ``new docs, probably should just add a pre-commit hook''
+\end{lstlisting}
+
+Note that these docs will build locally in python 2 because the dependencies exist.
+With python 3 available, these dependencies will be mocked (and this is set for the online readthedocs site).
+
+(\lstinline{sphinx-apidoc -o . ../labMTsimple} was run once.)
+
+
+\section{Detailed Examples}
+\label{detailed-example::doc}\label{detailed-example:detailed-examples}
+
+\subsection{Preparing texts}
+\label{detailed-example:preparing-texts}
+This is simple really: just load the text to be scored into python.
+I'm using a subset of a couple days of public tweets to text, and I've already put the tweet text into \lstinline{.txt} files that I load into strings:
+\begin{lstlisting}
+f = codecs.open(``data/18.01.14.txt'',''r'',''utf8'')
+saturday = f.read()
+f.close()
+
+f = codecs.open(``data/21.01.14.txt'',''r'',''utf8'')
+tuesday = f.read()
+f.close()
+\end{lstlisting}
+
+
+\subsection{Loading dictionaries}
+\label{detailed-example:loading-dictionaries}
+Again this is really simple, just use the \lstinline{emotionFileReader} function:
+\begin{lstlisting}
+lang = `english'
+labMT,labMTvector,labMTwordList = emotionFileReader(stopval=0.0,lang=lang,returnVector=True)
+\end{lstlisting}
+
+Then we can score the text and get the word vector at the same time:
+\begin{lstlisting}
+saturdayValence,saturdayFvec = emotion(saturday,labMT,shift=True,happsList=labMTvector)
+tuesdayValence,tuesdayFvec = emotion(tuesday,labMT,shift=True,happsList=labMTvector)
+\end{lstlisting}
+
+But we don't want to use these happiness scores yet, because they included all words (including neutral words).
+So, set all of the neutral words to 0, and generate the scores:
+\begin{lstlisting}
+tuesdayStoppedVec = stopper(tuesdayFvec,labMTvector,labMTwordList,stopVal=1.0)
+saturdayStoppedVec = stopper(saturdayFvec,labMTvector,labMTwordList,stopVal=1.0)
+
+saturdayValence = emotionV(saturdayStoppedVec,labMTvector)
+tuesdayValence = emotionV(tuesdayStoppedVec,labMTvector)
+\end{lstlisting}
+
+
+\section{Making Wordshifts}
+\label{wordshifts::doc}\label{wordshifts:making-wordshifts}
+I just merged updates to the d3 wordshift plotting into labMTsimple, and combined with phantom crowbar (see previous post), it's easier than ever to use the labMT data set to compare texts.
+
+To make an html page with the shift, you'll just need to have labMT-simple installed.
+To automate the process into generating svg files, you'll need the phantom crowbar, which depends on phantomjs.
+To go all the way to pdf, you'll also need inkscape for making vectorized pdfs, or rsvg for making better formatted, but rasterized, versions.
+
+Let's get set up to make shifts automatically.
+Since they're aren't many dependencies all the way down, start by getting phantomjs installed, then the phantom-crowbar.
+
+
+\subsection{Installing phantom-crowbar}
+\label{wordshifts:installing-phantom-crowbar}
+For the phantomjs, I prefer to use homebrew:
+\begin{lstlisting}
+brew update
+brew upgrade
+brew install phantomjs
+\end{lstlisting}
+
+Then to get the crowbar, clone the git repository.
+\begin{lstlisting}
+cd \textasciitilde{}
+git clone https://github.com/andyreagan/phantom-crowbar
+\end{lstlisting}
+
+To use it system-wide, I use the bash alias:
+\begin{lstlisting}
+alias phantom-crowbar=''/usr/local/bin/phantomjs \textasciitilde{}/phantom-crowbar/phantom-crowbar.js''
+\end{lstlisting}
+
+Without too much detail, I recommend adding this to your \lstinline{~/.bash_profile} so that it's loaded every time you start a terminal session.
+
+
+\subsection{Installing inkscape}
+\label{wordshifts:installing-inkscape}
+You only need inkscape if you want to go from svg to pdf (and there are other ways too), but this one is easy with, again, homebrew.
+\begin{lstlisting}
+brew install inkscape
+\end{lstlisting}
+
+
+\subsection{Installing rsvg}
+\label{wordshifts:installing-rsvg}
+You only need inkscape if you want to go from svg to pdf (and there are other ways too), but this one is easy with, again, homebrew.
+\begin{lstlisting}
+brew install librsvg
+\end{lstlisting}
+
+
+\subsection{Installing labMTsimple}
+\label{wordshifts:installing-labmtsimple}
+There are two ways to get it: using pip of cloning the git repo.
+If you're not sure, use pip.
+I think pip makes it easier to keep it up to date, etc.
+\begin{lstlisting}
+pip install labMTsimple
+\end{lstlisting}
+
+
+\subsection{Making your first shift}
+\label{wordshifts:making-your-first-shift}
+If you cloned the git repository, install the thing and then you can check out the example in \lstinline{examples/example.py}.
+If you went with pip, see that file on \href{https://github.com/andyreagan/labMT-simple/blob/master/examples/example.py}{github}.
+
+Go ahead and run that script!
+\begin{lstlisting}
+python example-002.py
+\end{lstlisting}
+
+You can open the html file to see the shift in any browser, with your choice of local webserver.
+Python's SimpleHTTPServer works fine, and I've found that the node based http-server is a bit more stable.
+
+To take out the svg, go ahead and use the \lstinline{phantom-crowbar.js} file copied to the \lstinline{example/static} directory.
+Running it looks like this, for me:
+\begin{lstlisting}
+/usr/local/bin/phantomjs js/shift-crowbar.js example-002.html shiftsvg wordshift.svg
+\end{lstlisting}
+
+Using inkscape or librsvg on my computer look like this:
+\begin{lstlisting}
+/Applications/Inkscape.app/Contents/Resources/bin/inkscape -f \$(pwd)/wordshift.svg -A \$(pwd)/wordshift-inkscape.pdf
+
+rsvg-convert --format=eps worshift.svg \textgreater{} wordshift-rsvg.eps
+epstopdf wordshift-rsvg.eps
+\end{lstlisting}
+
+And again, feel free to tweet suggestions at \href{https://twitter.com/andyreagan}{@andyreagan}, and submit pull requests to the \href{https://github.com/andyreagan/labMT-simple}{source code}!
+
+\subsection{Full Automation}
+\label{wordshifts:full-automation}
+I've wrapped up all of this into what is potentially the most backwards way to generate figure imaginable.
+The \lstinline{shiftPDF()} function operates the same way as the \lstinline{shiftHTML()}, but uses the headless web server to render the d3 graphic, then exectues a piece of injected JS to save a local SVG, and uses command line image manipulation libraries to massage it into a PDF.
+
+On my macbook, this works, but your mileage will most certainly vary.
+
+
+\section{Advanced Usage}
+\label{advanced::doc}\label{advanced:advanced-usage}
+
+\subsection{About Tries}
+\label{advanced:about-tries}
+For dictionary lookup of scores from phrases, the fastest benchmarks I've found and that were reasonable stable were from the libraries \lstinline{datrie} and \lstinline{marisatrie} which both have python bindings.
+
+They're used in the \lstinline{speedy} module in an attempt to both speed things up, and match against word stems.
+
+\subsection{Advanced Parsing}
+\label{advanced:advanced-parsing}
+Some dictionaries use word stems to cover the multiple uses of a single word, with a single score.
+We can very quickly match these word stems using a prefix match on a trie.
+This is much better than using many compiled RE matches, which in my testing took a very long time.
+
+

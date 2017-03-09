@@ -1,0 +1,36 @@
+Good Day
+
+Date Range: 11/17/13 – 11/17/14 Volume: 432k mentions
+Regions: Global
+Language: English
+Source: Twitter
+Query: (((today OR todays OR "this day" OR "this days") NEAR/3f ((best OR great* OR good OR amazing OR awesome OR incredible) NEAR/1f (day))) NOT ((not NEAR/1f (best OR great* OR good OR amazing OR awesome OR incredible)) OR ("day for" NOT ("day for me" OR "day for my")))) NOT ("no good" OR terrible OR awful OR "the only good thing" OR (not NEAR/4f ("good day"))) AND site:twitter.com
+
+Bad Day
+
+Date Range: 11/17/13 – 11/17/14 Volume: 178k mentions
+Regions: Global
+Language: English
+Source: Twitter
+Query: ((((today OR todays OR "this day" OR "this days") NEAR/3f ((worst OR terrible OR bad OR miserable OR horrible) NEAR/1f (day))) NOT (((not OR wasnt OR "wasn't" OR isnt OR "isn't") NEAR/2f (worst OR terrible OR bad OR miserable OR horrible)) OR ("day for" NOT ("day for me" OR "day for my")))) OR (((("not" OR ((not OR isnt OR "isn't" OR wasnt OR "wasn't" OR "will not" OR "may not") NEAR/1f ("going to be" OR "so" OR "such" OR "having" OR "havin" OR "have a" OR "been" OR "what i call" OR "really having a" OR "gunna be" OR "gonna be a" OR "ah" OR "be" OR "make" OR "an" OR "had" OR "a particularly" OR b OR "gon be" OR "gonna b" OR "gone be" OR "going be" OR "ganna be" OR "gona be" OR "make for" OR "feeling like" OR "having such" OR "have a very" OR "much of a" OR "bouta be a" OR "gon' be" OR "have been" OR "a sign of" OR "signs of" OR "looking like" OR "predict" OR "actually" OR "goona be" OR "have one" OR "be havin" OR "be having" OR "been having a"))) NEAR/1f (("a good" OR good OR "very good" OR "a very good" OR "really good" OR "a really good" OR "a real good" OR "real good " OR great OR "a great" OR greatest OR "the greatest" OR "the best") NEAR/1f day)) NOT ("day for" NOT ("day for me" OR "day for my")))) OR (((("this day" OR today) NEAR/1f (sucks OR sucked OR blows OR blowed OR stinks OR stunk)) NOT ((i OR you OR he OR she OR it OR we OR yall OR they) NEAR/1f (sucked OR blowed OR stunk))) NOT (raw:("today." OR "today!")))) AND site:twitter.com
+
+Love Life
+
+Date Range: 11/17/13 – 11/17/14 Volume: 179k mentions
+Regions: Global
+Language: English
+Source: Twitter
+Query: ("i love my life" OR "im loving life" OR "i love life") AND site:twitter.com
+
+Hate Life
+
+Date Range: 11/17/13 – 11/17/14 Volume: 246k mentions Regions: Global
+Language: English
+Source: Twitter
+Query: ("hate my life" OR ((i OR me) NEAR/2f (hate NEAR/1f (life OR "my life")))) NOT (("i don't hate" NEAR/4f life) OR "dont hate my life" OR "do not hate my life" OR "cant hate my life" OR "can not hate my life" OR "cannot hate my life") AND site:twitter.com
+
+
+
+
+
+

@@ -1,0 +1,82 @@
+n#05593296 unassertiveness
+n#05592071 trepidation
+n#05592739 timidity timidness timorousness
+n#05592642 suspense
+n#05591681 stage_fright
+n#05592914 shyness
+n#05592428 shadow
+n#05591591 scare panic_attack
+n#05592546 presage
+n#05591377 panic terror
+n#05593389 intimidation
+n#05591290 hysteria
+n#05591212 horror
+n#05593183 hesitance hesitancy
+n#05579669 heartlessness coldheartedness hardheartedness
+n#05592156 foreboding premonition presentiment boding
+n#05590260 fear fearfulness fright
+n#05593002 diffidence self-doubt self-distrust
+n#05579830 cruelty mercilessness pitilessness ruthlessness
+n#05590900 creeps
+n#05603115 chill pall
+n#05591792 apprehension apprehensiveness dread
+n#05590744 alarm dismay consternation
+a#00081890 alarmed
+a#00082090 apprehensive
+a#00783553 anxious apprehensive
+a#00194690 chilling scarey scary shivery shuddery
+a#01111594 cruel unkind
+a#01916045 diffident
+a#00082515 fearful
+a#01079947 fearful frightful terrible
+a#00193648 awful dire direful dread dreaded dreadful fearful fearsome frightening horrendous horrific terrible
+a#00080744 afraid
+a#01110850 hardhearted heartless
+a#00193347 atrocious frightful horrifying horrible ugly
+a#00082798 horrified horror-stricken horror-struck
+a#00193648 awful dire direful dread dreaded dreadful fearful fearsome frightening horrendous horrific terrible
+a#01567385 hideous horrid horrific outrageous
+a#00193347 atrocious frightful horrifying horrible ugly
+a#00089407 hysterical
+a#00082247 browbeaten bullied cowed hangdog intimidated
+a#00248975 intimidated
+a#00083333 panicky panicked panic-stricken panic-struck terrified frightened
+a#00194690 chilling scarey scary shivery shuddery
+a#00082641 frightened scared
+a#00164569 shy
+a#00331296 diffident shy timid unsure
+a#02290470 cliff-hanging suspenseful suspensive
+a#00331296 diffident shy timid unsure
+a#00248123 timid
+a#00248776 fearful timorous trepid
+a#00159086 unassertive
+v#00591365 alarm alert
+v#01217571 dismay alarm appal appall horrify
+v#01240960 chill
+v#01411779 fawn crawl creep cringe cower grovel
+v#01215644 fear
+v#01215760 fear
+v#01215448 fear dread
+v#01215921 fear
+v#01216971 horrify
+v#01217571 dismay alarm appal appall horrify
+v#01216252 intimidate
+v#01217082 panic
+v#01217265 panic
+v#01219733 daunt dash scare_off pall frighten_off scare_away frighten_away scare
+v#01214618 frighten fright scare affright
+r#00182087 anxiously uneasily apprehensively
+r#00228933 cruelly
+r#00303711 diffidently
+r#00196317 fearfully
+r#00196317 fearfully
+r#00349592 heartlessly
+r#00142272 hesitantly hesitatingly
+r#00243839 horrifyingly
+r#00054569 dreadfully awfully horribly
+r#00351154 hideously horridly monstrously
+r#00355286 hysterically
+r#00340392 frighteningly scarily
+r#00225227 shyly timidly bashfully
+r#00473201 timorously trepidly
+r#00262054 unassertively

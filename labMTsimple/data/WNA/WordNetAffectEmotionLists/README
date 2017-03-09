@@ -1,0 +1,10 @@
+These lists of words were extracted from WordNet Affect - and they
+correspond to the WordNet synsets annotated with the six emotions of
+interest: anger, disgust, fear, joy, sadness, surprise.
+
+To read more about WordNet Affect and how the synset annotations were
+performed, see:
+Carlo Strapparava and Alessandro Valitutti, "WordNet-Affect: an affective
+extension of WordNet". In Proceedings ofthe 4th International Conference
+on Language Resources and Evaluation (LREC 2004), Lisbon, May 2004, pp.
+1083-1086.

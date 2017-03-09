@@ -1,0 +1,19 @@
+n#05577970 repugnance repulsion revulsion horror
+n#05578076 nausea
+n#05577676 disgust
+a#01566899 disgusting disgustful distasteful foul loathly loathsome repellent repellant revolting wicked yucky
+a#01734691 disgusted fed_up sick sick_of tired_of
+a#02436303 nauseating nauseous noisome loathsome offensive sickening vile
+a#02424563 nauseated queasy sick sickish
+a#00218804 hideous repulsive
+a#01566364 abhorrent detestable obscene repugnant repulsive
+v#01233868 disgust revolt nauseate sicken churn_up
+v#01502738 disgust turn_off revolt repel
+v#01502875 sicken nauseate
+v#01233868 disgust revolt nauseate sicken churn_up
+v#01502738 disgust turn_off revolt repel
+v#01234179 repel repulse
+r#00308582 disgustedly
+r#00308724 disgustedly
+r#00308881 disgustingly distastefully revoltingly sickeningly
+r#00304232 detestably repulsively abominably odiously
