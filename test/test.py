@@ -267,11 +267,11 @@ def write_table():
 \end{tabular*}}
 ''')
 
-    f = open("maintable-automatic-short.tex","w")
+    f = open("tex/maintable-automatic-short.tex","w")
     f.write(table_template.render({"all_sentiment_dictionaries": all_sentiment_dictionaries}))
     f.close()
     
-    f = open("maintable-automatic.tex","w")
+    f = open("tex/maintable-automatic.tex","w")
     f.write(r"""  {\scriptsize
   \begin{tabular*}{\linewidth}{ l | l | l | l | l | l | l | l | l | l}
     \hline
@@ -298,7 +298,7 @@ def write_table():
 """)
     f.close()
     
-    f = open("body-description.tex","w")
+    f = open("tex/body-description.tex","w")
     f.write(r"""\begin{description} \itemsep1pt \parskip1pt \parsep0pt
 """)
     for i,sentiment_dictionary in enumerate(all_sentiment_dictionaries):
