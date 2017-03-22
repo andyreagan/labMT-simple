@@ -1,2 +1,4 @@
-pip Sphinx
- numpy matplotlib datrie marisa_trie
+Sphinx
+numpy
+datrie
+marisa_trie

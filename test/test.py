@@ -8,8 +8,8 @@ from json import loads
 from jinja2 import Template
 
 # this has some useful functions
-sys.path.append("/Users/andyreagan/tools/python/")
-from kitchentable.dogtoys import *
+# sys.path.append("/Users/andyreagan/tools/python/")
+# from kitchentable.dogtoys import *
 
 TOL = 1e-3
 
