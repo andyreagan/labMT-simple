@@ -1,0 +1,160 @@
+<html>
+<head>
+<title>Simple Shift Plot</title>
+<!-- <link href="static/hedotools.shift.css" rel="stylesheet"> -->
+</head>
+<body>
+
+<div id="header"></div>
+<center>
+
+<div id="lens01" class="figure"></div>
+<br>
+<!-- <p>Click on the graph and drag up to reveal additional words.</p> -->
+
+<br>
+
+<div id="figure01" class="figure"></div>
+
+</center>
+
+<div id="footer"></div>
+
+<!-- <script src="static/d3.min.js" charset="utf-8"></script> -->
+<script src="static/d3.js" charset="utf-8"></script>
+<!-- <script src="static/queue.min.js" charset="utf-8"></script> -->
+<script src="https://d3js.org/d3-queue.v2.min.js"></script>
+<!-- <script src="static/cloud.min.js" charset="utf-8"></script> -->
+<!-- <script src="static/d3.layout.cloud.js" charset="utf-8"></script> -->
+<script src="static/jquery-1.11.0.min.js" charset="utf-8"></script>
+<script src="static/urllib.js" charset="utf-8"></script>
+<script src="static/hedotools.init.js" charset="utf-8"></script>
+<script src="static/hedotools.shifter.js" charset="utf-8"></script>
+<script type="text/javascript">
+
+//   d3_queue.queue()
+//   .defer(d3.txt,"arabic.csv")
+//   .defer(d3.txt,"ISIL.csv")
+//   .defer(d3.txt,"labMTsimple/data/labMT/vectors/labMTwords-arabic.csv")
+//   .defer(d3.txt,"labMTsimple/data/labMT/vectors/labMTscores-arabic.csv")
+//   .await(loaded);
+
+    var lensExtent = [4,6];
+    var csvLoadsRemaining = 4;
+    var lens;
+    var words;
+    var refF;
+    var compF;
+    var load = function() {
+	d3.text("labMTsimple/data/labMT/vectors/labMTscores-english.csv", function(text) {
+	    var tmp = text.split("\n");
+	    //console.log(tmp.length);
+	    //console.log(tmp[tmp.length-1]);
+	    lens = tmp.map(parseFloat);
+	    var len = lens.length - 1;
+	    while (!lens[len]) {
+		//console.log("in while loop");
+		lens = lens.slice(0, len);
+		len--;
+	    }
+	    if (!--csvLoadsRemaining) onload();
+	});
+	d3.text("labMTsimple/data/labMT/vectors/labMTwords-english.csv", function(text) {
+	    var tmp = text.split("\n");
+	    words = tmp;
+	    var len = words.length - 1;
+	    while (!words[len]) {
+		//console.log("in while loop");
+		words = words.slice(0, len);
+		len--;
+	    }
+	    if (!--csvLoadsRemaining) onload();
+        });
+	d3.text("2015-06-26-sum.csv",function(tmp) {
+	    if (tmp.split(',').length > 100) {
+		compF = tmp.split(',').slice(0,10222);
+	    }
+	    else {
+		compF = tmp.split('\n').slice(0,10222);
+	    }
+	    if (!--csvLoadsRemaining) onload();
+	});
+	d3.text("2015-06-26-prev7.csv",function(tmp2) {
+	    if (tmp2.split(',').length > 100) {
+		refF = tmp2.split(',').slice(0,10222);
+	    }
+	    else {
+		refF = tmp2.split('\n').slice(0,10222);
+	    }
+	    if (!--csvLoadsRemaining) onload();
+	});
+    }();
+
+  function onload() {
+  // function loaded(error,refF,compF,lens,words) {
+  // function loaded(error,results) {
+  //  console.log(results);
+    hedotools.shifter._refF(refF);
+    hedotools.shifter._compF(compF);
+    hedotools.shifter._lens(lens);
+    hedotools.shifter._words(words);
+    // hedotools.shifter._words_en(wordsEn);
+
+// hedotools.shifter.plotdist(true);
+
+    hedotools.shifter.stop();
+
+    // do the shifting
+    hedotools.shifter.shifter();
+    hedotools.shifter.setWidth(400);
+    // hedotools.shifter.setHeight(800);
+
+    // don't use the default title
+    // set own title
+    // but leave all of the default sizes and labels
+  
+    // extract these:
+    var compH = hedotools.shifter._compH();
+    var refH = hedotools.shifter._refH();
+    // from the code inside the shifter:
+    if (compH >= refH) {
+        var happysad = "happier";
+    }
+    else { 
+        var happysad = "less happy";
+	}
+
+    // also from inside the shifter:
+    // var comparisonText = splitstring(["Reference happiness: "+refH.toFixed(2),"Comparison happiness: "+compH.toFixed(2),"Why comparison is "+happysad+" than reference:"],boxwidth-10-logowidth,'14px arial');
+    // our adaptation:
+    var comparisonText = ["Example shift using LabMT","","Reference happiness: "+refH.toFixed(2),"Comparison happiness: "+compH.toFixed(2),"Why comparison is "+happysad+" than reference:"];
+    // set it:
+    hedotools.shifter.setText(comparisonText);
+    hedotools.shifter.setTextBold(0);
+    hedotools.shifter.setTopTextSizes([24,16,16,16,16]);
+    hedotools.shifter.setTextColors(["#D8D8D8","#D8D8D8","#D8D8D8","#D8D8D8","#D8D8D8",]);
+    hedotools.shifter.setFontSizes([16,10,22,11,8,8,13]);
+    // [bigshifttextsize,xaxisfontsize,xylabelfontsize,wordfontsize,distlabeltext,creditfontsize,resetfontsize];
+
+    hedotools.shifter.setfigure(d3.select('#figure01'));
+    hedotools.shifter.plot();
+
+    // window.setTimeout(function() { hedotools.shifter.cloud()},1000);
+    // window.setTimeout(function() { hedotools.shifter.replot()},4000);
+    // window.setTimeout(function() { hedotools.shifter.table()},7000);
+    // window.setTimeout(function() { hedotools.shifter.replot()},9000);
+    // window.setTimeout(function() { hedotools.shifter.cloud()},11000);
+    // window.setTimeout(function() { hedotools.shifter.table()},15000);
+    // window.setTimeout(function() { hedotools.shifter.cloud()},17000);
+    
+    // remove these right away....
+    // d3.selectAll('g.resetbutton').remove();
+    // d3.selectAll('.credit').remove();
+    };
+</script>
+
+</body>
+</html>
+
+
+
