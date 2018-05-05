@@ -1,12 +1,12 @@
 \section{Getting Started}
 \label{getting-started:welcome-to-labmt-simple-s-documentation}\label{getting-started:getting-started}\label{getting-started::doc}
-TL;DR
-a simple labMT usage script
 
+In this chapter, we provide details for a Python package called \verb|labMTsimple|.
+The package exposes a simple, but quickly growing, labMT usage library.
 
 \subsection{Usage}
 \label{getting-started:usage}
-This script uses the language assessment by Mechanical Turk (labMT) word list to score the happiness of a corpus. The labMT word list was created by combining the 5000 words most frequently appearing in four sources: Twitter, the New York Times, Google Books, and music lyrics, and then scoring the words for sentiment on Amazon's Mechanical Turk. The list is described in detail in the publication Dodds' et al. 2011, PLOS ONE, ``Temporal Patterns of Happiness and Information in a Global-Scale Social Network: Hedonometrics and Twitter.''
+This package uses the language assessment by Mechanical Turk (labMT) word list to score the happiness of a corpus. The labMT word list was created by combining the 5000 words most frequently appearing in four sources: Twitter, the New York Times, Google Books, and music lyrics, and then scoring the words for sentiment on Amazon's Mechanical Turk. The list is described in detail in the publication Dodds' et al. 2011, PLOS ONE, ``Temporal Patterns of Happiness and Information in a Global-Scale Social Network: Hedonometrics and Twitter.''
 
 Given two corpora, the script ``storylab.py'' creates a word-shift graph illustrating the words most responsible for the difference in happiness between the two corpora. The corpora should be large (e.g. at least 10,000 words) in order for the difference to be meaningful, as this is a bag-of-words approach. As an example, a random collection of English tweets from both Saturday January 18 2014 and Tuesday January 21 2014 are included in the ``example'' directory. They can be compared by moving to the test directory, using the command
 \begin{lstlisting}
@@ -49,7 +49,7 @@ This will compare the two days in test/data and print test.html which shifts the
 
 \subsection{Developing with labMT-simple locally}
 \label{getting-started:developing-with-labmt-simple-locally}
-I find it really useful to reload the library when testing it interactively:
+It is often useful to reload the library when testing it interactively:
 \begin{lstlisting}
 try:
     reload
@@ -82,7 +82,7 @@ With python 3 available, these dependencies will be mocked (and this is set for 
 \subsection{Preparing texts}
 \label{detailed-example:preparing-texts}
 This is simple really: just load the text to be scored into python.
-I'm using a subset of a couple days of public tweets to text, and I've already put the tweet text into \lstinline{.txt} files that I load into strings:
+This is using a subset of a couple days of public tweets to text, and they have already put the tweet text into \lstinline{.txt} files that are loaded into strings:
 \begin{lstlisting}
 f = codecs.open(``data/18.01.14.txt'',''r'',''utf8'')
 saturday = f.read()
@@ -121,7 +121,7 @@ tuesdayValence = emotionV(tuesdayStoppedVec,labMTvector)
 
 \section{Making Wordshifts}
 \label{wordshifts::doc}\label{wordshifts:making-wordshifts}
-I just merged updates to the d3 wordshift plotting into labMTsimple, and combined with phantom crowbar (see previous post), it's easier than ever to use the labMT data set to compare texts.
+With merged updates to the d3 wordshift plotting in labMTsimple, and combined with phantom crowbar (see previous post), it's easier than ever to use the labMT data set to compare texts.
 
 To make an html page with the shift, you'll just need to have labMT-simple installed.
 To automate the process into generating svg files, you'll need the phantom crowbar, which depends on phantomjs.
@@ -133,7 +133,7 @@ Since they're aren't many dependencies all the way down, start by getting phanto
 
 \subsection{Installing phantom-crowbar}
 \label{wordshifts:installing-phantom-crowbar}
-For the phantomjs, I prefer to use homebrew:
+For the phantomjs, use homebrew:
 \begin{lstlisting}
 brew update
 brew upgrade
@@ -146,12 +146,12 @@ cd \textasciitilde{}
 git clone https://github.com/andyreagan/phantom-crowbar
 \end{lstlisting}
 
-To use it system-wide, I use the bash alias:
+To use it system-wide, use the bash alias:
 \begin{lstlisting}
 alias phantom-crowbar=''/usr/local/bin/phantomjs \textasciitilde{}/phantom-crowbar/phantom-crowbar.js''
 \end{lstlisting}
 
-Without too much detail, I recommend adding this to your \lstinline{~/.bash_profile} so that it's loaded every time you start a terminal session.
+Without too much detail, add this to your \lstinline{~/.bash_profile} so that it's loaded every time you start a terminal session.
 
 
 \subsection{Installing inkscape}
@@ -174,11 +174,10 @@ brew install librsvg
 \label{wordshifts:installing-labmtsimple}
 There are two ways to get it: using pip of cloning the git repo.
 If you're not sure, use pip.
-I think pip makes it easier to keep it up to date, etc.
+Pip makes it easier to keep it up to date, etc.
 \begin{lstlisting}
 pip install labMTsimple
 \end{lstlisting}
-
 
 \subsection{Making your first shift}
 \label{wordshifts:making-your-first-shift}
@@ -191,7 +190,7 @@ python example-002.py
 \end{lstlisting}
 
 You can open the html file to see the shift in any browser, with your choice of local webserver.
-Python's SimpleHTTPServer works fine, and I've found that the node based http-server is a bit more stable.
+Python's SimpleHTTPServer works fine, and generally the node based http-server is a bit more stable.
 
 To take out the svg, go ahead and use the \lstinline{phantom-crowbar.js} file copied to the \lstinline{example/static} directory.
 Running it looks like this, for me:
@@ -201,7 +200,9 @@ Running it looks like this, for me:
 
 Using inkscape or librsvg on my computer look like this:
 \begin{lstlisting}
-/Applications/Inkscape.app/Contents/Resources/bin/inkscape -f \$(pwd)/wordshift.svg -A \$(pwd)/wordshift-inkscape.pdf
+  /Applications/Inkscape.app/Contents/Resources/bin/inkscape \
+  -f \$(pwd)/wordshift.svg \
+  -A \$(pwd)/wordshift-inkscape.pdf
 
 rsvg-convert --format=eps worshift.svg \textgreater{} wordshift-rsvg.eps
 epstopdf wordshift-rsvg.eps
@@ -211,8 +212,8 @@ And again, feel free to tweet suggestions at \href{https://twitter.com/andyreaga
 
 \subsection{Full Automation}
 \label{wordshifts:full-automation}
-I've wrapped up all of this into what is potentially the most backwards way to generate figure imaginable.
-The \lstinline{shiftPDF()} function operates the same way as the \lstinline{shiftHTML()}, but uses the headless web server to render the d3 graphic, then exectues a piece of injected JS to save a local SVG, and uses command line image manipulation libraries to massage it into a PDF.
+This procedure wraps up what is potentially the most backwards way to generate figure imaginable.
+SThe \lstinline{shiftPDF()} function operates the same way as the \lstinline{shiftHTML()}, but uses the headless web server to render the d3 graphic, then exectues a piece of injected JS to save a local SVG, and uses command line image manipulation libraries to massage it into a PDF.
 
 On my macbook, this works, but your mileage will most certainly vary.
 
@@ -222,7 +223,7 @@ On my macbook, this works, but your mileage will most certainly vary.
 
 \subsection{About Tries}
 \label{advanced:about-tries}
-For dictionary lookup of scores from phrases, the fastest benchmarks I've found and that were reasonable stable were from the libraries \lstinline{datrie} and \lstinline{marisatrie} which both have python bindings.
+For dictionary lookup of scores from phrases, the fastest benchmarks available and that were reasonable stable were from the libraries \lstinline{datrie} and \lstinline{marisatrie} which both have python bindings.
 
 They're used in the \lstinline{speedy} module in an attempt to both speed things up, and match against word stems.
 

@@ -336,7 +336,7 @@ class LabMT(sentiDict):
     citation_key = "dodds2015human"
     citation = """@article{dodds2015human,
 	Author = {Dodds, P. S. and Clark, E. M. and Desu, S. and Frank, M. R. and Reagan, A. J. and Williams, J. R. and Mitchell, L. and Harris, K. D. and Kloumann, I. M. and Bagrow, J. P. and Megerdoomian, K. and McMahon, M. T. and Tivnan, B. F. and Danforth, C. M.},
-	Journal = {PNAS},
+n	Journal = {PNAS},
 	Number = {8},
 	Pages = {2389--2394},
 	Title = {Human language reveals a universal positivity bias},
@@ -347,7 +347,7 @@ class LabMT(sentiDict):
 
     def loadDict(self,bananas,lang):
         # don't cheat
-        LabMT = dict()
+        this_LabMT = dict()
         f = self.openWithPath("data/LabMT/labMT2{}.txt".format(lang),"r")
         f.readline()
         # word    rank    happs   stddev  rank    rank    rank    rank
@@ -361,10 +361,10 @@ class LabMT(sentiDict):
             word,happsrank,happs,stddev = l[:4]
             # twitter_rank	gbooks_rank	nyt_rank	lyrics_rank
             other_ranks = l[4:]
-            LabMT[word] = [i,float(happs),float(stddev)]+other_ranks
+            this_LabMT[word] = [i,float(happs),float(stddev)]+other_ranks
             i+=1
         f.close()
-        return LabMT
+        return this_LabMT
 
     # n_fixed =
     # n_stems =
