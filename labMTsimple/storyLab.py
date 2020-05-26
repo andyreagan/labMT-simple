@@ -14,7 +14,7 @@
 #   lens = emotionFileReader(0.0)
 #   from storyLab import emotion
 #   happs = emotion(tmpstr,lens)
-# 
+#
 # My test:
 # >>> test = emotionFileReader(max=3.0)
 # >>> len(test)
@@ -52,7 +52,7 @@ from numpy import unique
 
 def emotionFileReader(stopval=1.0,lang="english",min=1.0,max=9.0,returnVector=False):
     """Load the dictionary of sentiment words.
-  
+
     Stopval is our lens, $\Delta _h$, read the labMT dataset into a dict with this lens (must be tab-deliminated).
 
     With returnVector = True, returns tmpDict,tmpList,wordList. Otherwise, just the dictionary."""
@@ -60,7 +60,7 @@ def emotionFileReader(stopval=1.0,lang="english",min=1.0,max=9.0,returnVector=Fa
     labMT1flag = False
     scoreIndex = 1 # second value
 
-    fileName = 'labMT/labMT2{0}.txt'.format(lang)
+    fileName = 'LabMT/labMT2{0}.txt'.format(lang)
 
     try:
         f = codecs.open(fileName,'r','utf8')
@@ -77,7 +77,7 @@ def emotionFileReader(stopval=1.0,lang="english",min=1.0,max=9.0,returnVector=Fa
                      [x.rstrip(u'"') for x in line.split(u'\t')[1:]]) for line in f])
 
     f.close()
-  
+
     # remove words
     stopWords = []
 
@@ -93,7 +93,7 @@ def emotionFileReader(stopval=1.0,lang="english",min=1.0,max=9.0,returnVector=Fa
             else:
                 if float(tmpDict[word][scoreIndex]) > max:
                     stopWords.append(word)
-  
+
     for word in stopWords:
         del tmpDict[word]
 
@@ -124,7 +124,7 @@ def emotion(tmpStr,someDict,scoreIndex=1,shift=False,happsList=[]):
 
     # doing this without the NLTK
     # words = [x.lower().lstrip(u"?';:.$%&()\\!*[]{}|\"<>,^-_=+").rstrip(u"@#?';:.$%&()\\!*[]{}|\"<>,^-_=+") for x in re.split(u'\s',tmpStr,flags=re.UNICODE)]
-  
+
     # better re search
     # keeping all of the non-alphanumeric chars that show up inside words in the labMT set
     # which were found by:
@@ -157,7 +157,7 @@ def emotion(tmpStr,someDict,scoreIndex=1,shift=False,happsList=[]):
 
     # with numpy (and mean in the namespace)
     # happs = mean(scoreList)
-  
+
     # without numpy
     if len(scoreList) > 0:
         happs = sum(scoreList)/float(len(scoreList))
@@ -171,9 +171,9 @@ def emotion(tmpStr,someDict,scoreIndex=1,shift=False,happsList=[]):
 
 def stopper(tmpVec,score_list,word_list,stopVal=1.0,ignore=[],center=5.0):
     """Take a frequency vector, and 0 out the stop words.
-  
+
     Will always remove the nig* words.
-    
+
     Return the 0'ed vector."""
 
     ignoreWords = ["nigga","nigger","niggaz","niggas"];
@@ -190,12 +190,12 @@ def stopper(tmpVec,score_list,word_list,stopVal=1.0,ignore=[],center=5.0):
 
 def stopper_mat(tmpVec,score_list,word_list,stopVal=1.0,ignore=[],center=5.0):
     """Take a frequency vector, and 0 out the stop words.
-  
+
     A sparse-aware matrix stopper.
     F-vecs are rows: [i,:]
-    
+
     Will always remove the nig* words.
-  
+
     Return the 0'ed matrix, sparse."""
 
     ignoreWords = ["nigga","nigger","niggaz","niggas"];
@@ -210,14 +210,14 @@ def stopper_mat(tmpVec,score_list,word_list,stopVal=1.0,ignore=[],center=5.0):
     indices_to_ignore = unique(indices_to_ignore)
 
     tmpVec[:,indices_to_ignore] = 0
-  
+
     return tmpVec
 
 def emotionV(frequencyVec,scoreVec):
     """Given the frequency vector and the score vector, compute the happs.
-    
+
     Doesn't use numpy, but equivalent to `np.dot(freq,happs)/np.sum(freq)`."""
-    
+
     tmpSum = sum(frequencyVec)
     if tmpSum > 0:
         happs = 0.0
@@ -230,9 +230,9 @@ def emotionV(frequencyVec,scoreVec):
 
 def shift(refFreq,compFreq,lens,words,sort=True):
     """Compute a shift, and return the results.
-    
+
     If sort=True, will return the three sorted lists, and sumTypes. Else, just the two shift lists, and sumTypes (words don't need to be sorted)."""
-    
+
     # normalize frequencies
     Nref = float(sum(refFreq))
     Ncomp = float(sum(compFreq))
@@ -280,7 +280,7 @@ def shiftHtmlJupyter(scoreList,wordList,refFreq,compFreq,outFile,corpus="LabMT",
 
     if not customTitle:
         title = "Example shift using {0}".format(corpus)
-    
+
     if not os.path.exists('static'):
         os.mkdir('static')
 
@@ -288,7 +288,7 @@ def shiftHtmlJupyter(scoreList,wordList,refFreq,compFreq,outFile,corpus="LabMT",
     outFileShort = outFile
     if outFile[-5:] == ".html":
         outFileShort = outFile[:-5]
-      
+
     # write out the template
     lens_string = ','.join(map(lambda x: '{0:.12f}'.format(x),scoreList))
     words_string = ','.join(map(lambda x: '"{0}"'.format(x),wordList))
@@ -345,7 +345,7 @@ def shiftHtmlJupyter(scoreList,wordList,refFreq,compFreq,outFile,corpus="LabMT",
     // don't use the default title
     // set own title
     // but leave all of the default sizes and labels
-  
+
     // extract these:
     var compH = my_shifter._compH();
     var refH = my_shifter._refH();
@@ -353,7 +353,7 @@ def shiftHtmlJupyter(scoreList,wordList,refFreq,compFreq,outFile,corpus="LabMT",
     if (compH >= refH) {
         var happysad = "happier";
     }
-    else { 
+    else {
         var happysad = "less happy";
 	}
 
@@ -398,16 +398,16 @@ def shiftHtmlJupyter(scoreList,wordList,refFreq,compFreq,outFile,corpus="LabMT",
         f.write(wrapper.render(inner=inner))
         f.close()
         print("wrote wrapped shift html to {}".format(outFileShort+"-wrapper.html"))
-    
+
 def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile,corpus="LabMT",advanced=False,customTitle=False,title="",ref_name="reference",comp_name="comparison",ref_name_happs="",comp_name_happs="",isare=""):
     """Make an interactive shift for exploring and sharing.
 
     The most insane-o piece of code here (lots of file copying,
     writing vectors into html files, etc).
-    
-    Accepts a score list, a word list, two frequency files 
+
+    Accepts a score list, a word list, two frequency files
     and the name of an HTML file to generate
-    
+
     ** will make the HTML file, and a directory called static
     that hosts a bunch of .js, .css that is useful."""
 
@@ -418,18 +418,18 @@ def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile,corpus="LabMT",advance
 
     if not customTitle:
         title = "Example shift using {0}".format(corpus)
-    
+
     if not os.path.exists('static'):
         os.mkdir('static')
 
     outFileShort = outFile.split('.')[0]
-      
+
     # write out the template
     lens_string = ','.join(map(lambda x: '{0:.2f}'.format(x),scoreList))
     words_string = ','.join(map(lambda x: '"{0}"'.format(x),wordList))
     refFreq_string = ','.join(map(lambda x: '{0:.0f}'.format(x),refFreq))
     compFreq_string = ','.join(map(lambda x: '{0:.0f}'.format(x),compFreq))
-    
+
     # dump out a static shift view page
     template = Template('''<html>
 <head>
@@ -480,7 +480,7 @@ def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile,corpus="LabMT",advance
     // don't use the default title
     // set own title
     // but leave all of the default sizes and labels
-  
+
     // extract these:
     var compH = my_shifter._compH();
     var refH = my_shifter._refH();
@@ -488,7 +488,7 @@ def shiftHtml(scoreList,wordList,refFreq,compFreq,outFile,corpus="LabMT",advance
     if (compH >= refH) {
         var happysad = "happier";
     }
-    else { 
+    else {
         var happysad = "less happy";
 	}
 
@@ -536,10 +536,10 @@ def shiftHtmlPreshifted(scoreList,wordList,refFreq,compFreq,outFile,corpus="LabM
 
     The most insane-o piece of code here (lots of file copying,
     writing vectors into html files, etc).
-    
-    Accepts a score list, a word list, two frequency files 
+
+    Accepts a score list, a word list, two frequency files
     and the name of an HTML file to generate
-    
+
     ** will make the HTML file, and a directory called static
     that hosts a bunch of .js, .css that is useful."""
 
@@ -550,14 +550,14 @@ def shiftHtmlPreshifted(scoreList,wordList,refFreq,compFreq,outFile,corpus="LabM
 
     if not customTitle:
         title = "Example shift using {0}".format(corpus)
-    
+
     if not os.path.exists('static'):
         os.mkdir('static')
 
     sortedMag,sortedWords,sortedType,sumTypes = shift(refFreq,compFreq,scoreList,wordList,sort=True)
 
     outFileShort = outFile.split('.')[0]
-      
+
     # write out the template
     sortedMag_string = ','.join(map(lambda x: '{0:.12f}'.format(x),sortedMag[:200]))
     sortedWords_string = ','.join(map(lambda x: '"{0}"'.format(x),sortedWords[:200]))
@@ -573,7 +573,7 @@ def shiftHtmlPreshifted(scoreList,wordList,refFreq,compFreq,outFile,corpus="LabM
     # compute the reference happiness
     refH = "{0:.4}".format(sum([refFreq[i]*scoreList[i] for i in range(len(scoreList))]))
     compH = "{0:.4}".format(sum([compFreq[i]*scoreList[i] for i in range(len(scoreList))]))
-    
+
     # dump out a static shift view page
     template = Template('''<html>
 <head>
@@ -626,13 +626,13 @@ def shiftHtmlPreshifted(scoreList,wordList,refFreq,compFreq,outFile,corpus="LabM
     // don't use the default title
     // set own title
     // but leave all of the default sizes and labels
-  
+
     // extract these:
     // from the code inside the shifter:
     if (compH >= refH) {
         var happysad = "happier";
     }
-    else { 
+    else {
         var happysad = "less happy";
 	}
 
@@ -708,11 +708,11 @@ if __name__ == '__main__':
     import fileinput
     labMT = emotionFileReader(0.0)
     happsList = [emotion(line,labMT) for line in fileinput.input()]
-  
+
     for value in happsList:
         print(value)
-    
-  
+
+
 
 
 
