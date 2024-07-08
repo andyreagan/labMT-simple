@@ -1,0 +1,6 @@
+mkdir data
+cp vectors/* data
+tar -czvf data.tgz data/*
+tar -cvf data.tar data/*
+zip data.zip data/*
+\rm -r data

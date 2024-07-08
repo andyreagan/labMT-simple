@@ -1,0 +1,408 @@
+126	posemo
+accept	125	126	131	132
+accepta*	125	126	131	132
+accepted	11	13	125	126	131	132
+accepting	125	126	131	132
+accepts	125	126	131	132
+active*	125	126
+admir*	125	126
+ador*	125	126
+advantag*	125	126	355
+adventur*	125	126
+affection*	125	126
+agree	125	126	462
+agreeab*	125	126
+agreed	125	126
+agreeing	125	126
+agreement*	125	126
+agrees	125	126
+alright*	125	126	462
+amaz*	125	126
+amor*	125	126
+amus*	125	126	356
+aok	125	126	462
+appreciat*	125	126	131	132
+assur*	125	126	131	136
+attachment*	125	126
+attract*	125	126
+award*	125	126	354	355
+awesome	125	126	462
+beaut*	125	126	140	141
+beloved	125	126
+benefic*	125	126
+benefit	125	126
+benefits	125	126	354
+benefitt*	125	126
+benevolen*	125	126
+benign*	125	126
+best	125	126	355	1	20
+better	125	126	355
+bless*	125	126	359
+bold*	125	126
+bonus*	125	126	355	358
+brave*	125	126
+bright*	125	126	140	141
+brillian*	125	126
+calm*	125	126
+care	11	14	125	126
+cared	11	13	125	126
+carefree	125	126
+careful*	125	126	131	137
+cares	11	14	125	126
+caring	125	126
+casual	125	126	356
+casually	125	126
+certain*	125	126	131	136
+challeng*	125	126	354	355
+champ*	125	126	354	355
+charit*	125	126	358
+charm*	125	126
+cheer*	125	126
+cherish*	125	126
+chuckl*	125	126
+clever*	125	126
+comed*	125	126	356
+comfort*	125	126
+commitment*	125	126	131	136
+compassion*	121	125	126
+compliment*	125	126
+confidence	125	126	131	136	355
+confident	125	126	131	136	355
+confidently	125	126	131	136	355
+considerate	125	126
+contented*	125	126
+contentment	125	126
+convinc*	125	126
+cool	125	126	462	140	143
+courag*	125	126
+create*	125	126	131	133	355
+creati*	125	126	131	133	355
+credit*	125	126	354	358
+cute*	125	126
+cutie*	125	126
+daring	125	126
+darlin*	125	126
+dear*	125	126
+definite	125	126	131	136
+definitely	1	16	125	126	131	136
+delectabl*	140	125	126
+delicate*	125	126
+delicious*	125	126	140
+deligh*	125	126
+determina*	125	126	131	132	355
+determined	125	126	131	132	355
+devot*	125	126
+digni*	125	126
+divin*	125	126	359
+dynam*	125	126
+eager*	125	126
+ease*	125	126
+easie*	125	126
+easily	125	126
+easiness	125	126
+easing	125	126
+easy*	125	126	356
+ecsta*	125	126
+efficien*	125	126	355
+elegan*	125	126
+encourag*	121	125	126
+energ*	125	126
+engag*	125	126
+enjoy*	125	126
+entertain*	125	126	356
+enthus*	125	126
+excel*	125	126	354	355
+excit*	125	126
+fab	125	126
+fabulous*	125	126
+faith*	125	126	359
+fantastic*	125	126
+favor*	125	126
+favour*	125	126
+fearless*	125	126
+festiv*	125	126
+fiesta*	125	126
+fine	125	126
+flatter*	121	125	126
+flawless*	125	126
+flexib*	125	126	140	143
+flirt*	125	126
+fond	125	126
+fondly	125	126
+fondness	125	126
+forgave	121	125	126	131	132
+forgiv*	121	125	126	131	132
+free	125	126	358
+freeb*	125	126	358
+freed*	125	126
+freeing	125	126
+freely	125	126
+freeness	125	126
+freer	125	126
+frees*	125	126
+friend*	121	123	125	126
+fun	125	126
+funn*	125	126
+genero*	125	126
+gentle	125	126
+gentler	125	126
+gentlest	125	126
+gently	125	126
+giggl*	125	126
+giver*	121	125	126
+giving	121	125	126
+glad	125	126
+gladly	125	126
+glamor*	125	126
+glamour*	125	126
+glori*	125	126
+glory	125	126
+good	125	126
+goodness	125	126
+gorgeous*	125	126
+grace	125	126
+graced	125	126
+graceful*	125	126
+graces	125	126
+graci*	125	126
+grand	125	126
+grande*	125	126
+gratef*	125	126
+grati*	125	126
+great	125	126
+grin	125	126
+grinn*	125	126
+grins	125	126
+ha	125	126	462
+haha*	125	126	462
+handsom*	125	126
+happi*	125	126
+happy	125	126
+harmless*	125	126
+harmon*	125	126	140	142
+heartfelt	125	126
+heartwarm*	125	126
+heaven*	125	126	359
+heh*	125	126	462
+helper*	121	125	126
+helpful*	121	125	126
+helping	121	125	126
+helps	11	14	121	125	126
+hero*	125	126	355
+hilarious	125	126
+hoho*	125	126
+honest*	125	126
+honor*	125	126	355
+honour*	125	126	355
+hope	11	14	125	126	131	134	135
+hoped	11	13	125	126	131	134	135
+hopeful	125	126	131	134	135
+hopefully	1	16	125	126	131	134	135
+hopefulness	125	126	131	134	135
+hopes	11	14	125	126	131	134	135
+hoping	125	126	131	134	135
+hug	125	146	149	126
+hugg*	125	126	146	149
+hugs	125	126	146	149
+humor*	125	126
+humour*	125	126
+hurra*	125	126
+ideal*	125	126	131	134	355
+importan*	355	125	126
+impress*	125	126
+improve*	125	126	355
+improving	125	126	355
+incentive*	355	125	126
+innocen*	125	126
+inspir*	125	126	131	132
+intell*	125	126
+interest*	125	126
+invigor*	125	126
+joke*	125	126	356
+joking	125	126	356
+joll*	125	126
+joy*	125	126
+keen*	125	126
+kidding	121	125	126
+kind	131	125	135	126
+kindly	125	126
+kindn*	125	126
+kiss*	125	126	146	149
+laidback	125	126	356
+laugh*	125	126
+libert*	125	126
+like	(02 134)125/464	(02 134)126	253
+likeab*	125	126
+liked	11	13	125	126
+likes	125	126
+liking	125	126
+livel*	125	126
+lmao	125	126
+lol	125	126	462
+love	11	14	125	126	146	149	121
+loved	11	13	121	125	126	146	149
+lovely	125	126
+lover*	121	123	125	126	146	149
+loves	11	14	121	125	126	146	149
+loving*	121	125	126
+loyal*	125	126
+luck	125	126	131	135
+lucked	125	126	131	135
+lucki*	125	126	131	135
+lucks	125	126	131	135
+lucky	125	126	131	135
+madly	125	126
+magnific*	125	126
+merit*	125	126
+merr*	125	126
+neat*	125	126
+nice*	125	126
+nurtur*	125	126
+ok	125	126	462
+okay	125	126	462
+okays	125	126
+oks	125	126
+openminded*	125	126
+openness	125	126
+opport*	125	126	355
+optimal*	125	126
+optimi*	125	126
+original	125	126
+outgoing	125	126
+painl*	125	126	146	148
+palatabl*	140	125	126
+paradise	125	126	359
+partie*	121	125	126	356
+party*	121	125	126	356
+passion*	125	126	146	149
+peace*	125	126
+perfect*	125	126	131	136	355
+play	125	126	356
+played	11	13	125	126	356
+playful*	125	126	356
+playing	125	126	356
+plays	125	126	356
+pleasant*	125	126
+please*	125	126
+pleasing	125	126
+pleasur*	125	126
+popular*	125	126
+positiv*	125	126	131	136
+prais*	121	125	126	355	359
+precious*	125	126
+prettie*	125	126
+pretty	125	126	131	135
+pride	125	126	355
+privileg*	125	126
+prize*	125	126	355
+profit*	125	126	354	358
+promis*	125	126
+proud*	125	126	355
+radian*	125	126
+readiness	125	126
+ready	125	126
+reassur*	121	125	126
+relax*	125	126	356
+relief	125	126
+reliev*	125	126
+resolv*	125	126	131	132	355
+respect	125	126
+revigor*	125	126
+reward*	125	126	355
+rich*	125	126	358
+rofl	125	126	462
+romanc*	125	126
+romantic*	125	126
+safe*	125	126	131	137
+satisf*	125	126
+save	125	126	131	137
+scrumptious*	140	125	126
+secur*	125	126	131	137
+sentimental*	125	126
+share	121	125	126
+shared	11	13	121	125	126
+shares	121	125	126
+sharing	121	125	126
+silli*	125	126
+silly	125	126
+sincer*	125	126
+smart*	125	126
+smil*	125	126
+sociab*	125	126
+soulmate*	121	123	125	126
+special	125	126
+splend*	125	126
+strength*	125	126	355
+strong*	125	126	355
+succeed*	125	126	354	355
+success*	125	126	354	355
+sunnier	125	126
+sunniest	125	126
+sunny	125	126
+sunshin*	125	126	140	141
+super	125	126	355
+superior*	125	126
+support	11	14	125	126
+supported	11	13	125	126
+supporter*	125	126
+supporting	125	126
+supportive*	125	126
+supports	11	14	125	126
+suprem*	125	126
+sure*	125	126	131	136
+surpris*	125	126
+sweet	125	126	140
+sweetheart*	121	123	125	126
+sweetie*	121	123	125	126
+sweetly	125	126
+sweetness*	140	125	126
+sweets	140	125	126
+talent*	125	126
+tehe	125	126
+tender*	125	126	146	148
+terrific*	125	126
+thank	11	14	125	126
+thanked	11	13	125	126
+thankf*	125	126
+thanks	11	14	125	126
+thoughtful*	125	126
+thrill*	125	126
+toleran*	125	126
+tranquil*	125	126
+treasur*	125	126
+treat	125	126
+triumph*	125	126	355
+true	131	136	125	126
+trueness	125	126
+truer	125	126
+truest	125	126	131	136
+truly	1	16	125	126	131	136
+trust*	125	126
+truth*	125	126	131	136
+useful*	125	126
+valuabl*	125	126
+value	125	126	358
+valued	125	126
+values	125	126
+valuing	125	126
+vigor*	125	126
+vigour*	125	126
+virtue*	125	126
+virtuo*	125	126
+vital*	125	126
+warm*	125	126	140	143
+wealth*	125	126	358
+welcom*	121	125	126
+well	1	16	463	125	126
+win	125	126	355
+winn*	125	126	355
+wins	125	126	355
+wisdom	125	126
+wise*	125	126
+won	11	13	125	126	355
+wonderf*	125	126
+worship*	125	126	359
+worthwhile	125	126
+wow*	125	126
+yay	125	126	462
+yays	125	126

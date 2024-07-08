@@ -1,0 +1,920 @@
+125	affect
+abandon*	125	127	130	131	137
+abuse*	125	127	129
+abusi*	125	127	129
+accept	125	126	131	132
+accepta*	125	126	131	132
+accepted	11	13	125	126	131	132
+accepting	125	126	131	132
+accepts	125	126	131	132
+ache*	125	127	130	146	148
+aching	125	127	130	146	148
+active*	125	126
+admir*	125	126
+ador*	125	126
+advantag*	125	126	355
+adventur*	125	126
+advers*	125	127
+affection*	125	126
+afraid	125	127	128
+aggravat*	125	127	129	131	133
+aggress*	125	127	129
+agitat*	125	127	129
+agoniz*	125	127	130
+agony	125	127	130
+agree	125	126	462
+agreeab*	125	126
+agreed	125	126
+agreeing	125	126
+agreement*	125	126
+agrees	125	126
+alarm*	125	127	128
+alone	125	127	130
+alright*	125	126	462
+amaz*	125	126
+amor*	125	126
+amus*	125	126	356
+anger*	125	127	129
+angr*	125	127	129
+anguish*	125	127	128
+annoy*	125	127	129
+antagoni*	125	127	129
+anxi*	125	127	128
+aok	125	126	462
+apath*	125	127
+appall*	125	127
+appreciat*	125	126	131	132
+apprehens*	125	127	128
+argh*	125	127	129
+argu*	121	125	127	129
+arrogan*	125	127	129
+asham*	125	127	128
+assault*	125	127	129
+asshole*	125	127	129	22
+assur*	125	126	131	136
+attachment*	125	126
+attack*	125	127	129
+attract*	125	126
+aversi*	125	127	128
+avoid*	125	127	128	131	137
+award*	125	126	354	355
+awesome	125	126	462
+awful	125	127
+awkward*	125	127	128
+bad	125	127
+bashful*	125	127
+bastard*	125	127	129	22
+battl*	125	127	129
+beaten	125	127	129	354	355
+beaut*	125	126	140	141
+beloved	125	126
+benefic*	125	126
+benefit	125	126
+benefits	125	126	354
+benefitt*	125	126
+benevolen*	125	126
+benign*	125	126
+best	125	126	355	1	20
+better	125	126	355
+bitch*	125	127	129	22
+bitter*	125	127	129	140
+blam*	121	125	127	129
+bless*	125	126	359
+bold*	125	126
+bonus*	125	126	355	358
+bore*	125	127
+boring	125	127
+bother*	125	127	129
+brave*	125	126
+bright*	125	126	140	141
+brillian*	125	126
+broke	125	127	130
+brutal*	125	127	129
+burden*	125	127
+calm*	125	126
+care	11	14	125	126
+cared	11	13	125	126
+carefree	125	126
+careful*	125	126	131	137
+careless*	125	127
+cares	11	14	125	126
+caring	125	126
+casual	125	126	356
+casually	125	126
+certain*	125	126	131	136
+challeng*	125	126	354	355
+champ*	125	126	354	355
+charit*	125	126	358
+charm*	125	126
+cheat*	125	127	129
+cheer*	125	126
+cherish*	125	126
+chuckl*	125	126
+clever*	125	126
+comed*	125	126	356
+comfort*	125	126
+commitment*	125	126	131	136
+compassion*	121	125	126
+complain*	121	125	127
+compliment*	125	126
+concerned	125
+confidence	125	126	131	136	355
+confident	125	126	131	136	355
+confidently	125	126	131	136	355
+confront*	125	127	129
+confus*	125	127	128	131	135
+considerate	125	126
+contempt*	125	127	129
+contented*	125	126
+contentment	125	126
+contradic*	121	125	127	129	131	137
+convinc*	125	126
+cool	125	126	462	140	143
+courag*	125	126
+crap	125	127	129	146	147	22
+crappy	125	127	129	22
+craz*	125	127	128
+create*	125	126	131	133	355
+creati*	125	126	131	133	355
+credit*	125	126	354	358
+cried	11	13	125	127	130
+cries	125	127	130
+critical	125	127	129
+critici*	125	127	129
+crude*	125	127	129
+cruel*	125	127	129
+crushed	125	127	130
+cry	125	127	130
+crying	125	127	130
+cunt*	125	127	129	22
+cut	125	127	129
+cute*	125	126
+cutie*	125	126
+cynic	125	127	129
+damag*	125	127	130
+damn*	125	127	129	22
+danger*	125	127	129
+daring	125	126
+darlin*	125	126
+daze*	125	127
+dear*	125	126
+decay*	125	127	253	250
+defeat*	125	127	130	355
+defect*	125	127
+defenc*	125	127	129	131	137
+defens*	125	127	129	131	137
+definite	125	126	131	136
+definitely	1	16	125	126	131	136
+degrad*	125	127
+delectabl*	140	125	126
+delicate*	125	126
+delicious*	125	126	140
+deligh*	125	126
+depress*	125	127	130
+depriv*	125	127	130
+despair*	125	127	130
+desperat*	125	127	128
+despis*	125	127	129
+destroy*	125	127	129
+destruct*	125	127	129
+determina*	125	126	131	132	355
+determined	125	126	131	132	355
+devastat*	125	127	130
+devil*	125	127	359
+devot*	125	126
+difficult*	125	127
+digni*	125	126
+disadvantage*	125	127	130
+disagree*	125	127
+disappoint*	125	127	130
+disaster*	125	127
+discomfort*	125	127	128
+discourag*	125	127	130	131	137
+disgust*	125	127	129
+dishearten*	125	127	130
+disillusion*	125	127	130
+dislike	11	14	125	127
+disliked	11	13	125	127
+dislikes	11	14	125	127
+disliking	125	127
+dismay*	125	127
+dissatisf*	125	127	130
+distract*	125	127	128
+distraught	125	127	128
+distress*	125	127	128
+distrust*	125	127	129
+disturb*	125	127	128
+divin*	125	126	359
+domina*	125	127	129	355
+doom*	125	127	130	359
+dork*	125	127
+doubt*	125	127	128	131	135
+dread*	125	127	128
+dull*	125	127	130
+dumb*	125	127	129	22
+dump*	125	127	129
+dwell*	125	127	128
+dynam*	125	126
+eager*	125	126
+ease*	125	126
+easie*	125	126
+easily	125	126
+easiness	125	126
+easing	125	126
+easy*	125	126	356
+ecsta*	125	126
+efficien*	125	126	355
+egotis*	125	127
+elegan*	125	126
+embarrass*	125	127	128
+emotion	125
+emotional	125	127	128
+emotions	125
+empt*	125	127	130	252	250
+encourag*	121	125	126
+enemie*	121	125	127	129
+enemy*	121	125	127	129
+energ*	125	126
+engag*	125	126
+enjoy*	125	126
+enrag*	125	127	129
+entertain*	125	126	356
+enthus*	125	126
+envie*	125	127	129
+envious	125	127	129
+envy*	125	127	129
+evil*	125	127	129
+excel*	125	126	354	355
+excit*	125	126
+excruciat*	125	127
+exhaust*	125	127	146	148
+fab	125	126
+fabulous*	125	126
+fail*	125	127	130	354	355
+faith*	125	126	359
+fake	125	127
+fantastic*	125	126
+fatal*	125	127	360
+fatigu*	125	127	130	146	148
+fault*	125	127
+favor*	125	126
+favour*	125	126
+fear	125	127	128
+feared	125	127	128
+fearful*	125	127	128
+fearing	125	127	128
+fearless*	125	126
+fears	125	127	128
+feroc*	125	127	129
+festiv*	125	126
+feud*	121	125	127	129
+fiery	125	127	129
+fiesta*	125	126
+fight*	121	125	127	129
+fine	125	126
+fired	125	127	354
+flatter*	121	125	126
+flawless*	125	126
+flexib*	125	126	140	143
+flirt*	125	126
+flunk*	125	127	130
+foe*	125	127	129
+fond	125	126
+fondly	125	126
+fondness	125	126
+fool*	125	127
+forbid*	125	127	131	137
+forgave	121	125	126	131	132
+forgiv*	121	125	126	131	132
+fought	11	13	121	125	127	129
+frantic*	125	127	128
+freak*	125	127
+free	125	126	358
+freeb*	125	126	358
+freed*	125	126
+freeing	125	126
+freely	125	126
+freeness	125	126
+freer	125	126
+frees*	125	126
+friend*	121	123	125	126
+fright*	125	127	128
+frustrat*	125	127	129
+fuck	11	14	125	127	129	146	149	22
+fucked*	11	13	125	127	129	146	149	22
+fucker*	125	127	129	146	149	22
+fuckin*	125	127	129	146	149	22
+fucks	11	14	125	127	129	146	149	22
+fume*	125	127	129
+fuming	125	127	129
+fun	125	126
+funn*	125	126
+furious*	125	127	129
+fury	125	127	129
+geek*	125	127
+genero*	125	126
+gentle	125	126
+gentler	125	126
+gentlest	125	126
+gently	125	126
+giggl*	125	126
+giver*	121	125	126
+giving	121	125	126
+glad	125	126
+gladly	125	126
+glamor*	125	126
+glamour*	125	126
+gloom*	125	127	130
+glori*	125	126
+glory	125	126
+goddam*	125	127	129	22
+good	125	126
+goodness	125	126
+gorgeous*	125	126
+gossip*	121	125	127
+grace	125	126
+graced	125	126
+graceful*	125	126
+graces	125	126
+graci*	125	126
+grand	125	126
+grande*	125	126
+gratef*	125	126
+grati*	125	126
+grave*	125	127	130	360
+great	125	126
+greed*	125	127	129	358
+grief	125	127	130	360
+griev*	125	127	130	360
+grim*	125	127	130
+grin	125	126
+grinn*	125	126
+grins	125	126
+gross*	125	127
+grouch*	125	127	129
+grr*	125	127	129
+guilt*	125	127	128
+ha	125	126	462
+haha*	125	126	462
+handsom*	125	126
+happi*	125	126
+happy	125	126
+harass*	125	127	129
+harm	125	127
+harmed	125	127
+harmful*	125	127
+harming	125	127
+harmless*	125	126
+harmon*	125	126	140	142
+harms	125	127
+hate	11	14	125	127	129
+hated	11	13	125	127	129
+hateful*	125	127	129
+hater*	125	127	129
+hates	11	14	125	127	129
+hating	125	127	129
+hatred	125	127	129
+hazy	125	131	135
+heartbreak*	125	127	130
+heartbroke*	125	127	130
+heartfelt	125	126
+heartless*	125	127	129
+heartwarm*	125	126
+heaven*	125	126	359
+heh*	125	126	462
+hell	125	127	129	359	22
+hellish	125	127	129	359
+helper*	121	125	126
+helpful*	121	125	126
+helping	121	125	126
+helpless*	125	127	130
+helps	11	14	121	125	126
+hero*	125	126	355
+hesita*	125	127	128	131	135	137
+hilarious	125	126
+hit	125	127	129
+hoho*	125	126
+homesick*	125	127	130	357
+honest*	125	126
+honor*	125	126	355
+honour*	125	126	355
+hope	11	14	125	126	131	134	135
+hoped	11	13	125	126	131	134	135
+hopeful	125	126	131	134	135
+hopefully	1	16	125	126	131	134	135
+hopefulness	125	126	131	134	135
+hopeless*	125	127	130
+hopes	11	14	125	126	131	134	135
+hoping	125	126	131	134	135
+horr*	125	127	128
+hostil*	125	127	129
+hug	125	146	149	126
+hugg*	125	126	146	149
+hugs	125	126	146	149
+humiliat*	125	127	128	129
+humor*	125	126
+humour*	125	126
+hurra*	125	126
+hurt*	125	127	130
+ideal*	125	126	131	134	355
+idiot*	125	127	129
+ignor*	125	127	131	137
+immoral*	125	127	359
+impatien*	125	127	128
+impersonal	125	127
+impolite*	125	127
+importan*	355	125	126
+impress*	125	126
+improve*	125	126	355
+improving	125	126	355
+inadequa*	125	127	128	130	131	134	355
+incentive*	355	125	126
+indecis*	125	127	128	131	135
+ineffect*	125	127	355
+inferior*	125	127	130
+inhib*	125	127	128	131	137
+innocen*	125	126
+insecur*	125	127	128
+insincer*	125	127
+inspir*	125	126	131	132
+insult*	121	125	127	129
+intell*	125	126
+interest*	125	126
+interrup*	121	125	127	129
+intimidat*	125	127	129
+invigor*	125	126
+irrational*	125	127	128	131
+irrita*	125	127	128
+isolat*	125	127	130
+jaded	125	127
+jealous*	125	127	129
+jerk	125	127	129
+jerked	125	127	129
+jerks	125	127	129
+joke*	125	126	356
+joking	125	126	356
+joll*	125	126
+joy*	125	126
+keen*	125	126
+kidding	121	125	126
+kill*	125	127	129	360
+kind	125	126
+kindly	125	126
+kindn*	125	126
+kiss*	125	126	146	149
+laidback	125	126	356
+lame*	125	127	130
+laugh*	125	126
+lazie*	355	125	127
+lazy	355	125	127
+liabilit*	125	127	131	134
+liar*	125	127	129
+libert*	125	126
+lied	11	13	125	127	129
+lies	125	127	129
+like	(02 134)125/464	(02 134)126	253
+likeab*	125	126
+liked	11	13	125	126
+likes	125	126
+liking	125	126
+livel*	125	126
+lmao	125	126
+lol	125	126	462
+lone*	125	127	130
+longing*	125	127	130
+lose	125	127	130	355
+loser*	125	127	130	355
+loses	125	127	130	355
+losing	125	127	130	355
+loss*	125	127	130	355
+lost	11	13	125	127	130	355
+lous*	125	127	129
+love	11	14	125	126	146	149	121
+loved	11	13	121	125	126	146	149
+lovely	125	126
+lover*	121	123	125	126	146	149
+loves	11	14	121	125	126	146	149
+loving*	121	125	126
+low*	125	127	130	252	250
+loyal*	125	126
+luck	125	126	131	135
+lucked	125	126	131	135
+lucki*	125	126	131	135
+luckless*	125	127	131	135
+lucks	125	126	131	135
+lucky	125	126	131	135
+ludicrous*	125	127	129
+lying	125	127	129
+mad	125	127	129
+maddening	125	127	129
+madder	125	127	129
+maddest	125	127	129
+madly	125	126
+magnific*	125	126
+maniac*	125	127	129
+masochis*	125	127
+melanchol*	125	127	130
+merit*	125	126
+merr*	125	126
+mess	125	127
+messy	125	127
+miser*	125	127	128	130
+miss	11	14	125	127	130
+missed	11	13	125	127	130
+misses	11	14	125	127	130
+missing	125	127	130
+mistak*	125	127	131	134
+mock	125	127	129
+mocked	125	127	129
+mocker*	125	127	129
+mocking	125	127	129
+mocks	125	127	129
+molest*	125	127	129
+mooch*	125	127
+mood	125
+moodi*	125	127
+moods	125
+moody	125	127
+moron*	125	127	129
+mourn*	125	127	130	360
+murder*	125	127	129	360
+nag*	125	127	129
+nast*	125	127	129
+neat*	125	126
+needy	125	127
+neglect*	125	127	130	131	137
+nerd*	125	127
+nervous*	125	127	128
+neurotic*	125	127	128
+nice*	125	126
+numb*	125	127	146	148
+nurtur*	125	126
+obnoxious*	125	127	129
+obsess*	125	127	128
+offence*	125	127	129
+offend*	125	127	129
+offens*	125	127	129
+ok	125	126	462
+okay	125	126	462
+okays	125	126
+oks	125	126
+openminded*	125	126
+openness	125	126
+opport*	125	126	355
+optimal*	125	126
+optimi*	125	126
+original	125	126
+outgoing	125	126
+outrag*	125	127	129
+overwhelm*	125	127	128	130
+pain	125	127	146	148
+pained	125	127	146	148
+painf*	125	127	146	148
+paining	125	127	146	148
+painl*	125	126	146	148
+pains	125	127	146	148
+palatabl*	140	125	126
+panic*	125	127	128
+paradise	125	126	359
+paranoi*	125	127	129
+partie*	121	125	126	356
+party*	121	125	126	356
+passion*	125	126	146	149
+pathetic*	125	127	130
+peace*	125	126
+peculiar*	125	127
+perfect*	125	126	131	136	355
+personal	125	121
+perver*	125	127	146	149
+pessimis*	125	127	130
+petrif*	125	127	128
+pettie*	125	127	129
+petty*	125	127	129
+phobi*	125	127	128	146	148
+piss*	125	127	129	146	147	22
+piti*	125	127	130
+pity*	125	127	130
+play	125	126	356
+played	11	13	125	126	356
+playful*	125	126	356
+playing	125	126	356
+plays	125	126	356
+pleasant*	125	126
+please*	125	126
+pleasing	125	126
+pleasur*	125	126
+poison*	125	127	129	146	148
+popular*	125	126
+positiv*	125	126	131	136
+prais*	121	125	126	355	359
+precious*	125	126
+prejudic*	125	127	129
+pressur*	125	127	128
+prettie*	125	126
+pretty	125	126	131	135
+prick*	125	127	129	146	147	22
+pride	125	126	355
+privileg*	125	126
+prize*	125	126	355
+problem*	125	127	131	134
+profit*	125	126	354	358
+promis*	125	126
+protest	125	127	129
+protested	125	127	129
+protesting	125	127	129
+proud*	125	126	355
+puk*	125	127	146	148
+punish*	125	127	129
+radian*	125	126
+rage*	125	127	129
+raging	125	127	129
+rancid*	140	125	127
+rape*	125	127	129	146	149
+raping	125	127	129	146	149
+rapist*	125	127	129	146	149
+readiness	125	126
+ready	125	126
+reassur*	121	125	126
+rebel*	125	127	129
+reek*	140	125	127
+regret*	125	127	130	131	134
+reject*	125	127	130
+relax*	125	126	356
+relief	125	126
+reliev*	125	126
+reluctan*	125	127	128	131	137
+remorse*	125	127	130
+repress*	125	127	128	131	137
+resent*	125	127	129
+resign*	125	127	130
+resolv*	125	126	131	132	355
+respect	125	126
+restless*	125	127	128
+revenge*	125	127	129
+revigor*	125	126
+reward*	125	126	355
+rich*	125	126	358
+ridicul*	125	127	129
+rigid*	125	127	128	131	137
+risk*	125	127	128
+rofl	125	126	462
+romanc*	125	126
+romantic*	125	126
+rotten	140	125	127
+rude*	125	127	129
+ruin*	125	127	130
+sad	125	127	130
+sadde*	125	127	130
+sadly	125	127	130
+sadness	125	127	130
+safe*	125	126	131	137
+sarcas*	125	127	129
+satisf*	125	126
+savage*	125	127	129
+save	125	126	131	137
+scare*	125	127	128
+scaring	125	127	128
+scary	125	127	128
+sceptic*	125	127	129
+scream*	125	127	140	142
+screw*	125	127	129	146	149	22
+scrumptious*	140	125	126
+secur*	125	126	131	137
+selfish*	125	127
+sentimental*	125	126
+serious	125	127
+seriously	1	16	125	127
+seriousness	125	127
+severe*	125	127
+shake*	125	127	128	251	250
+shaki*	125	127	128	131	135
+shaky	125	127	128	131	135
+shame*	125	127	128
+share	121	125	126
+shared	11	13	121	125	126
+shares	121	125	126
+sharing	121	125	126
+shit*	125	127	129	146	147	22
+shock*	125	127
+shook	125	127	128	251	250
+shy*	125	127	128
+sicken*	125	127	128
+sigh	463	125
+sighed	125
+sighing	125
+sighs	125
+silli*	125	126
+silly	125	126
+sin	125	127	359
+sincer*	125	126
+sinister	125	127	129
+sins	125	127	359
+skeptic*	125	127	129
+slut*	125	127	146	149
+smart*	125	126
+smil*	125	126
+smother*	125	127	129
+smug*	125	127
+snob*	125	127	129
+sob	125	127	130	22
+sobbed	125	127	130
+sobbing	125	127	130
+sobs	125	127	130
+sociab*	125	126
+solemn*	125	127	130
+sorrow*	125	127	130
+sorry	125	127
+soulmate*	121	123	125	126
+special	125	126
+spite*	125	127	129
+splend*	125	126
+stammer*	125	127
+stank	140	125	127
+startl*	125	127	128
+steal*	125	127
+stench*	140	125	127
+stink*	140	125	127
+strain*	125	127	128
+strange	125	127
+strength*	125	126	355
+stress*	125	127	128
+strong*	125	126	355
+struggl*	125	127	128
+stubborn*	125	127	129	131	137
+stunk	140	125	127
+stunned	125	127	128
+stuns	125	127	128
+stupid*	125	127	129
+stutter*	125	127
+submissive*	125	127
+succeed*	125	126	354	355
+success*	125	126	354	355
+suck	11	14	125	127	129	22
+sucked	11	13	125	127	129	22
+sucker*	125	127	129
+sucks	11	14	125	127	129	22
+sucky	125	127	129
+suffer	125	127	130
+suffered	11	13	125	127	130
+sufferer*	125	127	130
+suffering	125	127	130
+suffers	125	127	130
+sunnier	125	126
+sunniest	125	126
+sunny	125	126
+sunshin*	125	126	140	141
+super	125	126	355
+superior*	125	126
+support	11	14	125	126
+supported	11	13	125	126
+supporter*	125	126
+supporting	125	126
+supportive*	125	126
+supports	11	14	125	126
+suprem*	125	126
+sure*	125	126	131	136
+surpris*	125	126
+suspicio*	125	127	128	131	132
+sweet	125	126	140
+sweetheart*	121	123	125	126
+sweetie*	121	123	125	126
+sweetly	125	126
+sweetness*	140	125	126
+sweets	140	125	126
+talent*	125	126
+tantrum*	125	127	129
+tears	125	127	130
+teas*	121	125	127	129
+tehe	125	126
+temper	125	127	129
+tempers	125	127	129
+tender*	125	126	146	148
+tense*	125	127	128
+tensing	125	127	128
+tension*	125	127	128
+terribl*	125	127
+terrific*	125	126
+terrified	125	127	128
+terrifies	125	127	128
+terrify	125	127	128	129
+terrifying	125	127	128
+terror*	125	127	128
+thank	11	14	125	126
+thanked	11	13	125	126
+thankf*	125	126
+thanks	11	14	125	126
+thief	125	127
+thieve*	125	127
+thoughtful*	125	126
+threat*	125	127	129
+thrill*	125	126
+ticked	125	127	129
+timid*	125	127	128
+toleran*	125	126
+tortur*	125	127	129
+tough*	125	127
+traged*	125	127	130
+tragic*	125	127	130
+tranquil*	125	126
+trauma*	125	127
+treasur*	125	126
+treat	125	126
+trembl*	125	127	128
+trick*	125	127	129
+trite	125	127
+triumph*	125	126	355
+trivi*	125	127
+troubl*	125	127
+true	131	136	125	126
+trueness	125	126
+truer	125	126
+truest	125	126	131	136
+truly	1	16	125	126	131	136
+trust*	125	126
+truth*	125	126	131	136
+turmoil	125	127	128
+ugh	125	127
+ugl*	125	127	129
+unattractive	125	127
+uncertain*	125	127	128	131	135
+uncomfortabl*	125	127	128
+uncontrol*	125	127	128
+uneas*	125	127	128
+unfortunate*	125	127
+unfriendly	125	127
+ungrateful*	125	127
+unhapp*	125	127	130
+unimportant	125	127	130
+unimpress*	125	127
+unkind	125	127
+unlov*	125	127
+unpleasant	125	127
+unprotected	125	127
+unsavo*	140	125	127
+unsuccessful*	125	127	130	355
+unsure*	125	127	128	131	135
+unwelcom*	125	127
+upset*	125	127	128
+uptight*	125	127	128	131	137
+useful*	125	126
+useless*	125	127	130
+vain	125	127
+valuabl*	125	126
+value	125	126	358
+valued	125	126
+values	125	126
+valuing	125	126
+vanity	125	127
+vicious*	125	127	129
+victim*	125	127	129
+vigor*	125	126
+vigour*	125	126
+vile	125	127	129
+villain*	125	127	129
+violat*	125	127	129
+violent*	125	127	129
+virtue*	125	126
+virtuo*	125	126
+vital*	125	126
+vulnerab*	125	127	128
+vulture*	125	127
+war	125	127	129	360
+warfare*	125	127	129
+warm*	125	126	140	143
+warred	125	127	129
+warring	125	127	129
+wars	125	127	129
+weak*	125	127	146	148
+wealth*	125	126	358
+weapon*	125	127	129
+weep*	125	127	130
+weird*	125	127
+welcom*	121	125	126
+well	1	16	463	125	126
+wept	125	127	130
+whine*	125	127	130
+whining	125	127	130
+whore*	125	127	146	149
+wicked*	125	127	129
+willing	125	121
+wimp*	125	127
+win	125	126	355
+winn*	125	126	355
+wins	125	126	355
+wisdom	125	126
+wise*	125	126
+witch	125	127
+woe*	125	127	130
+won	11	13	125	126	355
+wonderf*	125	126
+worr*	125	127	128
+worse*	125	127
+worship*	125	126	359
+worst	125	127	1	20
+worthless*	125	127	130
+worthwhile	125	126
+wow*	125	126
+wrong*	125	127
+yay	125	126	462
+yays	125	126
+yearn*	125	127	130	131	134

@@ -1,0 +1,501 @@
+127	negemo
+abandon*	125	127	130	131	137
+abuse*	125	127	129
+abusi*	125	127	129
+ache*	125	127	130	146	148
+aching	125	127	130	146	148
+advers*	125	127
+afraid	125	127	128
+aggravat*	125	127	129	131	133
+aggress*	125	127	129
+agitat*	125	127	129
+agoniz*	125	127	130
+agony	125	127	130
+alarm*	125	127	128
+alone	125	127	130
+anger*	125	127	129
+angr*	125	127	129
+anguish*	125	127	128
+annoy*	125	127	129
+antagoni*	125	127	129
+anxi*	125	127	128
+apath*	125	127
+appall*	125	127
+apprehens*	125	127	128
+argh*	125	127	129
+argu*	121	125	127	129
+arrogan*	125	127	129
+asham*	125	127	128
+assault*	125	127	129
+asshole*	125	127	129	22
+attack*	125	127	129
+aversi*	125	127	128
+avoid*	125	127	128	131	137
+awful	125	127
+awkward*	125	127	128
+bad	125	127
+bashful*	125	127
+bastard*	125	127	129	22
+battl*	125	127	129
+beaten	125	127	129	354	355
+bitch*	125	127	129	22
+bitter*	125	127	129	140
+blam*	121	125	127	129
+bore*	125	127
+boring	125	127
+bother*	125	127	129
+broke	125	127	130
+brutal*	125	127	129
+burden*	125	127
+careless*	125	127
+cheat*	125	127	129
+complain*	121	125	127
+confront*	125	127	129
+confus*	125	127	128	131	135
+contempt*	125	127	129
+contradic*	121	125	127	129	131	137
+crap	125	127	129	146	147	22
+crappy	125	127	129	22
+craz*	125	127	128
+cried	11	13	125	127	130
+cries	125	127	130
+critical	125	127	129
+critici*	125	127	129
+crude*	125	127	129
+cruel*	125	127	129
+crushed	125	127	130
+cry	125	127	130
+crying	125	127	130
+cunt*	125	127	129	22
+cut	125	127	129
+cynic	125	127	129
+damag*	125	127	130
+damn*	125	127	129	22
+danger*	125	127	129
+daze*	125	127
+decay*	125	127	253	250
+defeat*	125	127	130	355
+defect*	125	127
+defenc*	125	127	129	131	137
+defens*	125	127	129	131	137
+degrad*	125	127
+depress*	125	127	130
+depriv*	125	127	130
+despair*	125	127	130
+desperat*	125	127	128
+despis*	125	127	129
+destroy*	125	127	129
+destruct*	125	127	129
+devastat*	125	127	130
+devil*	125	127	359
+difficult*	125	127
+disadvantage*	125	127	130
+disagree*	125	127
+disappoint*	125	127	130
+disaster*	125	127
+discomfort*	125	127	128
+discourag*	125	127	130	131	137
+disgust*	125	127	129
+dishearten*	125	127	130
+disillusion*	125	127	130
+dislike	11	14	125	127
+disliked	11	13	125	127
+dislikes	11	14	125	127
+disliking	125	127
+dismay*	125	127
+dissatisf*	125	127	130
+distract*	125	127	128
+distraught	125	127	128
+distress*	125	127	128
+distrust*	125	127	129
+disturb*	125	127	128
+domina*	125	127	129	355
+doom*	125	127	130	359
+dork*	125	127
+doubt*	125	127	128	131	135
+dread*	125	127	128
+dull*	125	127	130
+dumb*	125	127	129	22
+dump*	125	127	129
+dwell*	125	127	128
+egotis*	125	127
+embarrass*	125	127	128
+emotional	125	127	128
+empt*	125	127	130	252	250
+enemie*	121	125	127	129
+enemy*	121	125	127	129
+enrag*	125	127	129
+envie*	125	127	129
+envious	125	127	129
+envy*	125	127	129
+evil*	125	127	129
+excruciat*	125	127
+exhaust*	125	127	146	148
+fail*	125	127	130	354	355
+fake	125	127
+fatal*	125	127	360
+fatigu*	125	127	130	146	148
+fault*	125	127
+fear	125	127	128
+feared	125	127	128
+fearful*	125	127	128
+fearing	125	127	128
+fears	125	127	128
+feroc*	125	127	129
+feud*	121	125	127	129
+fiery	125	127	129
+fight*	121	125	127	129
+fired	125	127	354
+flunk*	125	127	130
+foe*	125	127	129
+fool*	125	127
+forbid*	125	127	131	137
+fought	11	13	121	125	127	129
+frantic*	125	127	128
+freak*	125	127
+fright*	125	127	128
+frustrat*	125	127	129
+fuck	11	14	125	127	129	146	149	22
+fucked*	11	13	125	127	129	146	149	22
+fucker*	125	127	129	146	149	22
+fuckin*	125	127	129	146	149	22
+fucks	11	14	125	127	129	146	149	22
+fume*	125	127	129
+fuming	125	127	129
+furious*	125	127	129
+fury	125	127	129
+geek*	125	127
+gloom*	125	127	130
+goddam*	125	127	129	22
+gossip*	121	125	127
+grave*	125	127	130	360
+greed*	125	127	129	358
+grief	125	127	130	360
+griev*	125	127	130	360
+grim*	125	127	130
+gross*	125	127
+grouch*	125	127	129
+grr*	125	127	129
+guilt*	125	127	128
+harass*	125	127	129
+harm	125	127
+harmed	125	127
+harmful*	125	127
+harming	125	127
+harms	125	127
+hate	11	14	125	127	129
+hated	11	13	125	127	129
+hateful*	125	127	129
+hater*	125	127	129
+hates	11	14	125	127	129
+hating	125	127	129
+hatred	125	127	129
+heartbreak*	125	127	130
+heartbroke*	125	127	130
+heartless*	125	127	129
+hell	125	127	129	359	22
+hellish	125	127	129	359
+helpless*	125	127	130
+hesita*	125	127	128	131	135	137
+hit	125	127	129
+homesick*	125	127	130	357
+hopeless*	125	127	130
+horr*	125	127	128
+hostil*	125	127	129
+humiliat*	125	127	128	129
+hurt*	125	127	130
+idiot*	125	127	129
+ignor*	125	127	131	137
+immoral*	125	127	359
+impatien*	125	127	128
+impersonal	125	127
+impolite*	125	127
+inadequa*	125	127	128	130	131	134	355
+indecis*	125	127	128	131	135
+ineffect*	125	127	355
+inferior*	125	127	130
+inhib*	125	127	128	131	137
+insecur*	125	127	128
+insincer*	125	127
+insult*	121	125	127	129
+interrup*	121	125	127	129
+intimidat*	125	127	129
+irrational*	125	127	128	131
+irrita*	125	127	128
+isolat*	125	127	130
+jaded	125	127
+jealous*	125	127	129
+jerk	125	127	129
+jerked	125	127	129
+jerks	125	127	129
+kill*	125	127	129	360
+lame*	125	127	130
+lazie*	355	125	127
+lazy	355	125	127
+liabilit*	125	127	131	134
+liar*	125	127	129
+lied	11	13	125	127	129
+lies	125	127	129
+lone*	125	127	130
+longing*	125	127	130
+lose	125	127	130	355
+loser*	125	127	130	355
+loses	125	127	130	355
+losing	125	127	130	355
+loss*	125	127	130	355
+lost	11	13	125	127	130	355
+lous*	125	127	129
+low*	125	127	130	252	250
+luckless*	125	127	131	135
+ludicrous*	125	127	129
+lying	125	127	129
+mad	125	127	129
+maddening	125	127	129
+madder	125	127	129
+maddest	125	127	129
+maniac*	125	127	129
+masochis*	125	127
+melanchol*	125	127	130
+mess	125	127
+messy	125	127
+miser*	125	127	128	130
+miss	11	14	125	127	130
+missed	11	13	125	127	130
+misses	11	14	125	127	130
+missing	125	127	130
+mistak*	125	127	131	134
+mock	125	127	129
+mocked	125	127	129
+mocker*	125	127	129
+mocking	125	127	129
+mocks	125	127	129
+molest*	125	127	129
+mooch*	125	127
+moodi*	125	127
+moody	125	127
+moron*	125	127	129
+mourn*	125	127	130	360
+murder*	125	127	129	360
+nag*	125	127	129
+nast*	125	127	129
+needy	125	127
+neglect*	125	127	130	131	137
+nerd*	125	127
+nervous*	125	127	128
+neurotic*	125	127	128
+numb*	125	127	146	148
+obnoxious*	125	127	129
+obsess*	125	127	128
+offence*	125	127	129
+offend*	125	127	129
+offens*	125	127	129
+outrag*	125	127	129
+overwhelm*	125	127	128	130
+pain	125	127	146	148
+pained	125	127	146	148
+painf*	125	127	146	148
+paining	125	127	146	148
+pains	125	127	146	148
+panic*	125	127	128
+paranoi*	125	127	129
+pathetic*	125	127	130
+peculiar*	125	127
+perver*	125	127	146	149
+pessimis*	125	127	130
+petrif*	125	127	128
+pettie*	125	127	129
+petty*	125	127	129
+phobi*	125	127	128	146	148
+piss*	125	127	129	146	147	22
+piti*	125	127	130
+pity*	125	127	130
+poison*	125	127	129	146	148
+prejudic*	125	127	129
+pressur*	125	127	128
+prick*	125	127	129	146	147	22
+problem*	125	127	131	134
+protest	125	127	129
+protested	125	127	129
+protesting	125	127	129
+puk*	125	127	146	148
+punish*	125	127	129
+rage*	125	127	129
+raging	125	127	129
+rancid*	140	125	127
+rape*	125	127	129	146	149
+raping	125	127	129	146	149
+rapist*	125	127	129	146	149
+rebel*	125	127	129
+reek*	140	125	127
+regret*	125	127	130	131	134
+reject*	125	127	130
+reluctan*	125	127	128	131	137
+remorse*	125	127	130
+repress*	125	127	128	131	137
+resent*	125	127	129
+resign*	125	127	130
+restless*	125	127	128
+revenge*	125	127	129
+ridicul*	125	127	129
+rigid*	125	127	128	131	137
+risk*	125	127	128
+rotten	140	125	127
+rude*	125	127	129
+ruin*	125	127	130
+sad	125	127	130
+sadde*	125	127	130
+sadly	125	127	130
+sadness	125	127	130
+sarcas*	125	127	129
+savage*	125	127	129
+scare*	125	127	128
+scaring	125	127	128
+scary	125	127	128
+sceptic*	125	127	129
+scream*	125	127	140	142
+screw*	125	127	129	146	149	22
+selfish*	125	127
+serious	125	127
+seriously	1	16	125	127
+seriousness	125	127
+severe*	125	127
+shake*	125	127	128	251	250
+shaki*	125	127	128	131	135
+shaky	125	127	128	131	135
+shame*	125	127	128
+shit*	125	127	129	146	147	22
+shock*	125	127
+shook	125	127	128	251	250
+shy*	125	127	128
+sicken*	125	127	128
+sin	125	127	359
+sinister	125	127	129
+sins	125	127	359
+skeptic*	125	127	129
+slut*	125	127	146	149
+smother*	125	127	129
+smug*	125	127
+snob*	125	127	129
+sob	125	127	130	22
+sobbed	125	127	130
+sobbing	125	127	130
+sobs	125	127	130
+solemn*	125	127	130
+sorrow*	125	127	130
+sorry	125	127
+spite*	125	127	129
+stammer*	125	127
+stank	140	125	127
+startl*	125	127	128
+steal*	125	127
+stench*	140	125	127
+stink*	140	125	127
+strain*	125	127	128
+strange	125	127
+stress*	125	127	128
+struggl*	125	127	128
+stubborn*	125	127	129	131	137
+stunk	140	125	127
+stunned	125	127	128
+stuns	125	127	128
+stupid*	125	127	129
+stutter*	125	127
+submissive*	125	127
+suck	11	14	125	127	129	22
+sucked	11	13	125	127	129	22
+sucker*	125	127	129
+sucks	11	14	125	127	129	22
+sucky	125	127	129
+suffer	125	127	130
+suffered	11	13	125	127	130
+sufferer*	125	127	130
+suffering	125	127	130
+suffers	125	127	130
+suspicio*	125	127	128	131	132
+tantrum*	125	127	129
+tears	125	127	130
+teas*	121	125	127	129
+temper	125	127	129
+tempers	125	127	129
+tense*	125	127	128
+tensing	125	127	128
+tension*	125	127	128
+terribl*	125	127
+terrified	125	127	128
+terrifies	125	127	128
+terrify	125	127	128	129
+terrifying	125	127	128
+terror*	125	127	128
+thief	125	127
+thieve*	125	127
+threat*	125	127	129
+ticked	125	127	129
+timid*	125	127	128
+tortur*	125	127	129
+tough*	125	127
+traged*	125	127	130
+tragic*	125	127	130
+trauma*	125	127
+trembl*	125	127	128
+trick*	125	127	129
+trite	125	127
+trivi*	125	127
+troubl*	125	127
+turmoil	125	127	128
+ugh	125	127
+ugl*	125	127	129
+unattractive	125	127
+uncertain*	125	127	128	131	135
+uncomfortabl*	125	127	128
+uncontrol*	125	127	128
+uneas*	125	127	128
+unfortunate*	125	127
+unfriendly	125	127
+ungrateful*	125	127
+unhapp*	125	127	130
+unimportant	125	127	130
+unimpress*	125	127
+unkind	125	127
+unlov*	125	127
+unpleasant	125	127
+unprotected	125	127
+unsavo*	140	125	127
+unsuccessful*	125	127	130	355
+unsure*	125	127	128	131	135
+unwelcom*	125	127
+upset*	125	127	128
+uptight*	125	127	128	131	137
+useless*	125	127	130
+vain	125	127
+vanity	125	127
+vicious*	125	127	129
+victim*	125	127	129
+vile	125	127	129
+villain*	125	127	129
+violat*	125	127	129
+violent*	125	127	129
+vulnerab*	125	127	128
+vulture*	125	127
+war	125	127	129	360
+warfare*	125	127	129
+warred	125	127	129
+warring	125	127	129
+wars	125	127	129
+weak*	125	127	146	148
+weapon*	125	127	129
+weep*	125	127	130
+weird*	125	127
+wept	125	127	130
+whine*	125	127	130
+whining	125	127	130
+whore*	125	127	146	149
+wicked*	125	127	129
+wimp*	125	127
+witch	125	127
+woe*	125	127	130
+worr*	125	127	128
+worse*	125	127
+worst	125	127	1	20
+worthless*	125	127	130
+wrong*	125	127
+yearn*	125	127	130	131	134
