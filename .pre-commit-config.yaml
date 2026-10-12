@@ -25,7 +25,7 @@ repos:
       - id: fix-byte-order-marker
 
   - repo: https://github.com/python/black
-    rev: 26.10.0
+    rev: 26.10.1
     hooks:
       - id: black
         args: [--line-length=100]
@@ -39,14 +39,14 @@ repos:
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
     # Ruff version.
-    rev: v0.16.10
+    rev: v0.17.0
     hooks:
       - id: ruff
         args: [ --fix, --exit-non-zero-on-fix ]
         exclude: *exclude_patterns
 
   - repo: https://github.com/asottile/pyupgrade  # automatically upgrade py code to newer syntax versions
-    rev: v3.21.2
+    rev: v3.22.0
     hooks:
       - id: pyupgrade
         args: [ --py311-plus ]
