@@ -1,0 +1,193 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Getting Started &mdash; sentidict 0.1.16 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=d50bcae4"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Detailed Examples" href="detailed-example.html" />
+    <link rel="prev" title="Welcome to sentidict’s documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            sentidict
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-tests">Running tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#developing-with-labmt-simple-locally">Developing with labMT-simple locally</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#building-these-docs">Building these docs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="detailed-example.html">Detailed Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wordshifts.html">Making Wordshifts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced.html">Advanced Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sentidict.html">sentidict package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">sentidict</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Getting Started</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/getting-started.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="getting-started">
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading"></a></h1>
+<p>TL;DR
+a simple labMT usage script</p>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h2>
+<p>This script uses the language assessment by Mechanical Turk (labMT) word list to score the happiness of a corpus. The labMT word list was created by combining the 5000 words most frequently appearing in four sources: Twitter, the New York Times, Google Books, and music lyrics, and then scoring the words for sentiment on Amazon’s Mechanical Turk. The list is described in detail in the publication Dodds’ et al. 2011, PLOS ONE, “Temporal Patterns of Happiness and Information in a Global-Scale Social Network: Hedonometrics and Twitter.”</p>
+<p>Given two corpora, the script “storylab.py” creates a word-shift graph illustrating the words most responsible for the difference in happiness between the two corpora. The corpora should be large (e.g. at least 10,000 words) in order for the difference to be meaningful, as this is a bag-of-words approach. As an example, a random collection of English tweets from both Saturday January 18 2014 and Tuesday January 21 2014 are included in the “example” directory. They can be compared by moving to the test directory, using the command</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">example</span><span class="o">.</span><span class="n">py</span> <span class="n">example</span><span class="o">-</span><span class="n">shift</span><span class="o">.</span><span class="n">html</span>
+</pre></div>
+</div>
+<p>and opening the file <code class="docutils literal notranslate"><span class="pre">example-shift.html</span></code> in a web browser. For an explanation of the resulting plot, please visit</p>
+<p><a class="reference external" href="http://www.hedonometer.org/shifts.html">http://www.hedonometer.org/shifts.html</a></p>
+</section>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
+<p>Cloning the github directly is recommended, and then installing locally:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/andyreagan/labMT-simple.git
+<span class="nb">cd</span><span class="w"> </span>labMT-simple
+python<span class="w"> </span>setup.py<span class="w"> </span>install
+</pre></div>
+</div>
+<p>This repository can also be installed using pip</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>labMTsimple
+</pre></div>
+</div>
+<p>in which case you can download the tests from github and run them, if desired.</p>
+</section>
+<section id="running-tests">
+<h2>Running tests<a class="headerlink" href="#running-tests" title="Link to this heading"></a></h2>
+<p>Tests are based on nose2, <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">nose2</span></code>, and can be run inside the by executing</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>nose2
+</pre></div>
+</div>
+<p>in the root directory of this repository.</p>
+<p>This will compare the two days in test/data and print test.html which shifts them, allowing for a changable lens.</p>
+</section>
+<section id="developing-with-labmt-simple-locally">
+<h2>Developing with labMT-simple locally<a class="headerlink" href="#developing-with-labmt-simple-locally" title="Link to this heading"></a></h2>
+<p>I find it really useful to reload the library when testing it interactively:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="n">reload</span>
+<span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
+    <span class="c1"># Python 3</span>
+    <span class="kn">from</span> <span class="nn">importlib</span> <span class="kn">import</span> <span class="n">reload</span>
+</pre></div>
+</div>
+</section>
+<section id="building-these-docs">
+<h2>Building these docs<a class="headerlink" href="#building-these-docs" title="Link to this heading"></a></h2>
+<p>Go into the docs directory (activate local <code class="docutils literal notranslate"><span class="pre">virtualenv</span></code> first), and do the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>\<span class="n">rm</span> <span class="o">-</span><span class="n">rf</span> <span class="n">_build</span><span class="o">/*</span>
+<span class="n">make</span> <span class="n">html</span>
+<span class="n">make</span> <span class="n">latexpdf</span>
+<span class="n">git</span> <span class="n">add</span> <span class="o">-</span><span class="n">f</span> <span class="o">*</span>
+<span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">am</span> <span class="s2">&quot;new docs, probably should just add a pre-commit hook&quot;</span>
+</pre></div>
+</div>
+<p>Note that these docs will build locally in python 2 because the dependencies exist.
+With python 3 available, these dependencies will be mocked (and this is set for the online readthedocs site).</p>
+<p>(<code class="docutils literal notranslate"><span class="pre">sphinx-apidoc</span> <span class="pre">-o</span> <span class="pre">.</span> <span class="pre">../labMTsimple</span></code> was run once.)</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to sentidict’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="detailed-example.html" class="btn btn-neutral float-right" title="Detailed Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2017-2025, Andy Reagan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ 
+<div class="footer">
+  <p>
+    &copy; 2017-2025, Andy Reagan
+    <br/>
+    Documentation built with
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    <a href="https://sphinx-rtd-theme.readthedocs.io/en/stable/">Read the Docs theme</a>.
+    <br/>
+    Deployed with <a href="https://readthedocs.org/">Read the Docs</a>.
+  </p>
+</div>
+
+
+</body>
+</html>

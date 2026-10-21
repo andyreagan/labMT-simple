@@ -1,0 +1,346 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sentidict.utils &mdash; sentidict 0.1.16 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=d50bcae4"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            sentidict
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../detailed-example.html">Detailed Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../wordshifts.html">Making Wordshifts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced.html">Advanced Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sentidict.html">sentidict package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sentidict</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">sentidict.utils</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for sentidict.utils</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/python</span>
+<span class="c1">#</span>
+<span class="c1"># utils.py</span>
+<span class="c1">#</span>
+<span class="c1"># written by Andy Reagan</span>
+<span class="c1"># 2014-03-01</span>
+
+<span class="kn">import</span> <span class="nn">codecs</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">gzip</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">mkdir</span>
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">dirname</span><span class="p">,</span> <span class="n">isdir</span><span class="p">,</span> <span class="n">isfile</span><span class="p">,</span> <span class="n">join</span>
+<span class="kn">from</span> <span class="nn">shutil</span> <span class="kn">import</span> <span class="n">copy</span> <span class="k">as</span> <span class="n">shcopy</span>
+
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">arange</span><span class="p">,</span> <span class="n">array</span><span class="p">,</span> <span class="n">dot</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">,</span> <span class="nb">sum</span><span class="p">,</span> <span class="n">zeros</span>
+
+
+<div class="viewcode-block" id="u">
+<a class="viewcode-back" href="../../sentidict.html#sentidict.utils.u">[docs]</a>
+<span class="k">def</span> <span class="nf">u</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span></div>
+
+
+
+<div class="viewcode-block" id="isarray">
+<a class="viewcode-back" href="../../sentidict.html#sentidict.utils.isarray">[docs]</a>
+<span class="k">def</span> <span class="nf">isarray</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="stopper">
+<a class="viewcode-back" href="../../sentidict.html#sentidict.utils.stopper">[docs]</a>
+<span class="k">def</span> <span class="nf">stopper</span><span class="p">(</span><span class="n">tmpVec</span><span class="p">,</span> <span class="n">score_list</span><span class="p">,</span> <span class="n">word_list</span><span class="p">,</span> <span class="n">stopVal</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">ignore</span><span class="o">=</span><span class="p">[],</span> <span class="n">center</span><span class="o">=</span><span class="mf">5.0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Take a frequency vector, and 0 out the stop words.</span>
+
+<span class="sd">    Will always remove the nig* words.</span>
+
+<span class="sd">    Return the 0&#39;ed vector.&quot;&quot;&quot;</span>
+
+    <span class="n">ignoreWords</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;nigga&quot;</span><span class="p">,</span> <span class="s2">&quot;nigger&quot;</span><span class="p">,</span> <span class="s2">&quot;niggaz&quot;</span><span class="p">,</span> <span class="s2">&quot;niggas&quot;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">ignore</span><span class="p">:</span>
+        <span class="n">ignoreWords</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+    <span class="n">newVec</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">tmpVec</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">score_list</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">score_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">center</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">stopVal</span><span class="p">:</span>
+            <span class="n">newVec</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="n">word_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">in</span> <span class="n">ignoreWords</span><span class="p">:</span>
+            <span class="n">newVec</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">return</span> <span class="n">newVec</span></div>
+
+
+
+<div class="viewcode-block" id="stopper_mat">
+<a class="viewcode-back" href="../../sentidict.html#sentidict.utils.stopper_mat">[docs]</a>
+<span class="k">def</span> <span class="nf">stopper_mat</span><span class="p">(</span><span class="n">tmpVec</span><span class="p">,</span> <span class="n">score_list</span><span class="p">,</span> <span class="n">word_list</span><span class="p">,</span> <span class="n">stopVal</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">ignore</span><span class="o">=</span><span class="p">[],</span> <span class="n">center</span><span class="o">=</span><span class="mf">5.0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Take a frequency vector, and 0 out the stop words.</span>
+
+<span class="sd">    A sparse-aware matrix stopper.</span>
+<span class="sd">    F-vecs are rows: [i,:]</span>
+
+<span class="sd">    Will always remove the nig* words.</span>
+
+<span class="sd">    Return the 0&#39;ed matrix, sparse.&quot;&quot;&quot;</span>
+
+    <span class="n">ignoreWords</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;nigga&quot;</span><span class="p">,</span> <span class="s2">&quot;nigger&quot;</span><span class="p">,</span> <span class="s2">&quot;niggaz&quot;</span><span class="p">,</span> <span class="s2">&quot;niggas&quot;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">ignore</span><span class="p">:</span>
+        <span class="n">ignoreWords</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+    <span class="n">indices_to_ignore</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">score_list</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">score_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">center</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">stopVal</span> <span class="ow">or</span> <span class="n">word_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">in</span> <span class="n">ignoreWords</span><span class="p">:</span>
+            <span class="n">indices_to_ignore</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">indices_to_ignore</span> <span class="o">=</span> <span class="n">indices_to_ignore</span>
+    <span class="c1"># print(indices_to_ignore)</span>
+    <span class="c1"># newVec = copy.copy(tmpVec)</span>
+    <span class="n">newVec</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">tmpVec</span><span class="p">)</span>
+    <span class="n">newVec</span><span class="p">[:,</span> <span class="n">indices_to_ignore</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">return</span> <span class="n">newVec</span></div>
+
+
+
+<div class="viewcode-block" id="emotionV">
+<a class="viewcode-back" href="../../sentidict.html#sentidict.utils.emotionV">[docs]</a>
+<span class="k">def</span> <span class="nf">emotionV</span><span class="p">(</span><span class="n">freq</span><span class="p">,</span> <span class="n">happs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Given the frequency vector and the score vector, compute the happs.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="n">freq</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">dot</span><span class="p">(</span><span class="n">freq</span><span class="p">,</span> <span class="n">happs</span><span class="p">)</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">freq</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span></div>
+
+
+
+<div class="viewcode-block" id="shift">
+<a class="viewcode-back" href="../../sentidict.html#sentidict.utils.shift">[docs]</a>
+<span class="k">def</span> <span class="nf">shift</span><span class="p">(</span><span class="n">refFreq</span><span class="p">,</span> <span class="n">compFreq</span><span class="p">,</span> <span class="n">lens</span><span class="p">,</span> <span class="n">words</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute a shift, and return the results.</span>
+
+<span class="sd">    If sort=True, will return the three sorted lists, and sumTypes. Else, just the two shift lists, and sumTypes (words don&#39;t need to be sorted).</span>
+
+<span class="sd">    Note: refFreq must be have more than 0 words in it!&quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">isarray</span><span class="p">(</span><span class="n">refFreq</span><span class="p">):</span>
+        <span class="n">refFreq</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="n">refFreq</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">isarray</span><span class="p">(</span><span class="n">compFreq</span><span class="p">):</span>
+        <span class="n">compFreq</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="n">compFreq</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">isarray</span><span class="p">(</span><span class="n">lens</span><span class="p">):</span>
+        <span class="n">lens</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="n">lens</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">isarray</span><span class="p">(</span><span class="n">words</span><span class="p">):</span>
+        <span class="n">words</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
+
+    <span class="c1"># normalize frequencies</span>
+    <span class="c1"># Nref = sum(refFreq)</span>
+    <span class="c1"># Ncomp = sum(compFreq)</span>
+    <span class="c1"># for i in range(len(refFreq)):</span>
+    <span class="c1">#     refFreq[i] = float(refFreq[i])/Nref</span>
+    <span class="c1">#     compFreq[i] = float(compFreq[i])/Ncomp</span>
+    <span class="n">refFreq</span> <span class="o">/</span> <span class="n">refFreq</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">compFreq</span> <span class="o">/</span> <span class="n">compFreq</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="c1"># compute the reference happiness</span>
+    <span class="c1"># refH = sum([refFreqN[i]*lens[i] for i in range(len(lens))])</span>
+    <span class="n">refH</span> <span class="o">=</span> <span class="n">emotionV</span><span class="p">(</span><span class="n">refFreq</span><span class="p">,</span> <span class="n">lens</span><span class="p">)</span>
+    <span class="n">emotionV</span><span class="p">(</span><span class="n">compFreq</span><span class="p">,</span> <span class="n">lens</span><span class="p">)</span>
+    <span class="c1"># determine shift magnitude, type</span>
+    <span class="c1"># shiftMag = [0 for i in range(len(lens))]</span>
+    <span class="c1"># shiftType = [0 for i in range(len(lens))]</span>
+    <span class="n">shiftMag</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">lens</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">shiftType</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">lens</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="c1"># for i in range(len(lens)):</span>
+    <span class="c1">#     freqDiff = compFreq[i]-refFreq[i]</span>
+    <span class="c1">#     shiftMag[i] = (lens[i]-refH)*freqDiff</span>
+    <span class="c1">#     if freqDiff &gt; 0:</span>
+    <span class="c1">#         shiftType[i] += 2</span>
+    <span class="c1">#     if lens[i] &gt; refH:</span>
+    <span class="c1">#         shiftType[i] += 1</span>
+    <span class="n">freqDiff</span> <span class="o">=</span> <span class="n">compFreq</span> <span class="o">-</span> <span class="n">refFreq</span>
+    <span class="n">shiftMag</span> <span class="o">=</span> <span class="p">(</span><span class="n">lens</span> <span class="o">-</span> <span class="n">refH</span><span class="p">)</span> <span class="o">*</span> <span class="n">freqDiff</span> <span class="o">/</span> <span class="n">compFreq</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">shiftType</span><span class="p">[</span><span class="n">freqDiff</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">shiftType</span><span class="p">[</span><span class="n">lens</span> <span class="o">&gt;</span> <span class="n">refH</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="c1"># sumTypes = [0.0 for i in range(4)]</span>
+    <span class="n">sumTypes</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+    <span class="c1"># for i in range(len(lens)):</span>
+    <span class="c1">#     sumTypes[shiftType[i]] += shiftMag[i]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+        <span class="n">sumTypes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">shiftMag</span><span class="p">[</span><span class="n">shiftType</span> <span class="o">==</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">sort</span><span class="p">:</span>
+        <span class="n">indices</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">arange</span><span class="p">(</span><span class="n">shiftMag</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">k</span><span class="p">:</span> <span class="nb">abs</span><span class="p">(</span><span class="n">shiftMag</span><span class="p">[</span><span class="n">k</span><span class="p">]),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">sortedMag</span> <span class="o">=</span> <span class="n">shiftMag</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span>
+        <span class="n">sortedType</span> <span class="o">=</span> <span class="n">shiftType</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span>
+        <span class="n">sortedWords</span> <span class="o">=</span> <span class="n">words</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">sortedMag</span><span class="p">,</span> <span class="n">sortedWords</span><span class="p">,</span> <span class="n">sortedType</span><span class="p">,</span> <span class="n">sumTypes</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">shiftMag</span><span class="p">,</span> <span class="n">shiftType</span><span class="p">,</span> <span class="n">sumTypes</span></div>
+
+
+
+<div class="viewcode-block" id="copy_static_files">
+<a class="viewcode-back" href="../../sentidict.html#sentidict.utils.copy_static_files">[docs]</a>
+<span class="k">def</span> <span class="nf">copy_static_files</span><span class="p">(</span><span class="n">link</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">absolute</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="c1"># again, use the current working directory hre</span>
+    <span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">getcwd</span>
+
+    <span class="n">LOCAL_STATIC_DIR</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s2">&quot;static&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">isdir</span><span class="p">(</span><span class="n">LOCAL_STATIC_DIR</span><span class="p">):</span>
+        <span class="n">mkdir</span><span class="p">(</span><span class="n">LOCAL_STATIC_DIR</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">staticfile</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;d3.min.js&quot;</span><span class="p">,</span> <span class="s2">&quot;jquery.min.js&quot;</span><span class="p">,</span> <span class="s2">&quot;hedotools.min.js&quot;</span><span class="p">,</span> <span class="s2">&quot;hedotools.shift.css&quot;</span><span class="p">]:</span>
+        <span class="n">local_file</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">LOCAL_STATIC_DIR</span><span class="p">,</span> <span class="n">staticfile</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">isfile</span><span class="p">(</span><span class="n">local_file</span><span class="p">):</span>
+            <span class="n">dist_file</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="n">staticfile</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">link</span><span class="p">:</span>
+                <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ln -s </span><span class="si">{</span><span class="n">dist_file</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">local_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">shcopy</span><span class="p">(</span><span class="n">dist_file</span><span class="p">,</span> <span class="n">local_file</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="listify_quick">
+<a class="viewcode-back" href="../../sentidict.html#sentidict.utils.listify_quick">[docs]</a>
+<span class="k">def</span> <span class="nf">listify_quick</span><span class="p">(</span><span class="n">raw</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[\w\@\#\&#39;\&amp;\]\*\-\/\[\=\;]+&quot;</span><span class="p">,</span> <span class="n">raw</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">UNICODE</span><span class="p">)]</span></div>
+
+
+
+<div class="viewcode-block" id="open_codecs_dictify">
+<a class="viewcode-back" href="../../sentidict.html#sentidict.utils.open_codecs_dictify">[docs]</a>
+<span class="k">def</span> <span class="nf">open_codecs_dictify</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate a word dict to test.&quot;&quot;&quot;</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">codecs</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="s2">&quot;utf8&quot;</span><span class="p">)</span>
+    <span class="n">ref_text_raw</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="n">replaceStrings</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;---&quot;</span><span class="p">,</span> <span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="s2">&quot;&#39;&#39;&quot;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">replaceString</span> <span class="ow">in</span> <span class="n">replaceStrings</span><span class="p">:</span>
+        <span class="n">ref_text_raw</span> <span class="o">=</span> <span class="n">ref_text_raw</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">replaceString</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
+    <span class="n">words</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">x</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[\w\@\#\&#39;\&amp;\]\*\-\/\[\=\;]+&quot;</span><span class="p">,</span> <span class="n">ref_text_raw</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">UNICODE</span><span class="p">)</span>
+    <span class="p">]</span>
+    <span class="n">test_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">test_dict</span><span class="p">:</span>
+            <span class="n">test_dict</span><span class="p">[</span><span class="n">word</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">test_dict</span><span class="p">[</span><span class="n">word</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">test_dict</span></div>
+
+
+
+<div class="viewcode-block" id="openWithPath">
+<a class="viewcode-back" href="../../sentidict.html#sentidict.utils.openWithPath">[docs]</a>
+<span class="k">def</span> <span class="nf">openWithPath</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">codec</span><span class="o">=</span><span class="s2">&quot;utf8&quot;</span><span class="p">):</span>
+    <span class="n">full_path</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="n">filename</span><span class="p">)</span>
+
+    <span class="c1"># Check if the file is gzipped</span>
+    <span class="k">if</span> <span class="s2">&quot;.gz&quot;</span> <span class="ow">in</span> <span class="n">filename</span><span class="p">:</span>
+        <span class="c1"># For gzipped files, we need to handle them differently</span>
+        <span class="c1"># The &#39;t&#39; mode is for text mode (as opposed to binary)</span>
+        <span class="k">if</span> <span class="s1">&#39;b&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">mode</span><span class="p">:</span>
+            <span class="n">mode</span> <span class="o">=</span> <span class="n">mode</span> <span class="o">+</span> <span class="s1">&#39;t&#39;</span>
+        <span class="k">return</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">full_path</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">codec</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Regular file handling</span>
+        <span class="k">return</span> <span class="n">codecs</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">full_path</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">codec</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2017-2025, Andy Reagan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ 
+<div class="footer">
+  <p>
+    &copy; 2017-2025, Andy Reagan
+    <br/>
+    Documentation built with
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    <a href="https://sphinx-rtd-theme.readthedocs.io/en/stable/">Read the Docs theme</a>.
+    <br/>
+    Deployed with <a href="https://readthedocs.org/">Read the Docs</a>.
+  </p>
+</div>
+
+
+</body>
+</html>
